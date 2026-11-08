@@ -1,0 +1,17 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+
+# Dependencies and builds
+node_modules/
+dist/
+build/
+.turbo/
+coverage/
+
+# Logs
+*.log

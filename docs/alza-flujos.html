@@ -1,0 +1,1054 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Flujos del sistema de ALZA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --paper: #FAFBFD;
+  --grid: #E6ECF5;
+  --ink: #1F2A44;
+  --ink-soft: #52607E;
+  --margin: #D9534F;
+  --rule: #CBD5E6;
+  --sheet: #FFFFFF;
+  --sheet-ink: #1F2A44;
+  --alza: #2B6CB0;
+  --web: #2F855A;
+  --bar: rgba(250, 251, 253, 0.94);
+  --focus: #2B6CB0;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #162036;
+    --grid: #1D2942;
+    --ink: #E6ECF6;
+    --ink-soft: #A7B4CC;
+    --margin: #EF7F7A;
+    --rule: #2E3D5C;
+    --sheet: #F4F7FC;
+    --sheet-ink: #1F2A44;
+    --alza: #7FB0EA;
+    --web: #6CC795;
+    --bar: rgba(22, 32, 54, 0.94);
+    --focus: #7FB0EA;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #162036;
+  --grid: #1D2942;
+  --ink: #E6ECF6;
+  --ink-soft: #A7B4CC;
+  --margin: #EF7F7A;
+  --rule: #2E3D5C;
+  --sheet: #F4F7FC;
+  --sheet-ink: #1F2A44;
+  --alza: #7FB0EA;
+  --web: #6CC795;
+  --bar: rgba(22, 32, 54, 0.94);
+  --focus: #7FB0EA;
+}
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 4.5rem); }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+*, *::before, *::after { box-sizing: inherit; }
+
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 10;
+  background: var(--bar);
+  backdrop-filter: blur(6px);
+}
+a { color: inherit; }
+a:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+.topbar {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--bar);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rule);
+}
+.topbar nav {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.55rem 1.25rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.topbar nav::-webkit-scrollbar { display: none; }
+.brand {
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.15rem;
+  text-decoration: none;
+  margin-right: 0.75rem;
+  white-space: nowrap;
+}
+.topbar nav a:not(.brand) {
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+}
+.topbar nav a:not(.brand):hover { color: var(--ink); background: var(--grid); }
+
+main {
+  position: relative;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.25rem 5rem 3.25rem;
+}
+main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 2.1rem;
+  width: 2px;
+  background: var(--margin);
+  opacity: 0.55;
+}
+
+.hero { padding: 3.5rem 0 1rem; }
+.hero h1 {
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+.lede { max-width: 62ch; font-size: 1.15rem; margin: 0 0 0.75rem; }
+.version { color: var(--ink-soft); font-size: 0.95rem; margin: 0; max-width: 70ch; }
+
+.ruler { margin: 2.5rem 0 1.5rem; }
+.ruler h2 {
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem;
+}
+.ruler-note { color: var(--ink-soft); margin: 0 0 1rem; font-size: 0.95rem; }
+.track {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0 1rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(9.5rem, 1fr);
+  overflow-x: auto;
+  background-image: repeating-linear-gradient(90deg, var(--rule) 0 1px, transparent 1px 11px);
+  background-size: 100% 7px;
+  background-repeat: no-repeat;
+  background-position: 0 calc(0.5rem + 15px);
+  background-attachment: local;
+}
+.stop { position: relative; }
+.stop::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--ink);
+}
+.stop:first-child::before { left: 9px; }
+.stop.last-in-line::before { right: calc(100% - 9px); }
+.stop a { display: block; text-decoration: none; padding-right: 1rem; position: relative; }
+.dot {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--ink);
+  background: var(--paper);
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.7rem;
+}
+.speaks .dot { background: var(--alza); border-color: var(--alza); }
+.when { display: block; color: var(--ink-soft); font-size: 0.85rem; }
+.what {
+  display: block;
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  margin: 0.1rem 0 0.2rem;
+}
+.stop a:hover .what { text-decoration: underline; text-underline-offset: 3px; }
+.count { display: block; font-size: 0.9rem; }
+.speaks .count { color: var(--alza); font-weight: 700; }
+.stop-web { border-left: 1px dashed var(--rule); padding-left: 1rem; }
+.stop-web::before { display: none; }
+.stop-web .dot { border-color: var(--web); }
+.stop-web .count { color: var(--web); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  list-style: none;
+  font-size: 0.95rem;
+}
+.legend li { display: flex; align-items: center; gap: 0.5rem; }
+.sw { width: 1.6rem; height: 1rem; border-radius: 3px; border: 2px solid; flex: none; }
+.sw-ella { background: #FFE8C2; border-color: #B86E00; }
+.sw-alza { background: #DCEBFA; border-color: #2B6CB0; }
+.sw-dec { background: #F3E1F7; border-color: #7B3F99; transform: rotate(45deg) scale(0.75); width: 1.1rem; height: 1.1rem; }
+.sw-web { background: #DDF3E4; border-color: #2F855A; }
+.sw-tbd { background: transparent; border-style: dashed; border-color: var(--ink-soft); }
+
+.flow { position: relative; padding-top: 3.5rem; }
+.flow h2 {
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.65rem, 3.6vw, 2.2rem);
+  line-height: 1.1;
+  margin: 0 0 0.4rem;
+}
+.flow .n {
+  position: absolute;
+  left: -2.65rem;
+  width: 1.6rem;
+  text-align: right;
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  color: var(--margin);
+  margin-top: 0.55rem;
+}
+.purpose { max-width: 64ch; color: var(--ink-soft); margin: 0 0 1.25rem; }
+.facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.45rem 1.25rem;
+  margin: 0 0 1.5rem;
+  max-width: 76ch;
+}
+.facts dt { font-weight: 700; }
+.facts dd { margin: 0; }
+.facts dd.tbd {
+  text-decoration: underline dashed var(--ink-soft);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+.sheet {
+  margin: 0 0 1.25rem;
+  background: var(--sheet);
+  color: var(--sheet-ink);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 1.25rem;
+  overflow-x: auto;
+}
+.sheet pre.mermaid {
+  margin: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.85rem;
+  white-space: pre;
+}
+.swipe-hint { display: none; color: var(--ink-soft); font-size: 0.85rem; margin: -0.75rem 0 1rem; }
+.rules-title { font-weight: 700; margin: 0 0 0.25rem; }
+.rules { max-width: 70ch; margin: 0 0 1.25rem; padding-left: 1.2rem; }
+.rules li { margin: 0.35rem 0; }
+
+.table-wrap {
+  overflow-x: auto;
+  margin: 0 0 1.5rem;
+  max-width: 50rem;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+table.plain { border-collapse: collapse; width: 100%; min-width: 30rem; }
+.plain caption {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.75rem 0.9rem 0.25rem;
+}
+.plain th, .plain td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid var(--rule);
+}
+.plain tr:last-child td { border-bottom: 0; }
+.plain th { font-weight: 700; font-size: 0.95rem; color: var(--ink-soft); }
+.plain td.big {
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  color: var(--alza);
+  white-space: nowrap;
+}
+
+.closing {
+  margin-top: 4.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem 3rem;
+}
+.closing h2 {
+  font-family: "Bricolage Grotesque", "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.4rem;
+  margin: 0 0 0.75rem;
+}
+.keys { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 1rem; margin: 0; }
+.keys dt { font-weight: 700; color: var(--alza); }
+.keys dd { margin: 0; }
+.todo { margin: 0; padding-left: 1.2rem; }
+.todo li { margin: 0.4rem 0; }
+
+@media (max-width: 720px) {
+  main { padding-left: 2.25rem; padding-right: 1rem; }
+  main::before { left: 1.15rem; }
+  .flow .n { left: -2.05rem; width: 1.3rem; font-size: 0.95rem; }
+  .facts { grid-template-columns: 1fr; gap: 0.1rem; }
+  .facts dd { margin-bottom: 0.6rem; }
+  .sheet { padding: 0.75rem; }
+  .swipe-hint { display: block; }
+  .closing { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <nav aria-label="Flujos">
+    <a class="brand" href="#mapa">ALZA</a>
+    <a href="#alta">Alta</a>
+    <a href="#inicio-dia">Inicio del día</a>
+    <a href="#durante-dia">Durante el día</a>
+    <a href="#cierre-dia">Cierre del día</a>
+    <a href="#fin-semana">Fin de semana</a>
+    <a href="#inicio-semana">Inicio de semana</a>
+    <a href="#puntos">Puntos y premios</a>
+    <a href="#web">Web</a>
+    <a href="#reporte">Reporte</a>
+    <a href="#pendientes">Decisiones</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero" id="mapa">
+    <h1>Flujos del sistema de ALZA</h1>
+    <p class="lede">Qué pasa en cada momento del día y de la semana: quién empieza, qué hace ALZA y cuántos mensajes envía por WhatsApp. Cada mensaje de ALZA consume el tramo gratis del número, por eso el día es silencioso y el cierre cabe en un solo mensaje.</p>
+    <p class="version">Versión 6, con todas las decisiones de la fase de descubrimiento (8 de noviembre de 2026). La línea gráfica se trabaja aparte: esta página solo ordena cómo funciona el sistema.</p>
+
+    <div class="ruler">
+      <h2>Cuándo habla ALZA</h2>
+      <p class="ruler-note">Círculo lleno: ALZA escribe. Círculo vacío: ALZA calla. Toca un momento para ver su flujo.</p>
+      <ol class="track">
+        <li class="stop speaks">
+          <a href="#alta"><span class="dot"></span><span class="when">Una sola vez</span><span class="what">Alta</span><span class="count">5 a 6 mensajes</span></a>
+        </li>
+        <li class="stop">
+          <a href="#inicio-dia"><span class="dot"></span><span class="when">4:00 a. m.</span><span class="what">Inicio del día</span><span class="count">Calla</span></a>
+        </li>
+        <li class="stop">
+          <a href="#durante-dia"><span class="dot"></span><span class="when">Todo el día</span><span class="what">Durante el día</span><span class="count">Calla, solo doble check</span></a>
+        </li>
+        <li class="stop speaks">
+          <a href="#cierre-dia"><span class="dot"></span><span class="when">Su hora de cierre</span><span class="what">Cierre del día</span><span class="count">2 mensajes</span></a>
+        </li>
+        <li class="stop speaks">
+          <a href="#fin-semana"><span class="dot"></span><span class="when">Domingo</span><span class="what">Fin de semana</span><span class="count">Va dentro del cierre</span></a>
+        </li>
+        <li class="stop last-in-line">
+          <a href="#inicio-semana"><span class="dot"></span><span class="when">Lunes 4:00 a. m.</span><span class="what">Inicio de semana</span><span class="count">Calla</span></a>
+        </li>
+        <li class="stop stop-web">
+          <a href="#web"><span class="dot"></span><span class="when">Cuando ella quiera</span><span class="what">Web</span><span class="count">0 o 1 mensaje</span></a>
+        </li>
+      </ol>
+    </div>
+
+    <ul class="legend" aria-label="Leyenda de los diagramas">
+      <li><span class="sw sw-ella"></span>Ella actúa</li>
+      <li><span class="sw sw-alza"></span>ALZA lo hace sola</li>
+      <li><span class="sw sw-dec"></span>Decisión</li>
+      <li><span class="sw sw-web"></span>Web</li>
+      <li><span class="sw sw-tbd"></span>Borde punteado: propuesta aún por confirmar</li>
+    </ul>
+
+    <figure class="sheet" aria-label="Mapa general de los momentos de ALZA" style="margin-top:2rem">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart LR
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    A["Alta&lt;br/&gt;una sola vez"]:::user
+    B["Inicio del día&lt;br/&gt;ALZA calla"]:::auto
+    C["Durante el día&lt;br/&gt;ella envía, ALZA calla"]:::user
+    D["Cierre del día&lt;br/&gt;un solo mensaje"]:::auto
+    E["Fin de semana&lt;br/&gt;resumen dentro del cierre"]:::auto
+    F["Inicio de semana&lt;br/&gt;comodines nuevos"]:::auto
+    L["Libro de registros&lt;br/&gt;nada se borra"]:::auto
+    P["Puntos, racha&lt;br/&gt;y comodines"]:::auto
+    W["Web&lt;br/&gt;con PIN"]:::web
+
+    A --> B --> C --> D
+    D -->|lunes a sábado| B
+    D -->|domingo| E --> F --> B
+    C -->|registros| L
+    D -->|respuestas y cuadre| L
+    D -->|nivel del cierre| P
+    D -.->|enlace de 7 días| W
+    W -.->|correcciones| L
+    P -.-> W
+</pre>
+    </figure>
+    <p class="swipe-hint">En el celular, desliza los diagramas hacia los lados.</p>
+  </section>
+
+  <!-- 1. Alta -->
+  <section class="flow" id="alta">
+    <span class="n" aria-hidden="true">1</span>
+    <h2>Alta</h2>
+    <p class="purpose">El primer momento conversacional. Pide consentimiento y tres datos, explica que de día ALZA no responde y le da el enlace para crear su PIN.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>Ella, al escribir por primera vez.</dd>
+      <dt>Mensajes de ALZA</dt><dd>5 a 6, dentro de la ventana de 24 h que ella abre.</dd>
+      <dt>Decisiones</dt><dd>Nada se procesa sin consentimiento. El nombre del titular de su Yape o Plin sirve para saber si un pago entra o sale. El enlace de activación dura 1 hora (D13).</dd>
+      <dt>Excepción</dt><dd>La primera captura sí se confirma, una sola vez, para generar confianza en el silencio.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del alta">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef userq fill:#FFE8C2,stroke:#B86E00,stroke-dasharray:5 5,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef autoq fill:#DCEBFA,stroke:#2B6CB0,stroke-dasharray:5 5,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    A1["Escanea un QR o abre un enlace&lt;br/&gt;que ya trae «Hola ALZA»"]:::user
+    A2{"¿Su número ya existe?"}:::dec
+    A2a["Alta completa:&lt;br/&gt;sigue el día normal"]:::auto
+    A2b["Alta a medias:&lt;br/&gt;retoma en el paso pendiente"]:::auto
+    A3["Bienvenida corta + aviso de privacidad&lt;br/&gt;Botones: Acepto / No, gracias"]:::auto
+    X1["Capturas enviadas antes de aceptar:&lt;br/&gt;no se procesan y se borran"]:::auto
+    A4{"¿Acepta?"}:::dec
+    A4n["Solo se guarda el número y el rechazo.&lt;br/&gt;Puede volver cuando quiera"]:::auto
+    A5["Se guarda el consentimiento:&lt;br/&gt;fecha y versión del texto"]:::auto
+    A6["Nombre del negocio"]:::user
+    A7["Nombre del titular de su Yape o Plin,&lt;br/&gt;tal como aparece en la app"]:::user
+    A7b["O manda una captura de un Yape recibido&lt;br/&gt;y ALZA lee el nombre"]:::userq
+    A8["Hora de cierre, hasta las 2 a. m.&lt;br/&gt;Botones: 8 pm / 9 pm / 10 pm"]:::user
+    A9["Explica el hábito: una captura por cobro,&lt;br/&gt;el efectivo por texto o audio,&lt;br/&gt;de día no respondo. Incluye el enlace&lt;br/&gt;de activación de 1 hora"]:::auto
+    A10["Primera captura de prueba:&lt;br/&gt;única vez que ALZA confirma un registro"]:::auto
+    A11["Día 1 abierto"]:::auto
+    A12{"¿Abre el enlace&lt;br/&gt;dentro de la hora?"}:::dec
+    A13["Crea su PIN de 6 dígitos.&lt;br/&gt;Su celular queda recordado 30 días"]:::web
+    A14["Cuando quiera, escribe «web»&lt;br/&gt;y recibe un enlace nuevo"]:::user
+
+    A1 --> A2
+    A2 -->|Sí, completa| A2a
+    A2 -->|Sí, a medias| A2b
+    A2 -->|No| A3 --> A4
+    A3 -.-> X1
+    A4 -->|No| A4n
+    A4 -->|Sí| A5 --> A6 --> A7 --> A8 --> A9 --> A10 --> A11
+    A7 -.-> A7b
+    A9 -->|enlace| A12
+    A12 -->|Sí| A13
+    A12 -->|No| A14
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>Si abandona a medias, al volver a escribir retoma en el paso pendiente, sin repetir lo ya respondido.</li>
+      <li>El mensaje del hábito es el contrato de silencio: explica el doble check azul y a qué hora llega el cierre.</li>
+      <li>Un número es una cuenta. Si otra persona atiende, le reenvía las capturas a la dueña. Desde la web, la dueña puede agregar hasta 2 titulares más, por ejemplo el Yape de su esposo.</li>
+    </ul>
+  </section>
+
+  <!-- 2. Inicio del día -->
+  <section class="flow" id="inicio-dia">
+    <span class="n" aria-hidden="true">2</span>
+    <h2>Inicio del día</h2>
+    <p class="purpose">No hay mensaje de buenos días. El día empieza en el sistema, se cierra lo que quedó pendiente de ayer y se decide si se usa un comodín.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>El sistema, a las 4:00 a. m. hora de Lima. El día del negocio va de 4:00 a. m. a 3:59 a. m.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno.</dd>
+      <dt>Decisiones</dt><dd>Puede responder el cierre de ayer hasta las 12:00 y ganar sus puntos (D12). Sin conteo de efectivo inicial (D08). Dos comodines por semana (D21).</dd>
+      <dt>Corte del día</dt><dd>4:00 a. m., para que las bodegas que cierran después de medianoche no partan su noche en dos. La hora de cierre puede ir hasta las 2 a. m.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del inicio del día">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    S0["4:00 a. m. hora de Lima: empieza un día nuevo.&lt;br/&gt;ALZA no envía nada"]:::auto
+    S9["Sin conteo de efectivo inicial:&lt;br/&gt;el cuadre compara contra la mañana"]:::auto
+    S1{"¿El cierre de ayer&lt;br/&gt;quedó sin responder?"}:::dec
+    S2["Puede responderlo hasta las 12:00&lt;br/&gt;y ganar sus puntos"]:::user
+    S3{"¿Respondió antes&lt;br/&gt;de las 12:00?"}:::dec
+    S3a["Nivel según lo que respondió"]:::auto
+    S3b["12:00: ayer queda sin cierre"]:::auto
+    S3c{"¿Quedan comodines&lt;br/&gt;esta semana?"}:::dec
+    S3d["Se usa un comodín:&lt;br/&gt;la racha sigue, sin puntos"]:::auto
+    S3e["La racha vuelve a cero"]:::auto
+    S3w["Las dudas pasan a Pendientes en la web.&lt;br/&gt;Puede mejorar el nivel después, sin puntos"]:::web
+    S4["Su primer mensaje del día&lt;br/&gt;abre la ventana de 24 h"]:::user
+    S5{"¿A qué día pertenece?"}:::dec
+    S6["Al día que muestra la captura"]:::auto
+    S7["Al día del cierre que responde"]:::auto
+    S8["Al día de hoy"]:::auto
+
+    S0 --> S1
+    S0 -.-> S9
+    S1 -->|Sí| S2 --> S3
+    S1 -->|No| S4
+    S3 -->|Sí| S3a --> S4
+    S3 -->|No| S3b --> S3c
+    S3b --> S3w
+    S3c -->|Sí| S3d
+    S3c -->|No| S3e
+    S4 --> S5
+    S5 -->|Captura con fecha| S6
+    S5 -->|Respuesta al cierre| S7
+    S5 -->|Texto o audio sin fecha| S8
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>La fecha la pone la captura, no la hora de llegada: un Yape de anoche enviado hoy cuenta para ayer.</li>
+      <li>Un día sin actividad también queda sin cierre y usa un comodín si quedan. Así los comodines cubren los días de descanso.</li>
+    </ul>
+  </section>
+
+  <!-- 3. Durante el día -->
+  <section class="flow" id="durante-dia">
+    <span class="n" aria-hidden="true">3</span>
+    <h2>Durante el día</h2>
+    <p class="purpose">Ella envía una captura por cada cobro digital y un texto o audio por el efectivo. ALZA lo procesa en segundo plano y no responde nada.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>Ella, con cada cobro o venta.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno. Solo el doble check azul.</dd>
+      <dt>Decisiones</dt><dd>D02 registro por cobro, D03 la evidencia manda, D04 silencio, D05 excepciones, D09 ella decide qué registrar, D10 lista opcional.</dd>
+      <dt>Más excepciones</dt><dd>Un consejo si manda 3 capturas ilegibles seguidas en sus primeras 2 semanas. Una sola respuesta con el 105 y la Línea 100 si un mensaje indica peligro.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del procesamiento durante el día">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef autoq fill:#DCEBFA,stroke:#2B6CB0,stroke-dasharray:5 5,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    M0["Envía captura, foto, audio o texto"]:::user
+    M1["Recibe el mensaje, valida que viene de Meta&lt;br/&gt;y lo pone en cola"]:::auto
+    M2{"¿Ya se procesó&lt;br/&gt;este mensaje?"}:::dec
+    M2a["Ignora el reintento"]:::auto
+    M3["Doble check azul.&lt;br/&gt;Guarda el original cifrado"]:::auto
+    M4["Clasifica la imagen&lt;br/&gt;o transcribe el audio"]:::auto
+    ERR["Si falla la IA: reintentos&lt;br/&gt;y cola de errores"]:::auto
+    M5["IA extrae: intención, monto, entra o sale,&lt;br/&gt;medio, fecha y hora, contraparte,&lt;br/&gt;n° de operación, alcance"]:::auto
+    I{"Intención"}:::dec
+    COR["Corrige: anula y crea&lt;br/&gt;un registro nuevo"]:::auto
+    CRI["Pide su enlace, olvidó su PIN&lt;br/&gt;o pide borrar sus datos: ALZA responde"]:::auto
+    CRI2["Peligro: una sola respuesta&lt;br/&gt;con el 105 y la Línea 100"]:::auto
+    CIE["Escribe «cierre»: empieza el cierre"]:::auto
+    M6{"¿Legible?"}:::dec
+    M6a["Ilegible: va a la cola del cierre"]:::auto
+    LI{"¿Es una lista&lt;br/&gt;de movimientos?"}:::dec
+    LI1["Compara con lo enviado.&lt;br/&gt;Los faltantes van a Pendientes,&lt;br/&gt;nunca se suman solos"]:::web
+    M7["Entra o sale: compara el titular&lt;br/&gt;con los titulares de su negocio"]:::auto
+    M8["Lo que envía cuenta como negocio,&lt;br/&gt;salvo que diga otra cosa"]:::auto
+    M9["Controles: duplicado exacto o probable,&lt;br/&gt;total que se solapa, monto atípico, otro día"]:::auto
+    M10{"Resultado"}:::dec
+    M11["Confirmado: suma al día"]:::auto
+    M12["Duplicado exacto: no suma"]:::auto
+    M13["Pendiente: no suma,&lt;br/&gt;va a la cola del cierre"]:::auto
+    Z["ALZA no responde nada"]:::auto
+
+    M0 --> M1 --> M2
+    M2 -->|Sí| M2a
+    M2 -->|No| M3 --> M4 --> M5 --> I
+    M4 -.->|falla| ERR
+    I -->|Corregir| COR
+    I -->|Pedir algo| CRI
+    I -->|Peligro| CRI2
+    I -->|Cerrar el día| CIE
+    I -->|Registrar| M6
+    M6 -->|No| M6a
+    M6 -->|Sí| LI
+    LI -->|Sí| LI1
+    LI -->|No| M7 --> M8 --> M9 --> M10
+    M10 -->|Sin dudas| M11
+    M10 -->|Repetido| M12
+    M10 -->|Duda| M13
+    M11 --> Z
+    M12 --> Z
+    M13 --> Z
+    M6a --> Z
+    COR --> Z
+    LI1 --> Z
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>Las dudas nunca se preguntan de día: van a la cola del cierre.</li>
+      <li>Una captura repetida no suma dos veces, aunque ella la reenvíe.</li>
+      <li>Un «hoy vendí 150» que no dice el medio no suma hasta aclararlo en el cierre.</li>
+      <li>Una captura ilegible no se pierde: puede volver a sacarla desde su historial de Yape.</li>
+    </ul>
+  </section>
+
+  <!-- 4. Cierre del día -->
+  <section class="flow" id="cierre-dia">
+    <span class="n" aria-hidden="true">4</span>
+    <h2>Cierre del día</h2>
+    <p class="purpose">Un solo mensaje con todo: imagen de resumen, lo que entró y salió, las dudas numeradas, el cuadre de caja y el enlace a la web. Ella responde en un solo mensaje o audio.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>ALZA a su hora de cierre, si ella escribió en las últimas 24 h. O ella, escribiendo «cierre».</dd>
+      <dt>Mensajes de ALZA</dt><dd>2: el cierre y la confirmación. A veces 1 más si algo no se entendió.</dd>
+      <dt>Decisiones</dt><dd>D06 mensaje único, D07 niveles, D08 cuadre de caja, D11 días sin actividad.</dd>
+      <dt>Después del cierre</dt><dd>Lo que llega después de un cierre ya respondido se registra en su día como ajuste silencioso. El nivel y los puntos no cambian, y el siguiente cierre lo avisa en una línea.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del cierre del día">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    K0{"Hora de cierre: ¿escribió algo&lt;br/&gt;en las últimas 24 h?"}:::dec
+    K0n["No se envía nada.&lt;br/&gt;El enlace de 7 días anterior sigue sirviendo"]:::auto
+    K0e["O ella escribe «cierre» cuando quiera"]:::user
+    K13{"¿Es domingo?"}:::dec
+    K14["Agrega el resumen semanal&lt;br/&gt;al mismo mensaje"]:::auto
+    K1["Un solo mensaje: imagen resumen, entró y salió,&lt;br/&gt;hasta 5 dudas numeradas, cuadre de caja,&lt;br/&gt;formato de respuesta y enlace de 7 días"]:::auto
+    K1b["Si hay más de 5 dudas:&lt;br/&gt;las demás van a Pendientes"]:::web
+    K2["Responde en un solo mensaje o audio:&lt;br/&gt;«1 son 12 soles, 2 solo efectivo, 3 sí»"]:::user
+    K3["La IA interpreta la respuesta&lt;br/&gt;y aplica cada punto"]:::auto
+    K4{"¿Se entendió todo?"}:::dec
+    K5["Pide solo lo que faltó, en un mensaje.&lt;br/&gt;Máximo 2 vueltas"]:::auto
+    K6{"¿La caja cuadra?"}:::dec
+    K7["Cuenta qué pasó: saqué para la casa,&lt;br/&gt;vendí sin anotar. Queda como «lo contaste tú»"]:::user
+    K8{"¿Resolvió todas las dudas&lt;br/&gt;del mensaje?"}:::dec
+    K9["Cierre completo: 10 puntos"]:::auto
+    K10["Cierre parcial: 4 puntos"]:::auto
+    K11["Confirmación corta: nivel, puntos&lt;br/&gt;y cuánto falta para el próximo premio"]:::auto
+    K12["No responde hasta las 12:00 del día siguiente:&lt;br/&gt;sin cierre, usa un comodín si queda"]:::auto
+
+    K0 -->|No| K0n
+    K0 -->|Sí| K13
+    K0e --> K13
+    K13 -->|Sí| K14 --> K1
+    K13 -->|No| K1
+    K1 -.-> K1b
+    K1 --> K2 --> K3 --> K4
+    K1 -.->|no responde| K12
+    K4 -->|No| K5 --> K2
+    K4 -->|Sí| K6
+    K6 -->|Sí| K8
+    K6 -->|No, y explica| K7 --> K8
+    K6 -->|No sabe o no dice| K10
+    K8 -->|Sí| K9 --> K11
+    K8 -->|No| K10 --> K11
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>Máximo 5 dudas en el mensaje, más la pregunta del cuadre al final. El resto va a Pendientes en la web.</li>
+      <li>Si dijo un total en efectivo mayor a lo anotado, se registra la diferencia y el mensaje lo avisa en una línea, fuera de las 5 dudas.</li>
+      <li>El cierre solo se envía si ese día hubo al menos un registro o una duda.</li>
+      <li>La imagen se genera con una plantilla y código, sin IA. Si ella escribió «sin imagen», el resumen llega solo en texto.</li>
+      <li>Si alguien falló 5 veces su PIN en la web, el cierre lo avisa en una línea.</li>
+      <li>Completo: respondió las dudas del mensaje y la caja cuadra o explicó la diferencia. Parcial: respondió a medias o dijo «no sé» sobre la caja.</li>
+      <li>ALZA no estima ventas en efectivo: solo suma lo anotado y lo que ella explica en el cuadre.</li>
+      <li>El resumen dice «ventas registradas», nunca «vendiste», porque ALZA no sabe si ella envió todo.</li>
+      <li>Si mandó su lista de movimientos, la confirmación avisa cuántos cobros faltan revisar en la web.</li>
+    </ul>
+  </section>
+
+  <!-- 5. Fin de semana -->
+  <section class="flow" id="fin-semana">
+    <span class="n" aria-hidden="true">5</span>
+    <h2>Fin de semana</h2>
+    <p class="purpose">El resumen semanal viaja dentro del cierre del domingo, así no hace falta una plantilla pagada.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>Dentro del cierre del domingo.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno extra: va en el mismo mensaje.</dd>
+      <dt>Decisiones</dt><dd>Semana de lunes a domingo (D12). Sin plantillas pagadas (D11).</dd>
+      <dt>Comparación</dt><dd>Solo si ambas semanas tienen al menos 4 cierres completos.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del fin de semana">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef decq fill:#F3E1F7,stroke:#7B3F99,stroke-dasharray:5 5,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    W0["Semana de lunes a domingo"]:::auto
+    W1{"¿Hubo mensaje de cierre&lt;br/&gt;el domingo?"}:::dec
+    W2["El cierre del domingo&lt;br/&gt;incluye el resumen semanal"]:::auto
+    W3["Se adjunta al primer cierre siguiente.&lt;br/&gt;Siempre está en la web"]:::auto
+    W4["Ventas registradas: digital y efectivo.&lt;br/&gt;Salidas: mercadería, gastos, casa.&lt;br/&gt;Días completos, parciales y sin cierre"]:::auto
+    W5{"¿Ambas semanas tienen al menos&lt;br/&gt;4 cierres completos?"}:::dec
+    W6["Compara con la semana anterior"]:::auto
+    W7["No compara y explica qué faltó"]:::auto
+    W8["Puntos de la semana, racha&lt;br/&gt;y comodines usados"]:::auto
+    W9["Enlace de 7 días a la web"]:::web
+
+    W0 --> W1
+    W1 -->|Sí| W2 --> W4
+    W1 -->|No| W3 --> W4
+    W4 --> W5
+    W5 -->|Sí| W6 --> W8
+    W5 -->|No| W7 --> W8
+    W8 --> W9
+</pre>
+    </figure>
+  </section>
+
+  <!-- 6. Inicio de semana -->
+  <section class="flow" id="inicio-semana">
+    <span class="n" aria-hidden="true">6</span>
+    <h2>Inicio de semana</h2>
+    <p class="purpose">Ocurre solo en el sistema: se renuevan los comodines, se otorga el bono semanal y la semana anterior queda consolidada. Ella no recibe nada.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>El sistema, el lunes. El bono semanal se calcula a las 12:00, cuando vence el cierre del domingo.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno.</dd>
+      <dt>Decisiones</dt><dd>Dos comodines por semana que no se acumulan (D21). La semana anterior solo cambia con ajustes.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del inicio de semana">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    N0["Lunes 4:00 a. m.: empieza la semana nueva.&lt;br/&gt;ALZA no envía nada"]:::auto
+    N1["Se renuevan los 2 comodines.&lt;br/&gt;Los no usados se pierden"]:::auto
+    N2["La racha sigue"]:::auto
+    N3["Lunes 12:00: vence el cierre del domingo&lt;br/&gt;y la semana anterior se consolida"]:::auto
+    N3b{"¿Tuvo 5 o más&lt;br/&gt;cierres completos?"}:::dec
+    N3c["Bono semanal: +15 puntos"]:::auto
+    N7["La web muestra la semana nueva&lt;br/&gt;y la anterior en el historial"]:::web
+    N4{"¿Llega un mensaje con fecha&lt;br/&gt;de la semana pasada?"}:::dec
+    N5["Ajuste de esa semana.&lt;br/&gt;Su resumen se actualiza en la web"]:::web
+    N6["Sigue el día normal"]:::auto
+
+    N0 --> N1 --> N2 --> N3 --> N3b
+    N3b -->|Sí| N3c
+    N3 --> N7
+    N3 --> N4
+    N4 -->|Sí| N5
+    N4 -->|No| N6
+</pre>
+    </figure>
+  </section>
+
+  <!-- Puntos y premios -->
+  <section class="flow" id="puntos">
+    <h2>Puntos y premios</h2>
+    <p class="purpose">Se premia la constancia y la calidad del cierre, nunca la cantidad de mensajes ni los montos. La barra funciona como Starbucks Rewards: cada hito muestra lo que ya puede canjear, y al canjear los puntos se descuentan.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>Cada día, a las 12:00, cuando el cierre de ayer queda final.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno extra: los puntos van en la confirmación del cierre.</dd>
+      <dt>Decisiones</dt><dd>D19 puntos por constancia, D20 barra con hitos, D21 dos comodines, D22 antifraude, D23 catálogo de ejemplo.</dd>
+      <dt>Vencimiento</dt><dd>Si pasan 6 meses sin ningún cierre, los puntos vencen. Los valores y los hitos se calibran después del piloto.</dd>
+    </dl>
+
+    <div class="table-wrap">
+      <table class="plain">
+        <caption>Cómo se ganan</caption>
+        <thead><tr><th scope="col">Acción</th><th scope="col">Puntos</th></tr></thead>
+        <tbody>
+          <tr><td>Cierre completo</td><td class="big">10</td></tr>
+          <tr><td>Cierre parcial</td><td class="big">4</td></tr>
+          <tr><td>Cada 7 días de racha</td><td class="big">+20</td></tr>
+          <tr><td>Cada 30 días de racha</td><td class="big">+50</td></tr>
+          <tr><td>Semana con 5 o más cierres completos</td><td class="big">+15</td></tr>
+          <tr><td>Primera racha de 7 días</td><td class="big">+30</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-wrap">
+      <table class="plain">
+        <caption>Hitos de la barra (unos 90 puntos por semana si cierra completo casi todos los días)</caption>
+        <thead><tr><th scope="col">Hito</th><th scope="col">Premio de ejemplo</th><th scope="col">Tiempo aproximado</th></tr></thead>
+        <tbody>
+          <tr><td class="big">50</td><td>Descuento en app de comida o transporte</td><td>Menos de 1 semana</td></tr>
+          <tr><td class="big">100</td><td>Útiles escolares o artículos de limpieza</td><td>1 a 2 semanas</td></tr>
+          <tr><td class="big">200</td><td>Descuento en proveedor</td><td>2 a 3 semanas</td></tr>
+          <tr><td class="big">400</td><td>Descuento mayor en proveedor o kit escolar completo</td><td>Alrededor de 1 mes</td></tr>
+          <tr><td class="big">2.500</td><td>Electrodoméstico (meta grande, fuera de la barra)</td><td>Alrededor de 6 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="sheet" aria-label="Diagrama de puntos y premios">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    G0["12:00: el cierre de ayer queda final"]:::auto
+    G1{"Nivel del cierre"}:::dec
+    G2["Completo: +10. La racha suma un día"]:::auto
+    G3["Parcial: +4. La racha suma un día"]:::auto
+    G4["Sin cierre"]:::auto
+    G5{"¿Quedan comodines&lt;br/&gt;esta semana? Son 2"}:::dec
+    G6["Usa un comodín:&lt;br/&gt;la racha sigue, sin puntos"]:::auto
+    G7["La racha vuelve a cero"]:::auto
+    G8["Bonos de racha y de semana"]:::auto
+    G9["Saldo de puntos"]:::auto
+    G10["Barra con hitos 50, 100, 200 y 400.&lt;br/&gt;Cada hito muestra lo que ya puede canjear"]:::web
+    G11["Elige un premio y confirma con su PIN"]:::user
+    G12{"¿Es un premio grande?"}:::dec
+    G13["Exige 8 semanas activas&lt;br/&gt;y revisión manual"]:::auto
+    G14["Recibe un código en la web.&lt;br/&gt;Los puntos se descuentan y la barra baja"]:::web
+
+    G0 --> G1
+    G1 -->|Completo| G2 --> G8
+    G1 -->|Parcial| G3 --> G8
+    G1 -->|Sin cierre| G4 --> G5
+    G5 -->|Sí| G6
+    G5 -->|No| G7
+    G8 --> G9 --> G10 --> G11 --> G12
+    G12 -->|Sí| G13 --> G14
+    G12 -->|No| G14
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>Los comodines se renuevan cada lunes, no se acumulan y se usan solos. Un cierre parcial no gasta comodín.</li>
+      <li>Si mejora un día después de las 12:00, el nivel se actualiza pero los puntos no cambian.</li>
+      <li>Una cuenta por titular de Yape o Plin. Los patrones raros quedan marcados para revisión.</li>
+      <li>En la demo, el catálogo es de ejemplo y lo dice claramente.</li>
+    </ul>
+  </section>
+
+  <!-- Web -->
+  <section class="flow" id="web">
+    <h2>Web</h2>
+    <p class="purpose">Donde ella ve sus puntos y su semana en lenguaje sencillo, corrige, canjea premios y conversa con ALZA. Nada de lo que hace aquí genera mensajes de WhatsApp.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>Ella, desde un enlace.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno, o 1 si pide su enlace o un PIN nuevo.</dd>
+      <dt>Decisiones</dt><dd>D13 acceso con PIN, D14 cuatro pestañas con puntos en primer plano, D15 chat que puede cambiar registros, D16 edición con trazabilidad, D17 mejora posterior sin puntos.</dd>
+      <dt>Límites</dt><dd>Chat de hasta 30 mensajes al día. El PIN vale 10 minutos para acciones sensibles. Primero se construye el chat que responde y después el que edita.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama de la web">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef dec fill:#F3E1F7,stroke:#7B3F99,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+
+    E0{"¿Cómo llega?"}:::dec
+    E1["Enlace de activación de 1 hora"]:::auto
+    E2["Crea su PIN de 6 dígitos, dos veces.&lt;br/&gt;No se aceptan PIN obvios"]:::user
+    E3["Enlace de 7 días que llega con cada cierre"]:::auto
+    E4a["Escribe «olvidé mi PIN»"]:::user
+    E4b["Escribe «web»"]:::user
+    E5{"¿Este celular&lt;br/&gt;ya está recordado?"}:::dec
+    E6["Pide el PIN.&lt;br/&gt;5 intentos fallidos: bloqueo de 15 minutos"]:::web
+    E7["Entra. El celular queda recordado 30 días"]:::web
+    T1["Inicio: barra de puntos, entró, salió,&lt;br/&gt;te quedó y aviso de pendientes"]:::web
+    T2["Movimientos: historial por día,&lt;br/&gt;editar, quitar y descargar reporte"]:::web
+    T3["Premios: catálogo por hitos y canje"]:::web
+    T4["Chat: responde dudas&lt;br/&gt;y puede proponer cambios"]:::web
+    S3["Muestra antes y después.&lt;br/&gt;Confirmar o Cancelar"]:::web
+    S2["Pide el PIN para lo sensible:&lt;br/&gt;editar, quitar, descargar, canjear, cambiar datos"]:::web
+    L1["Anula y crea un registro nuevo en el mismo libro.&lt;br/&gt;Recalcula días y semanas. No envía nada por WhatsApp"]:::auto
+
+    E0 -->|Primera vez| E1 --> E2 --> E7
+    E0 -->|Mensaje de cierre| E3 --> E5
+    E0 -->|Olvidó el PIN| E4a --> E1
+    E0 -->|Pide entrar| E4b --> E3
+    E5 -->|Sí| E7
+    E5 -->|No| E6 --> E7
+    E7 --> T1
+    E7 --> T2
+    E7 --> T3
+    E7 --> T4
+    T2 --> S2
+    T3 --> S2
+    T4 --> S3 --> S2
+    S2 --> L1
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>Mirar no pide PIN en su celular recordado. Cualquier cambio, descarga o canje sí.</li>
+      <li>Editar un registro con captura lo convierte en «lo contaste tú» y conserva el original. Quitar no borra: anula.</li>
+      <li>Solo puede agregar registros en días pasados, y quedan como «lo contaste tú».</li>
+      <li>El chat nunca cambia nada por su cuenta: propone, ella confirma y pone su PIN.</li>
+      <li>Si marca 3 veces como personal a la misma persona, la web le ofrece que sus Yapes dejen de contar como venta. Solo se aplica si acepta.</li>
+      <li>Prueba de aceptación: sin ayuda, una bodeguera responde «¿cuánto te quedó esta semana?» en menos de 30 segundos.</li>
+    </ul>
+  </section>
+
+  <!-- Reporte -->
+  <section class="flow" id="reporte">
+    <h2>Reporte descargable</h2>
+    <p class="purpose">Su historial completo en PDF y Excel, con un anexo que dice de dónde viene cada dato. Es lo que puede mostrar cuando pida financiamiento.</p>
+    <dl class="facts">
+      <dt>Empieza</dt><dd>Ella, desde Movimientos.</dd>
+      <dt>Mensajes de ALZA</dt><dd>Ninguno.</dd>
+      <dt>Decisiones</dt><dd>D18 PDF, Excel, anexo de trazabilidad y recomendaciones del grupo Credicorp.</dd>
+      <dt>Reglas</dt><dd>Clientes solo con iniciales. Las recomendaciones van en la pantalla de descarga, no dentro del reporte, para que le sirva ante cualquier entidad. Los logos requieren autorización de las marcas.</dd>
+    </dl>
+    <figure class="sheet" aria-label="Diagrama del reporte">
+<pre class="mermaid">%%{init: {'theme':'default', 'flowchart': {'useMaxWidth': false}}}%%
+flowchart TD
+    classDef user fill:#FFE8C2,stroke:#B86E00,color:#1a1a1a
+    classDef auto fill:#DCEBFA,stroke:#2B6CB0,color:#1a1a1a
+    classDef autoq fill:#DCEBFA,stroke:#2B6CB0,stroke-dasharray:5 5,color:#1a1a1a
+    classDef web fill:#DDF3E4,stroke:#2F855A,color:#1a1a1a
+    classDef webq fill:#DDF3E4,stroke:#2F855A,stroke-dasharray:5 5,color:#1a1a1a
+
+    R0["En Movimientos toca&lt;br/&gt;«Descargar mi historial»"]:::user
+    R1["Elige periodo:&lt;br/&gt;4 semanas, 12 semanas o todo"]:::user
+    R2["Pide el PIN"]:::web
+    R3["PDF: resumen, gráfico simple y etiquetas&lt;br/&gt;con captura, lo contaste tú, caja sin revisar"]:::auto
+    R4["Excel: movimientos, cierres,&lt;br/&gt;ajustes y trazabilidad"]:::auto
+    R5["Anexo de trazabilidad: de dónde viene cada dato&lt;br/&gt;y qué cambios tuvo"]:::auto
+    R6["Clientes solo con iniciales"]:::auto
+    R7["En la pantalla de descarga:&lt;br/&gt;«Conoce opciones para tu negocio&lt;br/&gt;en Yape y Mibanco», con logos"]:::web
+    R8["Descarga o comparte.&lt;br/&gt;Nadie más ve sus datos si ella no los comparte"]:::user
+
+    R0 --> R1 --> R2
+    R2 --> R3
+    R2 --> R4
+    R3 --> R5
+    R4 --> R5
+    R5 --> R6 --> R7 --> R8
+</pre>
+    </figure>
+    <p class="rules-title">Reglas</p>
+    <ul class="rules">
+      <li>Las recomendaciones dicen «Conoce opciones para tu negocio», nunca «calificas para»: ALZA no evalúa crédito.</li>
+      <li>Los textos sobre productos se validan con mentores del BCP antes de mostrarse.</li>
+    </ul>
+  </section>
+
+  <!-- Claves y pendientes -->
+  <section class="closing" id="pendientes">
+    <div>
+      <h2>Decisiones usadas en estos flujos</h2>
+      <dl class="keys">
+        <dt>D01</dt><dd>WhatsApp es el canal principal; la web complementa.</dd>
+        <dt>D02</dt><dd>Una captura por cada cobro digital; efectivo por texto o audio.</dd>
+        <dt>D03</dt><dd>La evidencia manda; los totales declarados no se suman encima.</dd>
+        <dt>D04</dt><dd>Silencio total durante el día.</dd>
+        <dt>D05</dt><dd>Excepciones: pedir enlace, olvidar el PIN, pedir borrar datos.</dd>
+        <dt>D06</dt><dd>Un solo mensaje de cierre, hasta 5 dudas y confirmación con puntos.</dd>
+        <dt>D07</dt><dd>Niveles: completo, parcial, sin cierre.</dd>
+        <dt>D08</dt><dd>Cuadre de caja verificado por ella; ALZA no estima.</dd>
+        <dt>D09</dt><dd>Ella decide qué registrar; sin libreta de fiados.</dd>
+        <dt>D10</dt><dd>Lista de movimientos opcional; nunca agrega sola.</dd>
+        <dt>D11</dt><dd>Días sin actividad: ALZA no escribe.</dd>
+        <dt>D12</dt><dd>Día del negocio de 4:00 a. m. a 3:59 a. m. (hora de Lima), semana de lunes a domingo, cierre con puntos hasta las 12:00.</dd>
+        <dt>D13</dt><dd>Acceso web con PIN de 6 dígitos, enlaces de 1 hora y 7 días, celular recordado 30 días.</dd>
+        <dt>D14</dt><dd>Web en 4 pestañas, puntos en primer plano.</dd>
+        <dt>D15</dt><dd>Chat en la web que puede cambiar registros con confirmación.</dd>
+        <dt>D16</dt><dd>Edición con trazabilidad.</dd>
+        <dt>D17</dt><dd>Un día puede mejorar después; los puntos no.</dd>
+        <dt>D18</dt><dd>Reporte PDF + Excel + trazabilidad + recomendaciones del grupo.</dd>
+        <dt>D19</dt><dd>Puntos por constancia y calidad.</dd>
+        <dt>D20</dt><dd>Barra con hitos al estilo Starbucks Rewards.</dd>
+        <dt>D21</dt><dd>Dos comodines por semana.</dd>
+        <dt>D22</dt><dd>Antifraude: una cuenta por titular, premios grandes con revisión.</dd>
+        <dt>D23</dt><dd>Catálogo de ejemplo en la demo; canje con código.</dd>
+        <dt>D24</dt><dd>Número de prueba de Meta con cuenta personal.</dd>
+        <dt>D25</dt><dd>Modelos gratuitos en la demo; Claude Sonnet en producción.</dd>
+        <dt>D26</dt><dd>Imagen de resumen generada con plantilla y código, sin IA.</dd>
+        <dt>D27</dt><dd>Imagen por defecto, con opción «solo texto».</dd>
+        <dt>D28</dt><dd>Más excepciones: capturas ilegibles al inicio, peligro y alerta de PIN en el cierre.</dd>
+        <dt>D29</dt><dd>Los puntos vencen tras 6 meses sin ningún cierre.</dd>
+        <dt>D30</dt><dd>Solo español en el MVP.</dd>
+        <dt>D31</dt><dd>Un número, una cuenta; hasta 2 titulares adicionales desde la web.</dd>
+        <dt>D32</dt><dd>Código en inglés; todo lo que ve la usuaria, en español.</dd>
+      </dl>
+    </div>
+    <div>
+      <h2>Lo que falta</h2>
+      <ul class="todo">
+        <li>No quedan decisiones de producto pendientes.</li>
+        <li>Faltan los insumos: datasets, accesos de Meta, textos y línea gráfica.</li>
+        <li>Falta la arquitectura de la Fase 4 y el stack, que se definen en Claude Code.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<script>
+(function () {
+  function render() {
+    if (!window.mermaid) return false;
+    try {
+      window.mermaid.initialize({ startOnLoad: false, theme: 'default', flowchart: { useMaxWidth: false } });
+      window.mermaid.run({ querySelector: 'pre.mermaid:not([data-processed])' });
+    } catch (e) {
+      console.error('No se pudieron dibujar los diagramas', e);
+    }
+    return true;
+  }
+  if (!render()) {
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js';
+    s.onload = render;
+    document.head.appendChild(s);
+  }
+})();
+</script>
+</body>
+</html>
