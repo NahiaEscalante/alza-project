@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
-import { useInView } from './hooks';
 import { demoTelegramBot } from './phone';
 
 /**
- * Public demo block (D71): «Pruébalo hoy en Telegram», with a QR to the bot's deep link
+ * Public demo block (D71): «Pruébalo hoy en Telegram», with the official Telegram QR of the bot
+ * (`web/public/qr-telegram.webp`, cropped from `imgs/qr-code.jpg`) and a deep link
  * (`https://t.me/<bot>?start=landing`). WhatsApp stays the product vision in the rest of the
  * landing; the public demo runs on Telegram while Meta's account is blocked. The bot comes from
- * `VITE_ALZA_TELEGRAM_BOT` (default `alzaagentbot`). `qrcode-generator` loads only when this
- * block nears the screen.
+ * `VITE_ALZA_TELEGRAM_BOT` (default `alzaagentbot`).
  */
 const BOT = demoTelegramBot(import.meta.env.VITE_ALZA_TELEGRAM_BOT);
 const TELEGRAM_URL = `https://t.me/${BOT}?start=landing`;
@@ -22,7 +20,17 @@ export function JuryQr() {
         «Iniciar». Te pedirá tu número para crear tu cuenta.
       </p>
       <div className="mt-6 flex flex-1 items-center justify-center">
-        <QrCode value={TELEGRAM_URL} />
+        <div className="w-[232px] overflow-hidden rounded-[24px] bg-white p-3 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.6)]">
+          <img
+            src="/qr-telegram.webp"
+            width={480}
+            height={513}
+            loading="lazy"
+            decoding="async"
+            alt={`Código QR para abrir @${BOT} en Telegram`}
+            className="block h-auto w-full"
+          />
+        </div>
       </div>
       <a
         href={TELEGRAM_URL}
@@ -36,55 +44,6 @@ export function JuryQr() {
         Es una demo: usa capturas y datos de prueba, no los reales de tu negocio. ALZA está pensado
         para WhatsApp; mientras tanto, la demo funciona en Telegram.
       </p>
-    </div>
-  );
-}
-
-function QrCode({ value }: { value: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const near = useInView(ref, { once: true, rootMargin: '400px 0px' });
-  const [path, setPath] = useState<{ d: string; size: number } | null>(null);
-
-  useEffect(() => {
-    if (!near) return;
-    let cancelled = false;
-    import('qrcode-generator').then(({ default: qrcode }) => {
-      if (cancelled) return;
-      const qr = qrcode(0, 'M');
-      qr.addData(value);
-      qr.make();
-      const count = qr.getModuleCount();
-      let d = '';
-      for (let row = 0; row < count; row++) {
-        for (let col = 0; col < count; col++) {
-          if (qr.isDark(row, col)) d += `M${col} ${row}h1v1h-1z`;
-        }
-      }
-      setPath({ d, size: count });
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [near, value]);
-
-  return (
-    <div
-      ref={ref}
-      className="grid size-[216px] place-items-center rounded-[20px] bg-white p-4 shadow-[0_18px_40px_-20px_rgba(0,0,0,0.6)]"
-    >
-      {path ? (
-        <svg
-          viewBox={`-2 -2 ${path.size + 4} ${path.size + 4}`}
-          role="img"
-          aria-label="Código QR para abrir ALZA en Telegram"
-          className="size-full"
-          shapeRendering="crispEdges"
-        >
-          <path d={path.d} fill="#10172f" />
-        </svg>
-      ) : (
-        <span className="size-full animate-pulse rounded-xl bg-[#eef2f8]" aria-hidden="true" />
-      )}
     </div>
   );
 }
