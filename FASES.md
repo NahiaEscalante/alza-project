@@ -28,8 +28,9 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 - **Fase 3:** webhook, cola, procesamiento de mensajes hacia el libro y simulador de WhatsApp (`/dev/simulador`).
 - **Fase 6:** cierre de las 12:00, puntos, racha, comodines, bonos, limpieza y antifraude.
 - **Fase 8 (chat):** chat de la web que responde y propone cambios.
+- **Fase 8 (descarga):** API y pantalla «Descargar mi historial».
 
-**Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; luego la descarga del historial y el panel interno (Fase 8), Fase 10 y Fase 11.
+**Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; luego el panel interno (Fase 8), Fase 10 y Fase 11.
 
 ## Orden
 
@@ -224,7 +225,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [ ] 🔄 Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
 - [ ] 🔄 Chat que propone cambios con «antes y después» y confirmación con PIN.
 - [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
-- [ ] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
+- [ ] 🔄 API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
 - [ ] Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
 - [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
