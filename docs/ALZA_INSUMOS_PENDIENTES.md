@@ -287,7 +287,7 @@ Va dentro del mensaje de cierre; es lo primero que ella ve cada noche.
 **Responsable de la sección:** ___
 
 - [ ] **P0** Catálogo de ejemplo para la demo, marcado como «de ejemplo», con premios en cada hito:
-  - [ ] 50: descuento en app de comida o transporte
+  - [ ] 50: descuento en compra de mercadería o en pago de servicios (D76)
   - [ ] 100: útiles escolares o artículos de limpieza
   - [ ] 200: descuento en proveedor
   - [ ] 400: descuento mayor en proveedor o kit escolar completo

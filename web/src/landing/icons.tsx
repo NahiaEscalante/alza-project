@@ -144,14 +144,16 @@ export function RewardArt({ kind, className = 'size-14' }: IconProps & { kind: R
   );
 }
 
-export type RewardKind = 'app' | 'school' | 'supplier' | 'appliance' | 'kit';
+export type RewardKind = 'discount' | 'school' | 'supplier' | 'appliance' | 'kit';
 
 const REWARD_ART: Record<RewardKind, ReactNode> = {
-  app: (
+  discount: (
     <>
-      <rect x="20" y="8" width="24" height="48" rx="5" fill="#0E2A8B" />
-      <rect x="24" y="14" width="16" height="30" rx="2" fill="#E9DDFF" />
-      <circle cx="32" cy="50" r="2.5" fill="#4FD1C5" />
+      <path d="M8 32 22 14h32a4 4 0 0 1 4 4v28a4 4 0 0 1-4 4H22z" fill="#0E2A8B" />
+      <circle cx="21" cy="32" r="3.5" fill="#E9DDFF" />
+      <circle cx="34" cy="25" r="3.5" fill="#E9DDFF" />
+      <circle cx="47" cy="39" r="3.5" fill="#E9DDFF" />
+      <path d="M47 23 34 41" stroke="#4FD1C5" strokeWidth="3.5" strokeLinecap="round" />
     </>
   ),
   school: (

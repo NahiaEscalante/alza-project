@@ -96,7 +96,10 @@ export const SUMMARY_VARIANTS = {
       leftCents: 14_050,
       pendingCents: 4_500,
     },
-    points: { balance: 47, nextReward: { name: 'Descuento en app de comida', missingPoints: 3 } },
+    points: {
+      balance: 47,
+      nextReward: { name: 'Descuento en compra de mercadería', missingPoints: 3 },
+    },
   },
 } satisfies Record<string, SummaryImageData>;
 
@@ -156,5 +159,8 @@ export const ZERO_SUMMARY: SummaryImageData = {
     leftCents: 0,
     pendingCents: 1_200,
   },
-  points: { balance: 0, nextReward: { name: 'Descuento en app de comida', missingPoints: 50 } },
+  points: {
+    balance: 0,
+    nextReward: { name: 'Descuento en compra de mercadería', missingPoints: 50 },
+  },
 };

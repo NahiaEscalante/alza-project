@@ -14,9 +14,9 @@ const EARN = [
 const REWARDS: Array<{ points: number; name: string; time: string; art: RewardKind }> = [
   {
     points: 50,
-    name: 'Descuento en app de comida o transporte',
+    name: 'Descuento en compra de mercadería o pago de servicios',
     time: 'Menos de 1 semana',
-    art: 'app',
+    art: 'discount',
   },
   {
     points: 100,

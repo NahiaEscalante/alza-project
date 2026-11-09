@@ -13,7 +13,7 @@ import { addDays } from './time.js';
 import type { CloseLevel } from './types.js';
 
 const CATALOG: RewardOption[] = [
-  { id: 'food', name: 'Descuento app de comida', costPoints: 50, isBig: false },
+  { id: 'inventory', name: 'Descuento en compra de mercadería', costPoints: 50, isBig: false },
   { id: 'school', name: 'Útiles escolares', costPoints: 100, isBig: false },
   { id: 'supplier', name: 'Descuento en proveedor', costPoints: 200, isBig: false },
   { id: 'kit', name: 'Kit de limpieza', costPoints: 400, isBig: false },

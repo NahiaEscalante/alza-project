@@ -4,7 +4,7 @@
  * rewards also 8 active weeks and go `in_review` (the team releases the code in the panel).
  */
 import { randomInt } from 'node:crypto';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, inArray } from 'drizzle-orm';
 import type { Db } from '../db/client.js';
 import {
   pointsEntries,
@@ -16,7 +16,7 @@ import {
 } from '../db/schema.js';
 import { BIG_GOAL, checkRedemption, REQUIRED_ACTIVE_WEEKS } from '../domain/index.js';
 import { REDEMPTION_STATUS_TEXT } from '../ledger/labels.js';
-import { inTransaction } from '../ledger/types.js';
+import { type DbOrTx, inTransaction } from '../ledger/types.js';
 import { getActiveWeeks, getPointsBalance } from './points.js';
 
 /** 13.2 example catalog, one or two per milestone, plus the big goal. */
@@ -25,14 +25,14 @@ export const EXAMPLE_REWARDS: readonly Pick<
   'name' | 'category' | 'costPoints' | 'isBig'
 >[] = [
   {
-    name: 'Descuento en app de comida',
-    category: 'food_delivery',
+    name: 'Descuento en compra de mercadería',
+    category: 'inventory_purchase',
     costPoints: 50,
     isBig: false,
   },
   {
-    name: 'Descuento en app de transporte',
-    category: 'transport',
+    name: 'Descuento en pago de servicios',
+    category: 'utility_bills',
     costPoints: 50,
     isBig: false,
   },
@@ -49,9 +49,31 @@ export const EXAMPLE_REWARDS: readonly Pick<
   { name: 'Electrodoméstico', category: 'appliance', costPoints: BIG_GOAL, isBig: true },
 ];
 
-/** Inserts the example rewards that are missing (by name). Returns how many were added. */
-export async function ensureRewardsCatalog(db: Db): Promise<number> {
+/**
+ * Example rewards taken out of the catalog (D76). They are deactivated, never deleted, so past
+ * redemptions keep their reward.
+ */
+export const RETIRED_EXAMPLE_REWARDS: readonly string[] = [
+  'Descuento en app de comida',
+  'Descuento en app de transporte',
+];
+
+/**
+ * Inserts the example rewards that are missing (by name) and deactivates the retired ones.
+ * Returns how many were added.
+ */
+export async function ensureRewardsCatalog(db: DbOrTx): Promise<number> {
   return inTransaction(db, async (tx) => {
+    await tx
+      .update(rewards)
+      .set({ active: false })
+      .where(
+        and(
+          eq(rewards.isExample, true),
+          eq(rewards.active, true),
+          inArray(rewards.name, [...RETIRED_EXAMPLE_REWARDS]),
+        ),
+      );
     const existing = await tx
       .select({ name: rewards.name })
       .from(rewards)

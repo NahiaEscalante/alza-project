@@ -115,7 +115,11 @@ describe.skipIf(!hasTestDb)('admin panel API (RF-AD-01..04)', () => {
   }
 
   async function bigRedemption(userId: string) {
-    const [big] = await db.select().from(rewards).where(eq(rewards.isBig, true));
+    // The catalog's big goal by name: other files add their own big test rewards in parallel.
+    const [big] = await db
+      .select()
+      .from(rewards)
+      .where(and(eq(rewards.isBig, true), eq(rewards.name, 'Electrodoméstico')));
     if (!big) throw new Error('no big reward');
     const [redemption] = await db
       .insert(redemptions)
