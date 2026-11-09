@@ -73,6 +73,7 @@ describe('message catalog (12.1)', () => {
     welcomeMessage('https://alza.pe/privacidad'),
     declinedMessage(),
     closeTimeQuestion(),
+    closeTimeQuestion(true),
     habitMessage({
       name: 'Marta',
       closeTime: '21:00',

@@ -85,6 +85,15 @@ describe('loadConfig', () => {
     expect(configError({ ...BASE, DATABASE_URL: 'mysql://x' }).variables).toEqual(['DATABASE_URL']);
   });
 
+  it('rejects malformed Meta API versions and phone number ids without exposing values', () => {
+    expect(configError({ ...BASE, WHATSAPP_API_VERSION: 'invalid-version' }).variables).toContain(
+      'WHATSAPP_API_VERSION',
+    );
+    expect(configError({ ...BASE, WHATSAPP_PHONE_NUMBER_ID: '../private' }).variables).toContain(
+      'WHATSAPP_PHONE_NUMBER_ID',
+    );
+  });
+
   it('needs all four WhatsApp variables or none', () => {
     const err = configError({ ...BASE, WHATSAPP_ACCESS_TOKEN: 't', WHATSAPP_APP_SECRET: 's' });
     expect(err.variables).toEqual(['WHATSAPP_PHONE_NUMBER_ID', 'WHATSAPP_VERIFY_TOKEN']);
@@ -97,6 +106,7 @@ describe('loadConfig', () => {
       WHATSAPP_VERIFY_TOKEN: 'v',
     });
     expect(config.whatsapp).toEqual({
+      apiVersion: 'v25.0',
       accessToken: 't',
       phoneNumberId: '123',
       appSecret: 's',

@@ -88,6 +88,9 @@ export interface Channel {
 export type ChannelErrorCode =
   /** A Meta limit was broken (length, number of buttons…): a bug in the caller. */
   | 'limit_exceeded'
+  /** Invalid credentials or a request Meta permanently rejected. */
+  | 'unauthorized'
+  | 'rejected'
   /** The media id does not exist or expired. */
   | 'media_not_found'
   /** Network or 5xx: worth retrying. */

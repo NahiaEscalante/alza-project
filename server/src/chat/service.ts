@@ -27,8 +27,8 @@ import { CHAT_DAILY_LIMIT, CHAT_SUGGESTIONS, CHAT_TEXTS } from './texts.js';
 import { createChatToolbox } from './tools.js';
 
 /** Messages of today the model sees as context (oldest first). */
-const HISTORY_FOR_MODEL = 8;
-const HISTORY_CHARS_FOR_MODEL = 600;
+const HISTORY_FOR_MODEL = 4;
+const HISTORY_CHARS_FOR_MODEL = 400;
 /** Messages the chat screen shows. */
 const HISTORY_FOR_SCREEN = 60;
 

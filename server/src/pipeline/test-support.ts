@@ -3,6 +3,7 @@
  * an in-memory queue drained by hand with pg-boss's retry rule, a fake AI layer and a fake
  * screenshot reader. No network, no OCR.
  */
+
 import { randomInt } from 'node:crypto';
 import { eq } from 'drizzle-orm';
 import type { Hono } from 'hono';
@@ -29,6 +30,7 @@ import { normalizeName } from '../domain/index.js';
 import { type FlowHooks, withFlowHooks } from '../flows/hooks.js';
 import { createApp } from '../http/app.js';
 import { createLogger } from '../lib/logger.js';
+import { CONSENT_TEXT_VERSION } from '../messages/consent.js';
 import type { BlobStorage, StoredBlob } from '../storage/blob-storage.js';
 import type { InboundQueue, PipelineDeps } from './deps.js';
 import { MAX_RETRIES, type ProcessResult, processInboundJob } from './worker.js';
@@ -396,7 +398,9 @@ export async function createOnboardedUser(
     })
     .returning();
   if (!user) throw new Error('no user');
-  await db.insert(consents).values({ userId: user.id, textVersion: 'v1', accepted: true });
+  await db
+    .insert(consents)
+    .values({ userId: user.id, textVersion: CONSENT_TEXT_VERSION, accepted: true });
   for (const name of overrides.extraHolders ?? []) {
     await db
       .insert(accountHolders)

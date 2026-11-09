@@ -13,7 +13,10 @@ import type { Db } from '../../../db/client.js';
 import type { BlobStorage } from '../../../storage/blob-storage.js';
 import { PostgresBlobStorage } from '../../../storage/postgres-blob-storage.js';
 
+import type { ChatRouteOptions } from './chat.js';
+
 export interface WebAppRouterDeps {
+  chat?: ChatRouteOptions;
   db: Db;
   /** Clock (tests). */
   now?: () => Date;

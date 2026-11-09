@@ -42,6 +42,7 @@ import {
   sendCatalogMessage,
   welcomeMessage,
 } from '../../messages/catalog.js';
+import { CONSENT_TEXT_VERSION } from '../../messages/consent.js';
 import { lastSentAt } from '../../messages/outbound-log.js';
 import { commitMessage, type TerminalStatus } from '../../pipeline/commit.js';
 import type { FlowMessage, OnboardingEvent, OnboardingOutcome } from '../hooks.js';
@@ -55,8 +56,7 @@ import {
 import { parseCloseTimeAnswer } from './close-time.js';
 import { type FlowDeps, nowOf, privacyUrl } from './deps.js';
 
-/** 14.1: version of the WA-01 notice she accepts; a relevant change means asking again. */
-export const CONSENT_TEXT_VERSION = 'wa-01-v1';
+export { CONSENT_TEXT_VERSION } from '../../messages/consent.js';
 
 /** RF-ON-06: a pending question older than this is asked again before reading an answer. */
 export const RESUME_AFTER_MS = HOUR_MS;
@@ -128,7 +128,8 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
   const button = message.type === 'interactive' ? message.buttonReplyId : null;
 
   if (button === BUTTONS.consentAccept.id) {
-    await send(context, businessNameQuestion());
+    const returning = Boolean(user.businessName && user.accountHolderName && user.closeTime);
+    if (!returning) await send(context, businessNameQuestion());
     await commitStep(context, 'discarded_no_consent', async (tx) => {
       await tx.insert(consents).values({
         userId: user.id,
@@ -136,7 +137,7 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
         accepted: true,
         createdAt: now,
       });
-      await setStatus(tx, user.id, 'business_name');
+      await setStatus(tx, user.id, returning ? 'complete' : 'business_name');
     });
     return 'handled';
   }
@@ -168,7 +169,9 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
   if (!repeated) await send(context, welcomeMessage(privacyUrl(deps.appBaseUrl)));
   await commitStep(context, 'discarded_no_consent', async (tx) => {
     await forgetContent(tx, message);
-    await setStatus(tx, user.id, 'awaiting_consent');
+    if (user.onboardingStatus !== 'complete') {
+      await setStatus(tx, user.id, 'awaiting_consent');
+    }
   });
   return 'handled';
 }
@@ -274,8 +277,10 @@ async function afterConsent(context: StepContext): Promise<OnboardingOutcome> {
     }
     case 'close_time': {
       const answer = parseCloseTimeAnswer(message.text ?? '');
-      // Later than 2:00 a. m. or not a time: WA-05 again (12.1 has no other text for it).
-      if (!answer.ok) return askAgain(context, step);
+      if (!answer.ok) {
+        await send(context, closeTimeQuestion(answer.error === 'too_late'));
+        return 'handled';
+      }
       await finishOnboarding(context, answer.closeTime);
       return 'handled';
     }

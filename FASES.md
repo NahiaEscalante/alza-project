@@ -18,17 +18,17 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 7 | Web de la usuaria | ✅ |
 | 8 | Chat, reporte y panel interno | 🟨 |
 | 9 | Landing | ✅ |
-| 10 | WhatsApp real (Meta) | ⬜ |
+| 10 | WhatsApp real (Meta) | 🟨 |
 | 11 | Demo | ⬜ |
 
 ## En curso ahora
 
 🔄 marca las tareas que un agente está haciendo en este momento.
 
-- **Integración:** conectar alta, cierre y tareas programadas en el arranque y probar el recorrido completo.
+- **Integración:** terminada. Alta y cierre conectados al worker; cinco tareas registradas en `America/Lima`; panel, reintentos y WA-17 conectados a sus dependencias. Alta completa verificada contra el servidor real y pg-boss.
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
-**Siguiente:** conectar alta, cierre y tareas programadas en el arranque del servidor; pruebas de seguridad de 17.4 juntas; Fase 10 (Meta y Railway) y Fase 11 (demo).
+**Siguiente:** reintentar la certificación de IA cuando se restablezcan las cuotas; Fase 10 (Meta y Railway) y Fase 11 (demo). Ver `docs/ALZA_VALIDACION_INTEGRACION.md`.
 
 ## Orden
 
@@ -46,7 +46,7 @@ F0 ─┬─ F1 ─┬─ F3 ─ F4 ─ F5 ─ F6 ─┬─ F10 ─ F11
 
 ## Decisiones tomadas para poder desarrollar
 
-D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al cerrar la ronda en curso.
+D33–D52 y D68 ya están en la spec v1.7. D53–D67 se registran en la spec al cerrar la ronda en curso.
 
 | ID | Decisión |
 |---|---|
@@ -162,7 +162,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** 100 mensajes repetidos no crean duplicados y un día de mensajes deja el libro correcto. (Resultado: 128 pruebas en recepción, canal, libro y webhook; prueba real en el simulador con una captura de Yape del dataset.)
 
-- [ ] 🔄 Ajustar el prompt para «vendí 5 de pan» (hoy lo lee como 5 panes y crea una duda) y sumarlo al dataset.
+- [ ] Ajuste de «vendí 5 de pan»: prompt actualizado y casos T-042/T-043 agregados al dataset. Falta validación real: Groq y Gemini devolvieron `rate_limit`; no se considera certificado.
 
 ## Fase 4 · Alta y mensajes de excepción ✅
 
@@ -179,8 +179,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-01 y HU-15 pasan en el simulador. (Resultado: 84 pruebas nuevas; alta completa probada en el simulador con «Número nuevo (alta)».)
 
-- [ ] 🔄 Texto para una hora de cierre después de las 2 a. m. (hoy solo repite WA-05).
-- [ ] 🔄 Volver a pedir consentimiento si cambia la versión del aviso (14.1).
+- [x] Texto aprobado para una hora de cierre fuera de rango (WA-05, D68), con los mismos botones y sin cambiar el horario permitido.
+- [x] Volver a pedir consentimiento si cambia la versión del aviso (14.1). Bloquea el registro y el envío programado; al aceptar conserva la configuración de la cuenta. Prueba de regresión incluida.
 
 ## Fase 5 · Cierre del día ✅
 
@@ -194,12 +194,12 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [x] Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
 - [x] Nivel del cierre y confirmación con puntos (WA-12, puntos provisionales hasta las 12:00).
 - [x] Respuestas fuera de plazo (WA-18) y ajustes después del cierre (PR03).
-- [x] Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta. (31 pruebas; recorrido en `/dev/simulador` con «cierre» y respuesta. Falta conectar `createCloseHooks` y `registerCloseJobs` en `src/index.ts`.)
+- [x] Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta. (31 pruebas; recorrido en `/dev/simulador` con «cierre» y respuesta. `createCloseHooks` y `registerCloseJobs` ya conectados en `src/index.ts`.)
 
 **Listo cuando:** los días tipo pasan en el simulador (HU-06, HU-07). (Resultado: 31 pruebas nuevas, incluidos los 7 días tipo.)
 
-- [ ] 🔄 Conectar alta, cierre y tareas programadas en el arranque del servidor (`src/index.ts`).
-- [ ] 🔄 Una captura ilegible resuelta en el cierre queda con medio «desconocido» y se ve como «sin detalle»: debe mostrarse como captura.
+- [x] Conectar alta, cierre y tareas programadas en el arranque del servidor (`src/index.ts`). Alta real por webhook + pg-boss verificada; cinco cron registrados en Lima.
+- [x] Revisar la etiqueta de una captura ilegible resuelta en el cierre: se conserva «Lo contaste tú», conforme a 11.3 y D66. No se inventa el medio si tampoco pudo leerse; el pedido anterior de mostrar «Con captura» contradice esa regla.
 
 ## Fase 6 · Puntos y tareas programadas ✅
 
@@ -239,12 +239,12 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 - [x] Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
 - [x] Chat que propone cambios con «antes y después» y confirmación con PIN.
-- [ ] 🔄 Bajar el consumo del chat (hoy ~8.000 tokens por turno: Groq permite ~1 turno por minuto y las 3 llaves de Gemini se agotaron en las pruebas). Riesgo para la demo.
-- [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
+- [ ] Consumo del chat: prompt reducido, historial máximo de 4 mensajes × 400 caracteres y herramientas de propuesta omitidas cuando no pide cambios. Las pruebas de seguridad pasan. Falta medir tokens y latencia con cuota disponible; no se da por validado el riesgo de demo.
+- [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación y pantalla conectadas.)
 - [x] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
-- [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
+- [x] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos. Ya implementada en `web/src/app/screens/download.tsx`; era un pendiente duplicado.
 - [x] Panel interno en `/panel`: mensajes con error y reintento, canjes grandes, alertas, métricas, herramientas de demo (finalizar cierres, antifraude, aviso WA-17) y registro de quién hizo qué. Crear usuario: `npm run create-admin -w server -- <usuario>`.
-- [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
+- [x] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat. Suite completa: 927 pruebas pasan, sin omitir las de base de datos.
 
 **Listo cuando:** HU-13 y HU-14 pasan, junto con las pruebas de seguridad.
 
@@ -262,16 +262,17 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 - [ ] Logo oficial de CIX: no hay uno público; hoy se muestra el nombre en tipografía grande. Pedirlo a los organizadores.
 
-## Fase 10 · WhatsApp real (Meta) ⬜
+## Fase 10 · WhatsApp real (Meta) 🟨
 
 **Objetivo:** el mismo flujo, desde un celular real.
 
 - [ ] Proyecto en Railway con Postgres y despliegue (requiere `railway login` de la dueña de la cuenta).
-- [ ] App de Meta para ALZA, número de prueba y destinatarios verificados.
+- [x] App de Meta `alza_app` creada y cuatro credenciales guardadas en el entorno local.
+- [ ] Número de prueba y destinatarios verificados; confirmar el envío/recepción desde el celular.
 - [ ] Token permanente con usuario del sistema.
 - [ ] Webhook en Railway con validación de firma.
 - [ ] `VITE_ALZA_WHATSAPP_NUMBER` en el build de la web para el QR del jurado en la landing.
-- [ ] Adaptador de Meta: texto, botones, imagen por ID, marcar como leído y descarga inmediata de archivos.
+- [x] Adaptador de Meta: texto, botones, imagen por ID, marcar como leído y descarga de archivos con SHA-256. API v25.0 configurable; selección del canal y secretos del webhook probada. No se considera validación desde un celular real.
 - [ ] Prueba real: imagen, audio, texto, alta y cierre completo.
 
 **Listo cuando:** el día completo de la demo funciona desde un celular real.

@@ -49,6 +49,13 @@ describe('createApp', () => {
     expect((await app.request('/app/inicio')).status).toBe(404);
   });
 
+  it('mounts the internal panel API with its own authentication', async () => {
+    const app = createApp({ db: deadDb, logger, admin: { logger } });
+    const res = await app.request('/api/admin/unknown');
+    expect(res.status).toBe(401);
+    expect(res.headers.get('cache-control')).toContain('no-store');
+  });
+
   it('sets security headers', async () => {
     const res = await createApp({ db: deadDb, logger }).request('/api');
     expect(res.headers.get('x-content-type-options')).toBe('nosniff');

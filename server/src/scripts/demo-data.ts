@@ -12,6 +12,7 @@
  * Bulk inserts on purpose (hundreds of rows with their historical `created_at`); each entry still
  * gets its `created` event, as the ledger service would write.
  */
+
 import { and, eq } from 'drizzle-orm';
 import { demoRedemptionCode, ensureRewardsCatalog } from '../account/index.js';
 import { createAccessLink, createActivationLink } from '../auth/index.js';
@@ -53,6 +54,7 @@ import {
   weeklyBonus,
 } from '../domain/index.js';
 import { inTransaction, type Tx } from '../ledger/types.js';
+import { CONSENT_TEXT_VERSION } from '../messages/consent.js';
 
 export const DEMO_PHONE = '+51999000111';
 export const DEMO_HOLDER = 'Marta Quispe Huamán';
@@ -180,7 +182,7 @@ export async function seedDemo(
     const userId = user.id;
     await tx.insert(consents).values({
       userId,
-      textVersion: 'v1',
+      textVersion: CONSENT_TEXT_VERSION,
       accepted: true,
       createdAt: user.createdAt,
     });

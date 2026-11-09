@@ -13,6 +13,8 @@
  *                                                evaluate one candidate model (D35)
  *   --delay-ms=<n>                               pause after each AI call (free-tier limits; 1500)
  *   --limit=<n>                                  first n items of each subset
+ *   --ids=T-042,T-043                         evaluate selected cases only
+ *   --no-outage-retries                         report quota errors immediately
  *   --no-save                                    do not write the run file
  *
  * The dataset is fabricated by the team, so it may go to free models (8.3).
@@ -61,6 +63,8 @@ interface Options {
   delayMs: number;
   limit: number;
   save: boolean;
+  ids: Set<string>;
+  outageRetries: boolean;
 }
 
 function parseOptions(argv: string[]): Options {
@@ -70,6 +74,8 @@ function parseOptions(argv: string[]): Options {
     delayMs: 1500,
     limit: Number.POSITIVE_INFINITY,
     save: true,
+    ids: new Set(),
+    outageRetries: true,
   };
   for (const arg of argv) {
     const [key, value = ''] = arg.replace(/^--/, '').split(/=(.*)/s);
@@ -79,6 +85,8 @@ function parseOptions(argv: string[]): Options {
       if (fn && prefix) options.routeFilters.set(fn as AiFunction, prefix);
     } else if (key === 'delay-ms') options.delayMs = Number(value);
     else if (key === 'limit') options.limit = Number(value);
+    else if (key === 'ids') options.ids = new Set(value.split(','));
+    else if (key === 'no-outage-retries') options.outageRetries = false;
     else if (key === 'no-save') options.save = false;
   }
   return options;
@@ -89,9 +97,13 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 /** Free tiers go down for a while (429/503): wait and retry so an outage is not scored. */
 const OUTAGE_WAITS_MS = [20_000, 60_000];
 
-async function retryOutage<T>(run: () => Promise<T>, unavailable: (r: T) => boolean): Promise<T> {
+async function retryOutage<T>(
+  run: () => Promise<T>,
+  unavailable: (r: T) => boolean,
+  waits = OUTAGE_WAITS_MS,
+): Promise<T> {
   let result = await run();
-  for (const wait of OUTAGE_WAITS_MS) {
+  for (const wait of waits) {
     if (!unavailable(result)) break;
     console.log(`  (all routes unavailable, retrying in ${wait / 1000} s)`);
     await sleep(wait);
@@ -148,6 +160,7 @@ function gitCommit(): string | null {
 
 async function main(): Promise<void> {
   const options = parseOptions(process.argv.slice(2));
+  const outageWaits = options.outageRetries ? OUTAGE_WAITS_MS : [];
   loadDotEnv();
   const config = getConfig();
   const allRoutes = defaultRoutes(createClients(config));
@@ -170,14 +183,18 @@ async function main(): Promise<void> {
   const imageItems: ImageItem[] = [];
   if (options.only.has('images')) {
     for (const a of answers
-      .filter((r) => r.type === 'individual_receipt')
+      .filter(
+        (r) => r.type === 'individual_receipt' && (options.ids.size === 0 || options.ids.has(r.id)),
+      )
       .slice(0, options.limit)) {
       imageItems.push({ id: a.id, file: a.file, expect: 'same', answer: a, transform: 'original' });
     }
   }
   if (options.only.has('generated')) {
     const generated = readJsonl<GeneratedRow>(join(DATASETS, 'generated', 'expected.jsonl'));
-    for (const g of generated.slice(0, options.limit)) {
+    for (const g of generated
+      .filter((item) => options.ids.size === 0 || options.ids.has(item.id))
+      .slice(0, options.limit)) {
       const answer = byId.get(g.source_id);
       if (!answer) continue;
       imageItems.push({
@@ -203,6 +220,7 @@ async function main(): Promise<void> {
     const reading = await retryOutage(
       () => readScreenshot({ data, mimeType }, { ocr, ai, now: () => now }),
       (r) => r.aiFailure === 'unavailable',
+      outageWaits,
     );
     ocrTimes.push(reading.timings.ocrMs);
     const score = scoreImage(reading.extraction, item.expect, item.answer);
@@ -253,11 +271,14 @@ async function main(): Promise<void> {
   // ---------------------------------------------------------------- audios
   const audioScores: ReturnType<typeof scoreText>[] = [];
   if (options.only.has('audios')) {
-    for (const a of answers.filter((r) => r.type === 'audio').slice(0, options.limit)) {
+    for (const a of answers
+      .filter((r) => r.type === 'audio' && (options.ids.size === 0 || options.ids.has(r.id)))
+      .slice(0, options.limit)) {
       const data = readFileSync(join(DATASETS, a.file));
       const transcription = await retryOutage(
         () => ai.transcribeAudio({ data, mimeType: 'audio/ogg' }),
         isUnavailable,
+        outageWaits,
       );
       await sleep(options.delayMs);
       if (!transcription.ok) {
@@ -275,6 +296,7 @@ async function main(): Promise<void> {
       const interpretation = await retryOutage(
         () => ai.interpretText(transcript, { now, closePending: false }),
         isUnavailable,
+        outageWaits,
       );
       await sleep(options.delayMs);
       const expected: ExpectedText = {
@@ -311,10 +333,9 @@ async function main(): Promise<void> {
   // ---------------------------------------------------------------- texts
   const textScores: ReturnType<typeof scoreText>[] = [];
   if (options.only.has('texts')) {
-    const texts = readJsonl<TextItem>(join(DATASETS, 'texts', 'texts.jsonl')).slice(
-      0,
-      options.limit,
-    );
+    const texts = readJsonl<TextItem>(join(DATASETS, 'texts', 'texts.jsonl'))
+      .filter((item) => options.ids.size === 0 || options.ids.has(item.id))
+      .slice(0, options.limit);
     for (const t of texts) {
       const result = await retryOutage(
         () =>
@@ -324,6 +345,7 @@ async function main(): Promise<void> {
             recentEntries: t.context?.recentEntries ?? [],
           }),
         isUnavailable,
+        outageWaits,
       );
       await sleep(options.delayMs);
       const score = result.ok
@@ -353,11 +375,14 @@ async function main(): Promise<void> {
   if (options.only.has('close')) {
     const replies = readJsonl<CloseReplyItem>(
       join(DATASETS, 'close-replies', 'close-replies.jsonl'),
-    ).slice(0, options.limit);
+    )
+      .filter((item) => options.ids.size === 0 || options.ids.has(item.id))
+      .slice(0, options.limit);
     for (const r of replies) {
       const result = await retryOutage(
         () => ai.interpretCloseReply(r.reply, r.questions),
         isUnavailable,
+        outageWaits,
       );
       await sleep(options.delayMs);
       const score = result.ok
@@ -498,6 +523,8 @@ async function main(): Promise<void> {
           commit: gitCommit(),
           options: {
             only: [...options.only],
+            ids: [...options.ids],
+            outageRetries: options.outageRetries,
             routeFilters: Object.fromEntries(options.routeFilters),
             delayMs: options.delayMs,
             limit: Number.isFinite(options.limit) ? options.limit : null,
@@ -525,6 +552,8 @@ async function main(): Promise<void> {
     );
     console.log(`\nGuardado en ${file.replace(`${REPO_ROOT}/`, '')}`);
   }
+  // A run with no cases or failed acceptance metrics must never certify a route.
+  if (evaluated === 0 || rows.some((row) => passes(row) === false)) process.exitCode = 1;
 }
 
 await main();

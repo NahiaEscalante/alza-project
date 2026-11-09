@@ -42,6 +42,6 @@ export function createWebAppRouter(options: WebAppRouterDeps): Hono<AuthEnv> {
   registerAccountRoutes(router, deps);
   registerCounterpartyRuleRoutes(router, deps);
   registerReportRoutes(router, deps);
-  registerChatRoutes(router, deps);
+  registerChatRoutes(router, deps, options.chat);
   return router;
 }

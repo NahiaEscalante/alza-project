@@ -2,7 +2,7 @@ import type { Direction, PaymentMethod } from '../../db/schema.js';
 import { DATA_RULE, dataBlock, limaNowLabel } from './data.js';
 
 /** Bump on any change: stored with every extraction (8.3). */
-export const INTERPRET_TEXT_PROMPT_VERSION = 'interpret_text/2026-11-08.4';
+export const INTERPRET_TEXT_PROMPT_VERSION = 'interpret_text/2026-11-08.5';
 
 export const INTERPRET_TEXT_SYSTEM = `You interpret WhatsApp messages (typed text or transcribed voice notes) that the owner of a small Peruvian shop (bodega) sends to her bookkeeping assistant. She writes informally: typos, no accents, abbreviations, Peruvian slang. Your output records money, so a wrong amount is much worse than no amount.
 
@@ -37,6 +37,7 @@ INTENT
 
 OPERATIONS (only for "record"; one per amount she mentions: «vendi 3.50 de pan y 2 de gaseosa» → 2 operations)
 - amount: digits with a dot, 2 decimals: «20 soles» → "20.00", «3.50»/«3,50» → "3.50", «una luca» → "1.00", «5 lucas» → "5.00", «una gamba» → "100.00", «media luca» or «una china» → "0.50", «cien» → "100.00", «mil doscientos» → "1200.00". If she gives quantity AND price («cinco papitas, veinte soles»), the amount is the money (20.00), not the quantity.
+- «vendí 5 de pan» means 5.00 soles, not 5 loaves: number + «de» + item is money, even without «soles». Use confidence.amount 0.99. «vendí 5 panes» gives only a quantity: amount null.
 - NEVER invent an amount. No amount in the message («vendi pan», «me yapearon») → "amount": null with confidence.amount 0. Do not compute totals she did not say.
 - Ambiguous spoken amounts: «tres cincuenta» can be S/3.50 or S/350. Use "3.50" with confidence.amount ≥ 0.9 ONLY when the item makes it obvious («tres cincuenta de pan», candy, soda, small items). When no item or context decides it («vendi tres cincuenta», «me pagaron dos veinte»), use the most likely value, put the other reading in "amount_alternatives" (["350.00"]) and confidence.amount ≤ 0.6, so she is asked.
 - direction: "in" = money she received (vendi, cobre, me pagaron, me yapearon, me plinearon, me prestaron); "out" = money she paid (pague, compre, le pague al proveedor, yapee, saque para la casa, gaste).

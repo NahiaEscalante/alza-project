@@ -128,9 +128,16 @@ export const declinedMessage = (): CatalogMessage => text('WA-02', TEXTS['WA-02'
 export const businessNameQuestion = (): CatalogMessage => text('WA-03', TEXTS['WA-03']());
 export const accountHolderQuestion = (): CatalogMessage => text('WA-04', TEXTS['WA-04']());
 
+export const CLOSE_TIME_OUT_OF_RANGE_TEXT =
+  'Puedo mandarte el cierre hasta las 2 a. m. ¿A qué hora cierras normalmente?';
+
 /** WA-05, with «8 pm» / «9 pm» / «10 pm»; she may also write another time up to 2 a. m. */
-export function closeTimeQuestion(): CatalogMessage {
-  return buttons('WA-05', TEXTS['WA-05'](), [BUTTONS.close20, BUTTONS.close21, BUTTONS.close22]);
+export function closeTimeQuestion(outOfRange = false): CatalogMessage {
+  return buttons('WA-05', outOfRange ? CLOSE_TIME_OUT_OF_RANGE_TEXT : TEXTS['WA-05'](), [
+    BUTTONS.close20,
+    BUTTONS.close21,
+    BUTTONS.close22,
+  ]);
 }
 
 /** WA-06 (RF-ON-07). `closeTime` is «21:00» (Lima). */

@@ -305,7 +305,12 @@ export interface ChatToolsContext {
 }
 
 export function createChatToolbox(context: ChatToolsContext): ChatToolbox<ChatToolsResult> {
-  return { specs: CHAT_TOOL_SPECS, open: () => new ToolSession(context) };
+  return {
+    specs: asksForChange(context.message)
+      ? CHAT_TOOL_SPECS
+      : CHAT_TOOL_SPECS.filter((tool) => tool.name !== 'propose_change'),
+    open: () => new ToolSession(context),
+  };
 }
 
 class ToolSession implements ChatToolSession<ChatToolsResult> {

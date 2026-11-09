@@ -1,6 +1,6 @@
 # ALZA · Especificación de producto
 
-**Versión:** 1.6 (borrador de trabajo), 8 de noviembre de 2026
+**Versión:** 1.7 (borrador de trabajo), 8 de noviembre de 2026
 **Estado:** fuente de verdad para diseño, implementación y pruebas. Solo cambia con una decisión registrada en la sección 2.
 **Documentos relacionados:**
 - Flujos del sistema (artifact): https://claude.ai/artifact/HUR61TjkAHxgbHYRYpTxj1
@@ -167,6 +167,7 @@ Bodeguera peruana con un negocio que ya funciona:
 | D50 | Largo del cierre: con imagen, el pie admite 1.024 caracteres; con «solo texto» (D27), el mensaje de texto admite 4.096. En ambos casos, las dudas entran por prioridad mientras quepan, y la pregunta del cuadre y el enlace van siempre. Precisa D37. | Inicio del desarrollo |
 | D51 | La web permite ocultar los montos en pantalla con el botón del ojo (RF-WP-11). Se ven por defecto y la preferencia se recuerda solo en ese celular. Es una preferencia de vista, no un control de seguridad. | Inicio del desarrollo |
 | D52 | Lista de espera de la landing (D43): guarda solo nombre, teléfono, nombre del negocio (opcional), versión del consentimiento y fecha. Se conserva hasta 6 meses o hasta que se la invite al piloto, y se borra si lo pide. La línea de consentimiento va junto al formulario. | Inicio del desarrollo |
+| D68 | WA-05: cuando la hora de cierre está fuera del rango permitido, se mantienen los botones y se usa la variante «Puedo mandarte el cierre hasta las 2 a. m. ¿A qué hora cierras normalmente?». No cambia el horario permitido. | Confirmación de la dueña del proyecto |
 
 ### 2.3 Defaults aceptados sin objeción [DEF]
 
@@ -1452,6 +1453,9 @@ Los textos son borradores. Deben revisarse con el tono de la línea gráfica y p
 **WA-05 · Hora de cierre** (botones: «8 pm», «9 pm», «10 pm»; puede escribir otra hora, hasta las 2 a. m.)
 > ¿A qué hora cierras normalmente? A esa hora te mando tu resumen.
 
+Variante para una hora fuera de rango [D68], con los mismos botones:
+> Puedo mandarte el cierre hasta las 2 a. m. ¿A qué hora cierras normalmente?
+
 **WA-06 · Hábito y activación**
 > ¡Listo, {nombre}! Así funciona:
 > 1️⃣ Cada vez que te paguen con Yape o Plin, mándame la captura.
@@ -2038,3 +2042,4 @@ Palabras que ella ve en WhatsApp y en la web. La palabra «ganancia» no se usa.
 | 8 nov 2026 | 1.4 | Cierre de preguntas abiertas: D12 actualizada (día del negocio de 4:00 a 3:59), D28 (más excepciones al silencio), D29 (vencimiento de puntos), D30 (solo español) y D31 (titulares adicionales). Fin de la fase de descubrimiento. |
 | 8 nov 2026 | 1.5 | D32 (código en inglés). El stack pasa a insumo pendiente para Claude Code. |
 | 8 nov 2026 | 1.6 | Inicio del desarrollo, D33 a D52: lectura de capturas con OCR local y modelo con visión de respaldo (D33); audio con Whisper en Groq y Gemini de respaldo (D34); Groq y Gemini con cambio automático, Cerebras fuera (D35); dirección en Yape por el encabezado (D36, cambia 11.2 y 10.2); cierre como imagen por ID con el texto como pie de 1.024 caracteres y sin botón (D37, cambia 8.6 y WA-10); conteos del resumen del domingo (D38); WA-21 para «cierre» sin registros (D39); «Faltan S/X en capturas» como línea informativa (D40); WA-07 con tipo y medio reales (D41); caso límite 28 en 2 semanas (D42); landing (D43); logos autorizados (D44, cierra la condición de PR05); stack (D45, sección 8 decidida); WhatsApp real al final (D46); web guiada por `docs/alza_mvp.html` (D47); titular solo escrito en el alta, RF-ON-05 fuera del MVP y WA-04 sin la opción de captura (D48); WA-22 para el caso límite 18 (D49); largo del cierre con 1.024 o 4.096 caracteres, con cuadre y enlace siempre (D50, precisa D37); RF-WP-11 para ocultar montos (D51); datos y retención de la lista de espera, con tabla en 9.1 y fila en 14.2 (D52). HU-14 sin [PROP] (ya es PR04). Plan de trabajo en `FASES.md`. |
+| 8 nov 2026 | 1.7 | D68: variante aprobada de WA-05 para una hora de cierre fuera de rango; conserva los botones y el horario permitido. |

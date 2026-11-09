@@ -6,17 +6,15 @@ import { existsSync } from 'node:fs';
 import { serve } from '@hono/node-server';
 import { ensureRewardsCatalog } from './account/index.js';
 import { createAiLayer, createClients, defaultRoutes } from './ai/index.js';
-import {
-  type Channel,
-  ChannelError,
-  SIMULATOR_APP_SECRET,
-  SimulatorChannel,
-  SimulatorStore,
-} from './channel/index.js';
+import { createChannelRuntime } from './channel/index.js';
 import { ConfigError, getConfig } from './config.js';
 import { createDb, createPool } from './db/client.js';
-import { NO_OP_FLOW_HOOKS } from './flows/hooks.js';
+import { createCloseHooks, registerCloseJobs } from './flows/close/index.js';
+import { withFlowHooks } from './flows/hooks.js';
+import { createOnboardingHooks } from './flows/onboarding/index.js';
+import { broadcastTechnicalIssue } from './flows/requests/broadcast.js';
 import { createApp } from './http/app.js';
+import { registerScheduledJobs } from './jobs/index.js';
 import { createLogger } from './lib/logger.js';
 import { createTesseractEngine } from './ocr/engine.js';
 import { loadDotEnv, WEB_DIST_DIR } from './paths.js';
@@ -54,33 +52,18 @@ await startBoss(boss);
 logger.info('queue started');
 await ensureRewardsCatalog(db);
 
-/** Until Fase 10 the only real transport is the simulator (D46). */
-function unavailableChannel(): Channel {
-  const fail = async (): Promise<never> => {
-    throw new ChannelError('unavailable', 'no WhatsApp channel configured');
-  };
-  return {
-    kind: 'meta',
-    markAsRead: async () => undefined,
-    sendText: fail,
-    sendButtons: fail,
-    sendImage: fail,
-    uploadMedia: fail,
-    downloadMedia: fail,
-  };
-}
-
 const storage = new PostgresBlobStorage(db, config.encryptionKey);
 const ai = createAiLayer({ routes: defaultRoutes(createClients(config)), logger });
 // One tesseract worker per process (D33), closed on shutdown.
 const ocr = await createTesseractEngine();
-const simulatorStore = config.simulatorEnabled ? new SimulatorStore() : null;
-const channel: Channel = simulatorStore
-  ? new SimulatorChannel({ db, store: simulatorStore })
-  : unavailableChannel();
+const { channel, store: simulatorStore, appSecret, verifyToken } = createChannelRuntime(db, config);
 const now = () => new Date();
 
 const queue = await createInboundQueue(boss);
+const flowDeps = { db, logger, channel, storage, now, appBaseUrl: config.appBaseUrl };
+const closeDeps = { db, logger, channel, ai, now, baseUrl: config.appBaseUrl };
+const jobs = await registerScheduledJobs(boss, { db, logger, storage, now });
+await registerCloseJobs(boss, closeDeps);
 const pipeline: PipelineDeps = {
   db,
   logger,
@@ -88,24 +71,29 @@ const pipeline: PipelineDeps = {
   channel,
   ai,
   readScreenshot: createScreenshotReader({ ocr, ai, logger }),
-  // Fases 4–5 replace these with the onboarding, exception and close flows.
-  hooks: NO_OP_FLOW_HOOKS,
+  hooks: withFlowHooks({ ...createOnboardingHooks(flowDeps), ...createCloseHooks(closeDeps) }),
   now,
 };
 await startInboundWorker(boss, pipeline);
 logger.info({ channel: channel.kind }, 'message worker started');
 
-const appSecret =
-  config.whatsapp?.appSecret ?? (config.simulatorEnabled ? SIMULATOR_APP_SECRET : null);
 const app = createApp({
   db,
   logger,
   webDistDir: serveWeb ? WEB_DIST_DIR : null,
+  webApp: { now, storage, reportStorage: storage, chat: { ai: () => ai, logger } },
+  admin: {
+    logger,
+    now,
+    queue,
+    jobs,
+    broadcastTechnicalIssue: (incident) => broadcastTechnicalIssue(flowDeps, incident),
+  },
   webhook: {
     receive: { db, logger, channel, queue, now },
     logger,
     appSecret,
-    verifyToken: config.whatsapp?.verifyToken ?? null,
+    verifyToken,
   },
   simulator: simulatorStore ? { db, store: simulatorStore, now } : null,
 });

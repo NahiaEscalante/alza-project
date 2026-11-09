@@ -50,6 +50,23 @@ describe.skipIf(!hasTestDb)('onboarding (4.3, RF-ON-01..08, HU-01)', () => {
     await h.tap(phone, BUTTONS.close21);
   }
 
+  it('14.1: an outdated consent blocks recording until the current notice is accepted', async () => {
+    const h = createFlowHarness(db);
+    const user = await createOnboardedUser(db);
+    const phone = user.phoneE164;
+    if (!phone) throw new Error('missing phone');
+    await db.update(consents).set({ textVersion: 'outdated' }).where(eq(consents.userId, user.id));
+    await h.say(phone, 'vendí 5 de pan');
+    expect(await entriesOf(user.id)).toHaveLength(0);
+    expect(h.said(phone).map((m) => m.catalogId)).toEqual(['WA-01']);
+    expect((await inboundOf(user.id))[0]?.text).toBeNull();
+    await h.tap(phone, BUTTONS.consentAccept);
+    expect((await userRow(db, phone))?.onboardingStatus).toBe('complete');
+    h.ai.text('vendí 5 de pan', cashSale('5.00'));
+    await h.say(phone, 'vendí 5 de pan');
+    expect(await entriesOf(user.id)).toHaveLength(1);
+  });
+
   it('HU-01.1: an unknown number that says «Hola» gets the welcome with «Acepto» / «No, gracias»', async () => {
     const h = createFlowHarness(db);
     const phone = randomPhone();
@@ -201,6 +218,9 @@ describe.skipIf(!hasTestDb)('onboarding (4.3, RF-ON-01..08, HU-01)', () => {
         .slice(-2),
     ).toEqual(['WA-05', 'WA-05']);
     expect((await userRow(db, phone))?.onboardingStatus).toBe('close_time');
+    expect(bodyOf(h.said(phone).at(-1)?.content)).toBe(
+      'Puedo mandarte el cierre hasta las 2 a. m. ¿A qué hora cierras normalmente?',
+    );
 
     await h.say(phone, '9:30 pm');
     expect((await userRow(db, phone))?.closeTime).toBe('21:30:00');

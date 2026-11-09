@@ -1,0 +1,210 @@
+{
+  "date": "2026-11-09T03:46:44.381Z",
+  "durationMs": 5427,
+  "commit": "d3faad7",
+  "options": {
+    "only": [
+      "texts"
+    ],
+    "ids": [
+      "T-042",
+      "T-043"
+    ],
+    "outageRetries": false,
+    "routeFilters": {
+      "interpret_text": "gemini#1:"
+    },
+    "delayMs": 2000,
+    "limit": null
+  },
+  "models": {
+    "groqWhisper": "whisper-large-v3",
+    "groqText": "openai/gpt-oss-120b",
+    "groqVision": "qwen/qwen3.8-27b",
+    "geminiFlash": "gemini-3.5-flash",
+    "checkedAt": "2026-11-08",
+    "ocr": "tesseract.js@7/spa-tessdata_fast"
+  },
+  "routes": {
+    "classify_image": [
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash",
+      "groq:qwen/qwen3.8-27b"
+    ],
+    "extract_screenshot": [
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash",
+      "groq:qwen/qwen3.8-27b"
+    ],
+    "transcribe_audio": [
+      "groq:whisper-large-v3",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ],
+    "interpret_text": [
+      "gemini#1:gemini-3.5-flash"
+    ],
+    "interpret_close_reply": [
+      "groq:openai/gpt-oss-120b",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ],
+    "chat": [
+      "groq:openai/gpt-oss-120b",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ]
+  },
+  "promptVersions": {
+    "extract_screenshot": "extract_screenshot/2026-11-08.2",
+    "transcribe_audio": "transcribe_audio/2026-11-08.1",
+    "interpret_text": "interpret_text/2026-11-08.5",
+    "interpret_close_reply": "interpret_close_reply/2026-11-08.3",
+    "ocr_layouts": "ocr_layouts/2026-11-08.1"
+  },
+  "metrics": [
+    {
+      "measure": "Monto exacto en capturas legibles",
+      "threshold": "≥ 95 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.95,
+      "pass": null
+    },
+    {
+      "measure": "Dirección correcta (entra o sale)",
+      "threshold": "≥ 95 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.95,
+      "pass": null
+    },
+    {
+      "measure": "Fecha correcta cuando es visible",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.9,
+      "pass": null
+    },
+    {
+      "measure": "**Montos inventados** (incorrecto y sin duda)",
+      "threshold": "≤ 2 %",
+      "value": {
+        "ok": 0,
+        "total": 2
+      },
+      "lowerIsBetter": true,
+      "limit": 0.02,
+      "pass": true
+    },
+    {
+      "measure": "Ilegibles detectados como ilegibles",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.9,
+      "pass": null
+    },
+    {
+      "measure": "Operaciones correctas en audios y textos",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 0,
+        "total": 2
+      },
+      "limit": 0.9,
+      "pass": false
+    },
+    {
+      "measure": "Respuestas al cierre interpretadas correctamente",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.9,
+      "pass": null
+    }
+  ],
+  "extra": {
+    "degradedReadCorrectly": {
+      "ok": 0,
+      "total": 0
+    },
+    "readByOcrOnly": {
+      "ok": 0,
+      "total": 0
+    },
+    "textsCorrect": {
+      "ok": 0,
+      "total": 2
+    },
+    "audiosCorrect": {
+      "ok": 0,
+      "total": 0
+    }
+  },
+  "ocrTiming": null,
+  "routeStats": [
+    {
+      "routeId": "gemini#1:gemini-3.5-flash",
+      "fn": "interpret_text",
+      "calls": 1,
+      "ok": 0,
+      "failures": {
+        "rate_limit": 1
+      },
+      "latencyMsTotal": 1420,
+      "latencyMsMax": 1420,
+      "meanLatencyMs": 1420
+    }
+  ],
+  "items": [
+    {
+      "kind": "text",
+      "id": "T-042",
+      "case": "monto frente a cantidad de productos",
+      "result": null,
+      "meta": null,
+      "error": "unavailable",
+      "score": {
+        "correct": false,
+        "intentOk": false,
+        "invented": 0,
+        "problems": [
+          "unavailable"
+        ]
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-043",
+      "case": "monto frente a cantidad de productos",
+      "result": null,
+      "meta": null,
+      "error": "unavailable",
+      "score": {
+        "correct": false,
+        "intentOk": false,
+        "invented": 0,
+        "problems": [
+          "unavailable"
+        ]
+      }
+    }
+  ]
+}

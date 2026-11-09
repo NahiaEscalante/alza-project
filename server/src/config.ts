@@ -16,6 +16,7 @@ export const LOG_LEVELS = ['fatal', 'error', 'warn', 'info', 'debug', 'trace', '
 export type LogLevel = (typeof LOG_LEVELS)[number];
 
 const ENCRYPTION_KEY_BYTES = 32;
+const DEFAULT_META_API_VERSION = 'v25.0';
 
 const postgresUrl = z
   .string()
@@ -46,14 +47,19 @@ const envSchema = z.object({
   DATABASE_URL_TEST: postgresUrl.optional(),
   ENCRYPTION_KEY: encryptionKey,
   GROQ_API_KEY: z.string().optional(),
+  WHATSAPP_API_VERSION: z
+    .string()
+    .regex(/^v\d+\.\d+$/)
+    .default(DEFAULT_META_API_VERSION),
   WHATSAPP_ACCESS_TOKEN: z.string().optional(),
-  WHATSAPP_PHONE_NUMBER_ID: z.string().optional(),
+  WHATSAPP_PHONE_NUMBER_ID: z.string().regex(/^\d+$/).optional(),
   WHATSAPP_APP_SECRET: z.string().optional(),
   WHATSAPP_VERIFY_TOKEN: z.string().optional(),
   SIMULATOR_ENABLED: booleanFlag.optional(),
 });
 
 export interface WhatsAppConfig {
+  apiVersion: string;
   accessToken: string;
   phoneNumberId: string;
   appSecret: string;
@@ -144,6 +150,7 @@ export function loadConfig(rawEnv: Env): Config {
     whatsapp:
       whatsappSet.length === WHATSAPP_VARS.length
         ? {
+            apiVersion: e.WHATSAPP_API_VERSION,
             accessToken: e.WHATSAPP_ACCESS_TOKEN as string,
             phoneNumberId: e.WHATSAPP_PHONE_NUMBER_ID as string,
             appSecret: e.WHATSAPP_APP_SECRET as string,

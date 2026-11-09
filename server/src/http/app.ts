@@ -8,7 +8,7 @@ import { routePath } from 'hono/route';
 import { secureHeaders } from 'hono/secure-headers';
 import type { Db } from '../db/client.js';
 import type { Logger } from '../lib/logger.js';
-import { createApiRouter } from './api.js';
+import { type ApiDeps, createApiRouter } from './api.js';
 import { createSimulatorRouter, type SimulatorRouterDeps } from './routes/dev/simulator.js';
 import { createWebhookRouter, type WebhookRouterDeps } from './routes/webhook.js';
 
@@ -19,6 +19,8 @@ export interface AppDeps {
   webDistDir?: string | null;
   /** Max wait for the database ping in /health. */
   healthTimeoutMs?: number;
+  webApp?: ApiDeps['webApp'];
+  admin?: ApiDeps['admin'];
   /** `/webhook/whatsapp` (Fase 3). Omitted → not mounted. */
   webhook?: WebhookRouterDeps | null;
   /** `/dev/simulador` (D46), only when SIMULATOR_ENABLED. Posts through the webhook above. */
@@ -39,7 +41,7 @@ export function createApp(deps: AppDeps): Hono {
     return c.json({ status: dbOk ? 'ok' : 'error', db: dbOk ? 'ok' : 'error' }, dbOk ? 200 : 503);
   });
 
-  app.route('/api', createApiRouter({ db: deps.db }));
+  app.route('/api', createApiRouter({ db: deps.db, webApp: deps.webApp, admin: deps.admin }));
 
   if (deps.webhook) {
     app.route('/webhook', createWebhookRouter(deps.webhook));

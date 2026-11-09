@@ -106,7 +106,7 @@ server/
     domain/       [Fase 1] reglas de negocio como funciones puras (11, 13.1, 14.3)
     ai/           [Fase 2] capa de IA intercambiable (8.3): Groq y Gemini
     ocr/          [Fase 2] tesseract.js y lectores por diseño de captura
-    channel/      [Fase 3] interfaz de canal: simulado; Meta en la Fase 10
+    channel/      interfaz de canal: simulador y Meta Cloud API (Fase 10)
     pipeline/     [Fase 3] worker: clasificar, leer, interpretar, registrar, dudas
     messages/     [Fase 4–5] catálogo 12.1 como plantillas: única forma de enviar
     flows/        [Fase 4–5] alta, excepciones, cierre y su respuesta
@@ -194,8 +194,12 @@ docker/postgres/init/   crea alza_test al iniciar el volumen
 
 ## Estado actual
 
-- **Fase de descubrimiento:** cerrada (spec v1.6, decisiones hasta D52).
+- **Fase de descubrimiento:** cerrada (spec v1.7, decisiones D01–D52 y D68; D53–D67 en `FASES.md`).
 - **Desarrollo:** plan por fases en `FASES.md` (Fase 0 a Fase 11). Marcar ahí cada avance.
 - **Fase 0 · Cimientos:** lista (el despliegue en Railway pasó a la Fase 10).
-- **Fases en curso:** 1 (reglas), 2 (lectura de capturas y audios) y 9 (landing), en paralelo.
+- **Fases 1–7 y 9:** implementadas. Integración del arranque terminada: alta, cierre, cinco tareas en Lima y API del panel conectados.
+- **Fase 8:** pruebas de seguridad completas; ajuste de consumo del chat implementado, pendiente medir con cuota de IA disponible.
+- **Verificación:** 927 pruebas pasan con Postgres, más tipos, lint, build y alta completa mediante el servidor real y pg-boss. Detalles en `docs/ALZA_VALIDACION_INTEGRACION.md`.
+- **Fase 10:** app de Meta creada, credenciales guardadas y adaptador implementado y probado. Para usarlo: `SIMULATOR_ENABLED=false`; `WHATSAPP_API_VERSION` por defecto `v25.0`. Pendientes Railway, webhook público, token permanente y recorrido desde el celular.
+- **Siguiente:** despliegue en Railway y prueba real de Meta; certificación individual de IA cuando haya cuota; Fase 11 (demo).
 - **Insumos pendientes:** ver `docs/ALZA_INSUMOS_PENDIENTES.md`.

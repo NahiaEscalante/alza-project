@@ -6,6 +6,7 @@
  * `POST /webhook/whatsapp` path the real number will use; ALZA's answers are whatever the
  * simulated channel delivered. Development tool: it shows her data on screen, never in logs.
  */
+
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { extname, join, relative, resolve, sep } from 'node:path';
 import { and, desc, eq, isNull } from 'drizzle-orm';
@@ -29,6 +30,7 @@ import {
   users,
 } from '../../../db/schema.js';
 import { formatSoles, isValidCloseTime, normalizeName } from '../../../domain/index.js';
+import { CONSENT_TEXT_VERSION } from '../../../messages/consent.js';
 import { REPO_ROOT } from '../../../paths.js';
 import { SIMULATOR_PAGE } from './simulator-page.js';
 
@@ -202,7 +204,7 @@ export function createSimulatorRouter(deps: SimulatorRouterDeps): Hono {
       if (!row) throw new Error('user upsert returned no row');
       await tx
         .insert(consents)
-        .values({ userId: row.id, textVersion: 'simulator', accepted: true });
+        .values({ userId: row.id, textVersion: CONSENT_TEXT_VERSION, accepted: true });
       return row;
     });
     return c.json({ id: user.id, phone: user.phoneE164 }, 201);
