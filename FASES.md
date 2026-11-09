@@ -29,7 +29,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
 - **Canal de la demo:** Telegram (D71–D74) desplegado en Railway con el webhook registrado; el bot responde. Falta el recorrido completo desde un celular (`docs/ALZA_TELEGRAM_SETUP.md`).
-- 🔄 **Ajustes de la landing y de premios (D75–D78):** desplegando en Railway.
+- **Ajustes de la landing y de premios (D75–D78):** desplegados en Railway el 9 nov 2026 (`822d08b`); sitio y catálogo de premios verificados en vivo.
 
 **Siguiente:** hacer el recorrido real por Telegram desde un celular; reintentar la certificación de IA cuando se restablezcan las cuotas; Fase 11 (demo). Ver `docs/ALZA_VALIDACION_INTEGRACION.md`.
 
