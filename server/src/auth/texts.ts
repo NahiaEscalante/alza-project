@@ -29,7 +29,9 @@ export function wrongPinMessage(attemptsLeft: number): string {
 
 /** HU-10: «se le explica cuándo puede volver a intentar». */
 export function lockedMessage(until: Date, justLocked: boolean): string {
-  const when = `Puedes volver a intentar a las ${formatTime12(until)}.`;
+  // «3:10 p. m.» already ends with a period.
+  const time = formatTime12(until);
+  const when = `Puedes volver a intentar a las ${time}${time.endsWith('.') ? '' : '.'}`;
   return justLocked
     ? `Escribiste mal tu PIN 5 veces. Por seguridad, espera 15 minutos. ${when}`
     : `Tu PIN está bloqueado por unos minutos. ${when}`;

@@ -5,7 +5,7 @@ import { Landing } from './landing/Landing';
 import { PrivacyPage } from './landing/PrivacyPage';
 
 // The user's web is split out so the public landing stays light (RNF-06).
-const AppHome = lazy(() => import('./routes/AppHome'));
+const AppRoot = lazy(() => import('./app/AppRoot'));
 
 export function App() {
   return (
@@ -14,7 +14,7 @@ export function App() {
       <Route path="/privacidad" component={PrivacyPage} />
       <Route path="/app" nest>
         <Suspense fallback={null}>
-          <AppHome />
+          <AppRoot />
         </Suspense>
       </Route>
       <Route>

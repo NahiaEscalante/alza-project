@@ -9,6 +9,7 @@ import { Hono } from 'hono';
 import type { AuthEnv } from '../../../auth/index.js';
 import { registerAccountRoutes } from './account.js';
 import { registerAuthRoutes } from './auth.js';
+import { registerCounterpartyRuleRoutes } from './counterparty-rules.js';
 import { resolveDeps, type WebAppRouterDeps } from './deps.js';
 import { noStore } from './http.js';
 import { registerLedgerRoutes } from './ledger.js';
@@ -37,5 +38,6 @@ export function createWebAppRouter(options: WebAppRouterDeps): Hono<AuthEnv> {
   registerAuthRoutes(router, deps);
   registerLedgerRoutes(router, deps);
   registerAccountRoutes(router, deps);
+  registerCounterpartyRuleRoutes(router, deps);
   return router;
 }
