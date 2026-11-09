@@ -1,7 +1,7 @@
 import { PointsStar, RewardArt, type RewardKind } from './icons';
-import { ExampleTag, Eyebrow, groupThousands, Section } from './ui';
+import { Eyebrow, groupThousands, Section } from './ui';
 
-/** «Premios por constancia» (13.1, 13.2). The catalog is an example and says so (3.2). */
+/** «Premios por constancia» (13.1, 13.2). Without the example-catalog notes on the landing (D75). */
 
 const EARN = [
   { label: 'Cierre completo', points: 10 },
@@ -74,10 +74,7 @@ export function Rewards() {
         </div>
 
         <div>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h3 className="text-xl font-bold text-text">Premios por meta</h3>
-            <ExampleTag>Catálogo de ejemplo</ExampleTag>
-          </div>
+          <h3 className="text-xl font-bold text-text">Premios por meta</h3>
           <ul className="mt-4 grid gap-3 sm:grid-cols-2">
             {REWARDS.map((r) => (
               <li
@@ -108,10 +105,6 @@ export function Rewards() {
               </p>
             </div>
           </div>
-
-          <p className="mt-4 text-[15px] text-muted">
-            Estos premios son de ejemplo para la demo: todavía no son premios reales.
-          </p>
         </div>
       </div>
     </Section>

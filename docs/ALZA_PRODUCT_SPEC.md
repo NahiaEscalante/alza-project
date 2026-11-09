@@ -1,6 +1,6 @@
 # ALZA · Especificación de producto
 
-**Versión:** 1.9 (borrador de trabajo), 9 de noviembre de 2026
+**Versión:** 1.10 (borrador de trabajo), 9 de noviembre de 2026
 **Estado:** fuente de verdad para diseño, implementación y pruebas. Solo cambia con una decisión registrada en la sección 2.
 **Documentos relacionados:**
 - Flujos del sistema (artifact): https://claude.ai/artifact/HUR61TjkAHxgbHYRYpTxj1
@@ -174,6 +174,7 @@ Bodeguera peruana con un negocio que ya funciona:
 | D72 | Identidad en Telegram: la cuenta sigue siendo el número (D31). Un chat desconocido recibe WA-23 con el botón nativo «Compartir mi número»; solo se acepta su propio contacto (`contact.user_id = from.id`). El número se normaliza a E.164, se busca o crea la cuenta por número y se guarda `usuarias.telegram_chat_id`; WA-24 retira el teclado y sigue el alta normal (WA-01). Antes de vincular no se procesa ni se guarda nada de ese chat; WA-23 se repite como máximo cada 30 s tras `/start` o un contacto ajeno, y cada 2 minutos ante otros mensajes. En un chat vinculado, contactos, stickers y videos reciben 👍 y no se guardan. Borrar la cuenta desvincula el chat. | Canal de la demo, 9 nov 2026 |
 | D73 | Textos según el canal: WA-01 y WA-06 tienen variante para Telegram (12.1; WA-06 dice «verás un 👍 en cada mensaje»). En la web y en los textos del sistema, «en WhatsApp» pasa a «en el chat de ALZA», y dentro de la web se dice «el chat donde mandas tus capturas» para no confundirlo con la pestaña Chat. La ayuda de la galería (D27) sigue describiendo WhatsApp. | Canal de la demo, 9 nov 2026 |
 | D74 | Mitigaciones de privacidad y cuota para la demo pública: en Telegram, WA-01 agrega «Es una demo: usa capturas y datos de prueba, no los reales de tu negocio» y se guarda como versión `wa-01-v2-demo`, con la regla de 14.1 para volver a pedir el consentimiento; las capturas se leen solo con OCR local, salvo `AI_VISION_FALLBACK=true` (lo que no se lee es duda «ilegible», sin reintentos); se aceptan como máximo 150 mensajes entrantes por usuaria y día del negocio, y los que pasan se ignoran en silencio y solo dejan ids en los registros. Los límites de los modelos de IA siguen con los reintentos de la cola. | Canal de la demo, 9 nov 2026 |
+| D75 | En la landing se retiran la etiqueta «Catálogo de ejemplo» y la nota «Estos premios son de ejemplo para la demo: todavía no son premios reales.» de la sección de premios, por solicitud de la dueña del proyecto. La pantalla Premios de la web sigue marcando el catálogo como ejemplo. | Ajuste de textos, 9 nov 2026 |
 
 ### 2.3 Defaults aceptados sin objeción [DEF]
 
@@ -2079,3 +2080,4 @@ Palabras que ella ve en WhatsApp y en la web. La palabra «ganancia» no se usa.
 | 9 nov 2026 | 1.8 | D69: canal opcional 360dialog Sandbox para pruebas; registro de sus limitaciones y autenticación del webhook. |
 | 9 nov 2026 | 1.8 | D70: retiro de la frase de ejemplo y enlaces oficiales en la pantalla de descarga del historial, por solicitud de la dueña. |
 | 9 nov 2026 | 1.9 | D71 a D74: Telegram como canal de la demo pública, elegido por variable (D71); identidad por número compartido con `usuarias.telegram_chat_id`, WA-23 y WA-24 en 12.1 (D72); variantes de WA-01 y WA-06 para Telegram y textos «en el chat de ALZA» (D73); aviso de demo con versión de consentimiento `wa-01-v2-demo`, OCR local sin visión por defecto y tope de 150 mensajes por día (D74). Fila de Telegram en la sección 15 y nota en 14.1. |
+| 9 nov 2026 | 1.10 | D75: retiro de la etiqueta y la nota de catálogo de ejemplo en la sección de premios de la landing, por solicitud de la dueña. |
