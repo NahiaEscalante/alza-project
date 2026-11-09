@@ -5,7 +5,7 @@
  */
 export const WAITLIST_CONSENT_VERSION = 'waitlist-v1';
 
-/** Shown under the checkbox so the visitor knows which text she accepted. */
+/** Shown on the privacy page so the visitor knows which text she accepted (D77). */
 export const WAITLIST_CONSENT_LABEL = 'Texto de consentimiento v1 · 8 nov 2026';
 
 export const WAITLIST_CONSENT_TEXT =

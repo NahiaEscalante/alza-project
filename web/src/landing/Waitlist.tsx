@@ -1,6 +1,6 @@
 import { type FormEvent, type ReactNode, useEffect, useId, useRef, useState } from 'react';
 import { Link } from 'wouter';
-import { WAITLIST_CONSENT_LABEL, WAITLIST_CONSENT_TEXT, WAITLIST_CONSENT_VERSION } from './consent';
+import { WAITLIST_CONSENT_TEXT, WAITLIST_CONSENT_VERSION } from './consent';
 import { AlertIcon, CheckIcon } from './icons';
 import { JuryQr } from './JuryQr';
 import { normalizePeruMobile } from './phone';
@@ -213,7 +213,7 @@ function WaitlistForm({ onDone }: { onDone: (who: { name: string; phone: string 
             checked={values.consent}
             onChange={(e) => update('consent', e.target.checked)}
             aria-invalid={errors.consent ? true : undefined}
-            aria-describedby={`${idFor('consent')}-version${errors.consent ? ` ${idFor('consent')}-error` : ''}`}
+            aria-describedby={errors.consent ? `${idFor('consent')}-error` : undefined}
             className="mt-0.5 size-6 shrink-0 cursor-pointer accent-purple"
           />
           <span className="text-[15px] leading-snug text-text">
@@ -226,9 +226,6 @@ function WaitlistForm({ onDone }: { onDone: (who: { name: string; phone: string 
             </Link>
           </span>
         </label>
-        <p id={`${idFor('consent')}-version`} className="mt-2 pl-1 text-sm text-muted">
-          {WAITLIST_CONSENT_LABEL}
-        </p>
         <FieldError id={`${idFor('consent')}-error`} message={errors.consent} />
       </div>
 

@@ -5,7 +5,8 @@ import { demoTelegramBot } from './phone';
  * (`web/public/qr-telegram.webp`, cropped from `imgs/qr-code.jpg`) and a deep link
  * (`https://t.me/<bot>?start=landing`). WhatsApp stays the product vision in the rest of the
  * landing; the public demo runs on Telegram while Meta's account is blocked. The bot comes from
- * `VITE_ALZA_TELEGRAM_BOT` (default `alzaagentbot`).
+ * `VITE_ALZA_TELEGRAM_BOT` (default `alzaagentbot`). Without the eyebrow and the note under the
+ * button (D77); the bot itself still warns it is a demo (WA-01, D74).
  */
 const BOT = demoTelegramBot(import.meta.env.VITE_ALZA_TELEGRAM_BOT);
 const TELEGRAM_URL = `https://t.me/${BOT}?start=landing`;
@@ -13,8 +14,7 @@ const TELEGRAM_URL = `https://t.me/${BOT}?start=landing`;
 export function JuryQr() {
   return (
     <div className="flex h-full flex-col rounded-[28px] bg-navy p-6 text-white sm:p-7">
-      <p className="text-sm font-bold uppercase tracking-[0.08em] text-[#c9b6ff]">Demo abierta</p>
-      <h3 className="mt-2 text-2xl font-extrabold">Pruébalo hoy en Telegram</h3>
+      <h3 className="text-2xl font-extrabold">Pruébalo hoy en Telegram</h3>
       <p className="mt-2 text-[#d6ddf5]">
         Escanea el código con la cámara de tu celular, abre el chat de ALZA en Telegram y toca
         «Iniciar». Te pedirá tu número para crear tu cuenta.
@@ -40,10 +40,6 @@ export function JuryQr() {
       >
         Abrir en Telegram
       </a>
-      <p className="mt-4 text-sm text-[#d6ddf5]">
-        Es una demo: usa capturas y datos de prueba, no los reales de tu negocio. ALZA está pensado
-        para WhatsApp; mientras tanto, la demo funciona en Telegram.
-      </p>
     </div>
   );
 }
