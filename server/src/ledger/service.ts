@@ -577,6 +577,16 @@ function requireLiveEntry(entry: LedgerEntry | null): LedgerEntry {
   return entry;
 }
 
+/**
+ * Where the rows a resolution writes come from. Default: source `web` (or `chat`), and new rows
+ * flagged «agregado después del cierre» when the day's close was already sent. The close reply
+ * (Fase 5) passes `{ source: 'close_reply', afterClose: false }`: her answer is part of the close.
+ */
+export interface ResolutionOrigin {
+  source: LedgerEntrySource;
+  afterClose?: boolean;
+}
+
 /** Resolves a doubt from Pendientes (or, later, from the chat or the close reply). */
 export async function resolveClarification(
   db: DbOrTx,
@@ -586,6 +596,7 @@ export async function resolveClarification(
     resolution: ClarificationResolution;
     actor: Actor;
     now: Date;
+    origin?: ResolutionOrigin;
   },
 ): Promise<ResolveClarificationResult> {
   const { userId, actor, now } = input;
@@ -606,7 +617,7 @@ export async function resolveClarification(
 
     const linked = c.ledgerEntryId ? await lockEntry(tx, userId, c.ledgerEntryId) : null;
     const detail = (c.detail ?? {}) as ClarificationDetail;
-    const origin: EntryOrigin = { source: defaultSource(actor) };
+    const origin: EntryOrigin = { source: input.origin?.source ?? defaultSource(actor) };
     const reason = `clarification:${c.type}`;
     let entry: LedgerEntry | null = null;
     let outcome: string = r.action;
@@ -624,7 +635,8 @@ export async function resolveClarification(
           userId,
           businessDay: c.businessDay,
           inboundMessageId: c.inboundMessageId,
-          afterClose: await closeAlreadySent(tx, userId, c.businessDay),
+          afterClose:
+            input.origin?.afterClose ?? (await closeAlreadySent(tx, userId, c.businessDay)),
           ...values,
         },
         actor,

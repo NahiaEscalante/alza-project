@@ -187,13 +187,13 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Objetivo:** el mensaje único de cierre sale, se responde en un solo mensaje y el día queda con su nivel.
 
-- [ ] 🔄 Composición del cierre: resumen, hasta 5 dudas que quepan, cuadre al final, líneas informativas, bloque del domingo y enlace de 7 días (WA-10, D37).
+- [x] Composición del cierre: resumen, hasta 5 dudas que quepan, cuadre al final, líneas informativas, bloque del domingo y enlace de 7 días (WA-10, D37). (`server/src/flows/close`, textos en `server/src/messages/close.ts`.)
 - [x] Imagen de resumen con plantilla y código (Satori y resvg): 4 variantes, menos de 150 KB, comparación visual automática (8.6). (36–72 KB, ~200 ms; `npm run render:preview -w server`.)
-- [ ] 🔄 Envío a la hora de cada usuaria (cada 5 minutos) o al escribir «cierre».
-- [ ] 🔄 Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
-- [ ] 🔄 Nivel del cierre y confirmación con puntos (WA-12).
-- [ ] 🔄 Respuestas fuera de plazo (WA-18) y ajustes después del cierre (PR03).
-- [ ] 🔄 Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta.
+- [x] Envío a la hora de cada usuaria (cada 5 minutos, `registerCloseJobs`) o al escribir «cierre» (WA-21, WA-22).
+- [x] Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
+- [x] Nivel del cierre y confirmación con puntos (WA-12, puntos provisionales hasta las 12:00).
+- [x] Respuestas fuera de plazo (WA-18) y ajustes después del cierre (PR03).
+- [x] Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta. (31 pruebas; recorrido en `/dev/simulador` con «cierre» y respuesta. Falta conectar `createCloseHooks` y `registerCloseJobs` en `src/index.ts`.)
 
 **Listo cuando:** los días tipo pasan en el simulador (HU-06, HU-07).
 

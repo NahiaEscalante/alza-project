@@ -575,6 +575,18 @@ export const dailyCloses = pgTable(
     clarificationRounds: integer('clarification_rounds').notNull().default(0),
     /** wa_message_id of the close message (wa_message_id_cierre). */
     closeWaMessageId: text('close_wa_message_id'),
+    /**
+     * [Fase 5] What the close message carried, never its text: format sent, her «solo texto»
+     * preference at that moment (D27 line), the week summarized (11.11, D38) and how many doubts
+     * went to the web. Shape: `CloseComposition` in `flows/close/types.ts`.
+     */
+    composition: jsonb('composition'),
+    /**
+     * [Fase 5] Replies applied to this close, one per inbound message, so a retried message job
+     * never applies a reply twice (FlowHooks contract). Ids and catalog ids only, never content.
+     * Shape: `CloseReplyLogEntry[]` in `flows/close/types.ts`.
+     */
+    replyLog: jsonb('reply_log'),
     createdAt: createdAt(),
   },
   (t) => [

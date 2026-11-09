@@ -159,6 +159,8 @@ export function sampleReportRows(period: ReportPeriod = '4_weeks'): ReportRows {
       improvedLevel: null,
       clarificationRounds: 0,
       closeWaMessageId: null,
+      composition: null,
+      replyLog: null,
       createdAt: limaInstant(day, 4),
     });
   }
