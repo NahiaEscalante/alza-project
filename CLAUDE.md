@@ -194,8 +194,10 @@ docker/postgres/init/   crea alza_test al iniciar el volumen
 
 ## Estado actual
 
-- **Fase de descubrimiento:** cerrada (spec v1.6, decisiones hasta D52).
-- **Desarrollo:** plan por fases en `FASES.md` (Fase 0 a Fase 11). Marcar ahí cada avance.
-- **Fase 0 · Cimientos:** lista (el despliegue en Railway pasó a la Fase 10).
-- **Fases en curso:** 1 (reglas), 2 (lectura de capturas y audios) y 9 (landing), en paralelo.
-- **Insumos pendientes:** ver `docs/ALZA_INSUMOS_PENDIENTES.md`.
+- **Descubrimiento:** cerrado (spec v1.6). Decisiones nuevas D53 en adelante están en `FASES.md` (falta pasarlas a la spec).
+- **Avance:** ver `FASES.md`. Listas en `main`: Fases 0–7 y 9; de la 8, chat, descarga y panel interno.
+- **Trabajo a medias (sin verificar):** rama `wip/integracion-ia` → integración en `server/src/index.ts` + recorrido completo, y ajuste de IA (consumo del chat, «vendí 5 de pan», certificación D35). Detalle en «En curso ahora» de `FASES.md`.
+- **Al retomar:** trabajar en `wip/integracion-ia`; `npm run db:up`, `npm run db:migrate`, `npm run typecheck`, `npm test`; terminar, verificar y unir a `main`.
+- **Regla acordada:** detenerse ANTES de la Fase 10 (WhatsApp real / Meta). La dueña configura Meta primero; luego Fase 10 y 11.
+- **Pruebas en paralelo:** cada agente usa su propia base (`DATABASE_URL_TEST=postgres://alza:alza@localhost:5433/alza_test_a` … `_e`) porque el setup borra el esquema.
+- **`.env` no está en git:** pedir las llaves (Gemini ×3, Groq) por un canal privado; `ENCRYPTION_KEY` se genera con `openssl rand -base64 32`.
