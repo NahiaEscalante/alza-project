@@ -18,13 +18,9 @@ export function Hero() {
       />
       <div className="relative mx-auto grid max-w-6xl gap-x-10 gap-y-10 px-4 pb-16 pt-8 sm:px-6 sm:pt-14 lg:grid-cols-[1.1fr_1fr] lg:grid-rows-[auto_auto] lg:gap-y-8 lg:pb-20 lg:pt-10">
         <div className="lg:row-start-1 lg:self-end">
-          <p className="inline-flex items-center gap-2 rounded-2xl border border-[#d9c8ff] bg-white/80 px-3.5 py-1.5 text-sm font-semibold text-purple sm:rounded-full">
-            <span className="size-2 shrink-0 rounded-full bg-mint" aria-hidden="true" />
-            Para bodegueras que cobran con Yape, Plin y efectivo
-          </p>
           <h1
             id="hero-title"
-            className="mt-5 text-[40px] font-extrabold leading-[1.05] tracking-[-0.02em] text-navy sm:text-[56px] lg:text-[64px]"
+            className="text-[40px] font-extrabold leading-[1.05] tracking-[-0.02em] text-navy sm:text-[56px] lg:text-[64px]"
           >
             Tus cuentas{' '}
             <span className="relative whitespace-nowrap text-purple">
