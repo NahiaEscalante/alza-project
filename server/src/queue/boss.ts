@@ -31,13 +31,25 @@ export async function stopBoss(boss: PgBoss, timeoutMs = 10_000): Promise<void> 
   await boss.stop({ graceful: true, timeout: timeoutMs });
 }
 
+export interface LimaScheduleOptions {
+  /**
+   * Occurrences that came due while no process was running (a deploy at 12:00): `skip` (pg-boss
+   * default) sends nothing; `once` sends one job for the latest missed occurrence on startup.
+   */
+  missed?: 'skip' | 'once';
+}
+
 /** Creates the queue if needed and (re)defines its cron schedule in America/Lima. */
 export async function scheduleInLima(
   boss: PgBoss,
   queue: string,
   cron: string,
   data: object | null = null,
+  options: LimaScheduleOptions = {},
 ): Promise<void> {
   await boss.createQueue(queue);
-  await boss.schedule(queue, cron, data, { tz: QUEUE_TIMEZONE });
+  await boss.schedule(queue, cron, data, {
+    tz: QUEUE_TIMEZONE,
+    ...(options.missed ? { missed: options.missed } : {}),
+  });
 }

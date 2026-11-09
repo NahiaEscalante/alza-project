@@ -26,7 +26,7 @@ describe('scheduled job table (8.4)', () => {
       'retention-cleanup': { cron: '0 3 * * *' },
       'points-expiry': { cron: '0 4 * * *' },
       'antifraud-scan': { cron: '0 5 * * *' },
-      'close-finalize': { cron: '0 12 * * *' },
+      'close-finalize': { cron: '0 12 * * *', missed: 'once' },
     });
   });
 
@@ -70,6 +70,7 @@ describe.skipIf(!hasTestDb)('registerScheduledJobs', () => {
           cron: SCHEDULED_JOBS[name].cron,
           timezone: QUEUE_TIMEZONE,
         });
+        expect(schedule?.options?.missed).toBe(SCHEDULED_JOBS[name].missed);
       }
 
       // The worker picks up a job of its queue.

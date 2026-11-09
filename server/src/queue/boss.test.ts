@@ -16,6 +16,12 @@ describe.skipIf(!hasTestDb)('pg-boss', () => {
         timezone: QUEUE_TIMEZONE,
       });
       await boss.unschedule('test-noon');
+
+      await scheduleInLima(boss, 'test-noon-missed', '0 12 * * *', null, { missed: 'once' });
+      const [missed] = await boss.getSchedules('test-noon-missed');
+      expect(missed?.timezone).toBe(QUEUE_TIMEZONE);
+      expect(missed?.options).toMatchObject({ missed: 'once', tz: QUEUE_TIMEZONE });
+      await boss.unschedule('test-noon-missed');
     } finally {
       await stopBoss(boss, 2_000);
     }

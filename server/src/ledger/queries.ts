@@ -171,8 +171,11 @@ function buildDayView(
   now: Date,
 ): DayView {
   const indicators = computeIndicators(entries);
-  const hasActivity = entries.length > 0 || pendingCount > 0 || close !== undefined;
-  const level = effectiveLevel(day, close, hasActivity, now);
+  // A close row alone is not activity: the 12:00 job (Fase 6) also writes a final `no_close` row
+  // for days without anything (9.2 «sin actividad»). A close message that went out is.
+  const hasActivity =
+    entries.length > 0 || pendingCount > 0 || (close !== undefined && close.sentAt !== null);
+  const level = hasActivity ? effectiveLevel(day, close, hasActivity, now) : null;
   const cashUnreviewed =
     close !== undefined &&
     close.sentAt !== null &&

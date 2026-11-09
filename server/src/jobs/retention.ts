@@ -8,6 +8,8 @@
  *   bytes): `isMediaOriginalDeleted()` reads it. Extractions and ledger entries are untouched.
  * - Expired access links (activation and 7-day links) are deleted.
  * - Waitlist signups older than 6 months are deleted (D52).
+ * - Downloaded reports older than 7 days lose their files; the row stays for metrics (13.5).
+ *   `deleteExpiredReports` (reports/) cannot be limited to some users, so scoped runs skip it.
  *
  * Idempotent: a second run finds nothing to do. Storage first, then the row: if marking fails, the
  * next run deletes nothing more and marks it.
@@ -15,6 +17,7 @@
 import { and, asc, eq, gt, inArray, like, lt, lte, not } from 'drizzle-orm';
 import type { Db } from '../db/client.js';
 import { accessLinks, type MediaFile, mediaFiles, waitlistSignups } from '../db/schema.js';
+import { deleteExpiredReports } from '../reports/service.js';
 import type { BlobStorage } from '../storage/blob-storage.js';
 import { userScope } from './active-users.js';
 import { monthsBefore } from './calendar.js';
@@ -40,6 +43,8 @@ export interface RetentionSummary {
   mediaOriginalsDeleted: number;
   accessLinksDeleted: number;
   waitlistSignupsDeleted: number;
+  /** Reports whose PDF/Excel files were deleted (0 on scoped runs). */
+  reportsExpired: number;
 }
 
 /** PR07: deletes the bytes of originals past `delete_after` and marks their rows. */
@@ -123,5 +128,6 @@ export async function runRetentionCleanup(
     mediaOriginalsDeleted: await purgeExpiredMedia(deps, now, scope),
     accessLinksDeleted: await deleteExpiredAccessLinks(deps.db, now, scope),
     waitlistSignupsDeleted: await deleteOldWaitlistSignups(deps.db, now, scope),
+    reportsExpired: scope ? 0 : await deleteExpiredReports(deps.db, deps.storage, now),
   };
 }

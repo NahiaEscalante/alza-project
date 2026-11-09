@@ -2,7 +2,7 @@ import { randomBytes, randomUUID } from 'node:crypto';
 import { eq, inArray } from 'drizzle-orm';
 import { afterAll, describe, expect, it } from 'vitest';
 import { createTestDb, hasTestDb, testEncryptionKey } from '../../test/db.js';
-import { accessLinks, mediaFiles, waitlistSignups } from '../db/schema.js';
+import { accessLinks, mediaFiles, reports, waitlistSignups } from '../db/schema.js';
 import { DAY_MS, limaInstant } from '../domain/index.js';
 import { PostgresBlobStorage } from '../storage/postgres-blob-storage.js';
 import { deletedMediaKey, isMediaOriginalDeleted, runRetentionCleanup } from './retention.js';
@@ -110,5 +110,39 @@ describe.skipIf(!hasTestDb)('03:00 retention cleanup (14.2, PR07, D52)', () => {
       .from(waitlistSignups)
       .where(inArray(waitlistSignups.id, ids));
     expect(left.map((row) => row.id)).toEqual([ids[1]]);
+  });
+  it('deletes the files of reports older than 7 days and keeps the row (unscoped runs only)', async () => {
+    const userId = await createActiveUser(db, { consentAt: limaInstant('1999-12-01', 9) });
+    const keys = [
+      `reports/${userId}/${randomUUID()}.pdf`,
+      `reports/${userId}/${randomUUID()}.xlsx`,
+    ];
+    for (const key of keys) await storage.put(key, Buffer.from('report bytes'));
+    // In the year 2000, where no other test has data: an unscoped run touches only this row.
+    const [report] = await db
+      .insert(reports)
+      .values({
+        userId,
+        period: '4_weeks',
+        pdfStorageKey: keys[0],
+        xlsxStorageKey: keys[1],
+        createdAt: limaInstant('2000-01-01', 10),
+      })
+      .returning({ id: reports.id });
+    const now = limaInstant('2000-01-09', 3);
+
+    expect(
+      (await runRetentionCleanup({ db, storage }, now, { userIds: [userId] })).reportsExpired,
+    ).toBe(0);
+    const summary = await runRetentionCleanup({ db, storage }, now);
+    expect(summary.reportsExpired).toBe(1);
+    for (const key of keys) expect(await storage.get(key)).toBeNull();
+    const [kept] = await db
+      .select()
+      .from(reports)
+      .where(eq(reports.id, report?.id ?? ''));
+    expect(kept).toMatchObject({ pdfStorageKey: null, xlsxStorageKey: null });
+
+    expect((await runRetentionCleanup({ db, storage }, now)).reportsExpired).toBe(0);
   });
 });

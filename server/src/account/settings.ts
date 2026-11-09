@@ -4,6 +4,7 @@
  * kept in the browser only (D51): the server does not store it.
  */
 import { and, asc, eq, inArray } from 'drizzle-orm';
+import { checkHolderConflict } from '../antifraud/holder-conflict.js';
 import type { Db } from '../db/client.js';
 import { accountHolders, users } from '../db/schema.js';
 import { MAX_ADDITIONAL_HOLDERS, normalizeName } from '../domain/index.js';
@@ -70,6 +71,7 @@ export async function updateSettings(
   db: Db,
   userId: string,
   patch: SettingsPatch,
+  options: { now?: Date } = {},
 ): Promise<SettingsView> {
   await inTransaction(db, async (tx) => {
     const [user] = await tx.select().from(users).where(eq(users.id, userId)).for('update');
@@ -116,6 +118,11 @@ export async function updateSettings(
         await tx
           .insert(accountHolders)
           .values(added.map(([nameNormalized, name]) => ({ userId, name, nameNormalized })));
+        // 13.4 / case 22: a holder another account already has only raises an alert (and her
+        // points wait for the review); saving it is never blocked.
+        for (const [nameNormalized] of added) {
+          await checkHolderConflict(tx, userId, nameNormalized, { now: options.now });
+        }
       }
     }
   });

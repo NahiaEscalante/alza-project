@@ -77,7 +77,7 @@ export function registerAccountRoutes(router: Hono<AuthEnv>, deps: RouteDeps): v
     const body = await readJson(c, settingsBody);
     if (!body.ok) return body.response;
     try {
-      return c.json(await updateSettings(db, c.var.session.userId, body.data));
+      return c.json(await updateSettings(db, c.var.session.userId, body.data, { now: now() }));
     } catch (err) {
       if (err instanceof SettingsError) {
         return c.json({ error: err.code, message: err.message }, 400);

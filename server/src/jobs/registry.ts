@@ -10,7 +10,8 @@
  * |                     |              | the web. On Mondays it also gives the weekly bonus (it is  |
  * |                     |              | awarded when Sunday becomes final, in the same run).       |
  *
- * The 5-minute close sender of 8.4 belongs to Fase 5.
+ * The 12:00 schedule uses pg-boss `missed: 'once'`: if the server was down at 12:00 (a deploy),
+ * it runs on startup. The 5-minute close sender of 8.4 belongs to Fase 5.
  *
  * Every task is idempotent and catches up after a missed run, so pg-boss retries (and a manual
  * `runJobNow` from the demo or the panel) are safe. Logs carry only the job name, its id and
@@ -24,12 +25,16 @@ import { expireInactivePoints } from './points-expiry.js';
 import { runRetentionCleanup } from './retention.js';
 import type { JobScope, ScheduledJobsDeps } from './types.js';
 
-export const SCHEDULED_JOBS = {
+export const SCHEDULED_JOBS: Record<
+  'retention-cleanup' | 'points-expiry' | 'antifraud-scan' | 'close-finalize',
+  { cron: string; missed?: 'once' }
+> = {
   'retention-cleanup': { cron: '0 3 * * *' },
   'points-expiry': { cron: '0 4 * * *' },
   'antifraud-scan': { cron: '0 5 * * *' },
-  'close-finalize': { cron: '0 12 * * *' },
-} as const;
+  // A deploy at 12:00 runs it on startup instead of waiting for tomorrow's catch-up.
+  'close-finalize': { cron: '0 12 * * *', missed: 'once' },
+};
 
 export type ScheduledJobName = keyof typeof SCHEDULED_JOBS;
 export const SCHEDULED_JOB_NAMES = Object.keys(SCHEDULED_JOBS) as ScheduledJobName[];
@@ -123,7 +128,8 @@ export async function registerScheduledJobs(
   for (const name of SCHEDULED_JOB_NAMES) {
     // Created before scheduleInLima (which creates it without options): 2 retries a minute apart.
     await boss.createQueue(name, { retryLimit: 2, retryDelay: 60, expireInSeconds: 1_800 });
-    await scheduleInLima(boss, name, SCHEDULED_JOBS[name].cron);
+    const { cron, missed } = SCHEDULED_JOBS[name];
+    await scheduleInLima(boss, name, cron, null, { missed });
     await boss.work(name, async (jobs) => {
       for (const job of jobs) {
         const summary = await runScheduledJob(deps, name, clock());

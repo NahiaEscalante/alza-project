@@ -24,6 +24,8 @@ export interface WebAppRouterDeps {
   rateLimits?: AuthRateLimits;
   /** For account deletion; default: the encrypted Postgres storage (D45). */
   storage?: Pick<BlobStorage, 'delete'>;
+  /** Report files (5.10); default: the same encrypted Postgres storage. */
+  reportStorage?: BlobStorage;
 }
 
 export interface RouteDeps {
@@ -33,24 +35,27 @@ export interface RouteDeps {
   cookies: CookieSettings;
   rateLimits: AuthRateLimits;
   storage: () => Pick<BlobStorage, 'delete'>;
+  reportStorage: () => BlobStorage;
   requireSession: MiddlewareHandler<AuthEnv>;
   requireRecentPin: MiddlewareHandler<AuthEnv>;
 }
 
 export function resolveDeps(deps: WebAppRouterDeps): RouteDeps {
   const now = deps.now ?? (() => new Date());
-  let storage = deps.storage;
+  let fallbackStorage: BlobStorage | undefined;
+  // Lazy: the router is built in tests without an encryption key.
+  const defaultStorage = () => {
+    fallbackStorage ??= new PostgresBlobStorage(deps.db, getConfig().encryptionKey);
+    return fallbackStorage;
+  };
   return {
     db: deps.db,
     now,
     pinHasher: deps.pinHasher ?? createScryptPinHasher(),
     cookies: { secure: deps.secureCookies ?? process.env.NODE_ENV === 'production' },
     rateLimits: deps.rateLimits ?? DEFAULT_AUTH_RATE_LIMITS,
-    // Lazy: the router is built in tests without an encryption key.
-    storage: () => {
-      storage ??= new PostgresBlobStorage(deps.db, getConfig().encryptionKey);
-      return storage;
-    },
+    storage: () => deps.storage ?? defaultStorage(),
+    reportStorage: () => deps.reportStorage ?? defaultStorage(),
     ...createAuthMiddleware({ db: deps.db, now }),
   };
 }
