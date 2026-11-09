@@ -297,7 +297,10 @@ function RedeemBody({
     setError(null);
     try {
       setDone(
-        await withPin(() => api.post<RedeemResponse>('/redemptions', { rewardId: reward.id })),
+        await withPin(
+          () => api.post<RedeemResponse>('/redemptions', { rewardId: reward.id }),
+          'redeem',
+        ),
       );
     } catch (err) {
       if (!isPinCancelled(err)) setError(errorMessage(err));

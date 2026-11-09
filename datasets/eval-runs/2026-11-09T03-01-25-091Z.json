@@ -1,0 +1,3474 @@
+{
+  "date": "2026-11-09T03:01:25.092Z",
+  "durationMs": 755878,
+  "commit": "62c9da9",
+  "options": {
+    "only": [
+      "texts",
+      "close"
+    ],
+    "routeFilters": {
+      "interpret_text": "gemini#2:gemini-3.1-flash-lite",
+      "interpret_close_reply": "gemini#2:gemini-3.1-flash-lite"
+    },
+    "delayMs": 4500,
+    "limit": null
+  },
+  "models": {
+    "groqWhisper": "whisper-large-v3",
+    "groqText": "openai/gpt-oss-120b",
+    "groqTextSmall": "openai/gpt-oss-20b",
+    "groqVision": "qwen/qwen3.8-27b",
+    "geminiFlash": "gemini-3.5-flash",
+    "geminiFlashLite": "gemini-3.5-flash-lite",
+    "geminiFlashLitePrev": "gemini-3.1-flash-lite",
+    "checkedAt": "2026-11-08",
+    "ocr": "tesseract.js@7/spa-tessdata_fast"
+  },
+  "routes": {
+    "classify_image": [
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash",
+      "groq:qwen/qwen3.8-27b"
+    ],
+    "extract_screenshot": [
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash",
+      "groq:qwen/qwen3.8-27b"
+    ],
+    "transcribe_audio": [
+      "groq:whisper-large-v3",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ],
+    "interpret_text": [
+      "gemini#2:gemini-3.1-flash-lite"
+    ],
+    "interpret_close_reply": [
+      "gemini#2:gemini-3.1-flash-lite"
+    ],
+    "chat": [
+      "groq:openai/gpt-oss-120b",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ]
+  },
+  "promptVersions": {
+    "extract_screenshot": "extract_screenshot/2026-11-08.2",
+    "transcribe_audio": "transcribe_audio/2026-11-08.1",
+    "interpret_text": "interpret_text/2026-11-08.5",
+    "interpret_close_reply": "interpret_close_reply/2026-11-08.3",
+    "ocr_layouts": "ocr_layouts/2026-11-08.1"
+  },
+  "metrics": [
+    {
+      "measure": "Monto exacto en capturas legibles",
+      "threshold": "≥ 95 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.95,
+      "pass": null
+    },
+    {
+      "measure": "Dirección correcta (entra o sale)",
+      "threshold": "≥ 95 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.95,
+      "pass": null
+    },
+    {
+      "measure": "Fecha correcta cuando es visible",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.9,
+      "pass": null
+    },
+    {
+      "measure": "**Montos inventados** (incorrecto y sin duda)",
+      "threshold": "≤ 2 %",
+      "value": {
+        "ok": 0,
+        "total": 78
+      },
+      "lowerIsBetter": true,
+      "limit": 0.02,
+      "pass": true
+    },
+    {
+      "measure": "Ilegibles detectados como ilegibles",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 0,
+        "total": 0
+      },
+      "limit": 0.9,
+      "pass": null
+    },
+    {
+      "measure": "Operaciones correctas en audios y textos",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 54,
+        "total": 55
+      },
+      "limit": 0.9,
+      "pass": true
+    },
+    {
+      "measure": "Respuestas al cierre interpretadas correctamente",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 22,
+        "total": 23
+      },
+      "limit": 0.9,
+      "pass": true
+    }
+  ],
+  "extra": {
+    "degradedReadCorrectly": {
+      "ok": 0,
+      "total": 0
+    },
+    "readByOcrOnly": {
+      "ok": 0,
+      "total": 0
+    },
+    "textsCorrect": {
+      "ok": 54,
+      "total": 55
+    },
+    "audiosCorrect": {
+      "ok": 0,
+      "total": 0
+    }
+  },
+  "ocrTiming": null,
+  "routeStats": [
+    {
+      "routeId": "gemini#2:gemini-3.1-flash-lite",
+      "fn": "interpret_text",
+      "calls": 55,
+      "ok": 55,
+      "failures": {},
+      "latencyMsTotal": 270055,
+      "latencyMsMax": 18626,
+      "meanLatencyMs": 4910
+    },
+    {
+      "routeId": "gemini#2:gemini-3.1-flash-lite",
+      "fn": "interpret_close_reply",
+      "calls": 23,
+      "ok": 23,
+      "failures": {},
+      "latencyMsTotal": 134246,
+      "latencyMsMax": 21422,
+      "meanLatencyMs": 5837
+    }
+  ],
+  "items": [
+    {
+      "kind": "text",
+      "id": "T-001",
+      "case": "una venta en efectivo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 3486,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-002",
+      "case": "varias ventas en un mensaje",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "2.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "gaseosa",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 9415,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-003",
+      "case": "varias ventas con lucas",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "3.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "leche",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "2.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "huevos",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2438,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-004",
+      "case": "total del día sin medio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "150.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2388,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-005",
+      "case": "total del día con medio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "200.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2737,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-006",
+      "case": "total parcial",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "80.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "partial_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 4143,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-007",
+      "case": "total parcial sin medio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "120.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "partial_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0,
+              "scope": 1,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 4157,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-008",
+      "case": "total del día con yape y todo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "300.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2041,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-009",
+      "case": "compra a proveedor",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "350.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "inventory",
+            "counterparty_name": "distribuidora sur",
+            "description": "mercaderia",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2318,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-010",
+      "case": "compra a proveedor por yape",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "120.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "inventory",
+            "counterparty_name": "Backus",
+            "description": "pago a proveedor",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 14038,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-011",
+      "case": "gasto del negocio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "80.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "expense",
+            "counterparty_name": null,
+            "description": "luz",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 4944,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-012",
+      "case": "gasto del negocio (insumos)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "expense",
+            "counterparty_name": null,
+            "description": "bolsas",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 10282,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-013",
+      "case": "plata para la casa",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "40.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "household",
+            "counterparty_name": null,
+            "description": "para la casa",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2107,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-014",
+      "case": "plata para los chicos",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "10.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "household",
+            "counterparty_name": null,
+            "description": "pasaje del colegio",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1957,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-015",
+      "case": "corrección del monto",
+      "result": {
+        "intent": "correct",
+        "request": null,
+        "operations": [],
+        "correction": {
+          "void": false,
+          "amount": "52.00",
+          "payment_method": null,
+          "direction": null,
+          "suggested_category": null
+        }
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1919,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-016",
+      "case": "anulación",
+      "result": {
+        "intent": "correct",
+        "request": null,
+        "operations": [],
+        "correction": {
+          "void": true,
+          "amount": null,
+          "payment_method": null,
+          "direction": null,
+          "suggested_category": null
+        }
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1631,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-017",
+      "case": "corrección del medio",
+      "result": {
+        "intent": "correct",
+        "request": null,
+        "operations": [],
+        "correction": {
+          "void": false,
+          "amount": null,
+          "payment_method": "plin",
+          "direction": null,
+          "suggested_category": null
+        }
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 8016,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-018",
+      "case": "mensaje sin monto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": null,
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 0,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 4883,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-019",
+      "case": "me yapearon sin monto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": null,
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 0,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 0.6,
+              "suggested_category": 0.8
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1912,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-020",
+      "case": "monto ambiguo sin contexto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [
+              "350.00"
+            ],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 0.6,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2083,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-021",
+      "case": "monto en palabras con contexto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [
+              "350.00"
+            ],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 0.9,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2376,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": false,
+        "intentOk": true,
+        "invented": 0,
+        "problems": [
+          "op:amount_low_confidence"
+        ]
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-022",
+      "case": "expresión local: una luca",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "1.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "caramelos",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1963,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-023",
+      "case": "expresión local: media luca",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "0.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "chupetines",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1892,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-024",
+      "case": "expresión local: sencillo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "4.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "sencillo",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2000,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-025",
+      "case": "expresión local: me yapearon",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "20.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": "rosa",
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7745,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-026",
+      "case": "expresión local: me plinearon",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "15.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "plin",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 0.9,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1808,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-027",
+      "case": "expresión local: le fié (no se registra)",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7772,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-028",
+      "case": "fiado que se cobró",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "10.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": "carmen",
+            "description": "pago de deuda",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2012,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-029",
+      "case": "préstamo (otro ingreso)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "100.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "other_income",
+            "counterparty_name": null,
+            "description": "prestamo para mercaderia",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 8621,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-030",
+      "case": "movimiento interno",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "50.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "internal",
+            "counterparty_name": null,
+            "description": "pase de yape a mi cuenta",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 5802,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-031",
+      "case": "pedido: web",
+      "result": {
+        "intent": "request",
+        "request": "web_link",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1724,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-032",
+      "case": "pedido: olvidé mi PIN",
+      "result": {
+        "intent": "request",
+        "request": "forgot_pin",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 3718,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-033",
+      "case": "pedido: borrar datos",
+      "result": {
+        "intent": "request",
+        "request": "delete_data",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1636,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-034",
+      "case": "pedido: sin imagen",
+      "result": {
+        "intent": "request",
+        "request": "text_only",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1832,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-035",
+      "case": "pedido: con imagen",
+      "result": {
+        "intent": "request",
+        "request": "with_image",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1838,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-036",
+      "case": "cerrar",
+      "result": {
+        "intent": "close_now",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1844,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-037",
+      "case": "cerrar (variante)",
+      "result": {
+        "intent": "close_now",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 9322,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-038",
+      "case": "respuesta al cierre",
+      "result": {
+        "intent": "close_reply",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1771,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-039",
+      "case": "no financiero",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 6745,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-040",
+      "case": "peligro",
+      "result": {
+        "intent": "danger",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 8633,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-041",
+      "case": "intento de inyección (debe seguir el formato)",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2218,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-042",
+      "case": "«N de producto» es plata: vendí 5 de pan",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2011,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-043",
+      "case": "«N de producto» sin verbo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "gaseosa",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 12130,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-044",
+      "case": "«N de producto» con decimales y coma",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 11742,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-045",
+      "case": "cantidad sin precio: no hay monto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": null,
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "panes",
+            "confidence": {
+              "amount": 0,
+              "direction": 0.9,
+              "payment_method": 0.6,
+              "scope": 0.9,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 10614,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-046",
+      "case": "una luca de producto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "1.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2247,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-047",
+      "case": "varios «N de producto»",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "10.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "arroz",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "2.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "azucar",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2032,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-048",
+      "case": "cantidad sin precio (plural)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": null,
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "gaseosas",
+            "confidence": {
+              "amount": 0,
+              "direction": 0.9,
+              "payment_method": 0.6,
+              "scope": 0.9,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 9886,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-049",
+      "case": "«N de producto» en palabras (audio)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7034,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-050",
+      "case": "cantidad y plata en el mismo mensaje",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "huevos",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 11183,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-051",
+      "case": "«N lucas de producto»",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "4.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "gaseosa",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 18626,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-052",
+      "case": "compra «N de producto»",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "20.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "expense",
+            "counterparty_name": null,
+            "description": "bolsas",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2566,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-053",
+      "case": "total del día entre yape y efectivo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "180.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2076,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-054",
+      "case": "total del día todo junto con yape",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "250.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2247,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-055",
+      "case": "yape de producto (sí es yape)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_text/2026-11-08.5",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 5494,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-001",
+      "case": "completa en orden",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1868,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-002",
+      "case": "ejemplo de la spec 10.3",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "40.00",
+            "payment_method": "cash",
+            "direction": "out",
+            "category": "household",
+            "description": "saqué para la casa"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 15111,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-003",
+      "case": "desordenada con palabras",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2046,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-004",
+      "case": "a medias (falta la 2)",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "15.50"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2789,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-005",
+      "case": "no sé sobre la caja",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "unsure"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7248,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-006",
+      "case": "no me acuerdo de una",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": false,
+            "value": {}
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1814,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-007",
+      "case": "caja no cuadra con dos explicaciones",
+      "result": {
+        "answers": [
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "30.00",
+            "payment_method": "cash",
+            "direction": "in",
+            "category": "sale",
+            "description": "venta no anotada"
+          },
+          {
+            "amount": "20.00",
+            "payment_method": "cash",
+            "direction": "out",
+            "category": "expense",
+            "description": "pago al del gas"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7540,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-008",
+      "case": "completa con palabras (set 2)",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "inventory"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 6791,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-009",
+      "case": "duplicado y no sé",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": true
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "out"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "expense"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "unsure"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 6884,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-010",
+      "case": "referencias por contenido, falta la 3",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": true
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": [
+          3
+        ]
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 9444,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-011",
+      "case": "solo la caja con explicación",
+      "result": {
+        "answers": [
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "10.00",
+            "payment_method": "cash",
+            "direction": "out",
+            "category": "personal",
+            "description": "pasaje del hijo"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 8496,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-012",
+      "case": "fecha: sí es de hoy",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_today": true
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 21422,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-013",
+      "case": "fecha: era de ayer",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_today": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1994,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-014",
+      "case": "solo caja: cuadra",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1248,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-015",
+      "case": "solo caja: no cuadra, préstamo",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "50.00",
+            "payment_method": "cash",
+            "direction": "in",
+            "category": "other_income",
+            "description": "prestamo de la junta"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1773,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-016",
+      "case": "solo caja: no sé",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "unsure"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1894,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-017",
+      "case": "montos en palabras",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 2024,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-018",
+      "case": "tres cincuenta y con yape y todo",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "3.50"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1907,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-019",
+      "case": "caja no cuadra sin explicación",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "inventory"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 3003,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-020",
+      "case": "responde solo una",
+      "result": {
+        "answers": [
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7304,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-021",
+      "case": "transcripción de audio",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 7862,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-022",
+      "case": "«sí» a preguntas que no son de sí o no",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "inventory"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 12531,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": false,
+        "intentOk": true,
+        "invented": 0,
+        "problems": [
+          "q2:should_be_unresolved",
+          "q3:should_be_unresolved"
+        ]
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-023",
+      "case": "caja no cuadra: venta por yape no anotada",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "25.00",
+            "payment_method": "yape",
+            "direction": "in",
+            "category": "sale",
+            "description": "yapeo no registrado"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "gemini#2:gemini-3.1-flash-lite",
+        "latencyMs": 1253,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    }
+  ]
+}

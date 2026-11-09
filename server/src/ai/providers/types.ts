@@ -83,11 +83,22 @@ export interface ChatStepRequest {
   maxOutputTokens?: number;
 }
 
+/** Tokens a provider reports for one call (cost and rate-limit checks; never content). */
+export interface TokenUsage {
+  inputTokens: number;
+  /** Includes reasoning («thinking») tokens. */
+  outputTokens: number;
+  /** Input tokens served from the provider's prompt cache, when it says so. */
+  cachedInputTokens?: number;
+}
+
 /** One model step: text, tool calls, or both. */
 export interface ChatStepResponse {
   text: string;
   toolCalls: ToolCall[];
   providerData?: unknown;
+  /** As reported by the provider; absent when it reports nothing. */
+  usage?: TokenUsage;
 }
 
 export interface ProviderClient {

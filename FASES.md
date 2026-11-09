@@ -23,12 +23,12 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 ## En curso ahora
 
-🔄 marca las tareas que un agente está haciendo en este momento.
+⏸️ **Pausado por límite de uso.** Trabajo a medias guardado en la rama `wip/integracion-ia` (sin verificar):
 
-- **Integración:** conectar alta, cierre y tareas programadas en el arranque y probar el recorrido completo.
+- **Integración:** conectar alta, cierre y tareas programadas en `src/index.ts`, recorrido completo en el simulador y arreglos chicos (D66 «sin detalle», hora después de las 2 a. m., texto del PIN según la acción, volver a pedir consentimiento).
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
-**Siguiente:** conectar alta, cierre y tareas programadas en el arranque del servidor; pruebas de seguridad de 17.4 juntas; Fase 10 (Meta y Railway) y Fase 11 (demo).
+**Al retomar:** en esa rama, correr `npm run typecheck` y `npm test`, terminar ambos trabajos, unir a `main` y detenerse antes de la Fase 10 (WhatsApp lo configura la dueña primero).
 
 ## Orden
 

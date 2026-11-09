@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { CHAT_MAX_STEPS, type ChatToolbox } from './chat.js';
-import { chatCalendar } from './chat-prompt.js';
+import { chatCalendar, chatSystemPrompt } from './chat-prompt.js';
 import { createAiLayer } from './layer.js';
 import {
   type ChatStepRequest,
@@ -94,6 +94,31 @@ describe('ai.chat (tool loop)', () => {
     expect(second.system).not.toContain('¿cuánto vendí?');
   });
 
+  it('sums the tokens the provider reports over the steps of the turn', async () => {
+    const { client } = fakeChatClient((req) =>
+      req.messages.at(-1)?.role === 'user'
+        ? {
+            text: '',
+            toolCalls: [{ id: 'c1', name: 'lookup', arguments: {} }],
+            usage: { inputTokens: 1_200, outputTokens: 40, cachedInputTokens: 1_000 },
+          }
+        : { text: 'Listo', toolCalls: [], usage: { inputTokens: 1_300, outputTokens: 30 } },
+    );
+    const ai = createAiLayer({ routes: { chat: [route('groq:m', client)] } });
+    const result = await ai.chat({
+      message: 'x',
+      history: [],
+      tools: toolbox().box,
+      creditAnswer: '',
+    });
+    expect(result).toMatchObject({
+      ok: true,
+      value: {
+        usage: { steps: 2, inputTokens: 2_500, outputTokens: 70, cachedInputTokens: 1_000 },
+      },
+    });
+  });
+
   it('fails over with a fresh tool session: a half-done attempt leaves nothing', async () => {
     const down = fakeChatClient((req) =>
       req.messages.at(-1)?.role === 'user'
@@ -170,8 +195,17 @@ describe('ai.chat (tool loop)', () => {
   });
 });
 
+describe('chatSystemPrompt', () => {
+  it('carries the change rules only when her message asks for a change', () => {
+    const base = { now: NOW, creditAnswer: 'TEXTO' };
+    expect(chatSystemPrompt(base)).toContain('propose_change');
+    expect(chatSystemPrompt({ ...base, changes: false })).not.toContain('propose_change');
+    expect(chatSystemPrompt({ ...base, changes: false })).toContain('nunca cambias nada');
+  });
+});
+
 describe('chatCalendar', () => {
-  it('maps the last 14 days and both weeks to dates', () => {
+  it('maps today, yesterday, the day before and both weeks to dates', () => {
     const calendar = chatCalendar(NOW);
     expect(calendar).toContain('- jueves 12 nov (hoy) = 2026-11-12');
     expect(calendar).toContain('- miércoles 11 nov (ayer) = 2026-11-11');

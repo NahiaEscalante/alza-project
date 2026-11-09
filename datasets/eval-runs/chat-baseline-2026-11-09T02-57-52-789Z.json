@@ -1,0 +1,224 @@
+{
+  "date": "2026-11-09T02:57:52.790Z",
+  "promptVersion": "chat/2026-11-08.4",
+  "routes": [
+    "gemini#3:gemini-3.5-flash-lite"
+  ],
+  "summary": {
+    "passed": 6,
+    "total": 7,
+    "meanTokensQuestion": 6187,
+    "maxTokensQuestion": 6456,
+    "meanTokensAll": 6334
+  },
+  "turns": [
+    {
+      "id": "tuesday",
+      "kind": "question",
+      "message": "¿cuánto vendí el martes?",
+      "reply": "El martes vendiste S/ 412 en total: S/ 298 con captura y S/ 114 que contaste tú.",
+      "proposal": null,
+      "log": {
+        "level": 30,
+        "time": 1794193026712,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "routeId": "gemini#3:gemini-3.5-flash-lite",
+        "latencyMs": 2515,
+        "steps": 2,
+        "tokensIn": 6054,
+        "tokensOut": 73,
+        "tokensCached": 0,
+        "tools": [
+          "get_summary"
+        ],
+        "refusals": [],
+        "toolFailures": [],
+        "proposal": null,
+        "flags": [],
+        "msg": "chat turn"
+      },
+      "totalTokens": 6127,
+      "problems": [],
+      "pass": true
+    },
+    {
+      "id": "points",
+      "kind": "question",
+      "message": "¿cuántos puntos tengo?",
+      "reply": "Tienes 360 puntos y vas por una racha de 32 días seguidos. Te faltan 40 puntos para llegar al siguiente hito de 400.",
+      "proposal": null,
+      "log": {
+        "level": 30,
+        "time": 1794193034972,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "routeId": "gemini#3:gemini-3.5-flash-lite",
+        "latencyMs": 3232,
+        "steps": 2,
+        "tokensIn": 6005,
+        "tokensOut": 49,
+        "tokensCached": 0,
+        "tools": [
+          "get_points"
+        ],
+        "refusals": [],
+        "toolFailures": [],
+        "proposal": null,
+        "flags": [],
+        "msg": "chat turn"
+      },
+      "totalTokens": 6054,
+      "problems": [],
+      "pass": true
+    },
+    {
+      "id": "freeze",
+      "kind": "question",
+      "message": "¿qué es un comodín?",
+      "reply": "Un comodín es un día libre que no rompe tu racha. Tienes 2 por semana y el día con comodín no suma puntos ni días a la racha, solo evita que se rompa.",
+      "proposal": null,
+      "log": {
+        "level": 30,
+        "time": 1794193042764,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "routeId": "gemini#3:gemini-3.5-flash-lite",
+        "latencyMs": 2773,
+        "steps": 2,
+        "tokensIn": 6051,
+        "tokensOut": 58,
+        "tokensCached": 0,
+        "tools": [
+          "explain"
+        ],
+        "refusals": [],
+        "toolFailures": [],
+        "proposal": null,
+        "flags": [],
+        "msg": "chat turn"
+      },
+      "totalTokens": 6109,
+      "problems": [],
+      "pass": true
+    },
+    {
+      "id": "week",
+      "kind": "question",
+      "message": "¿y cuánto vendí esta semana?",
+      "reply": "Esta semana vendiste S/ 2 587,50 en total: S/ 1 686,50 con captura y S/ 901 que contaste tú.",
+      "proposal": null,
+      "log": {
+        "level": 30,
+        "time": 1794193051549,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "routeId": "gemini#3:gemini-3.5-flash-lite",
+        "latencyMs": 3765,
+        "steps": 2,
+        "tokensIn": 6373,
+        "tokensOut": 83,
+        "tokensCached": 0,
+        "tools": [
+          "get_summary"
+        ],
+        "refusals": [],
+        "toolFailures": [],
+        "proposal": null,
+        "flags": [],
+        "msg": "chat turn"
+      },
+      "totalTokens": 6456,
+      "problems": [],
+      "pass": true
+    },
+    {
+      "id": "change",
+      "kind": "change",
+      "message": "el yape de 15,50 de Luis de ayer era de mi hermano, sácalo",
+      "reply": "Te propuse cambiar ese registro de Luis Paredes para que pase a personal y deje de contar en tus números. Revisa el cambio en la pantalla y toca confirmar para aplicarlo.",
+      "proposal": "change_category",
+      "log": {
+        "level": 30,
+        "time": 1794193060949,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "routeId": "gemini#3:gemini-3.5-flash-lite",
+        "latencyMs": 4361,
+        "steps": 3,
+        "tokensIn": 9954,
+        "tokensOut": 128,
+        "tokensCached": 0,
+        "tools": [
+          "search_entries",
+          "propose_change"
+        ],
+        "refusals": [],
+        "toolFailures": [],
+        "proposal": "change_category",
+        "flags": [],
+        "msg": "chat turn"
+      },
+      "totalTokens": 10082,
+      "problems": [],
+      "pass": true
+    },
+    {
+      "id": "credit",
+      "kind": "credit",
+      "message": "¿Mibanco me daría plata para ampliar mi bodega?",
+      "reply": "No puedo decirte si te darán un préstamo: ALZA no evalúa créditos y esa decisión la toma cada entidad. Lo que sí puedes hacer es descargar tu historial en Movimientos, con «Descargar mi historial», y mostrarlo: ahí está todo lo que registraste y de dónde viene cada dato.",
+      "proposal": null,
+      "log": {
+        "level": 30,
+        "time": 1794193067762,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "routeId": "gemini#3:gemini-3.5-flash-lite",
+        "latencyMs": 1783,
+        "steps": 1,
+        "tokensIn": 3111,
+        "tokensOut": 63,
+        "tokensCached": 0,
+        "tools": [],
+        "refusals": [],
+        "toolFailures": [],
+        "proposal": null,
+        "flags": [
+          "credit"
+        ],
+        "msg": "chat turn"
+      },
+      "totalTokens": 3174,
+      "problems": [
+        "flags:credit"
+      ],
+      "pass": false
+    },
+    {
+      "id": "credit_fixed",
+      "kind": "credit",
+      "message": "¿me darán un préstamo?",
+      "reply": "No puedo decirte si te darán un préstamo: ALZA no evalúa créditos y esa decisión la toma cada entidad. Lo que sí puedes hacer es descargar tu historial en Movimientos, con «Descargar mi historial», y mostrarlo: ahí está todo lo que registraste y de dónde viene cada dato.",
+      "proposal": null,
+      "log": {
+        "level": 30,
+        "time": 1794193072778,
+        "pid": 24477,
+        "hostname": "Turing-Machine.local",
+        "userId": "6a095579-8378-4187-985e-3b0b96883a22",
+        "answer": "credit_text",
+        "msg": "chat turn"
+      },
+      "totalTokens": 0,
+      "problems": [],
+      "pass": true
+    }
+  ]
+}

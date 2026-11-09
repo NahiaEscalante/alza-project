@@ -8,7 +8,8 @@ import { routePath } from 'hono/route';
 import { secureHeaders } from 'hono/secure-headers';
 import type { Db } from '../db/client.js';
 import type { Logger } from '../lib/logger.js';
-import { createApiRouter } from './api.js';
+import { type ApiDeps, createApiRouter } from './api.js';
+import { type AdminRouterOptions, createAdminRouter } from './routes/admin/index.js';
 import { createSimulatorRouter, type SimulatorRouterDeps } from './routes/dev/simulator.js';
 import { createWebhookRouter, type WebhookRouterDeps } from './routes/webhook.js';
 
@@ -17,12 +18,16 @@ export interface AppDeps {
   logger: Logger;
   /** Absolute path of the built web app (`web/dist`). When set, it is served with SPA fallback. */
   webDistDir?: string | null;
+  /** Services for `/api` (storage, the shared AI layer). Omitted → each builds its default. */
+  api?: ApiDeps['webApp'];
   /** Max wait for the database ping in /health. */
   healthTimeoutMs?: number;
   /** `/webhook/whatsapp` (Fase 3). Omitted → not mounted. */
   webhook?: WebhookRouterDeps | null;
   /** `/dev/simulador` (D46), only when SIMULATOR_ENABLED. Posts through the webhook above. */
   simulator?: Omit<SimulatorRouterDeps, 'postWebhook' | 'appSecret'> | null;
+  /** `/api/admin` (Fase 8c). Retry uses the webhook's queue unless one is given here. */
+  admin?: Omit<AdminRouterOptions, 'db' | 'logger'> | null;
 }
 
 export function createApp(deps: AppDeps): Hono {
@@ -39,7 +44,17 @@ export function createApp(deps: AppDeps): Hono {
     return c.json({ status: dbOk ? 'ok' : 'error', db: dbOk ? 'ok' : 'error' }, dbOk ? 200 : 503);
   });
 
-  app.route('/api', createApiRouter({ db: deps.db }));
+  // Before `/api`: its JSON 404 catch-all would answer `/api/admin/*` first.
+  app.route(
+    '/api/admin',
+    createAdminRouter({
+      db: deps.db,
+      logger: deps.logger,
+      queue: deps.webhook?.receive.queue ?? null,
+      ...deps.admin,
+    }),
+  );
+  app.route('/api', createApiRouter({ db: deps.db, webApp: deps.api }));
 
   if (deps.webhook) {
     app.route('/webhook', createWebhookRouter(deps.webhook));

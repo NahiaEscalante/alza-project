@@ -63,7 +63,7 @@ export function DownloadScreen() {
     setError(null);
     setReport(null);
     try {
-      setReport(await withPin(() => api.post<ReportResponse>('/reports', { period })));
+      setReport(await withPin(() => api.post<ReportResponse>('/reports', { period }), 'download'));
     } catch (err) {
       if (!isPinCancelled(err)) setError(errorMessage(err));
     } finally {

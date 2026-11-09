@@ -61,6 +61,12 @@ export const BUTTONS = {
 export const CLOSE_TIME_BUTTON_PREFIX = 'close_time:';
 
 /**
+ * 14.1: version of the WA-01 notice (and the privacy page it links to) she accepts. A relevant
+ * change bumps it: her next message gets WA-01 again before anything she sends is processed.
+ */
+export const CONSENT_TEXT_VERSION = 'wa-01-v1';
+
+/**
  * The texts of 12.1, verbatim. Parameters are the spec's placeholders: `privacyUrl`
  * {enlace_privacidad}, `name` {nombre}, `time` {hora}, `activationUrl` {enlace_activacion},
  * `kind` {tipo}, `method` {medio}, `amount` {monto}, `accessUrl` {enlace_7d}.
@@ -131,6 +137,21 @@ export const accountHolderQuestion = (): CatalogMessage => text('WA-04', TEXTS['
 /** WA-05, with «8 pm» / «9 pm» / «10 pm»; she may also write another time up to 2 a. m. */
 export function closeTimeQuestion(): CatalogMessage {
   return buttons('WA-05', TEXTS['WA-05'](), [BUTTONS.close20, BUTTONS.close21, BUTTONS.close22]);
+}
+
+/**
+ * D67: variant of WA-05 when she wrote a time later than 2 a. m. (D12). Same catalog id and
+ * buttons, so it counts as the pending question for the onboarding's «asked» checks.
+ */
+export const CLOSE_TIME_TOO_LATE_TEXT =
+  'Puedo mandarte tu resumen hasta las 2 a. m. ¿A qué hora cierras?';
+
+export function closeTimeTooLateQuestion(): CatalogMessage {
+  return buttons('WA-05', CLOSE_TIME_TOO_LATE_TEXT, [
+    BUTTONS.close20,
+    BUTTONS.close21,
+    BUTTONS.close22,
+  ]);
 }
 
 /** WA-06 (RF-ON-07). `closeTime` is «21:00» (Lima). */

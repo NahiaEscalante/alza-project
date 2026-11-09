@@ -19,16 +19,20 @@ import {
   LIVE_STATUSES,
 } from '../domain/index.js';
 import type { DbOrTx } from '../ledger/types.js';
+import { CONSENT_TEXT_VERSION } from '../messages/catalog.js';
 
-/** RF-ON-02: her latest consent answer is «Acepto». */
+/**
+ * RF-ON-02, 14.1: her latest consent answer is «Acepto» to the current notice. An «Acepto» to an
+ * older version counts as no consent: WA-01 is asked again before anything is processed (D68).
+ */
 export async function hasAcceptedConsent(db: DbOrTx, userId: string): Promise<boolean> {
   const [latest] = await db
-    .select({ accepted: consents.accepted })
+    .select({ accepted: consents.accepted, textVersion: consents.textVersion })
     .from(consents)
     .where(eq(consents.userId, userId))
     .orderBy(desc(consents.createdAt))
     .limit(1);
-  return latest?.accepted === true;
+  return latest?.accepted === true && latest.textVersion === CONSENT_TEXT_VERSION;
 }
 
 /** Principal holder plus the additional ones (D31), for `coincide()` (11.2). */

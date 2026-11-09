@@ -189,7 +189,7 @@ describe.skipIf(!hasTestDb)('onboarding (4.3, RF-ON-01..08, HU-01)', () => {
     expect(link?.usedAt).toBeNull();
   });
 
-  it('WA-05 free text: «9:30 pm» is accepted; «3 am» is later than 2:00 and asked again', async () => {
+  it('WA-05 free text: «9:30 pm» is accepted; «3 am» is later than 2:00 and gets the D67 text', async () => {
     const h = createFlowHarness(db);
     const phone = randomPhone();
     await upToCloseTime(h, phone);
@@ -200,11 +200,100 @@ describe.skipIf(!hasTestDb)('onboarding (4.3, RF-ON-01..08, HU-01)', () => {
         .map((m) => m.catalogId)
         .slice(-2),
     ).toEqual(['WA-05', 'WA-05']);
+    const variant = h.said(phone).at(-1)?.content;
+    if (variant?.type !== 'buttons') throw new Error('expected buttons');
+    expect(variant.body).toBe('Puedo mandarte tu resumen hasta las 2 a. m. ¿A qué hora cierras?');
+    expect(variant.buttons.map((b) => b.title)).toEqual(['8 pm', '9 pm', '10 pm']);
     expect((await userRow(db, phone))?.onboardingStatus).toBe('close_time');
+
+    // Not a time at all: WA-05 itself again.
+    await h.say(phone, 'ni idea');
+    expect(bodyOf(h.said(phone).at(-1)?.content)).toBe(
+      '¿A qué hora cierras normalmente? A esa hora te mando tu resumen.',
+    );
 
     await h.say(phone, '9:30 pm');
     expect((await userRow(db, phone))?.closeTime).toBe('21:30:00');
     expect(bodyOf(h.said(phone).at(-1)?.content)).toContain('A las 9:30 p. m. te mando');
+  });
+
+  it('14.1, D68: a consent to an older notice is asked again before her next message is used', async () => {
+    const h = createFlowHarness(db);
+    const phone = randomPhone();
+    await onboard(h, phone);
+    const user = await userRow(db, phone);
+    if (!user) throw new Error('no user');
+    // The notice changed after she accepted it.
+    await db.update(consents).set({ textVersion: 'wa-01-v0' }).where(eq(consents.userId, user.id));
+    const before = h.said(phone).length;
+
+    await h.say(phone, 'vendí 20 soles de pan');
+    expect(
+      h
+        .said(phone)
+        .slice(before)
+        .map((m) => m.catalogId),
+    ).toEqual(['WA-01']);
+    // Nothing of it is processed or kept; her account and her step stay as they were.
+    expect(await entriesOf(user.id)).toEqual([]);
+    expect(h.ai.calls).toEqual([]);
+    const [sent] = (await inboundOf(user.id)).filter((m) => m.type === 'text');
+    expect(sent).toMatchObject({ text: null, status: 'discarded_no_consent' });
+    expect(await userRow(db, phone)).toMatchObject({
+      onboardingStatus: 'complete',
+      businessName: 'Bodega Marta',
+      closeTime: '21:00:00',
+    });
+
+    // A second message right after: WA-01 is not repeated.
+    await h.say(phone, 'hola?');
+    expect(
+      h
+        .said(phone)
+        .slice(before)
+        .map((m) => m.catalogId),
+    ).toEqual(['WA-01']);
+
+    // «Acepto»: the new version is stored and she is back to the silence of the day (D04).
+    await h.tap(phone, BUTTONS.consentAccept);
+    expect(
+      h
+        .said(phone)
+        .slice(before)
+        .map((m) => m.catalogId),
+    ).toEqual(['WA-01']);
+    const rows = await db.select().from(consents).where(eq(consents.userId, user.id));
+    expect(rows.map((r) => [r.textVersion, r.accepted])).toEqual(
+      expect.arrayContaining([[CONSENT_TEXT_VERSION, true]]),
+    );
+    expect((await userRow(db, phone))?.onboardingStatus).toBe('complete');
+
+    h.ai.text('vendí 20 soles de pan', cashSale('20.00'));
+    await h.say(phone, 'vendí 20 soles de pan');
+    expect((await entriesOf(user.id)).map((e) => e.amountCents)).toEqual([2_000]);
+  });
+
+  it('14.1, D68: mid-onboarding, accepting the new notice asks the pending question again', async () => {
+    const h = createFlowHarness(db);
+    const phone = randomPhone();
+    await h.say(phone, 'Hola ALZA');
+    await h.tap(phone, BUTTONS.consentAccept);
+    await h.say(phone, 'Bodega Marta');
+    const user = await userRow(db, phone);
+    if (!user) throw new Error('no user');
+    await db.update(consents).set({ textVersion: 'wa-01-v0' }).where(eq(consents.userId, user.id));
+
+    await h.say(phone, 'Marta Quispe');
+    expect((await userRow(db, phone))?.accountHolderName).toBeNull();
+    await h.tap(phone, BUTTONS.consentAccept);
+    expect(h.said(phone).map((m) => m.catalogId)).toEqual([
+      'WA-01',
+      'WA-03',
+      'WA-04',
+      'WA-01',
+      'WA-04',
+    ]);
+    expect((await userRow(db, phone))?.onboardingStatus).toBe('account_holder');
   });
 
   it('RF-ON-06: half-way, her next message after a while resumes the pending question', async () => {

@@ -19,6 +19,8 @@ export const CHAT_MAX_STEPS = 4;
 export const CHAT_MAX_CALLS_PER_STEP = 4;
 /** Longest reply kept (the prompt asks for 1–3 sentences). */
 export const CHAT_MAX_REPLY_CHARS = 1_200;
+/** Per step, reasoning included (gpt-oss and Gemini «think» before answering). */
+export const CHAT_MAX_OUTPUT_TOKENS = 1_024;
 
 export interface ChatHistoryMessage {
   role: 'user' | 'assistant';
@@ -48,8 +50,22 @@ export interface ChatInput<T> {
   tools: ChatToolbox<T>;
   /** Approved answer for credit questions (RF-CH-02), quoted in the prompt. */
   creditAnswer: string;
+  /**
+   * Her message asks for a change (`asksForChange` in `server/src/chat`): the prompt carries the
+   * rules for proposing one. Without it the toolbox leaves `propose_change` out too, so a plain
+   * question pays for neither. Default: true.
+   */
+  allowChanges?: boolean;
   /** Business clock for «hoy». Default: the layer's clock. */
   now?: Date;
+}
+
+/** Tokens of the successful attempt, summed over its model steps (as the provider reports them). */
+export interface ChatUsage {
+  steps: number;
+  inputTokens: number;
+  outputTokens: number;
+  cachedInputTokens: number;
 }
 
 export interface ChatOutput<T> {
@@ -58,6 +74,7 @@ export interface ChatOutput<T> {
   tools: T;
   /** Tool names called, in order (logs and tests; never arguments). */
   toolCalls: string[];
+  usage: ChatUsage;
 }
 
 function toolResult(output: unknown): string {
@@ -85,6 +102,7 @@ export async function runChatAttempt<T>(
     { role: 'user', content: input.message },
   ];
   const called: string[] = [];
+  const usage: ChatUsage = { steps: 0, inputTokens: 0, outputTokens: 0, cachedInputTokens: 0 };
 
   for (let step = 1; step <= CHAT_MAX_STEPS; step++) {
     const last = step === CHAT_MAX_STEPS;
@@ -96,10 +114,14 @@ export async function runChatAttempt<T>(
         tools: input.tools.specs,
         toolChoice: last ? 'none' : 'auto',
         temperature: 0.2,
-        maxOutputTokens: 1_024,
+        maxOutputTokens: CHAT_MAX_OUTPUT_TOKENS,
       },
       signal,
     );
+    usage.steps += 1;
+    usage.inputTokens += res.usage?.inputTokens ?? 0;
+    usage.outputTokens += res.usage?.outputTokens ?? 0;
+    usage.cachedInputTokens += res.usage?.cachedInputTokens ?? 0;
     if (res.toolCalls.length === 0 || last) {
       const text = res.text.trim();
       if (!text) return new InvalidOutput('chat_empty_reply');
@@ -107,6 +129,7 @@ export async function runChatAttempt<T>(
         text: text.length > CHAT_MAX_REPLY_CHARS ? `${text.slice(0, CHAT_MAX_REPLY_CHARS)}…` : text,
         tools: session.finish(),
         toolCalls: called,
+        usage,
       };
     }
     const calls: ToolCall[] = res.toolCalls.map((call, i) => ({

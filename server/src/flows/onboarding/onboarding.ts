@@ -17,13 +17,17 @@
  * - Screenshots and audios after «Acepto» are recorded as usual (`process`, she consented) and
  *   the pending question is repeated (at most once every 10 minutes).
  * - «borra mis datos» works at any step (RF-PV-01).
+ * - 14.1, D68: if she accepted an older version of the notice (`CONSENT_TEXT_VERSION`), the
+ *   pipeline treats her as not consented: WA-01 again, nothing processed. Her account and her
+ *   step stay; «Acepto» stores the new version and returns her to it (silence if complete).
+ * - D67: a close time later than 2:00 a. m. gets the WA-05 variant that says the limit.
  *
  * Retry safety (hooks contract): each step sends its message first and then commits the new
  * state together with the message's final state (`commitMessage`). A send that fails leaves
  * nothing changed and the retry starts over; once committed, the job is finished and the
  * pipeline's own commit sees it and stops (NOT_PROCESSING). At worst a message is repeated.
  */
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { checkHolderConflict } from '../../antifraud/index.js';
 import { createActivationLink } from '../../auth/index.js';
 import { consents, inboundMessages, type OnboardingStatus, users } from '../../db/schema.js';
@@ -35,7 +39,9 @@ import {
   businessNameQuestion,
   type CatalogMessage,
   CLOSE_TIME_BUTTON_PREFIX,
+  CONSENT_TEXT_VERSION,
   closeTimeQuestion,
+  closeTimeTooLateQuestion,
   declinedMessage,
   habitMessage,
   recipientOf,
@@ -55,8 +61,7 @@ import {
 import { parseCloseTimeAnswer } from './close-time.js';
 import { type FlowDeps, nowOf, privacyUrl } from './deps.js';
 
-/** 14.1: version of the WA-01 notice she accepts; a relevant change means asking again. */
-export const CONSENT_TEXT_VERSION = 'wa-01-v1';
+export { CONSENT_TEXT_VERSION } from '../../messages/catalog.js';
 
 /** RF-ON-06: a pending question older than this is asked again before reading an answer. */
 export const RESUME_AFTER_MS = HOUR_MS;
@@ -122,13 +127,26 @@ async function forgetContent(tx: Tx, message: FlowMessage): Promise<void> {
 // Before consent
 // ---------------------------------------------------------------------------
 
+/** Reached only after an «Acepto»: here a newer notice is being accepted again (14.1, D68). */
+const AFTER_CONSENT: readonly OnboardingStatus[] = [
+  'business_name',
+  'account_holder',
+  'close_time',
+  'complete',
+];
+
 async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
   const { deps, event, now } = context;
   const { user, message } = event;
   const button = message.type === 'interactive' ? message.buttonReplyId : null;
+  // 14.1, D68: she accepted an older notice. She keeps her account and her step; only the
+  // consent is asked again, and nothing she sends is processed until she accepts.
+  const renewing = AFTER_CONSENT.includes(user.onboardingStatus);
 
   if (button === BUTTONS.consentAccept.id) {
-    await send(context, businessNameQuestion());
+    const status = renewing ? user.onboardingStatus : 'business_name';
+    // Mid-onboarding: the pending question again. Onboarding complete: back to silence (D04).
+    if (status !== 'complete') await send(context, QUESTION[pendingStep(status)]());
     await commitStep(context, 'discarded_no_consent', async (tx) => {
       await tx.insert(consents).values({
         userId: user.id,
@@ -136,7 +154,7 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
         accepted: true,
         createdAt: now,
       });
-      await setStatus(tx, user.id, 'business_name');
+      await setStatus(tx, user.id, status);
     });
     return 'handled';
   }
@@ -162,15 +180,30 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
   }
 
   // Anything else (her «Hola», a screenshot, a stray button): the welcome, again if needed.
+  // Renewing, only a WA-01 sent after her last answer counts (the first one was the old notice).
+  const lastAnswerAt = renewing ? await latestConsentAt(context) : null;
+  const welcomedAt =
+    renewing || user.onboardingStatus === 'awaiting_consent'
+      ? await sentWithin(context, 'WA-01', REPEAT_WINDOW_MS)
+      : null;
   const repeated =
-    user.onboardingStatus === 'awaiting_consent' &&
-    (await sentWithin(context, 'WA-01', REPEAT_WINDOW_MS)) !== null;
+    welcomedAt !== null && (lastAnswerAt === null || welcomedAt.getTime() > lastAnswerAt.getTime());
   if (!repeated) await send(context, welcomeMessage(privacyUrl(deps.appBaseUrl)));
   await commitStep(context, 'discarded_no_consent', async (tx) => {
     await forgetContent(tx, message);
-    await setStatus(tx, user.id, 'awaiting_consent');
+    if (!renewing) await setStatus(tx, user.id, 'awaiting_consent');
   });
   return 'handled';
+}
+
+async function latestConsentAt(context: StepContext): Promise<Date | null> {
+  const [row] = await context.deps.db
+    .select({ createdAt: consents.createdAt })
+    .from(consents)
+    .where(eq(consents.userId, context.event.user.id))
+    .orderBy(desc(consents.createdAt))
+    .limit(1);
+  return row?.createdAt ?? null;
 }
 
 async function sentWithin(
@@ -274,7 +307,11 @@ async function afterConsent(context: StepContext): Promise<OnboardingOutcome> {
     }
     case 'close_time': {
       const answer = parseCloseTimeAnswer(message.text ?? '');
-      // Later than 2:00 a. m. or not a time: WA-05 again (12.1 has no other text for it).
+      // Later than 2:00 a. m.: the D67 variant says why. Not a time: WA-05 again.
+      if (!answer.ok && answer.error === 'too_late') {
+        await send(context, closeTimeTooLateQuestion());
+        return 'handled';
+      }
       if (!answer.ok) return askAgain(context, step);
       await finishOnboarding(context, answer.closeTime);
       return 'handled';

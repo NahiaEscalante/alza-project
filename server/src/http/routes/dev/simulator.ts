@@ -28,7 +28,20 @@ import {
   ledgerEntries,
   users,
 } from '../../../db/schema.js';
-import { formatSoles, isValidCloseTime, normalizeName } from '../../../domain/index.js';
+import {
+  businessDayOf,
+  formatSoles,
+  isIsoDate,
+  isValidCloseTime,
+  normalizeName,
+  pointsDeadline,
+} from '../../../domain/index.js';
+import {
+  isScheduledJobName,
+  SCHEDULED_JOB_NAMES,
+  type ScheduledJobs,
+} from '../../../jobs/registry.js';
+import { CONSENT_TEXT_VERSION } from '../../../messages/catalog.js';
 import { REPO_ROOT } from '../../../paths.js';
 import { SIMULATOR_PAGE } from './simulator-page.js';
 
@@ -42,6 +55,8 @@ export interface SimulatorRouterDeps {
   now?: () => Date;
   /** Default: `<repo>/datasets`. */
   datasetsDir?: string;
+  /** Scheduled tasks (8.4), to run one now from the demo (`POST /api/run-job`). */
+  runJobNow?: ScheduledJobs['runJobNow'];
 }
 
 const IMAGE_DIRS = ['yape-imgs', 'plin-imgs', 'bancon-imgs', 'luqea-imgs', 'generated'];
@@ -99,6 +114,14 @@ const sendSchema = z.discriminatedUnion('kind', [
     replyTo: z.string().max(256).optional(),
   }),
 ]);
+
+const runJobSchema = z.object({
+  job: z.string().refine(isScheduledJobName),
+  /** Limits the run to her (the simulator never touches other users by default). */
+  phone: phoneSchema,
+  /** close-finalize: run with the clock of that day's 12:00 deadline, so the day becomes final. */
+  businessDay: z.string().refine(isIsoDate).optional(),
+});
 
 const createUserSchema = z.object({
   phone: phoneSchema,
@@ -202,7 +225,7 @@ export function createSimulatorRouter(deps: SimulatorRouterDeps): Hono {
       if (!row) throw new Error('user upsert returned no row');
       await tx
         .insert(consents)
-        .values({ userId: row.id, textVersion: 'simulator', accepted: true });
+        .values({ userId: row.id, textVersion: CONSENT_TEXT_VERSION, accepted: true });
       return row;
     });
     return c.json({ id: user.id, phone: user.phoneE164 }, 201);
@@ -308,6 +331,34 @@ export function createSimulatorRouter(deps: SimulatorRouterDeps): Hono {
       return c.json({ waMessageId, webhookStatus: res.status }, res.status === 200 ? 200 : 502);
     },
   );
+
+  /**
+   * Demo: runs a scheduled task now for one phone, e.g. the 12:00 `close-finalize` of a day (its
+   * points, streak and doubts to the web) without waiting until noon. `businessDay` sets the
+   * clock to that day's deadline (12:00 of the next day) when it has not come yet.
+   */
+  router.post('/api/run-job', bodyLimit({ maxSize: 1024 }), async (c) => {
+    if (!deps.runJobNow) return c.json({ error: 'jobs_unavailable' }, 503);
+    const parsed = runJobSchema.safeParse(await c.req.json().catch(() => null));
+    if (!parsed.success) {
+      return c.json({ error: 'invalid_request', jobs: SCHEDULED_JOB_NAMES }, 400);
+    }
+    const input = parsed.data;
+    if (!isScheduledJobName(input.job)) return c.json({ error: 'invalid_request' }, 400);
+    const [user] = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(and(eq(users.phoneE164, input.phone), isNull(users.deletedAt)));
+    if (!user) return c.json({ error: 'user_not_found' }, 404);
+    const current = now();
+    if (input.businessDay && input.businessDay > businessDayOf(current)) {
+      return c.json({ error: 'future_day' }, 400);
+    }
+    const deadline = input.businessDay ? pointsDeadline(input.businessDay) : null;
+    const clock = deadline && deadline.getTime() > current.getTime() ? deadline : current;
+    const summary = await deps.runJobNow(input.job, clock, { userIds: [user.id] });
+    return c.json({ job: input.job, clock: clock.toISOString(), summary });
+  });
 
   /** What the pipeline wrote for this phone (development view of the ledger). */
   router.get('/api/ledger', async (c) => {

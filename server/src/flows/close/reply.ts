@@ -175,7 +175,19 @@ function resolutionFor(
   switch (doubt.clarification.type) {
     case 'unreadable': {
       const cents = value.amount ? amountToCents(value.amount) : null;
-      return cents === null ? null : { action: 'set_amount', amountCents: cents };
+      if (cents === null) return null;
+      // D66: the method the screenshot showed stays (`detail.paymentMethod`, kept by
+      // `set_amount`); only when the screen did not show it, the one she names («12 por Plin»).
+      const said = value.payment_method ?? null;
+      const paymentMethod =
+        !detail.paymentMethod && !doubt.entry && said !== null && said !== 'unknown'
+          ? said
+          : undefined;
+      return {
+        action: 'set_amount',
+        amountCents: cents,
+        ...(paymentMethod ? { paymentMethod } : {}),
+      };
     }
     case 'ambiguous_total': {
       // «¿Cuál es correcto?» (11.5 row 3): any answer keeps what is recorded; fixes go to the web.

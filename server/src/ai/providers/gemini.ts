@@ -6,6 +6,7 @@ import {
   type ProviderClient,
   ProviderError,
   type RawTranscription,
+  type TokenUsage,
   type ToolCall,
   toProviderError,
 } from './types.js';
@@ -92,6 +93,7 @@ export function createGeminiClient(apiKey: string): ProviderClient {
       signal: AbortSignal,
     ): Promise<ChatStepResponse> {
       let content: Content | undefined;
+      let usage: TokenUsage | undefined;
       try {
         const res = await ai.models.generateContent({
           model,
@@ -121,6 +123,16 @@ export function createGeminiClient(apiKey: string): ProviderClient {
           },
         });
         content = res.candidates?.[0]?.content;
+        const meta = res.usageMetadata;
+        if (meta) {
+          usage = {
+            inputTokens: (meta.promptTokenCount ?? 0) + (meta.toolUsePromptTokenCount ?? 0),
+            outputTokens: (meta.candidatesTokenCount ?? 0) + (meta.thoughtsTokenCount ?? 0),
+            ...(meta.cachedContentTokenCount
+              ? { cachedInputTokens: meta.cachedContentTokenCount }
+              : {}),
+          };
+        }
       } catch (err) {
         throw toProviderError(err);
       }
@@ -142,6 +154,7 @@ export function createGeminiClient(apiKey: string): ProviderClient {
         text,
         toolCalls,
         providerData: toolCalls.length > 0 ? { role: 'model', parts } : undefined,
+        ...(usage ? { usage } : {}),
       };
     },
 

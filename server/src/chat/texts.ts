@@ -114,3 +114,49 @@ export const EXPLAIN_TOPICS = {
 
 export type ExplainTopic = keyof typeof EXPLAIN_TOPICS;
 export const EXPLAIN_TOPIC_KEYS = Object.keys(EXPLAIN_TOPICS) as ExplainTopic[];
+
+/**
+ * Her words (or a topic key) → topic, so the tool spec needs no list of keys. First match wins:
+ * the specific ones («cierre completo», «premios») go before the general ones («cierre»,
+ * «puntos»). Matched on lowercase text without accents.
+ */
+const EXPLAIN_MATCHERS: [ExplainTopic, RegExp][] = [
+  ['freeze', /comodin|freeze/],
+  ['streak', /racha|streak/],
+  ['rewards', /premio|canje|reward|hito|meta grande/],
+  ['points', /punto|point/],
+  ['cash_unreviewed', /caja sin revisar|sin revisar|cash_unreviewed/],
+  ['pending_to_confirm', /por confirmar|pending_to_confirm/],
+  ['pending_items', /pendiente|pending_items/],
+  ['complete_close', /cierre completo|complete_close/],
+  ['partial_close', /a medias|parcial|partial_close/],
+  ['business_day', /dia del negocio|business_day|madrugada/],
+  ['daily_close', /cierre|daily_close/],
+  ['with_screenshot', /con captura|with_screenshot/],
+  ['self_reported', /contaste|self_reported/],
+  ['personal', /personal|no cuenta/],
+  ['internal', /interno|internal/],
+  ['categories', /tipo|categor|mercaderia|gasto|clasificar/],
+  ['corrections', /correg|correction|quitar|cambiar|borrar un registro/],
+  ['pin', /\bpin\b|clave/],
+  ['how_to_record', /registr|anot|mandar|how_to_record/],
+  ['duplicates', /repetid|duplica|dos veces/],
+  ['history_download', /descarg|historial|reporte|pdf|excel|history/],
+  ['privacy', /privacidad|privacy|mis datos|borrado/],
+  ['came_in', /entro|came_in/],
+  ['went_out', /salio|went_out/],
+  ['left', /te quedo|\bleft\b/],
+];
+
+export function explainTopicFor(words: string): ExplainTopic | null {
+  const text = words.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+  if (text in EXPLAIN_TOPICS) return text as ExplainTopic;
+  return EXPLAIN_MATCHERS.find(([, pattern]) => pattern.test(text))?.[0] ?? null;
+}
+
+/** What the model gets back when it asks for a topic ALZA has no text for. */
+export const EXPLAIN_TOPIC_HINT =
+  'Entró, Salió, Te quedó, Con captura, Lo contaste tú, Caja sin revisar, Por confirmar, ' +
+  'Pendientes, cierre del día, cierre completo, cierre a medias, día del negocio, racha, comodín, ' +
+  'puntos, premios, tipos de registro, personal, movimiento interno, corregir, PIN, cómo ' +
+  'registrar, capturas repetidas, descargar historial, privacidad.';

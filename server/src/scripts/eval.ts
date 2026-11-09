@@ -10,7 +10,8 @@
  * Options:
  *   --only=images,generated,audios,texts,close   subsets (default: all)
  *   --route=<function>=<route id prefix>         keep only matching routes for a function, to
- *                                                evaluate one candidate model (D35)
+ *                                                evaluate one candidate model (D35); picks from
+ *                                                `candidateRoutes`, repeatable
  *   --delay-ms=<n>                               pause after each AI call (free-tier limits; 1500)
  *   --limit=<n>                                  first n items of each subset
  *   --no-save                                    do not write the run file
@@ -21,7 +22,13 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { extname, join, resolve } from 'node:path';
 import { createAiLayer } from '../ai/layer.js';
-import { createClients, defaultRoutes, MODELS, MODELS_CHECKED_AT } from '../ai/models.js';
+import {
+  candidateRoutes,
+  createClients,
+  defaultRoutes,
+  MODELS,
+  MODELS_CHECKED_AT,
+} from '../ai/models.js';
 import { INTERPRET_CLOSE_REPLY_PROMPT_VERSION } from '../ai/prompts/close-reply.js';
 import { EXTRACT_SCREENSHOT_PROMPT_VERSION } from '../ai/prompts/screenshot.js';
 import { INTERPRET_TEXT_PROMPT_VERSION, type RecentEntry } from '../ai/prompts/text.js';
@@ -150,11 +157,15 @@ async function main(): Promise<void> {
   const options = parseOptions(process.argv.slice(2));
   loadDotEnv();
   const config = getConfig();
-  const allRoutes = defaultRoutes(createClients(config));
+  const clients = createClients(config);
+  const rotation = defaultRoutes(clients);
+  // A --route filter picks from every candidate (certified or not, D35); the rest use the rotation.
+  const candidates = candidateRoutes(clients);
   const routes: RouteTable = Object.fromEntries(
-    Object.entries(allRoutes).map(([fn, list]) => {
+    Object.entries(rotation).map(([fn, list]) => {
       const prefix = options.routeFilters.get(fn as AiFunction);
-      return [fn, prefix ? (list ?? []).filter((r) => r.id.startsWith(prefix)) : list];
+      if (!prefix) return [fn, list];
+      return [fn, (candidates[fn as AiFunction] ?? []).filter((r) => r.id.startsWith(prefix))];
     }),
   );
   const ai = createAiLayer({ routes });

@@ -25,8 +25,8 @@
 import { and, eq, inArray } from 'drizzle-orm';
 import { amountToCents } from '../ai/amount.js';
 import type { ScreenshotReading } from '../ai/read-screenshot.js';
-import type { ScreenshotOperation } from '../ai/schemas.js';
-import { clarifications, type LedgerEntry } from '../db/schema.js';
+import type { ScreenshotLayout, ScreenshotOperation } from '../ai/schemas.js';
+import { clarifications, type LedgerEntry, type PaymentMethod } from '../db/schema.js';
 import {
   type ActivityListRow,
   businessDayOf,
@@ -130,10 +130,29 @@ export async function applyScreenshot(
   }
 }
 
+/**
+ * The payment method a screenshot shows even when its amount cannot be read: the reader's, else
+ * its header («¡Te Yapearon!» is Yape), else a design that only one app uses (Yape). Kept in the
+ * doubt so that the amount she gives later stays a Yape/Plin entry, not «sin detalle» (D66).
+ */
+export function knownMethodOf(
+  op: ScreenshotOperation | null,
+  layout: ScreenshotLayout | null,
+): PaymentMethod | null {
+  if (op && op.payment_method !== 'unknown') return op.payment_method;
+  const header = op?.receipt_header ?? 'unknown';
+  if (header.startsWith('yape_')) return 'yape';
+  if (header.startsWith('plin_')) return 'plin';
+  if (header.startsWith('bank_transfer_')) return 'bank_transfer';
+  if (parseYapeHeader(op?.receipt_header_text) !== null || layout === 'yape') return 'yape';
+  return null;
+}
+
 async function applyUnreadable(
   work: MessageWork,
   op: ScreenshotOperation | null,
   holders: readonly string[],
+  layout: ScreenshotLayout | null,
 ): Promise<TerminalStatus> {
   const { deps, message, user } = work;
   const operationAt = parseInstant(op?.occurred_at);
@@ -145,13 +164,14 @@ async function applyUnreadable(
   );
   const attribution = entryAttribution(message.receivedAt, operationAt, closes);
   const direction = op ? directionOf(op, holders) : null;
+  const paymentMethod = knownMethodOf(op, layout);
   const detail: ClarificationDetail = {
     at: (attribution.futureDateIgnored
       ? message.receivedAt
       : (operationAt ?? message.receivedAt)
     ).toISOString(),
     ...(direction?.kind === 'resolved' ? { direction: direction.direction } : {}),
-    ...(op && op.payment_method !== 'unknown' ? { paymentMethod: op.payment_method } : {}),
+    ...(paymentMethod ? { paymentMethod } : {}),
   };
   return commitMessage(deps.db, message.id, async (tx) => {
     await createClarification(tx, {
@@ -184,7 +204,7 @@ async function applyReceipt(
   const plans: ReceiptPlan[] = [];
   for (const op of extraction.operations) {
     const amountCents = op.amount === null ? null : amountToCents(op.amount);
-    if (amountCents === null) return applyUnreadable(work, op, holders);
+    if (amountCents === null) return applyUnreadable(work, op, holders, reading.layout);
     const direction = directionOf(op, holders);
     plans.push({
       op,
@@ -196,7 +216,7 @@ async function applyReceipt(
     });
   }
   if (!extraction.legible || plans.length === 0) {
-    return applyUnreadable(work, extraction.operations[0] ?? null, holders);
+    return applyUnreadable(work, extraction.operations[0] ?? null, holders, reading.layout);
   }
 
   const rules = await loadCounterpartyRules(deps.db, user.id);

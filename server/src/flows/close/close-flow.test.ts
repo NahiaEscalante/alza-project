@@ -2,6 +2,7 @@ import { and, asc, eq } from 'drizzle-orm';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { createTestDb, hasTestDb } from '../../../test/db.js';
 import { ensureRewardsCatalog } from '../../account/index.js';
+import { screenshotExtractionSchema } from '../../ai/schemas.js';
 import { recordPinLockoutNotice } from '../../auth/index.js';
 import {
   clarifications,
@@ -12,7 +13,7 @@ import {
   type User,
   users,
 } from '../../db/schema.js';
-import { limaInstant } from '../../domain/index.js';
+import { computeIndicators, limaInstant } from '../../domain/index.js';
 import { createClarification, createEntry, getDayEntries } from '../../ledger/index.js';
 import { cashSale, createOnboardedUser, receiptExtraction } from '../../pipeline/test-support.js';
 import { toFlowMessage } from '../../pipeline/worker.js';
@@ -369,6 +370,79 @@ describe.skipIf(!hasTestDb)('close flow (Fase 5)', () => {
       /^✅ Martes cerrado completo\.\n\+10 ⭐ · Tienes 10\. Te faltan \d+ para .+\.$/,
     );
     expect(h.outbound(user.phoneE164)).toHaveLength(2);
+  });
+
+  it('D66: an unreadable screenshot answered in the close keeps its app, never «sin detalle»', async () => {
+    const h = createCloseHarness(db, { start: limaInstant(TUE, 8) });
+    const user = await createOnboardedUser(db);
+    h.clock.setLima(TUE, 10);
+    // The reader saw the Plin header but not the method or the amount.
+    h.reader.set(
+      'img:plin-blur',
+      screenshotExtractionSchema.parse({
+        content_type: 'individual_receipt',
+        legible: false,
+        operations: [
+          {
+            amount: null,
+            payment_method: 'unknown',
+            receipt_header: 'plin_received',
+            holder_role: 'unknown',
+            occurred_at: limaInstant(TUE, 9, 50).toISOString(),
+          },
+        ],
+      }),
+    );
+    // Nothing at all could be read from this one.
+    h.reader.set(
+      'img:nothing',
+      screenshotExtractionSchema.parse({
+        content_type: 'individual_receipt',
+        legible: false,
+        operations: [],
+      }),
+    );
+    await h.sendImage(user.phoneE164, 'img:plin-blur');
+    h.clock.setLima(TUE, 10, 5);
+    await h.sendImage(user.phoneE164, 'img:nothing');
+    await h.drain();
+    const doubts = await doubtsOf(user.id);
+    expect(
+      doubts.map((d) => [d.type, (d.detail as { paymentMethod?: string }).paymentMethod]),
+    ).toEqual([
+      ['unreadable', 'plin'],
+      ['unreadable', undefined],
+    ]);
+
+    h.clock.setLima(TUE, 21, 0);
+    await h.runSender([user.id]);
+    const numbered = await doubtsOf(user.id);
+    const plinNumber = numbered[0]?.messageNumber;
+    const otherNumber = numbered[1]?.messageNumber;
+    if (!plinNumber || !otherNumber) throw new Error('both doubts should be in the message');
+    const reply = 'la de plin 15, la otra 8 por yape, la caja sí';
+    h.ai.text(reply, { intent: 'close_reply' });
+    h.closeAi.reply(reply, {
+      answers: [
+        // She names Yape for the first one too: the screenshot's Plin stays (evidence wins).
+        { number: plinNumber, resolved: true, value: { amount: '15.00', payment_method: 'yape' } },
+        { number: otherNumber, resolved: true, value: { amount: '8.00', payment_method: 'yape' } },
+        { number: 3, resolved: true, value: { cash_check: 'balanced' } },
+      ],
+    });
+    h.clock.setLima(TUE, 21, 4);
+    await h.sendText(user.phoneE164, reply);
+    await h.drain();
+
+    const entries = await entriesOf(user.id);
+    expect(entries.map((e) => [e.amountCents, e.paymentMethod, e.label, e.status])).toEqual([
+      [1_500, 'plin', 'self_reported', 'confirmed'],
+      [800, 'yape', 'self_reported', 'confirmed'],
+    ]);
+    expect(computeIndicators(entries)).toMatchObject({
+      digitalSalesCents: 2_300,
+      unknownMethodSalesCents: 0,
+    });
   });
 
   it('HU-07 (2): «1 solo efectivo, 3 sí» → WA-11 only for 2; two rounds without it → partial', async () => {

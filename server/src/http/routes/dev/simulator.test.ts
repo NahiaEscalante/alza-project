@@ -1,12 +1,15 @@
 import { afterAll, describe, expect, it } from 'vitest';
 import { createTestDb, hasTestDb } from '../../../../test/db.js';
+import { SimulatorStore } from '../../../channel/index.js';
+import type { ScheduledJobs } from '../../../jobs/registry.js';
 import {
   cashSale,
   createHarness,
+  createOnboardedUser,
   randomPhone,
   receiptExtraction,
 } from '../../../pipeline/test-support.js';
-import { simulatorPhone } from './simulator.js';
+import { createSimulatorRouter, simulatorPhone } from './simulator.js';
 
 const json = (body: unknown) => ({
   method: 'POST',
@@ -123,5 +126,57 @@ describe.skipIf(!hasTestDb)('/dev/simulador', () => {
       );
       expect(send.status).toBe(404);
     }
+  });
+});
+
+describe.skipIf(!hasTestDb)('/dev/simulador/api/run-job', () => {
+  const { pool, db } = createTestDb();
+  afterAll(() => pool.end());
+
+  it('runs a scheduled task for one phone; close-finalize of a day uses its 12:00 deadline', async () => {
+    const calls: { name: string; now: Date | undefined; userIds: readonly string[] | undefined }[] =
+      [];
+    const runJobNow: ScheduledJobs['runJobNow'] = async (name, now, scope) => {
+      calls.push({ name, now, userIds: scope?.userIds });
+      return { finalizedDays: 1 };
+    };
+    // 2026-11-10 20:00 Lima.
+    const clock = () => new Date('2026-11-11T01:00:00.000Z');
+    const router = createSimulatorRouter({
+      db,
+      store: new SimulatorStore(),
+      appSecret: 'test',
+      postWebhook: async () => new Response(null, { status: 200 }),
+      now: clock,
+      runJobNow,
+    });
+    const user = await createOnboardedUser(db);
+
+    const res = await router.request(
+      '/api/run-job',
+      json({ job: 'close-finalize', phone: user.phoneE164, businessDay: '2026-11-10' }),
+    );
+    expect(res.status).toBe(200);
+    expect(await res.json()).toMatchObject({ summary: { finalizedDays: 1 } });
+    expect(calls).toEqual([
+      { name: 'close-finalize', now: new Date('2026-11-11T17:00:00.000Z'), userIds: [user.id] },
+    ]);
+
+    const future = await router.request(
+      '/api/run-job',
+      json({ job: 'close-finalize', phone: user.phoneE164, businessDay: '2026-11-11' }),
+    );
+    expect(future.status).toBe(400);
+    const unknown = await router.request(
+      '/api/run-job',
+      json({ job: 'drop-everything', phone: user.phoneE164 }),
+    );
+    expect(unknown.status).toBe(400);
+    const nobody = await router.request(
+      '/api/run-job',
+      json({ job: 'antifraud-scan', phone: randomPhone() }),
+    );
+    expect(nobody.status).toBe(404);
+    expect(calls).toHaveLength(1);
   });
 });

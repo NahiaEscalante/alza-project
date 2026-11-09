@@ -227,6 +227,7 @@ export function createAiLayer(options: AiLayerOptions): AiLayer {
       const system = chatSystemPrompt({
         now: input.now ?? now(),
         creditAnswer: input.creditAnswer,
+        changes: input.allowChanges ?? true,
       });
       return router.run('chat', CHAT_PROMPT_VERSION, AI_TIMEOUTS.chat, (route, signal) =>
         runChatAttempt(route, input, system, signal),

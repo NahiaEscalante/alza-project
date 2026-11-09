@@ -363,7 +363,7 @@ function ProposalCard({
       const path = `/chat/actions/${proposal.id}/${kind}`;
       const result =
         kind === 'confirm'
-          ? await withPin(() => api.post<ChatAnswerResponse>(path))
+          ? await withPin(() => api.post<ChatAnswerResponse>(path), 'chat')
           : await api.post<ChatAnswerResponse>(path);
       onAnswered(result);
     } catch (err) {

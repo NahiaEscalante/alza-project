@@ -11,6 +11,7 @@ import {
   type ProviderClient,
   ProviderError,
   type RawTranscription,
+  type TokenUsage,
   type ToolCall,
   type TranscribeRequest,
   toProviderError,
@@ -131,9 +132,19 @@ export function createGroqClient(apiKey: string): ProviderClient {
         ...reasoningOptions(model),
       };
       let message: { content?: string | null; tool_calls?: unknown } | undefined;
+      let usage: TokenUsage | undefined;
       try {
         const res = await groq.chat.completions.create(params, { signal });
         message = res.choices[0]?.message;
+        if (res.usage) {
+          usage = {
+            inputTokens: res.usage.prompt_tokens ?? 0,
+            outputTokens: res.usage.completion_tokens ?? 0,
+            ...(res.usage.prompt_tokens_details?.cached_tokens
+              ? { cachedInputTokens: res.usage.prompt_tokens_details.cached_tokens }
+              : {}),
+          };
+        }
       } catch (err) {
         throw toProviderError(err);
       }
@@ -148,7 +159,7 @@ export function createGroqClient(apiKey: string): ProviderClient {
       }));
       const text = message?.content ?? '';
       if (!text.trim() && toolCalls.length === 0) throw new ProviderError('empty');
-      return { text, toolCalls };
+      return { text, toolCalls, ...(usage ? { usage } : {}) };
     },
 
     async transcribe(

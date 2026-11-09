@@ -13,7 +13,7 @@ import type { Db } from '../db/client.js';
 import { type ChatMessage, type ChatRole, chatMessages } from '../db/schema.js';
 import { businessDayOf, businessDayStart } from '../domain/index.js';
 import type { Logger } from '../lib/logger.js';
-import { isCreditQuestion, reviewReply } from './guards.js';
+import { asksForChange, isCreditQuestion, reviewReply } from './guards.js';
 import {
   cancelProposal,
   confirmProposal,
@@ -26,9 +26,12 @@ import {
 import { CHAT_DAILY_LIMIT, CHAT_SUGGESTIONS, CHAT_TEXTS } from './texts.js';
 import { createChatToolbox } from './tools.js';
 
-/** Messages of today the model sees as context (oldest first). */
-const HISTORY_FOR_MODEL = 8;
-const HISTORY_CHARS_FOR_MODEL = 600;
+/**
+ * Messages of today the model sees as context (oldest first): the last 2 exchanges, each cut
+ * short — enough for «¿y ayer?». History is re-sent on every model step of the turn.
+ */
+const HISTORY_FOR_MODEL = 4;
+const HISTORY_CHARS_FOR_MODEL = 300;
 /** Messages the chat screen shows. */
 const HISTORY_FOR_SCREEN = 60;
 
@@ -162,6 +165,7 @@ export async function sendChatMessage(
         history: await historyForModel(db, userId, at),
         tools: createChatToolbox({ db, userId, now: at, message: input.message }),
         creditAnswer: CHAT_TEXTS.credit,
+        allowChanges: asksForChange(input.message),
         now: at,
       });
       if (!result.ok) {
@@ -179,6 +183,10 @@ export async function sendChatMessage(
           userId,
           routeId: result.meta.routeId,
           latencyMs: result.meta.latencyMs,
+          steps: result.value.usage.steps,
+          tokensIn: result.value.usage.inputTokens,
+          tokensOut: result.value.usage.outputTokens,
+          tokensCached: result.value.usage.cachedInputTokens,
           tools: result.value.toolCalls,
           refusals: result.value.tools.refusals,
           toolFailures: result.value.tools.failures,

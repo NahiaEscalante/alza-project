@@ -11,13 +11,27 @@ import { isDigitalMethod, isExcludedFromTotals, type LedgerEntryView } from './t
 export type IndicatorEntry = Pick<
   LedgerEntryView,
   'amountCents' | 'direction' | 'paymentMethod' | 'category' | 'status'
->;
+> &
+  Partial<Pick<LedgerEntryView, 'label'>>;
+
+/**
+ * D69: a sale with unknown method counts as «sin detalle» (11.3, 11.6) only when it is a
+ * declared-total difference. One with a screenshot label, or «Lo contaste tú» (the amount she gave
+ * for an unreadable screenshot whose app could not be read, D66), is a screenshot payment: it
+ * counts with Yape y Plin. Without a label (older callers), unknown stays «sin detalle».
+ */
+function isScreenshotOfUnknownApp(entry: IndicatorEntry): boolean {
+  return (
+    entry.paymentMethod === 'unknown' &&
+    (entry.label === 'screenshot' || entry.label === 'self_reported')
+  );
+}
 
 export interface Indicators {
-  /** Sales by Yape, Plin and transfer. */
+  /** Sales by Yape, Plin and transfer (and screenshots of an unknown app, D69). */
   digitalSalesCents: number;
   cashSalesCents: number;
-  /** Sales with unknown method («es todo el día» difference, 11.5). */
+  /** «Sin detalle»: unknown-method differences («es todo el día», 11.5). */
   unknownMethodSalesCents: number;
   /** entró = digital + cash + unknown-method sales. */
   inCents: number;
@@ -46,9 +60,15 @@ export function computeIndicators(entries: readonly IndicatorEntry[]): Indicator
   const outBy = (category: IndicatorEntry['category']) =>
     sum(outflows.filter((entry) => entry.category === category));
 
-  const digitalSalesCents = sum(sales.filter((entry) => isDigitalMethod(entry.paymentMethod)));
+  const digitalSalesCents = sum(
+    sales.filter(
+      (entry) => isDigitalMethod(entry.paymentMethod) || isScreenshotOfUnknownApp(entry),
+    ),
+  );
   const cashSalesCents = sum(sales.filter((entry) => entry.paymentMethod === 'cash'));
-  const unknownMethodSalesCents = sum(sales.filter((entry) => entry.paymentMethod === 'unknown'));
+  const unknownMethodSalesCents = sum(
+    sales.filter((entry) => entry.paymentMethod === 'unknown' && !isScreenshotOfUnknownApp(entry)),
+  );
   const inCents = digitalSalesCents + cashSalesCents + unknownMethodSalesCents;
 
   const inventoryCents = outBy('inventory');

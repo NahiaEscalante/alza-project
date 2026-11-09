@@ -12,6 +12,7 @@ import { getConfig } from '../../../config.js';
 import type { Db } from '../../../db/client.js';
 import type { BlobStorage } from '../../../storage/blob-storage.js';
 import { PostgresBlobStorage } from '../../../storage/postgres-blob-storage.js';
+import type { ChatRouteOptions } from './chat.js';
 
 export interface WebAppRouterDeps {
   db: Db;
@@ -26,6 +27,8 @@ export interface WebAppRouterDeps {
   storage?: Pick<BlobStorage, 'delete'>;
   /** Report files (5.10); default: the same encrypted Postgres storage. */
   reportStorage?: BlobStorage;
+  /** The chat's AI layer and logger; default: built lazily from the config (tests, scripts). */
+  chat?: ChatRouteOptions;
 }
 
 export interface RouteDeps {

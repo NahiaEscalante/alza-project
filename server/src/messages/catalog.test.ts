@@ -9,6 +9,7 @@ import {
   BUTTONS,
   type CatalogMessage,
   closeTimeQuestion,
+  closeTimeTooLateQuestion,
   dangerMessage,
   dataDeletedMessage,
   declinedMessage,
@@ -64,6 +65,19 @@ describe('message catalog (12.1)', () => {
     expect(text).toBe(specText(id));
   });
 
+  it('D67: the WA-05 variant for a time after 2 a. m. keeps the id and the buttons', () => {
+    const variant = closeTimeTooLateQuestion();
+    expect(variant).toMatchObject({
+      catalogId: 'WA-05',
+      kind: 'buttons',
+      body: 'Puedo mandarte tu resumen hasta las 2 a. m. ¿A qué hora cierras?',
+    });
+    const buttonsOf = (message: CatalogMessage) =>
+      message.kind === 'buttons' ? message.buttons : [];
+    expect(buttonsOf(variant)).toEqual(buttonsOf(closeTimeQuestion()));
+    expect(buttonsOf(variant)).toHaveLength(3);
+  });
+
   it('never says «ganancia»', () => {
     for (const text of Object.values(RENDERED))
       expect(text.toLowerCase()).not.toContain('ganancia');
@@ -73,6 +87,7 @@ describe('message catalog (12.1)', () => {
     welcomeMessage('https://alza.pe/privacidad'),
     declinedMessage(),
     closeTimeQuestion(),
+    closeTimeTooLateQuestion(),
     habitMessage({
       name: 'Marta',
       closeTime: '21:00',

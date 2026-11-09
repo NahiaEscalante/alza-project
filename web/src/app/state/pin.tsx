@@ -96,22 +96,36 @@ export function usePinVerify(onVerified: () => void) {
   };
 }
 
-type WithPin = <T>(action: () => Promise<T>) => Promise<T>;
+/** What the PIN is asked for: the sheet says it (14.3 sensitive actions). */
+export type PinReason = 'changes' | 'download' | 'redeem' | 'settings' | 'delete_account' | 'chat';
+
+const PIN_REASON_TEXT: Record<PinReason, string> = {
+  changes: 'Para hacer cambios',
+  download: 'Para descargar tu historial',
+  redeem: 'Para canjear tu premio',
+  settings: 'Para cambiar tus datos',
+  delete_account: 'Para borrar tu cuenta',
+  chat: 'Para hacer el cambio que te propuse en el chat',
+};
+
+/** Runs a 🔒 action; if the server asks for the PIN, the sheet says why (`reason`). */
+type WithPin = <T>(action: () => Promise<T>, reason?: PinReason) => Promise<T>;
 
 const PinGateContext = createContext<WithPin | null>(null);
 
 export function PinGateProvider({ children }: { children: ReactNode }) {
   const [request, setRequest] = useState<{
+    reason: PinReason;
     resolve: () => void;
     reject: (err: unknown) => void;
   } | null>(null);
 
-  const withPin = useCallback<WithPin>(async (action) => {
+  const withPin = useCallback<WithPin>(async (action, reason = 'changes') => {
     try {
       return await action();
     } catch (err) {
       if (!(err instanceof ApiError) || err.code !== 'pin_required') throw err;
-      await new Promise<void>((resolve, reject) => setRequest({ resolve, reject }));
+      await new Promise<void>((resolve, reject) => setRequest({ reason, resolve, reject }));
       return action();
     }
   }, []);
@@ -120,6 +134,7 @@ export function PinGateProvider({ children }: { children: ReactNode }) {
     <PinGateContext value={withPin}>
       {children}
       <PinSheet
+        reason={request?.reason ?? 'changes'}
         open={request !== null}
         onVerified={() => {
           request?.resolve();
@@ -141,22 +156,32 @@ export function usePinGate(): WithPin {
 }
 
 function PinSheet({
+  reason,
   open,
   onVerified,
   onCancel,
 }: {
+  reason: PinReason;
   open: boolean;
   onVerified: () => void;
   onCancel: () => void;
 }) {
   return (
     <Sheet open={open} onClose={onCancel} title="Escribe tu PIN">
-      <PinSheetBody onVerified={onVerified} onCancel={onCancel} />
+      <PinSheetBody reason={reason} onVerified={onVerified} onCancel={onCancel} />
     </Sheet>
   );
 }
 
-function PinSheetBody({ onVerified, onCancel }: { onVerified: () => void; onCancel: () => void }) {
+function PinSheetBody({
+  reason,
+  onVerified,
+  onCancel,
+}: {
+  reason: PinReason;
+  onVerified: () => void;
+  onCancel: () => void;
+}) {
   const { signOut } = useSession();
   const errorId = useId();
   const state = usePinVerify(onVerified);
@@ -189,7 +214,7 @@ function PinSheetBody({ onVerified, onCancel }: { onVerified: () => void; onCanc
       }}
     >
       <p className="text-base text-muted">
-        Para hacer cambios, confirma que eres tú. Después no te lo pediremos por 10 minutos.
+        {PIN_REASON_TEXT[reason]}, confirma que eres tú. Después no te lo pediremos por 10 minutos.
       </p>
       <PinField
         id="pin-gate"

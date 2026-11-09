@@ -64,6 +64,20 @@ describe('computeIndicators (11.6)', () => {
     expect(result.leftCents).toBe(-2_500);
   });
 
+  it('D69: a screenshot of an unknown app (read, or answered «Lo contaste tú») is Yape y Plin, not «sin detalle»', () => {
+    const result = computeIndicators([
+      screenshotEntry({ amountCents: 700, paymentMethod: 'unknown' }),
+      entry({ amountCents: 1_200, paymentMethod: 'unknown', label: 'self_reported' }),
+      entry({ amountCents: 4_000, paymentMethod: 'unknown', label: 'unitemized' }),
+    ]);
+    expect(result.digitalSalesCents).toBe(1_900);
+    expect(result.unknownMethodSalesCents).toBe(4_000);
+    expect(result.inCents).toBe(5_900);
+    // Without a label (older callers) unknown stays «sin detalle».
+    const { label: _label, ...noLabel } = entry({ amountCents: 300, paymentMethod: 'unknown' });
+    expect(computeIndicators([noLabel]).unknownMethodSalesCents).toBe(300);
+  });
+
   it('is all zeros for an empty day', () => {
     expect(computeIndicators([]).leftCents).toBe(0);
   });

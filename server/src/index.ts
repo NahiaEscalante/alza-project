@@ -1,6 +1,10 @@
 /**
- * Entry point: HTTP server + pg-boss + message worker, with graceful shutdown on SIGINT/SIGTERM.
+ * Entry point: HTTP server + pg-boss + message worker + the conversational flows (onboarding,
+ * exceptions, daily close) + the scheduled tasks of 8.4, with graceful shutdown on SIGINT/SIGTERM.
  * Run migrations first (`npm run db:migrate`).
+ *
+ * One channel, one AI layer and one tesseract worker per process (D33): everything below shares
+ * them, the web chat included.
  */
 import { existsSync } from 'node:fs';
 import { serve } from '@hono/node-server';
@@ -15,8 +19,12 @@ import {
 } from './channel/index.js';
 import { ConfigError, getConfig } from './config.js';
 import { createDb, createPool } from './db/client.js';
-import { NO_OP_FLOW_HOOKS } from './flows/hooks.js';
+import { type CloseFlowDeps, createCloseHooks, registerCloseJobs } from './flows/close/index.js';
+import { withFlowHooks } from './flows/hooks.js';
+import { createOnboardingHooks, type FlowDeps } from './flows/onboarding/index.js';
+import { broadcastTechnicalIssue } from './flows/requests/index.js';
 import { createApp } from './http/app.js';
+import { registerScheduledJobs } from './jobs/index.js';
 import { createLogger } from './lib/logger.js';
 import { createTesseractEngine } from './ocr/engine.js';
 import { loadDotEnv, WEB_DIST_DIR } from './paths.js';
@@ -80,6 +88,15 @@ const channel: Channel = simulatorStore
   : unavailableChannel();
 const now = () => new Date();
 
+// --- Flows (Fases 4–5) and scheduled tasks (Fase 6, 8.4) -----------------------------------------
+const flowDeps: FlowDeps = { db, channel, storage, logger, appBaseUrl: config.appBaseUrl, now };
+const closeDeps: CloseFlowDeps = { db, logger, channel, ai, now, baseUrl: config.appBaseUrl };
+const hooks = withFlowHooks({ ...createOnboardingHooks(flowDeps), ...createCloseHooks(closeDeps) });
+
+await registerCloseJobs(boss, closeDeps);
+const scheduledJobs = await registerScheduledJobs(boss, { db, storage, logger, now });
+logger.info({ jobs: [...scheduledJobs.names, 'close-sender'] }, 'scheduled jobs registered');
+
 const queue = await createInboundQueue(boss);
 const pipeline: PipelineDeps = {
   db,
@@ -88,8 +105,7 @@ const pipeline: PipelineDeps = {
   channel,
   ai,
   readScreenshot: createScreenshotReader({ ocr, ai, logger }),
-  // Fases 4–5 replace these with the onboarding, exception and close flows.
-  hooks: NO_OP_FLOW_HOOKS,
+  hooks,
   now,
 };
 await startInboundWorker(boss, pipeline);
@@ -101,13 +117,21 @@ const app = createApp({
   db,
   logger,
   webDistDir: serveWeb ? WEB_DIST_DIR : null,
+  api: { storage, reportStorage: storage, chat: { ai: () => ai, logger } },
   webhook: {
     receive: { db, logger, channel, queue, now },
     logger,
     appSecret,
     verifyToken: config.whatsapp?.verifyToken ?? null,
   },
-  simulator: simulatorStore ? { db, store: simulatorStore, now } : null,
+  simulator: simulatorStore
+    ? { db, store: simulatorStore, now, runJobNow: scheduledJobs.runJobNow }
+    : null,
+  admin: {
+    queue,
+    jobs: scheduledJobs,
+    broadcastTechnicalIssue: (incident) => broadcastTechnicalIssue(flowDeps, incident),
+  },
 });
 const server = serve({ fetch: app.fetch, port: config.port }, (info) => {
   logger.info(
@@ -127,6 +151,8 @@ async function shutdown(signal: NodeJS.Signals): Promise<void> {
   }, 15_000);
   forceExit.unref();
   try {
+    // New requests stop first; pg-boss then lets the running jobs (messages, closes, the 12:00
+    // run) finish before the OCR worker and the pool they use are closed.
     await new Promise<void>((resolve) => server.close(() => resolve()));
     await stopBoss(boss);
     await ocr.close();

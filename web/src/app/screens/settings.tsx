@@ -19,7 +19,7 @@ import { api, errorMessage } from '../lib/api';
 import type { CounterpartyRulesResponse, MessageResponse, SettingsView } from '../lib/types';
 import { useApi } from '../lib/use-api';
 import { useHideAmounts } from '../state/hide-amounts';
-import { isPinCancelled, usePinGate } from '../state/pin';
+import { isPinCancelled, type PinReason, usePinGate } from '../state/pin';
 import { useSession } from '../state/session';
 import { useToast } from '../state/toast';
 
@@ -62,11 +62,14 @@ function usePinAction() {
   const withPin = usePinGate();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  async function run<T>(action: () => Promise<T>): Promise<T | null> {
+  async function run<T>(
+    action: () => Promise<T>,
+    reason: PinReason = 'settings',
+  ): Promise<T | null> {
     setBusy(true);
     setError(null);
     try {
-      return await withPin(action);
+      return await withPin(action, reason);
     } catch (err) {
       if (!isPinCancelled(err)) setError(errorMessage(err));
       return null;
@@ -526,7 +529,7 @@ function LogoutAll({ onCancel }: { onCancel: () => void }) {
       <Button
         loading={busy}
         onClick={async () => {
-          const result = await run(() => api.post<MessageResponse>('/auth/logout-all'));
+          const result = await run(() => api.post<MessageResponse>('/auth/logout-all'), 'changes');
           if (result)
             signOut({
               title: 'Sesión cerrada',
@@ -584,8 +587,9 @@ function DeleteAccount({ onCancel }: { onCancel: () => void }) {
         if (word.trim().toUpperCase() !== DELETE_WORD) {
           return setError(`Escribe ${DELETE_WORD} para confirmar.`);
         }
-        const result = await run(() =>
-          api.post<MessageResponse>('/account/delete', { confirm: true }),
+        const result = await run(
+          () => api.post<MessageResponse>('/account/delete', { confirm: true }),
+          'delete_account',
         );
         if (result) {
           signOut({
