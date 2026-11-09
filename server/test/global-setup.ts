@@ -3,7 +3,8 @@ import { runMigrations } from '../src/db/migrate.js';
 
 /**
  * Runs once per `vitest run`: wipes the test database and applies every migration from scratch,
- * so migrations are exercised on each run. Refuses to touch a database not named `*_test`.
+ * so migrations are exercised on each run. Refuses to touch a database not named `*_test` or
+ * `*_test_<suffix>` (one test database per parallel worker, e.g. `alza_test_a`).
  */
 export default async function setup(): Promise<void> {
   const url = process.env.DATABASE_URL_TEST;
@@ -12,8 +13,10 @@ export default async function setup(): Promise<void> {
     return;
   }
   const dbName = new URL(url).pathname.replace(/^\//, '');
-  if (!dbName.endsWith('_test')) {
-    throw new Error(`Refusing to reset "${dbName}": the test database name must end with _test`);
+  if (!/_test(_[a-z0-9]+)?$/.test(dbName)) {
+    throw new Error(
+      `Refusing to reset "${dbName}": the test database name must end with _test or _test_<suffix>`,
+    );
   }
 
   const client = new pg.Client({ connectionString: url });

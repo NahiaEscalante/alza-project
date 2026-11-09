@@ -14,7 +14,8 @@
     "db:migrate:dist": "node dist/scripts/migrate.js",
     "seed:demo": "tsx src/scripts/seed-demo.ts",
     "eval": "tsx src/scripts/eval.ts",
-    "eval:generate": "tsx src/scripts/eval-generate.ts"
+    "eval:generate": "tsx src/scripts/eval-generate.ts",
+    "render:preview": "tsx src/render/preview.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",
