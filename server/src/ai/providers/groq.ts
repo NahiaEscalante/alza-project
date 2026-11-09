@@ -2,12 +2,16 @@ import Groq, { toFile } from 'groq-sdk';
 import type {
   ChatCompletionContentPart,
   ChatCompletionCreateParamsNonStreaming,
+  ChatCompletionMessageParam,
 } from 'groq-sdk/resources/chat/completions';
 import {
+  type ChatStepRequest,
+  type ChatStepResponse,
   type GenerateRequest,
   type ProviderClient,
   ProviderError,
   type RawTranscription,
+  type ToolCall,
   type TranscribeRequest,
   toProviderError,
 } from './types.js';
@@ -29,6 +33,39 @@ function reasoningOptions(model: string): Partial<ChatCompletionCreateParamsNonS
     return { reasoning_effort: 'low', include_reasoning: false };
   if (model.startsWith('qwen/')) return { reasoning_format: 'hidden' };
   return {};
+}
+
+/** Tool arguments arrive as a JSON string; anything unparsable goes to the executor as is. */
+function parseArguments(raw: string): unknown {
+  try {
+    return JSON.parse(raw || '{}');
+  } catch {
+    return raw;
+  }
+}
+
+/** Vendor-neutral turns → OpenAI-compatible messages (Groq). */
+function toGroqMessages(request: ChatStepRequest): ChatCompletionMessageParam[] {
+  const messages: ChatCompletionMessageParam[] = [{ role: 'system', content: request.system }];
+  for (const turn of request.messages) {
+    if (turn.role === 'user') messages.push({ role: 'user', content: turn.content });
+    else if (turn.role === 'tool') {
+      messages.push({ role: 'tool', tool_call_id: turn.toolCallId, content: turn.content });
+    } else if (turn.toolCalls?.length) {
+      messages.push({
+        role: 'assistant',
+        content: turn.content || null,
+        tool_calls: turn.toolCalls.map((call) => ({
+          id: call.id,
+          type: 'function' as const,
+          function: { name: call.name, arguments: JSON.stringify(call.arguments ?? {}) },
+        })),
+      });
+    } else {
+      messages.push({ role: 'assistant', content: turn.content });
+    }
+  }
+  return messages;
 }
 
 export function createGroqClient(apiKey: string): ProviderClient {
@@ -70,6 +107,48 @@ export function createGroqClient(apiKey: string): ProviderClient {
       }
       if (!content?.trim()) throw new ProviderError('empty');
       return content;
+    },
+
+    async chat(
+      model: string,
+      request: ChatStepRequest,
+      signal: AbortSignal,
+    ): Promise<ChatStepResponse> {
+      const params: ChatCompletionCreateParamsNonStreaming = {
+        model,
+        messages: toGroqMessages(request),
+        tools: request.tools.map((tool) => ({
+          type: 'function',
+          function: {
+            name: tool.name,
+            description: tool.description,
+            parameters: tool.parameters,
+          },
+        })),
+        tool_choice: request.toolChoice ?? 'auto',
+        temperature: request.temperature ?? 0,
+        ...(request.maxOutputTokens ? { max_completion_tokens: request.maxOutputTokens } : {}),
+        ...reasoningOptions(model),
+      };
+      let message: { content?: string | null; tool_calls?: unknown } | undefined;
+      try {
+        const res = await groq.chat.completions.create(params, { signal });
+        message = res.choices[0]?.message;
+      } catch (err) {
+        throw toProviderError(err);
+      }
+      const rawCalls = (message?.tool_calls ?? []) as {
+        id?: string;
+        function?: { name?: string; arguments?: string };
+      }[];
+      const toolCalls: ToolCall[] = rawCalls.map((call, i) => ({
+        id: call.id ?? `call_${i + 1}`,
+        name: call.function?.name ?? '',
+        arguments: parseArguments(call.function?.arguments ?? ''),
+      }));
+      const text = message?.content ?? '';
+      if (!text.trim() && toolCalls.length === 0) throw new ProviderError('empty');
+      return { text, toolCalls };
     },
 
     async transcribe(

@@ -1,4 +1,6 @@
 import type { Logger } from '../lib/logger.js';
+import { type ChatInput, type ChatOutput, runChatAttempt } from './chat.js';
+import { CHAT_PROMPT_VERSION, chatSystemPrompt } from './chat-prompt.js';
 import type { CircuitBreaker } from './circuit-breaker.js';
 import { parseModelJson } from './json.js';
 import { checkCloseReply, checkTextInterpretation } from './post-checks.js';
@@ -56,6 +58,8 @@ export const AI_TIMEOUTS = {
   vision: 45_000,
   audio: 45_000,
   text: 30_000,
+  /** The whole tool loop of one chat turn (up to 4 model steps). */
+  chat: 40_000,
 } as const;
 
 /** Whisper segments below this mean log-probability, or likely silence, are «low confidence». */
@@ -80,8 +84,11 @@ export interface AiLayer {
     text: string,
     questions: CloseQuestion[],
   ): Promise<AiResult<CloseReplyInterpretation>>;
-  /** Web chat (10.5): Fase 8. */
-  chat(message: string): Promise<AiResult<never>>;
+  /**
+   * Web chat (10.5): a tool loop over the caller's read-only tools. It never changes data: the
+   * caller's `propose_change` tool only collects a proposal she confirms with her PIN (14.5).
+   */
+  chat<T>(input: ChatInput<T>): Promise<AiResult<ChatOutput<T>>>;
   /** Usage and latency per function and route. */
   stats(): RouteStats[];
 }
@@ -216,8 +223,14 @@ export function createAiLayer(options: AiLayerOptions): AiLayer {
       );
     },
 
-    async chat() {
-      return { ok: false, error: 'not_implemented', attempts: 0 };
+    chat(input) {
+      const system = chatSystemPrompt({
+        now: input.now ?? now(),
+        creditAnswer: input.creditAnswer,
+      });
+      return router.run('chat', CHAT_PROMPT_VERSION, AI_TIMEOUTS.chat, (route, signal) =>
+        runChatAttempt(route, input, system, signal),
+      );
     },
 
     stats() {

@@ -242,3 +242,76 @@ export interface MessageResponse {
   status: string;
   message?: string;
 }
+
+// Chat (`server/src/chat`, `routes/app/chat.ts`) ---------------------------------------------
+
+export type ProposalType =
+  | 'correct_amount'
+  | 'change_category'
+  | 'void_entry'
+  | 'add_past_entry'
+  | 'resolve_clarification';
+export type ProposalStatus = 'proposed' | 'confirmed' | 'rejected' | 'expired';
+
+/** A record as the proposal card shows it (12.2 Chat). */
+export interface ProposalEntryCard {
+  businessDay: IsoDate;
+  dayLabel: string;
+  time: string | null;
+  direction: Direction;
+  directionText: string;
+  paymentMethod: PaymentMethod;
+  methodText: string;
+  counterparty: string | null;
+  amountCents: number;
+  category: Category;
+  categoryText: string;
+  labelText: string;
+  countsInTotals: boolean;
+}
+
+export interface ProposalView {
+  id: string;
+  type: ProposalType;
+  status: ProposalStatus;
+  createdAt: string;
+  intro: string;
+  before: ProposalEntryCard | null;
+  question: string | null;
+  after: { entry: ProposalEntryCard | null; text: string };
+  resultText: string | null;
+}
+
+export interface ChatMessageView {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  createdAt: string;
+  proposal: ProposalView | null;
+}
+
+export interface ChatLimit {
+  used: number;
+  max: number;
+  remaining: number;
+  reached: boolean;
+}
+
+export interface ChatHistoryResponse {
+  messages: ChatMessageView[];
+  limit: ChatLimit;
+  suggestions: string[];
+}
+
+export interface ChatSendResponse {
+  reply: string;
+  proposedAction: ProposalView | null;
+  /** Her message and the reply, as stored. */
+  messages: [ChatMessageView, ChatMessageView];
+  limit: ChatLimit;
+}
+
+export interface ChatAnswerResponse {
+  proposal: ProposalView;
+  reply: ChatMessageView;
+}

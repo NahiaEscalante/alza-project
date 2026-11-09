@@ -41,10 +41,64 @@ export interface RawTranscription {
   noSpeechProb?: number;
 }
 
+// ---------------------------------------------------------------------------
+// Tool calling (web chat, 10.5)
+// ---------------------------------------------------------------------------
+
+/** A tool the model may call. `parameters` is a plain JSON Schema object (no `$ref`). */
+export interface ToolSpec {
+  name: string;
+  description: string;
+  parameters: Record<string, unknown>;
+}
+
+export interface ToolCall {
+  /** Provider id, or a generated one when the provider gives none (Gemini). */
+  id: string;
+  name: string;
+  /** Parsed JSON arguments; the executor validates them (a model can send anything). */
+  arguments: unknown;
+}
+
+/** One turn of a tool-calling conversation, vendor neutral. */
+export type ChatTurn =
+  | { role: 'user'; content: string }
+  | {
+      role: 'assistant';
+      content: string;
+      toolCalls?: ToolCall[];
+      /** The provider's own message, echoed back as is (e.g. Gemini thought signatures). */
+      providerData?: unknown;
+    }
+  | { role: 'tool'; toolCallId: string; name: string; content: string };
+
+export interface ChatStepRequest {
+  /** Instructions. Never contains user content. */
+  system: string;
+  messages: ChatTurn[];
+  tools: ToolSpec[];
+  /** `none` forces a text answer (last step of the loop). Default `auto`. */
+  toolChoice?: 'auto' | 'none';
+  temperature?: number;
+  maxOutputTokens?: number;
+}
+
+/** One model step: text, tool calls, or both. */
+export interface ChatStepResponse {
+  text: string;
+  toolCalls: ToolCall[];
+  providerData?: unknown;
+}
+
 export interface ProviderClient {
   readonly provider: ProviderName;
   /** Returns the raw text of the first candidate. Throws ProviderError. */
   generate(model: string, request: GenerateRequest, signal: AbortSignal): Promise<string>;
+  /**
+   * One step of a tool-calling chat (web chat, 10.5). Optional: a client without it is skipped
+   * for `chat` (ProviderError `unsupported`). Throws ProviderError.
+   */
+  chat?(model: string, request: ChatStepRequest, signal: AbortSignal): Promise<ChatStepResponse>;
   /** Speech-to-text endpoint (Whisper). Throws ProviderError(kind: unsupported) if absent. */
   transcribe(
     model: string,

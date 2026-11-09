@@ -13,9 +13,9 @@
  * | /movimientos/:date/agregar        | «Agregar algo que faltó» (past days)           |
  * | /movimientos/:date/:entryId       | One record: correct, change type, remove       |
  * | /premios                          | Premios                                        |
- * | /chat                             | Chat (Fase 8)                                  |
+ * | /chat                             | Chat: questions and proposed changes (Fase 8)  |
  * | /ajustes                          | Ajustes                                        |
- * | /descargar                        | Descargar mi historial (Fase 8)                |
+ * | /descargar                        | Descargar mi historial (HU-14)                 |
  */
 import { useEffect } from 'react';
 import { Route, Switch } from 'wouter';
@@ -24,12 +24,14 @@ import { ErrorState, Spinner } from './components/ui';
 import { isIsoDate } from './lib/format';
 import { AddEntryScreen } from './screens/add-entry';
 import { ActivateScreen, EnterScreen, NoSessionScreen } from './screens/auth';
+import { ChatScreen } from './screens/chat';
 import { DayScreen } from './screens/day';
+import { DownloadScreen } from './screens/download';
 import { EntryScreen } from './screens/entry';
 import { HomeScreen } from './screens/home';
 import { MovementsScreen } from './screens/movements';
 import { PendingScreen } from './screens/pending';
-import { AppNotFound, ChatScreen, DownloadScreen } from './screens/placeholders';
+import { AppNotFound } from './screens/placeholders';
 import { RewardsScreen } from './screens/rewards';
 import { SettingsScreen } from './screens/settings';
 import { HideAmountsProvider } from './state/hide-amounts';

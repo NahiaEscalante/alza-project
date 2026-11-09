@@ -35,7 +35,7 @@ export interface AiMeta {
  * - unavailable: every route failed or is cooling down → retry the job later (RF-IN-05).
  * - invalid_output: the output failed validation twice → clarification or error (8.3).
  * - no_routes: nothing configured for this function (missing keys).
- * - not_implemented: `chat` until Fase 8.
+ * - not_implemented: kept for functions not built yet.
  */
 export type AiFailureKind = 'unavailable' | 'invalid_output' | 'no_routes' | 'not_implemented';
 

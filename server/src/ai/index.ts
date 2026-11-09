@@ -1,13 +1,15 @@
 /**
  * AI layer (spec 8.3): interchangeable providers (Groq, Gemini; Claude Sonnet later), automatic
  * failover, zod-validated outputs, deterministic post-checks. Screenshots: `readScreenshot`
- * (OCR first, D33). Wiring:
+ * (OCR first, D33). Web chat: `chat` with a tool box (`server/src/chat`). Wiring:
  *
  *   const ai = createAiLayer({ routes: defaultRoutes(createClients(config)), logger });
  *   const ocr = await createTesseractEngine();
  *   const reading = await readScreenshot({ data, mimeType }, { ocr, ai, logger });
  */
 export * from './amount.js';
+export * from './chat.js';
+export * from './chat-prompt.js';
 export * from './circuit-breaker.js';
 export * from './layer.js';
 export * from './models.js';

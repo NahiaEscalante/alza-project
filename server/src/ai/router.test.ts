@@ -181,7 +181,12 @@ describe('AiRouter failover (D35)', () => {
       error: 'no_routes',
       attempts: 0,
     });
-    expect(await ai.chat('hola')).toMatchObject({ ok: false, error: 'not_implemented' });
+    const tools = { specs: [], open: () => ({ execute: async () => null, finish: () => null }) };
+    expect(await ai.chat({ message: 'hola', history: [], creditAnswer: '', tools })).toEqual({
+      ok: false,
+      error: 'no_routes',
+      attempts: 0,
+    });
   });
 
   it('does not trip the breaker on a bad request (request-specific)', async () => {

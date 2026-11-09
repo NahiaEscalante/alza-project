@@ -1,6 +1,6 @@
 /**
- * The user's web app API (spec 10.4, English paths, D32), mounted at `/api`. Reports and chat
- * are Fase 8.
+ * The user's web app API (spec 10.4, English paths, D32), mounted at `/api`. Reports are
+ * Fase 8.
  *
  * Middleware is attached per path, never with `use('*')`: this router is merged into `/api`, and
  * a catch-all here would also run for `/api/waitlist` and the JSON 404.
@@ -9,10 +9,12 @@ import { Hono } from 'hono';
 import type { AuthEnv } from '../../../auth/index.js';
 import { registerAccountRoutes } from './account.js';
 import { registerAuthRoutes } from './auth.js';
+import { registerChatRoutes } from './chat.js';
 import { registerCounterpartyRuleRoutes } from './counterparty-rules.js';
 import { resolveDeps, type WebAppRouterDeps } from './deps.js';
 import { noStore } from './http.js';
 import { registerLedgerRoutes } from './ledger.js';
+import { registerReportRoutes } from './reports.js';
 
 export type { WebAppRouterDeps } from './deps.js';
 
@@ -39,5 +41,7 @@ export function createWebAppRouter(options: WebAppRouterDeps): Hono<AuthEnv> {
   registerLedgerRoutes(router, deps);
   registerAccountRoutes(router, deps);
   registerCounterpartyRuleRoutes(router, deps);
+  registerReportRoutes(router, deps);
+  registerChatRoutes(router, deps);
   return router;
 }
