@@ -9,7 +9,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | Fase | Nombre | Estado |
 |---|---|---|
 | 0 | Cimientos | ✅ |
-| 1 | Reglas del negocio | 🟨 |
+| 1 | Reglas del negocio | ✅ |
 | 2 | Lectura de capturas y audios | 🟨 |
 | 3 | Recepción y libro de registros | ⬜ |
 | 4 | Alta y mensajes de excepción | ⬜ |
@@ -37,7 +37,7 @@ F0 ─┬─ F1 ─┬─ F3 ─ F4 ─ F5 ─ F6 ─┬─ F10 ─ F11
 
 ## Decisiones tomadas para poder desarrollar
 
-Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea de la Fase 0.
+D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al cerrar la ronda en curso.
 
 | ID | Decisión |
 |---|---|
@@ -56,6 +56,9 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 | D45 | Stack: TypeScript (Node 24), Hono, pg-boss, Postgres con Drizzle, Vite con React y Tailwind, hosting en Railway. Al inicio, los archivos se guardan cifrados (AES-256-GCM) en Postgres, detrás de una interfaz de almacenamiento. |
 | D46 | WhatsApp real (Meta) se conecta al final; hasta entonces, canal simulado. |
 | D47 | La web usa los textos de la spec («Con captura», «Lo contaste tú») y el diseño de `docs/alza_mvp.html` como guía, incluido el botón para ocultar montos. |
+| D53 | Duda de fecha: una captura sin fecha legible, o con fecha futura, va al día de llegada y crea una duda «fecha» («¿Es de hoy?»). Textos y audios nunca crean esa duda. |
+| D54 | Detalles de reglas: tope de S/ 99 999,99 por registro; las 12:00:00 ya están fuera de plazo; un total en efectivo menor a lo anotado crea una duda de total ambiguo; «cierre» sobre un cierre ya respondido también recibe WA-22; el PIN rechaza secuencias que dan la vuelta (890123). |
+| D55 | Una salida sin tipo claro se confirma como «por clasificar» con una duda de baja prioridad (PR15 manda sobre HU-03). |
 
 ---
 
@@ -76,27 +79,27 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 
 **Listo cuando:** `npm test` pasa y la app corre en local y responde `/health`. (Resultado: 48 pruebas, typecheck, lint y build limpios.)
 
-## Fase 1 · Reglas del negocio 🟨
+## Fase 1 · Reglas del negocio ✅
 
 **Objetivo:** toda la lógica de la sección 11 y 13.1 como funciones puras, probadas sin WhatsApp ni IA.
 
-- [ ] Montos en céntimos y formato «S/ 1 234,50» (RNF-11).
-- [ ] Día del negocio de 4:00 a 3:59 y semana de lunes a domingo (D12, 11.1), con reloj simulado.
-- [ ] Normalización de nombres y `coincide()` (11.2).
-- [ ] Dirección del pago, con la regla de Yape (11.2, D36).
-- [ ] Duplicados (11.4).
-- [ ] Totales declarados, incluido PR09 (11.5).
-- [ ] Indicadores: entró, salió, te quedó, por confirmar (11.6).
-- [ ] Cuadre de caja (11.7).
-- [ ] Dudas: prioridad, orden y selección que cabe en el mensaje (11.8, D37).
-- [ ] Niveles del cierre (11.9).
-- [ ] Conciliación de la lista de movimientos (11.10).
-- [ ] Resumen semanal y comparación (11.11, PR02, D38).
-- [ ] Puntos, racha, comodines, bonos y vencimiento (13.1, D29).
-- [ ] Reglas del PIN (14.3).
-- [ ] Una prueba por cada caso límite de 11.12 que no dependa de la IA.
+- [x] Montos en céntimos y formato «S/ 1 234,50» (RNF-11).
+- [x] Día del negocio de 4:00 a 3:59 y semana de lunes a domingo (D12, 11.1), con reloj simulado.
+- [x] Normalización de nombres y `coincide()` (11.2).
+- [x] Dirección del pago, con la regla de Yape (11.2, D36).
+- [x] Duplicados (11.4).
+- [x] Totales declarados, incluido PR09 (11.5).
+- [x] Indicadores: entró, salió, te quedó, por confirmar (11.6).
+- [x] Cuadre de caja (11.7).
+- [x] Dudas: prioridad, orden y selección que cabe en el mensaje (11.8, D37).
+- [x] Niveles del cierre (11.9).
+- [x] Conciliación de la lista de movimientos (11.10).
+- [x] Resumen semanal y comparación (11.11, PR02, D38).
+- [x] Puntos, racha, comodines, bonos y vencimiento (13.1, D29).
+- [x] Reglas del PIN (14.3).
+- [x] Una prueba por cada caso límite de 11.12 que no dependa de la IA.
 
-**Listo cuando:** pasan las pruebas de reglas de la sección 17.1.
+**Listo cuando:** pasan las pruebas de reglas de la sección 17.1. (Resultado: 322 pruebas en `server/src/domain`.)
 
 ## Fase 2 · Lectura de capturas y audios 🟨
 
