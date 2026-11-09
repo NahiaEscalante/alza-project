@@ -25,10 +25,12 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 🔄 marca las tareas que un agente está haciendo en este momento.
 
-- **Fase 4:** alta por WhatsApp y mensajes de excepción («web», «olvidé mi PIN», «borra mis datos», peligro, «sin imagen»).
-- **Fase 5:** cierre del día completo (mensaje único, respuesta, aclaraciones, nivel y confirmación).
+- **Fase 4:** alta por WhatsApp y mensajes de excepción.
+- **Fase 5:** cierre del día completo.
+- **Fase 8 (panel):** panel interno con cuentas del equipo y registro de acciones.
+- **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
-**Siguiente:** conectar todo en el arranque del servidor, panel interno (Fase 8), Fase 10 (Meta y Railway) y Fase 11 (demo).
+**Siguiente:** conectar alta, cierre y tareas programadas en el arranque del servidor; pruebas de seguridad de 17.4 juntas; Fase 10 (Meta y Railway) y Fase 11 (demo).
 
 ## Orden
 
@@ -138,7 +140,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** la evaluación corre sobre todo el dataset con 0 montos inventados. (Resultado: 0/124 montos inventados; monto, dirección y fecha 100 %; ilegibles 100 %; textos y audios 95,5 %; respuestas al cierre 100 %. Corrida en `datasets/eval-runs/`.)
 
-- [ ] Certificar cada modelo por separado con `--route` antes de dejarlo en la rotación (D35).
+- [ ] 🔄 Certificar cada modelo por separado con `--route` antes de dejarlo en la rotación (D35).
 
 ## Fase 3 · Recepción y libro de registros ✅
 
@@ -159,7 +161,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** 100 mensajes repetidos no crean duplicados y un día de mensajes deja el libro correcto. (Resultado: 128 pruebas en recepción, canal, libro y webhook; prueba real en el simulador con una captura de Yape del dataset.)
 
-- [ ] Ajustar el prompt para «vendí 5 de pan» (hoy lo lee como 5 panes y crea una duda) y sumarlo al dataset.
+- [ ] 🔄 Ajustar el prompt para «vendí 5 de pan» (hoy lo lee como 5 panes y crea una duda) y sumarlo al dataset.
 
 ## Fase 4 · Alta y mensajes de excepción 🟨
 
@@ -230,11 +232,11 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 - [x] Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
 - [x] Chat que propone cambios con «antes y después» y confirmación con PIN.
-- [ ] Bajar el consumo del chat (hoy ~8.000 tokens por turno: Groq permite ~1 turno por minuto y las 3 llaves de Gemini se agotaron en las pruebas). Riesgo para la demo.
+- [ ] 🔄 Bajar el consumo del chat (hoy ~8.000 tokens por turno: Groq permite ~1 turno por minuto y las 3 llaves de Gemini se agotaron en las pruebas). Riesgo para la demo.
 - [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
 - [x] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
-- [ ] Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
+- [ ] 🔄 Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
 - [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
 
 **Listo cuando:** HU-13 y HU-14 pasan, junto con las pruebas de seguridad.
