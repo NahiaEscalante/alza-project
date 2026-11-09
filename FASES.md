@@ -13,7 +13,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 2 | Lectura de capturas y audios | ✅ |
 | 3 | Recepción y libro de registros | ✅ |
 | 4 | Alta y mensajes de excepción | ✅ |
-| 5 | Cierre del día | 🟨 |
+| 5 | Cierre del día | ✅ |
 | 6 | Puntos y tareas programadas | ✅ |
 | 7 | Web de la usuaria | ✅ |
 | 8 | Chat, reporte y panel interno | 🟨 |
@@ -25,7 +25,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 🔄 marca las tareas que un agente está haciendo en este momento.
 
-- **Fase 5:** cierre del día completo.
+- **Integración:** conectar alta, cierre y tareas programadas en el arranque y probar el recorrido completo.
 - **Fase 8 (panel):** panel interno con cuentas del equipo y registro de acciones.
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
@@ -79,6 +79,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D63 | Descarga del historial: los archivos duran 7 días (después, «ya no está disponible»; se borran los archivos y queda la fila para métricas); máximo 5 reportes por hora; el periodo por defecto es 12 semanas; los logos de Yape y Mibanco enlazan a sus sitios oficiales y se marcan «Ejemplo para la demo» (3.2). |
 | D64 | Chat: herramienta extra `list_pending` (no está en 10.5). El modelo señala registros con referencias del turno, nunca con ids de la base. Solo propone cambios si ella lo pide. Las preguntas de crédito reciben un texto fijo aprobado, sin llamar al modelo. Respuestas que prometen crédito, dicen que ya cambiaron algo o usan «ganancia» se reemplazan. Una sola propuesta abierta a la vez, que vence a las 24 h. |
 | D65 | Alta: {nombre} es el primer nombre del titular. Hora de cierre sin «a. m./p. m.»: 1–2 se leen como a. m., 3–11 como p. m., 12 como medianoche; se aceptan de mediodía a 2 a. m. Si la pregunta pendiente tiene más de 1 hora, el siguiente mensaje recibe la pregunta otra vez. Un saludo nunca cuenta como respuesta. Las capturas enviadas a mitad del alta (con consentimiento) se registran. WA-07 no confirma registros cuya dirección aún es duda. «web» sin PIN recibe el texto de WA-14 con enlace de activación. WA-16 se envía antes de borrar la cuenta. |
+| D66 | Cierre: un monto ilegible resuelto en la respuesta queda como «Lo contaste tú» (11.3, D57; el ejemplo de 10.3 decía «con captura»). WA-11 pregunta varios puntos en un solo mensaje. «No sé» en una duda o «es de otro día» no se vuelven a preguntar: la duda pasa a la web. «Solo Yape» sobre un total se descarta (manda la evidencia). Las respuestas fuera de plazo no reciben WA-11. La línea de PR03 no cuenta lo agregado desde la web, el chat o la respuesta al cierre. El ejemplo de respuesta del mensaje usa las dudas realmente enviadas. «Sin cierre» en el bloque del domingo cuenta desde su día de alta. |
 
 ---
 
@@ -181,7 +182,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [ ] Texto para una hora de cierre después de las 2 a. m. (hoy solo repite WA-05).
 - [ ] Volver a pedir consentimiento si cambia la versión del aviso (14.1).
 
-## Fase 5 · Cierre del día 🟨
+## Fase 5 · Cierre del día ✅
 
 > De la Fase 7a: la línea de PR03 no cuenta lo agregado desde la web (`source: web`); el aviso de PIN (D28) se lee con `hasPendingSecurityNotice` y se marca con `markSecurityNoticesShown`.
 
@@ -195,7 +196,10 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [x] Respuestas fuera de plazo (WA-18) y ajustes después del cierre (PR03).
 - [x] Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta. (31 pruebas; recorrido en `/dev/simulador` con «cierre» y respuesta. Falta conectar `createCloseHooks` y `registerCloseJobs` en `src/index.ts`.)
 
-**Listo cuando:** los días tipo pasan en el simulador (HU-06, HU-07).
+**Listo cuando:** los días tipo pasan en el simulador (HU-06, HU-07). (Resultado: 31 pruebas nuevas, incluidos los 7 días tipo.)
+
+- [ ] 🔄 Conectar alta, cierre y tareas programadas en el arranque del servidor (`src/index.ts`).
+- [ ] 🔄 Una captura ilegible resuelta en el cierre queda con medio «desconocido» y se ve como «sin detalle»: debe mostrarse como captura.
 
 ## Fase 6 · Puntos y tareas programadas ✅
 
