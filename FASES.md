@@ -29,7 +29,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 - **Fase 5:** cierre del día completo (mensaje único, respuesta, aclaraciones, nivel y confirmación).
 - **Fase 6 (ajustes):** «Sin movimientos», antifraude en titulares de la web y reinicio a las 12:00.
 - **Fase 8 (chat):** chat de la web que responde y propone cambios.
-- **Fase 8 (descarga):** API y pantalla «Descargar mi historial».
 
 **Siguiente:** conectar todo en el arranque del servidor, panel interno (Fase 8), Fase 10 (Meta y Railway) y Fase 11 (demo).
 
@@ -78,6 +77,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D60 | Imagen y reporte: Yape y Plin y Efectivo siempre se muestran (en gris si son S/ 0); «sin detalle» y «por clasificar» solo si hay monto. El bloque del domingo puede decir «Te quedó S/X más/menos que la semana pasada» (solo si aplica PR02). «4 semanas» y «12 semanas» son semanas completas de lunes a domingo hasta hoy. En el reporte, clientes y proveedores van con hasta dos iniciales. La hoja «Ajustes» lista correcciones, anulaciones, agregados después del cierre (PR03), agregados en días pasados y diferencias de PR09. |
 | D61 | Recepción: un mensaje se procesa de a uno por usuaria; todo lo que escribe en el libro va en una sola transacción con su estado final. Una duda de fecha (D53) deja el registro pendiente; una de categoría (D55) lo confirma. Una contraparte con nombre de distribuidora, mayorista o proveedor se toma como mercadería (HU-03). Los comprobantes de proveedor no se registran (la spec no tiene regla). Una captura anula una mención por texto que coincide. Para botones, se guarda el id del botón. |
 | D62 | Tareas programadas: cada día desde su primera actividad (nunca antes del consentimiento) tiene un cierre final, para poder reintentar sin duplicar. Un cierre enviado y no respondido queda con cuadre «sin respuesta». Con una alerta de titular repetido abierta, el día se cierra y la racha avanza, pero no suma puntos ni se pagan después. Un original borrado a los 30 días queda marcado en `storage_key` como `deleted/…`. Antifraude [PROP]: respuestas en menos de 15 s, al menos 5 veces, siempre «sí»; salto de actividad = más del triple del promedio de hasta 4 semanas anteriores. |
+| D63 | Descarga del historial: los archivos duran 7 días (después, «ya no está disponible»; se borran los archivos y queda la fila para métricas); máximo 5 reportes por hora; el periodo por defecto es 12 semanas; los logos de Yape y Mibanco enlazan a sus sitios oficiales y se marcan «Ejemplo para la demo» (3.2). |
 
 ---
 
@@ -232,7 +232,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [ ] 🔄 Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
 - [ ] 🔄 Chat que propone cambios con «antes y después» y confirmación con PIN.
 - [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
-- [ ] 🔄 API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
+- [x] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
 - [ ] Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
 - [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
