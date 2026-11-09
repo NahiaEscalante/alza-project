@@ -26,7 +26,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 🔄 marca las tareas que un agente está haciendo en este momento.
 
 - **Integración:** conectar alta, cierre y tareas programadas en el arranque y probar el recorrido completo.
-- **Fase 8 (panel):** panel interno con cuentas del equipo y registro de acciones.
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
 **Siguiente:** conectar alta, cierre y tareas programadas en el arranque del servidor; pruebas de seguridad de 17.4 juntas; Fase 10 (Meta y Railway) y Fase 11 (demo).
@@ -80,6 +79,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D64 | Chat: herramienta extra `list_pending` (no está en 10.5). El modelo señala registros con referencias del turno, nunca con ids de la base. Solo propone cambios si ella lo pide. Las preguntas de crédito reciben un texto fijo aprobado, sin llamar al modelo. Respuestas que prometen crédito, dicen que ya cambiaron algo o usan «ganancia» se reemplazan. Una sola propuesta abierta a la vez, que vence a las 24 h. |
 | D65 | Alta: {nombre} es el primer nombre del titular. Hora de cierre sin «a. m./p. m.»: 1–2 se leen como a. m., 3–11 como p. m., 12 como medianoche; se aceptan de mediodía a 2 a. m. Si la pregunta pendiente tiene más de 1 hora, el siguiente mensaje recibe la pregunta otra vez. Un saludo nunca cuenta como respuesta. Las capturas enviadas a mitad del alta (con consentimiento) se registran. WA-07 no confirma registros cuya dirección aún es duda. «web» sin PIN recibe el texto de WA-14 con enlace de activación. WA-16 se envía antes de borrar la cuenta. |
 | D66 | Cierre: un monto ilegible resuelto en la respuesta queda como «Lo contaste tú» (11.3, D57; el ejemplo de 10.3 decía «con captura»). WA-11 pregunta varios puntos en un solo mensaje. «No sé» en una duda o «es de otro día» no se vuelven a preguntar: la duda pasa a la web. «Solo Yape» sobre un total se descarta (manda la evidencia). Las respuestas fuera de plazo no reciben WA-11. La línea de PR03 no cuenta lo agregado desde la web, el chat o la respuesta al cierre. El ejemplo de respuesta del mensaje usa las dudas realmente enviadas. «Sin cierre» en el bloque del domingo cuenta desde su día de alta. |
+| D67 | Panel interno: sesiones en memoria del servidor (un reinicio cierra la sesión del equipo); `admin_users.email` guarda el nombre de usuario; rechazar un premio grande devuelve los puntos como movimiento `adjustment`; resolver una alerta solo cambia su estado (los puntos vuelven en la siguiente corrida de las 12:00, D62); «Finalizar cierres» antes del plazo corre como si fueran las 12:00 del día siguiente. «Uso semanal de la web» es aproximado y «Tasa de captura» queda para el piloto. |
 
 ---
 
@@ -243,7 +243,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
 - [x] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
-- [ ] 🔄 Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
+- [x] Panel interno en `/panel`: mensajes con error y reintento, canjes grandes, alertas, métricas, herramientas de demo (finalizar cierres, antifraude, aviso WA-17) y registro de quién hizo qué. Crear usuario: `npm run create-admin -w server -- <usuario>`.
 - [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
 
 **Listo cuando:** HU-13 y HU-14 pasan, junto con las pruebas de seguridad.
