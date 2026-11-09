@@ -26,7 +26,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 🔄 marca las tareas que un agente está haciendo en este momento.
 
 - **Fase 3:** webhook, cola, procesamiento de mensajes hacia el libro y simulador de WhatsApp (`/dev/simulador`).
-- **Fase 5 y 8 (parte de dibujo):** imagen de resumen, PDF y Excel (`server/src/render/`).
 - **Fase 6:** cierre de las 12:00, puntos, racha, comodines, bonos, limpieza y antifraude.
 - **Fase 8 (chat):** chat de la web que responde y propone cambios.
 
@@ -74,6 +73,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D57 | Libro y cuenta: una corrección desde la web siempre queda como «Lo contaste tú»; resolver una duda sin cambiar el monto conserva la etiqueta. Las dudas guardan su contexto en `clarifications.detail`. El borrado de cuenta es inmediato y deja solo una fila anónima; también borra su registro de la lista de espera. |
 | D58 | Lectura: un monto de OCR exige tres lecturas que coinciden y los controles fijos; uno de visión se acepta con confianza ≥ 0,9 (≥ 0,7 si coincide con lo que vio el OCR); si OCR y visión no coinciden, la captura es ilegible. `holder_role` describe a la dueña de la pantalla. Una venta por texto sin medio es efectivo; un total sin medio queda «desconocido». «Le fié» no se registra (D09). |
 | D59 | Regla «personal» por contraparte (PR14): rechazarla o apagarla deja la regla inactiva; la oferta vuelve solo tras 3 marcas nuevas. Aceptarla solo afecta los pagos que llegan después; el pasado no cambia. |
+| D60 | Imagen y reporte: Yape y Plin y Efectivo siempre se muestran (en gris si son S/ 0); «sin detalle» y «por clasificar» solo si hay monto. El bloque del domingo puede decir «Te quedó S/X más/menos que la semana pasada» (solo si aplica PR02). «4 semanas» y «12 semanas» son semanas completas de lunes a domingo hasta hoy. En el reporte, clientes y proveedores van con hasta dos iniciales. La hoja «Ajustes» lista correcciones, anulaciones, agregados después del cierre (PR03), agregados en días pasados y diferencias de PR09. |
 
 ---
 
@@ -178,7 +178,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 **Objetivo:** el mensaje único de cierre sale, se responde en un solo mensaje y el día queda con su nivel.
 
 - [ ] Composición del cierre: resumen, hasta 5 dudas que quepan, cuadre al final, líneas informativas, bloque del domingo y enlace de 7 días (WA-10, D37).
-- [ ] 🔄 Imagen de resumen con plantilla y código (Satori y resvg): 4 variantes, menos de 150 KB, comparación visual automática (8.6).
+- [x] Imagen de resumen con plantilla y código (Satori y resvg): 4 variantes, menos de 150 KB, comparación visual automática (8.6). (36–72 KB, ~200 ms; `npm run render:preview -w server`.)
 - [ ] Envío a la hora de cada usuaria (cada 5 minutos) o al escribir «cierre».
 - [ ] Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
 - [ ] Nivel del cierre y confirmación con puntos (WA-12).
@@ -223,7 +223,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 - [ ] 🔄 Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
 - [ ] 🔄 Chat que propone cambios con «antes y después» y confirmación con PIN.
-- [ ] 🔄 Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10).
+- [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
+- [ ] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
 - [ ] Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
 - [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
