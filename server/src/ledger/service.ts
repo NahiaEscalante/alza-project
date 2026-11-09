@@ -333,7 +333,16 @@ async function resolveDoubtsOfEntry(
 export interface CorrectEntryInput {
   userId: string;
   entryId: string;
-  patch: { amountCents?: number; category?: Category };
+  /**
+   * `paymentMethod` and `direction` come from corrections by message («no era yape, era plin»,
+   * Fase 3). A new direction needs a category valid for it (given, or the old one if it still is).
+   */
+  patch: {
+    amountCents?: number;
+    category?: Category;
+    paymentMethod?: PaymentMethod;
+    direction?: Direction;
+  };
   actor: Actor;
   now: Date;
   reason?: string;
@@ -352,14 +361,21 @@ export async function correctEntry(
     if (!isLive(old)) throw new LedgerError('not_live');
 
     const changes: EntryChanges = {};
-    const { amountCents, category } = input.patch;
+    const { amountCents, category, paymentMethod, direction } = input.patch;
     if (amountCents !== undefined && amountCents !== old.amountCents) {
       assertAmount(amountCents);
       changes.amountCents = amountCents;
     }
+    if (paymentMethod !== undefined && paymentMethod !== old.paymentMethod) {
+      changes.paymentMethod = paymentMethod;
+    }
+    const newDirection = direction ?? old.direction;
+    if (newDirection !== old.direction) changes.direction = newDirection;
     if (category !== undefined && category !== old.category) {
-      assertCategory(category, old.direction);
+      assertCategory(category, newDirection);
       changes.category = category;
+    } else {
+      assertCategory(old.category, newDirection);
     }
     if (Object.keys(changes).length === 0) throw new LedgerError('no_changes');
 

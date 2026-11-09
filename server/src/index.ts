@@ -1,15 +1,33 @@
 /**
- * Entry point: HTTP server + pg-boss, with graceful shutdown on SIGINT/SIGTERM.
+ * Entry point: HTTP server + pg-boss + message worker, with graceful shutdown on SIGINT/SIGTERM.
  * Run migrations first (`npm run db:migrate`).
  */
 import { existsSync } from 'node:fs';
 import { serve } from '@hono/node-server';
+import { ensureRewardsCatalog } from './account/index.js';
+import { createAiLayer, createClients, defaultRoutes } from './ai/index.js';
+import {
+  type Channel,
+  ChannelError,
+  SIMULATOR_APP_SECRET,
+  SimulatorChannel,
+  SimulatorStore,
+} from './channel/index.js';
 import { ConfigError, getConfig } from './config.js';
 import { createDb, createPool } from './db/client.js';
+import { NO_OP_FLOW_HOOKS } from './flows/hooks.js';
 import { createApp } from './http/app.js';
 import { createLogger } from './lib/logger.js';
+import { createTesseractEngine } from './ocr/engine.js';
 import { loadDotEnv, WEB_DIST_DIR } from './paths.js';
+import {
+  createInboundQueue,
+  createScreenshotReader,
+  type PipelineDeps,
+  startInboundWorker,
+} from './pipeline/index.js';
 import { createBoss, startBoss, stopBoss } from './queue/boss.js';
+import { PostgresBlobStorage } from './storage/postgres-blob-storage.js';
 
 loadDotEnv();
 
@@ -34,10 +52,68 @@ if (config.nodeEnv === 'production' && !serveWeb) {
 
 await startBoss(boss);
 logger.info('queue started');
+await ensureRewardsCatalog(db);
 
-const app = createApp({ db, logger, webDistDir: serveWeb ? WEB_DIST_DIR : null });
+/** Until Fase 10 the only real transport is the simulator (D46). */
+function unavailableChannel(): Channel {
+  const fail = async (): Promise<never> => {
+    throw new ChannelError('unavailable', 'no WhatsApp channel configured');
+  };
+  return {
+    kind: 'meta',
+    markAsRead: async () => undefined,
+    sendText: fail,
+    sendButtons: fail,
+    sendImage: fail,
+    uploadMedia: fail,
+    downloadMedia: fail,
+  };
+}
+
+const storage = new PostgresBlobStorage(db, config.encryptionKey);
+const ai = createAiLayer({ routes: defaultRoutes(createClients(config)), logger });
+// One tesseract worker per process (D33), closed on shutdown.
+const ocr = await createTesseractEngine();
+const simulatorStore = config.simulatorEnabled ? new SimulatorStore() : null;
+const channel: Channel = simulatorStore
+  ? new SimulatorChannel({ db, store: simulatorStore })
+  : unavailableChannel();
+const now = () => new Date();
+
+const queue = await createInboundQueue(boss);
+const pipeline: PipelineDeps = {
+  db,
+  logger,
+  storage,
+  channel,
+  ai,
+  readScreenshot: createScreenshotReader({ ocr, ai, logger }),
+  // Fases 4–5 replace these with the onboarding, exception and close flows.
+  hooks: NO_OP_FLOW_HOOKS,
+  now,
+};
+await startInboundWorker(boss, pipeline);
+logger.info({ channel: channel.kind }, 'message worker started');
+
+const appSecret =
+  config.whatsapp?.appSecret ?? (config.simulatorEnabled ? SIMULATOR_APP_SECRET : null);
+const app = createApp({
+  db,
+  logger,
+  webDistDir: serveWeb ? WEB_DIST_DIR : null,
+  webhook: {
+    receive: { db, logger, channel, queue, now },
+    logger,
+    appSecret,
+    verifyToken: config.whatsapp?.verifyToken ?? null,
+  },
+  simulator: simulatorStore ? { db, store: simulatorStore, now } : null,
+});
 const server = serve({ fetch: app.fetch, port: config.port }, (info) => {
-  logger.info({ port: info.port, env: config.nodeEnv, serveWeb }, 'http server listening');
+  logger.info(
+    { port: info.port, env: config.nodeEnv, serveWeb, simulator: simulatorStore !== null },
+    'http server listening',
+  );
 });
 
 let shuttingDown = false;
@@ -53,6 +129,7 @@ async function shutdown(signal: NodeJS.Signals): Promise<void> {
   try {
     await new Promise<void>((resolve) => server.close(() => resolve()));
     await stopBoss(boss);
+    await ocr.close();
     await pool.end();
     logger.info('shutdown complete');
     process.exit(0);

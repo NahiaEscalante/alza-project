@@ -404,6 +404,16 @@ export const inboundMessages = pgTable(
     status: text('status').$type<InboundMessageStatus>().notNull().default('received'),
     attempts: integer('attempts').notNull().default(0),
     mediaFileId: uuid('media_file_id').references(() => mediaFiles.id, { onDelete: 'set null' }),
+    /**
+     * [Fase 3] Meta media id of an image or audio, to download it (RF-IN-04) and to retry from the
+     * admin panel (RF-AD-01). Not content: the file itself goes to `media_files`.
+     */
+    waMediaId: text('wa_media_id'),
+    /**
+     * [Fase 3] RF-IN-05: why the last attempt failed (a code such as `ai_unavailable`, never
+     * content), shown in the admin panel for `error` and `failed` messages.
+     */
+    errorCode: text('error_code'),
   },
   (t) => [
     check('inbound_messages_type_check', oneOf(t.type, INBOUND_MESSAGE_TYPES)),

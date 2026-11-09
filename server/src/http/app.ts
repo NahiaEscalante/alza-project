@@ -9,6 +9,8 @@ import { secureHeaders } from 'hono/secure-headers';
 import type { Db } from '../db/client.js';
 import type { Logger } from '../lib/logger.js';
 import { createApiRouter } from './api.js';
+import { createSimulatorRouter, type SimulatorRouterDeps } from './routes/dev/simulator.js';
+import { createWebhookRouter, type WebhookRouterDeps } from './routes/webhook.js';
 
 export interface AppDeps {
   db: Db;
@@ -17,6 +19,10 @@ export interface AppDeps {
   webDistDir?: string | null;
   /** Max wait for the database ping in /health. */
   healthTimeoutMs?: number;
+  /** `/webhook/whatsapp` (Fase 3). Omitted → not mounted. */
+  webhook?: WebhookRouterDeps | null;
+  /** `/dev/simulador` (D46), only when SIMULATOR_ENABLED. Posts through the webhook above. */
+  simulator?: Omit<SimulatorRouterDeps, 'postWebhook' | 'appSecret'> | null;
 }
 
 export function createApp(deps: AppDeps): Hono {
@@ -34,6 +40,28 @@ export function createApp(deps: AppDeps): Hono {
   });
 
   app.route('/api', createApiRouter({ db: deps.db }));
+
+  if (deps.webhook) {
+    app.route('/webhook', createWebhookRouter(deps.webhook));
+    const secret = deps.webhook.appSecret;
+    if (deps.simulator && secret !== null) {
+      app.route(
+        '/dev/simulador',
+        createSimulatorRouter({
+          ...deps.simulator,
+          appSecret: secret,
+          postWebhook: (rawBody, signature) =>
+            Promise.resolve(
+              app.request('/webhook/whatsapp', {
+                method: 'POST',
+                headers: { 'content-type': 'application/json', 'x-hub-signature-256': signature },
+                body: rawBody,
+              }),
+            ),
+        }),
+      );
+    }
+  }
 
   if (deps.webDistDir) mountWeb(app, deps.webDistDir);
 
