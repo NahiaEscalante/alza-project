@@ -28,9 +28,10 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 - **Integración:** terminada. Alta y cierre conectados al worker; cinco tareas registradas en `America/Lima`; panel, reintentos y WA-17 conectados a sus dependencias. Alta completa verificada contra el servidor real y pg-boss.
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
-- **Canal de la demo:** Telegram (D71–D74) implementado y probado localmente; falta desplegarlo y probarlo desde un celular (`docs/ALZA_TELEGRAM_SETUP.md`).
+- **Canal de la demo:** Telegram (D71–D74) desplegado en Railway con el webhook registrado; el bot responde. Falta el recorrido completo desde un celular (`docs/ALZA_TELEGRAM_SETUP.md`).
+- 🔄 **Ajustes de la landing y de premios (D75–D78):** desplegando en Railway.
 
-**Siguiente:** desplegar Telegram en Railway y hacer el recorrido real; reintentar la certificación de IA cuando se restablezcan las cuotas; Fase 11 (demo). Ver `docs/ALZA_VALIDACION_INTEGRACION.md`.
+**Siguiente:** hacer el recorrido real por Telegram desde un celular; reintentar la certificación de IA cuando se restablezcan las cuotas; Fase 11 (demo). Ver `docs/ALZA_VALIDACION_INTEGRACION.md`.
 
 ## Orden
 
@@ -147,7 +148,7 @@ D33–D52 y D68–D74 ya están en la spec v1.9. D53–D67 se registran en la sp
 
 **Listo cuando:** la evaluación corre sobre todo el dataset con 0 montos inventados. (Resultado: 0/124 montos inventados; monto, dirección y fecha 100 %; ilegibles 100 %; textos y audios 95,5 %; respuestas al cierre 100 %. Corrida en `datasets/eval-runs/`.)
 
-- [ ] 🔄 Certificar cada modelo por separado con `--route` antes de dejarlo en la rotación (D35).
+- [ ] Certificar cada modelo por separado con `--route` antes de dejarlo en la rotación (D35).
 
 ## Fase 3 · Recepción y libro de registros ✅
 
@@ -266,6 +267,7 @@ D33–D52 y D68–D74 ya están en la spec v1.9. D53–D67 se registran en la sp
 
 **Listo cuando:** se ve bien en 360 px y en escritorio, y la lista de espera guarda registros. (Resultado: 98 KB comprimidos en la primera carga; revisada con capturas.)
 
+- [x] Ajustes de la dueña (9 nov 2026): QR oficial de Telegram, hero sin etiqueta, «Cómo funciona» en 3 pasos con subpasos y emojis, sin avisos de «ejemplo» en premios (D75), premios de 50 puntos de mercadería y servicios (D76), bloque de Telegram y formulario más limpios (D77) y pie de página solo con logo (D78).
 - [ ] Logo oficial de CIX: no hay uno público; hoy se muestra el nombre en tipografía grande. Pedirlo a los organizadores.
 
 ## Fase 10 · Canal real (Meta, 360dialog, Telegram) 🟨
@@ -283,7 +285,7 @@ D33–D52 y D68–D74 ya están en la spec v1.9. D53–D67 se registran en la sp
 - [ ] Desplegar el adaptador 360dialog, registrar la URL, comprobar texto y botones con el celular; límite de 25 solicitudes y sin archivos por ID.
 - [ ] Prueba real: imagen, audio, texto, alta y cierre completo.
 - [x] Telegram (D71–D74): adaptador de la Bot API (texto, botones en línea, `sendPhoto`, 👍, descargas con SHA-256, un mensaje por segundo por chat), `POST /webhook/telegram` con secreto, long polling local, vinculación por número (WA-23, WA-24, migración `0004_telegram_chat`), textos por canal, aviso de demo `wa-01-v2-demo`, OCR sin visión y tope diario. Scripts `telegram:setup` y `telegram:status`. 995 pruebas pasan; `getMe` del bot respondió 200 (@alzaagentbot) sin enviar mensajes.
-- [ ] Desplegar Telegram: migrar, configurar `CHANNEL_PROVIDER=telegram`, `TELEGRAM_BOT_TOKEN` y `TELEGRAM_WEBHOOK_SECRET`, y ejecutar `npm run telegram:setup -w server -- --base-url=…`. Ver `docs/ALZA_TELEGRAM_SETUP.md`.
+- [x] Desplegar Telegram: migrar, configurar `CHANNEL_PROVIDER=telegram`, `TELEGRAM_BOT_TOKEN` y `TELEGRAM_WEBHOOK_SECRET`, y ejecutar `npm run telegram:setup -w server -- --base-url=…`. Ver `docs/ALZA_TELEGRAM_SETUP.md`.
 - [ ] Prueba real por Telegram desde un celular: QR, número, alta, captura (foto y archivo), audio, cierre con imagen, respuesta al cierre y web.
 
 **Listo cuando:** el día completo de la demo funciona desde un celular real.
