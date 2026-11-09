@@ -12,7 +12,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 1 | Reglas del negocio | ✅ |
 | 2 | Lectura de capturas y audios | ✅ |
 | 3 | Recepción y libro de registros | ✅ |
-| 4 | Alta y mensajes de excepción | 🟨 |
+| 4 | Alta y mensajes de excepción | ✅ |
 | 5 | Cierre del día | 🟨 |
 | 6 | Puntos y tareas programadas | ✅ |
 | 7 | Web de la usuaria | ✅ |
@@ -25,7 +25,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 🔄 marca las tareas que un agente está haciendo en este momento.
 
-- **Fase 4:** alta por WhatsApp y mensajes de excepción.
 - **Fase 5:** cierre del día completo.
 - **Fase 8 (panel):** panel interno con cuentas del equipo y registro de acciones.
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
@@ -79,6 +78,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D62 | Tareas programadas: cada día desde su primera actividad (nunca antes del consentimiento) tiene un cierre final, para poder reintentar sin duplicar. Un cierre enviado y no respondido queda con cuadre «sin respuesta». Con una alerta de titular repetido abierta, el día se cierra y la racha avanza, pero no suma puntos ni se pagan después. Un original borrado a los 30 días queda marcado en `storage_key` como `deleted/…`. Antifraude [PROP]: respuestas en menos de 15 s, al menos 5 veces, siempre «sí»; salto de actividad = más del triple del promedio de hasta 4 semanas anteriores. |
 | D63 | Descarga del historial: los archivos duran 7 días (después, «ya no está disponible»; se borran los archivos y queda la fila para métricas); máximo 5 reportes por hora; el periodo por defecto es 12 semanas; los logos de Yape y Mibanco enlazan a sus sitios oficiales y se marcan «Ejemplo para la demo» (3.2). |
 | D64 | Chat: herramienta extra `list_pending` (no está en 10.5). El modelo señala registros con referencias del turno, nunca con ids de la base. Solo propone cambios si ella lo pide. Las preguntas de crédito reciben un texto fijo aprobado, sin llamar al modelo. Respuestas que prometen crédito, dicen que ya cambiaron algo o usan «ganancia» se reemplazan. Una sola propuesta abierta a la vez, que vence a las 24 h. |
+| D65 | Alta: {nombre} es el primer nombre del titular. Hora de cierre sin «a. m./p. m.»: 1–2 se leen como a. m., 3–11 como p. m., 12 como medianoche; se aceptan de mediodía a 2 a. m. Si la pregunta pendiente tiene más de 1 hora, el siguiente mensaje recibe la pregunta otra vez. Un saludo nunca cuenta como respuesta. Las capturas enviadas a mitad del alta (con consentimiento) se registran. WA-07 no confirma registros cuya dirección aún es duda. «web» sin PIN recibe el texto de WA-14 con enlace de activación. WA-16 se envía antes de borrar la cuenta. |
 
 ---
 
@@ -163,20 +163,23 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 - [ ] 🔄 Ajustar el prompt para «vendí 5 de pan» (hoy lo lee como 5 panes y crea una duda) y sumarlo al dataset.
 
-## Fase 4 · Alta y mensajes de excepción 🟨
+## Fase 4 · Alta y mensajes de excepción ✅
 
 > De la Fase 7a: «web» de alguien sin PIN debe recibir un enlace de activación, no el de 7 días.
 
 **Objetivo:** una usuaria nueva se registra y ALZA solo habla cuando debe.
 
-- [ ] 🔄 Catálogo de mensajes de 12.1 como plantillas (incluido WA-21): única forma de enviar.
-- [ ] 🔄 Alta: consentimiento con versión, negocio, titular (o captura), hora de cierre y retomar a medias (5.1).
-- [ ] 🔄 Enlace de activación de 1 hora (D13).
-- [ ] 🔄 Confirmación de la primera captura (PR01, D41).
-- [ ] 🔄 Excepciones: «web», «olvidé mi PIN», «borra mis datos» (con botones), peligro (WA-20), consejo por ilegibles (WA-19), «sin imagen» y «con imagen».
-- [ ] 🔄 Borrado de cuenta (RF-PV-01).
+- [x] Catálogo de mensajes de 12.1 como plantillas (incluido WA-21): única forma de enviar.
+- [x] Alta: consentimiento con versión, negocio, titular (o captura), hora de cierre y retomar a medias (5.1).
+- [x] Enlace de activación de 1 hora (D13).
+- [x] Confirmación de la primera captura (PR01, D41).
+- [x] Excepciones: «web», «olvidé mi PIN», «borra mis datos» (con botones), peligro (WA-20), consejo por ilegibles (WA-19), «sin imagen» y «con imagen».
+- [x] Borrado de cuenta (RF-PV-01).
 
-**Listo cuando:** HU-01 y HU-15 pasan en el simulador.
+**Listo cuando:** HU-01 y HU-15 pasan en el simulador. (Resultado: 84 pruebas nuevas; alta completa probada en el simulador con «Número nuevo (alta)».)
+
+- [ ] Texto para una hora de cierre después de las 2 a. m. (hoy solo repite WA-05).
+- [ ] Volver a pedir consentimiento si cambia la versión del aviso (14.1).
 
 ## Fase 5 · Cierre del día 🟨
 
