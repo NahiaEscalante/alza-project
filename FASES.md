@@ -17,7 +17,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 6 | Puntos y tareas programadas | ⬜ |
 | 7 | Web de la usuaria | ⬜ |
 | 8 | Chat, reporte y panel interno | ⬜ |
-| 9 | Landing | 🟨 |
+| 9 | Landing | ✅ |
 | 10 | WhatsApp real (Meta) | ⬜ |
 | 11 | Demo | ⬜ |
 
@@ -173,6 +173,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [ ] 03:00: borrar originales con más de 30 días (PR07) y enlaces vencidos.
 - [ ] 04:00: vencimiento de puntos tras 6 meses sin cierres (D29).
 - [ ] Antifraude: titular repetido, misma captura en cuentas distintas, alertas (13.4).
+- [ ] Borrar registros de la lista de espera con más de 6 meses (D52).
 - [ ] Simulación de una semana completa con reloj simulado.
 
 **Listo cuando:** HU-08 pasa con la semana simulada.
@@ -205,17 +206,19 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-13 y HU-14 pasan, junto con las pruebas de seguridad.
 
-## Fase 9 · Landing 🟨
+## Fase 9 · Landing ✅
 
 **Objetivo:** una página pública que explique ALZA y atraiga a nuevas usuarias.
 
-- [ ] Propuesta de valor con un WhatsApp animado mostrando el cierre.
-- [ ] Cómo funciona en 3 pasos, puntos y premios, privacidad.
-- [ ] Bloque «Proyecto del Reto 2» con CIX destacado, UTEC Ventures y Credicorp.
-- [ ] Lista de espera con consentimiento y QR a WhatsApp para la demo.
-- [ ] Liviana y bien vista en celular.
+- [x] Propuesta de valor con un WhatsApp animado mostrando el cierre.
+- [x] Cómo funciona en 3 pasos, puntos y premios, privacidad.
+- [x] Bloque «Proyecto del Reto 2» con CIX destacado, UTEC Ventures y Credicorp.
+- [x] Lista de espera con consentimiento y QR a WhatsApp para la demo.
+- [x] Liviana y bien vista en celular.
 
-**Listo cuando:** se ve bien en 360 px y en escritorio, y la lista de espera guarda registros.
+**Listo cuando:** se ve bien en 360 px y en escritorio, y la lista de espera guarda registros. (Resultado: 98 KB comprimidos en la primera carga; revisada con capturas.)
+
+- [ ] Logo oficial de CIX: no hay uno público; hoy se muestra el nombre en tipografía grande. Pedirlo a los organizadores.
 
 ## Fase 10 · WhatsApp real (Meta) ⬜
 
@@ -225,6 +228,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 - [ ] App de Meta para ALZA, número de prueba y destinatarios verificados.
 - [ ] Token permanente con usuario del sistema.
 - [ ] Webhook en Railway con validación de firma.
+- [ ] `VITE_ALZA_WHATSAPP_NUMBER` en el build de la web para el QR del jurado en la landing.
 - [ ] Adaptador de Meta: texto, botones, imagen por ID, marcar como leído y descarga inmediata de archivos.
 - [ ] Prueba real: imagen, audio, texto, alta y cierre completo.
 
