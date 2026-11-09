@@ -6,6 +6,8 @@ import { PrivacyPage } from './landing/PrivacyPage';
 
 // The user's web is split out so the public landing stays light (RNF-06).
 const AppRoot = lazy(() => import('./app/AppRoot'));
+// Internal panel for the team (Fase 8c), also on demand.
+const AdminRoot = lazy(() => import('./admin/AdminRoot'));
 
 export function App() {
   return (
@@ -15,6 +17,11 @@ export function App() {
       <Route path="/app" nest>
         <Suspense fallback={null}>
           <AppRoot />
+        </Suspense>
+      </Route>
+      <Route path="/panel" nest>
+        <Suspense fallback={null}>
+          <AdminRoot />
         </Suspense>
       </Route>
       <Route>

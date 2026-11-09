@@ -13,6 +13,8 @@
     "db:migrate": "tsx src/scripts/migrate.ts",
     "db:migrate:dist": "node dist/scripts/migrate.js",
     "seed:demo": "tsx src/scripts/seed-demo.ts",
+    "create-admin": "tsx src/scripts/create-admin.ts",
+    "create-admin:dist": "node dist/scripts/create-admin.js",
     "eval": "tsx src/scripts/eval.ts",
     "eval:generate": "tsx src/scripts/eval-generate.ts",
     "render:preview": "tsx src/render/preview.ts"
