@@ -1,53 +1,41 @@
 import { useEffect, useRef, useState } from 'react';
 import { useInView } from './hooks';
-import { QrIcon } from './icons';
-import { demoWhatsAppNumber } from './phone';
+import { demoTelegramBot } from './phone';
 
 /**
- * «Para el jurado» (D43): QR to the demo WhatsApp number. `qrcode-generator` loads only when this
- * block nears the screen. Without `VITE_ALZA_WHATSAPP_NUMBER` it shows «Muy pronto», never a
- * broken QR.
+ * Public demo block (D71): «Pruébalo hoy en Telegram», with a QR to the bot's deep link
+ * (`https://t.me/<bot>?start=landing`). WhatsApp stays the product vision in the rest of the
+ * landing; the public demo runs on Telegram while Meta's account is blocked. The bot comes from
+ * `VITE_ALZA_TELEGRAM_BOT` (default `alzaagentbot`). `qrcode-generator` loads only when this
+ * block nears the screen.
  */
-const DEMO_NUMBER = demoWhatsAppNumber(import.meta.env.VITE_ALZA_WHATSAPP_NUMBER);
-const WA_URL = DEMO_NUMBER ? `https://wa.me/${DEMO_NUMBER}?text=Hola%20ALZA` : null;
+const BOT = demoTelegramBot(import.meta.env.VITE_ALZA_TELEGRAM_BOT);
+const TELEGRAM_URL = `https://t.me/${BOT}?start=landing`;
 
 export function JuryQr() {
   return (
     <div className="flex h-full flex-col rounded-[28px] bg-navy p-6 text-white sm:p-7">
-      <p className="text-sm font-bold uppercase tracking-[0.08em] text-[#c9b6ff]">Para el jurado</p>
-      <h3 className="mt-2 text-2xl font-extrabold">Pruébalo en vivo</h3>
-      {WA_URL ? (
-        <>
-          <p className="mt-2 text-[#d6ddf5]">
-            Escanea el código con la cámara y escríbele «Hola ALZA» por WhatsApp.
-          </p>
-          <div className="mt-6 flex flex-1 items-center justify-center">
-            <QrCode value={WA_URL} />
-          </div>
-          <a
-            href={WA_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-6 font-semibold text-navy transition-colors hover:bg-lav"
-          >
-            Abrir WhatsApp
-          </a>
-          <p className="mt-4 text-sm text-[#d6ddf5]">
-            Funciona con los celulares registrados para la demo.
-          </p>
-        </>
-      ) : (
-        <>
-          <p className="mt-2 text-[#d6ddf5]">
-            Aquí vas a poder escanear un código y escribirle a ALZA desde tu WhatsApp.
-          </p>
-          <div className="mt-6 flex flex-1 flex-col items-center justify-center gap-3 rounded-[20px] border-2 border-dashed border-white/25 px-6 py-10 text-center">
-            <QrIcon className="size-12 text-[#c9b6ff]" />
-            <p className="text-xl font-bold">Muy pronto</p>
-            <p className="text-[15px] text-[#d6ddf5]">El número de la demo se activa en breve.</p>
-          </div>
-        </>
-      )}
+      <p className="text-sm font-bold uppercase tracking-[0.08em] text-[#c9b6ff]">Demo abierta</p>
+      <h3 className="mt-2 text-2xl font-extrabold">Pruébalo hoy en Telegram</h3>
+      <p className="mt-2 text-[#d6ddf5]">
+        Escanea el código con la cámara de tu celular, abre el chat de ALZA en Telegram y toca
+        «Iniciar». Te pedirá tu número para crear tu cuenta.
+      </p>
+      <div className="mt-6 flex flex-1 items-center justify-center">
+        <QrCode value={TELEGRAM_URL} />
+      </div>
+      <a
+        href={TELEGRAM_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-6 inline-flex min-h-[52px] items-center justify-center rounded-full bg-white px-6 font-semibold text-navy transition-colors hover:bg-lav"
+      >
+        Abrir en Telegram
+      </a>
+      <p className="mt-4 text-sm text-[#d6ddf5]">
+        Es una demo: usa capturas y datos de prueba, no los reales de tu negocio. ALZA está pensado
+        para WhatsApp; mientras tanto, la demo funciona en Telegram.
+      </p>
     </div>
   );
 }
@@ -88,7 +76,7 @@ function QrCode({ value }: { value: string }) {
         <svg
           viewBox={`-2 -2 ${path.size + 4} ${path.size + 4}`}
           role="img"
-          aria-label="Código QR para escribirle a ALZA por WhatsApp"
+          aria-label="Código QR para abrir ALZA en Telegram"
           className="size-full"
           shapeRendering="crispEdges"
         >

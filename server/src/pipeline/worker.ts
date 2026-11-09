@@ -26,6 +26,7 @@ import {
 import { businessDayOf } from '../domain/index.js';
 import type { FlowMessage } from '../flows/hooks.js';
 import { createClarification } from '../ledger/index.js';
+import { consentTextVersion } from '../messages/consent.js';
 import { commitMessage, FINISHED_STATUSES, NOT_PROCESSING, type TerminalStatus } from './commit.js';
 import { closeRepliedTo, hasAcceptedConsent } from './context.js';
 import type { InboundQueue, PipelineDeps } from './deps.js';
@@ -148,7 +149,7 @@ async function processMessage(work: MessageWork): Promise<TerminalStatus> {
   const { db, hooks } = deps;
 
   // RF-ON-02, HU-01: nothing is processed or kept before «Acepto».
-  if (!(await hasAcceptedConsent(db, user.id))) {
+  if (!(await hasAcceptedConsent(db, user.id, consentTextVersion(deps.messagingApp)))) {
     const flow = toFlowMessage(message);
     if (message.type !== 'interactive' && message.text !== null) {
       await db

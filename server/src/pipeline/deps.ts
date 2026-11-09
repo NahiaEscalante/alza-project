@@ -5,6 +5,7 @@ import type { Channel } from '../channel/types.js';
 import type { Db } from '../db/client.js';
 import type { FlowHooks } from '../flows/hooks.js';
 import type { Logger } from '../lib/logger.js';
+import type { MessagingApp } from '../messages/catalog.js';
 import type { OcrEngine } from '../ocr/engine.js';
 import type { BlobStorage } from '../storage/blob-storage.js';
 
@@ -15,6 +16,8 @@ export function createScreenshotReader(deps: {
   ocr: OcrEngine;
   ai: Pick<AiLayer, 'extractScreenshot'>;
   logger?: Logger;
+  /** D74: false reads with the local OCR only (unrecognized designs become «ilegible»). */
+  visionFallback?: boolean;
 }): ScreenshotReader {
   return (image, now) => readScreenshot(image, { ...deps, now: () => now });
 }
@@ -29,6 +32,8 @@ export interface PipelineDeps {
   readScreenshot: ScreenshotReader;
   hooks: FlowHooks;
   now: () => Date;
+  /** D73, D74: which consent version counts. Default `whatsapp`. */
+  messagingApp?: MessagingApp;
 }
 
 /** Enqueues the processing of a stored inbound message. */

@@ -87,6 +87,7 @@ Primero: `cp .env.example .env` y completar `ENCRYPTION_KEY` (`openssl rand -bas
 | Producción | `npm start` (sirve web, `/api` y `/health` en `PORT`); migrar con `npm run db:migrate:dist -w server` |
 | Evaluar la IA | `npm run eval -w server`: todo el dataset por el pipeline real, tabla de 17.2 y corrida en `datasets/eval-runs/` (opciones: `--only=images,generated,audios,texts,close`, `--route=<función>=<ruta>` para probar un modelo, `--delay-ms`). Casos difíciles: `npm run eval:generate -w server`. Modelos disponibles: `npx tsx src/scripts/eval-list-models.ts` (en `server/`) |
 | Desplegar | _por definir_ (Railway) |
+| Telegram (D71) | `npm run telegram:setup -w server -- --base-url=https://…` registra el webhook; `npm run telegram:status -w server` lo revisa; `--delete-webhook` lo quita. Ver `docs/ALZA_TELEGRAM_SETUP.md` |
 
 ### Estructura del repositorio
 
@@ -106,7 +107,7 @@ server/
     domain/       [Fase 1] reglas de negocio como funciones puras (11, 13.1, 14.3)
     ai/           [Fase 2] capa de IA intercambiable (8.3): Groq y Gemini
     ocr/          [Fase 2] tesseract.js y lectores por diseño de captura
-    channel/      interfaz de canal: simulador y Meta Cloud API (Fase 10)
+    channel/      interfaz de canal: simulador, Meta Cloud API, 360dialog y Telegram (Fase 10)
     pipeline/     [Fase 3] worker: clasificar, leer, interpretar, registrar, dudas
     messages/     [Fase 4–5] catálogo 12.1 como plantillas: única forma de enviar
     flows/        [Fase 4–5] alta, excepciones, cierre y su respuesta
@@ -194,7 +195,7 @@ docker/postgres/init/   crea alza_test al iniciar el volumen
 
 ## Estado actual
 
-- **Fase de descubrimiento:** cerrada (spec v1.8, decisiones D01–D52 y D68–D69; D53–D67 en `FASES.md`).
+- **Fase de descubrimiento:** cerrada (spec v1.9, decisiones D01–D52 y D68–D74; D53–D67 en `FASES.md`).
 - **Desarrollo:** plan por fases en `FASES.md` (Fase 0 a Fase 11). Marcar ahí cada avance.
 - **Fase 0 · Cimientos:** lista (el despliegue en Railway pasó a la Fase 10).
 - **Fases 1–7 y 9:** implementadas. Integración del arranque terminada: alta, cierre, cinco tareas en Lima y API del panel conectados.
@@ -203,7 +204,8 @@ docker/postgres/init/   crea alza_test al iniciar el volumen
 - **Fase 10:** app de Meta creada, credenciales guardadas y adaptador implementado y probado. Para usarlo: `SIMULATOR_ENABLED=false`; `WHATSAPP_API_VERSION` por defecto `v25.0`. Railway y webhook público ya verificados; pendiente el recorrido desde el celular, bloqueado en Meta por `131031`.
 - **Conexión actual:** Railway y Postgres online con `/health` verificado; firma y verificación del webhook de Meta comprobadas. Meta rechazó el envío con `131031` (cuenta de prueba bloqueada).
 - **360dialog (D69):** adaptador de sandbox y webhook implementados localmente; pruebas sin consumir la API. Requiere desplegar, configurar `WHATSAPP_PROVIDER=dialog360`, `DIALOG360_API_KEY`, `DIALOG360_WEBHOOK_TOKEN` y simulador desactivado. Ver `docs/ALZA_360DIALOG_SETUP.md`.
-- **Siguiente:** desplegar y probar 360dialog con un celular (texto y botones), considerando sus límites; certificación de IA cuando haya cuota; Fase 11 (demo).
+- **Telegram (D71–D74), canal de la demo:** bot @alzaagentbot. Adaptador, webhook `/webhook/telegram` con secreto, long polling local, vinculación por número (WA-23, WA-24, `users.telegram_chat_id`, migración `0004_telegram_chat`), textos por canal, aviso de demo con consentimiento `wa-01-v2-demo`, capturas solo con OCR salvo `AI_VISION_FALLBACK=true` y tope de 150 mensajes por día. Se activa solo con `CHANNEL_PROVIDER=telegram`, `TELEGRAM_BOT_TOKEN` y `TELEGRAM_WEBHOOK_SECRET`; sin ellas nada cambia. 995 pruebas pasan. Ver `docs/ALZA_TELEGRAM_SETUP.md`.
+- **Siguiente:** desplegar Telegram en Railway, registrar el webhook con `npm run telegram:setup -w server -- --base-url=…` y hacer el recorrido completo desde un celular; certificación de IA cuando haya cuota; Fase 11 (demo).
 - **Insumos pendientes:** ver `docs/ALZA_INSUMOS_PENDIENTES.md`.
 
 ## Registro de trabajo · Codex

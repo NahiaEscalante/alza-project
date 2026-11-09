@@ -207,8 +207,8 @@ function PinSheetBody({ onVerified, onCancel }: { onVerified: () => void; onCanc
         Confirmar
       </Button>
       <p className="text-sm text-muted">
-        ¿Olvidaste tu PIN? Escribe «olvidé mi PIN» en WhatsApp y te mando un enlace para crear uno
-        nuevo.
+        ¿Olvidaste tu PIN? Escribe «olvidé mi PIN» en el chat donde mandas tus capturas y te mando
+        un enlace para crear uno nuevo.
       </p>
     </form>
   );

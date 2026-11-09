@@ -21,7 +21,7 @@ type Status = 'unknown' | 'checking' | 'in' | 'out' | 'error';
 export interface SignOutNotice {
   title: string;
   message: string;
-  /** Word to write in WhatsApp to come back; null when there is no coming back (deleted). */
+  /** Word to write in the ALZA chat to come back; null when there is no coming back (deleted). */
   hint: string | null;
 }
 

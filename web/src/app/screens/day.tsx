@@ -88,7 +88,7 @@ export function DayScreen({ date }: { date: string }) {
             <EmptyState icon={<ListIcon />} title="No hay registros este día">
               {data.canAddEntries
                 ? 'Si te faltó anotar algo, agrégalo aquí.'
-                : 'Manda tus capturas y ventas por WhatsApp y aparecerán aquí.'}
+                : 'Manda tus capturas y ventas por el chat de ALZA y aparecerán aquí.'}
             </EmptyState>
           ) : (
             <ul className="flex flex-col gap-2">

@@ -11,11 +11,14 @@ export function normalizePeruMobile(input: string): string | null {
   return /^9\d{8}$/.test(digits) ? `+51${digits}` : null;
 }
 
+/** D71: the public demo bot. */
+export const DEFAULT_TELEGRAM_BOT = 'alzaagentbot';
+
 /**
- * Demo WhatsApp number from `VITE_ALZA_WHATSAPP_NUMBER` (international format, `+` and spaces
- * allowed). Null when unset or malformed, so the landing shows «Muy pronto» instead of a bad QR.
+ * Demo Telegram bot username from `VITE_ALZA_TELEGRAM_BOT` (with or without «@»). Falls back to
+ * `alzaagentbot` when unset or malformed, so the QR never points to a broken link.
  */
-export function demoWhatsAppNumber(raw: string | undefined): string | null {
-  const digits = raw?.replace(/[\s\-+()]/g, '') ?? '';
-  return /^\d{8,15}$/.test(digits) ? digits : null;
+export function demoTelegramBot(raw: string | undefined): string {
+  const name = raw?.trim().replace(/^@/, '') ?? '';
+  return /^[A-Za-z][A-Za-z0-9_]{3,31}$/.test(name) ? name : DEFAULT_TELEGRAM_BOT;
 }

@@ -123,7 +123,7 @@ function SummarySection({
   return (
     <section aria-labelledby="summary-title">
       <SectionTitle>
-        <span id="summary-title">Resumen del día en WhatsApp</span>
+        <span id="summary-title">Resumen del día en el chat</span>
       </SectionTitle>
       <Card>
         <fieldset>
@@ -530,7 +530,7 @@ function LogoutAll({ onCancel }: { onCancel: () => void }) {
           if (result)
             signOut({
               title: 'Sesión cerrada',
-              message: `${result.message ?? 'Listo, cerraste tu sesión en todos tus celulares.'} Para volver a entrar, abre el enlace de tu último cierre o escribe «web» en WhatsApp.`,
+              message: `${result.message ?? 'Listo, cerraste tu sesión en todos tus celulares.'} Para volver a entrar, abre el enlace de tu último cierre o escribe «web» en el chat de ALZA.`,
               hint: 'web',
             });
         }}

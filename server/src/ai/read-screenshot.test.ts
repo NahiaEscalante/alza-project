@@ -170,6 +170,30 @@ describe('readScreenshot (D33)', () => {
     expect(reading.extraction.legible).toBe(false);
     expect(reading.source).toBe('none');
   });
+
+  it('OCR only (D74): never calls the vision model; unknown layout → unreadable, no retry', async () => {
+    const vision = fakeVision(null);
+    const unknown = await readScreenshot(image, {
+      ocr: fakeOcr(unknownPage, []),
+      ai: vision.ai,
+      now: () => NOW,
+      visionFallback: false,
+    });
+    expect(vision.calls).toHaveLength(0);
+    expect(unknown).toMatchObject({ source: 'none', aiFailure: null });
+    expect(unknown.extraction.legible).toBe(false);
+    expect(unknown.issues).toContain('vision_disabled');
+
+    const known = await readScreenshot(image, {
+      ocr: fakeOcr(yapeSent.page, yapeSent.amountLines),
+      ai: vision.ai,
+      now: () => NOW,
+      visionFallback: false,
+    });
+    expect(vision.calls).toHaveLength(0);
+    expect(known.source).toBe('ocr');
+    expect(known.extraction.operations[0]?.amount).toBe('7.50');
+  });
 });
 
 describe('acceptVisionAmount', () => {

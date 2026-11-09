@@ -18,7 +18,9 @@
     "eval": "tsx src/scripts/eval.ts",
     "eval:generate": "tsx src/scripts/eval-generate.ts",
     "render:preview": "tsx src/render/preview.ts",
-    "dialog360:setup": "tsx src/scripts/dialog360-setup.ts"
+    "dialog360:setup": "tsx src/scripts/dialog360-setup.ts",
+    "telegram:setup": "tsx src/scripts/telegram-setup.ts",
+    "telegram:status": "tsx src/scripts/telegram-status.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",

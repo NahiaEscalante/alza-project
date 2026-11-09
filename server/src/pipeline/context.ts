@@ -21,15 +21,19 @@ import {
 import type { DbOrTx } from '../ledger/types.js';
 import { CONSENT_TEXT_VERSION } from '../messages/consent.js';
 
-/** RF-ON-02: her latest consent answer is «Acepto». */
-export async function hasAcceptedConsent(db: DbOrTx, userId: string): Promise<boolean> {
+/** RF-ON-02: her latest consent answer is «Acepto», to the current text version (14.1, D74). */
+export async function hasAcceptedConsent(
+  db: DbOrTx,
+  userId: string,
+  textVersion: string = CONSENT_TEXT_VERSION,
+): Promise<boolean> {
   const [latest] = await db
     .select({ accepted: consents.accepted, textVersion: consents.textVersion })
     .from(consents)
     .where(eq(consents.userId, userId))
     .orderBy(desc(consents.createdAt))
     .limit(1);
-  return latest?.accepted === true && latest.textVersion === CONSENT_TEXT_VERSION;
+  return latest?.accepted === true && latest.textVersion === textVersion;
 }
 
 /** Principal holder plus the additional ones (D31), for `coincide()` (11.2). */

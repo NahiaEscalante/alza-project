@@ -2,7 +2,7 @@
  * Access (14.3, HU-09, HU-10, 12.2 «Activación y PIN»):
  * - `/app/activar/:token`: 1-hour activation link → «Crea tu PIN» (twice) → Inicio.
  * - `/app/entrar/:token`: 7-day link → remembered phone goes straight in; otherwise the PIN.
- * - No session: tells her to open her link or write «web» in WhatsApp.
+ * - No session: tells her to open her link or write «web» in the ALZA chat (D73).
  * The token leaves the address bar as soon as the server keeps it in its cookie.
  */
 import { type ReactNode, useEffect, useId, useState } from 'react';
@@ -17,7 +17,7 @@ import { type SignOutNotice, useSession } from '../state/session';
 import { useToast } from '../state/toast';
 
 const NO_SESSION_MESSAGE =
-  'Para entrar, abre el enlace de tu último cierre o escribe «web» en WhatsApp para recibir uno.';
+  'Para entrar, abre el enlace de tu último cierre o escribe «web» en el chat de ALZA para recibir uno.';
 
 function AuthLayout({ children, title }: { children: ReactNode; title: string }) {
   useEffect(() => {
@@ -56,7 +56,7 @@ function MessageScreen({
   icon: ReactNode;
   title: string;
   message: string;
-  /** What to write in WhatsApp; by default the word the message asks for. */
+  /** What to write in the ALZA chat; by default the word the message asks for. */
   hint?: string | null;
   children?: ReactNode;
 }) {
@@ -67,7 +67,7 @@ function MessageScreen({
       </span>
       <h1 className="text-2xl leading-tight font-bold text-text">{title}</h1>
       <p className="text-base text-muted">{message}</p>
-      {hint && <WhatsAppHint word={hint} />}
+      {hint && <ChatHint word={hint} />}
       {children}
     </div>
   );
@@ -78,11 +78,11 @@ function hintFor(message: string): string {
   return message.includes('olvidé mi PIN') ? 'olvidé mi PIN' : 'web';
 }
 
-/** What to type in WhatsApp, as a chat bubble. */
-function WhatsAppHint({ word }: { word: string }) {
+/** What to type in the ALZA chat (WhatsApp, or Telegram in the demo: D73), as a bubble. */
+function ChatHint({ word }: { word: string }) {
   return (
     <div className="mt-3 w-full rounded-[18px] border border-border bg-card p-4 text-left">
-      <p className="text-sm font-semibold text-muted">En el chat de ALZA en WhatsApp, escribe:</p>
+      <p className="text-sm font-semibold text-muted">En el chat de ALZA, escribe:</p>
       <p className="mt-2 ml-auto w-fit rounded-2xl rounded-br-sm bg-[#dcf8c6] px-4 py-2 text-lg font-semibold text-text">
         {word}
       </p>
@@ -401,8 +401,8 @@ function LoginPinForm() {
         Entrar
       </Button>
       <p className="text-sm text-muted">
-        ¿Olvidaste tu PIN? Escribe «olvidé mi PIN» en WhatsApp y te mando un enlace para crear uno
-        nuevo.
+        ¿Olvidaste tu PIN? Escribe «olvidé mi PIN» en el chat donde mandas tus capturas y te mando
+        un enlace para crear uno nuevo.
       </p>
     </form>
   );

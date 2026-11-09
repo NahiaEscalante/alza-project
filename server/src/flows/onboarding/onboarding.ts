@@ -42,7 +42,7 @@ import {
   sendCatalogMessage,
   welcomeMessage,
 } from '../../messages/catalog.js';
-import { CONSENT_TEXT_VERSION } from '../../messages/consent.js';
+import { consentTextVersion } from '../../messages/consent.js';
 import { lastSentAt } from '../../messages/outbound-log.js';
 import { commitMessage, type TerminalStatus } from '../../pipeline/commit.js';
 import type { FlowMessage, OnboardingEvent, OnboardingOutcome } from '../hooks.js';
@@ -133,7 +133,7 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
     await commitStep(context, 'discarded_no_consent', async (tx) => {
       await tx.insert(consents).values({
         userId: user.id,
-        textVersion: CONSENT_TEXT_VERSION,
+        textVersion: consentTextVersion(deps.messagingApp),
         accepted: true,
         createdAt: now,
       });
@@ -152,7 +152,7 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
       if (user.onboardingStatus !== 'declined') {
         await tx.insert(consents).values({
           userId: user.id,
-          textVersion: CONSENT_TEXT_VERSION,
+          textVersion: consentTextVersion(deps.messagingApp),
           accepted: false,
           createdAt: now,
         });
@@ -166,7 +166,9 @@ async function beforeConsent(context: StepContext): Promise<OnboardingOutcome> {
   const repeated =
     user.onboardingStatus === 'awaiting_consent' &&
     (await sentWithin(context, 'WA-01', REPEAT_WINDOW_MS)) !== null;
-  if (!repeated) await send(context, welcomeMessage(privacyUrl(deps.appBaseUrl)));
+  if (!repeated) {
+    await send(context, welcomeMessage(privacyUrl(deps.appBaseUrl), deps.messagingApp));
+  }
   await commitStep(context, 'discarded_no_consent', async (tx) => {
     await forgetContent(tx, message);
     if (user.onboardingStatus !== 'complete') {
@@ -308,7 +310,10 @@ async function finishOnboarding(context: StepContext, closeTime: string): Promis
     now,
   });
   const name = firstNameOf(user?.accountHolderName ?? null, user?.businessName ?? '');
-  await send(context, habitMessage({ name, closeTime, activationUrl: link.url }));
+  await send(
+    context,
+    habitMessage({ name, closeTime, activationUrl: link.url, app: deps.messagingApp }),
+  );
   await commitStep(context, 'request_handled', async (tx) => {
     await tx
       .update(users)

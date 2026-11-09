@@ -57,6 +57,30 @@ describe('logger redaction (RNF-09)', () => {
     logger.info({ req: { headers: { 'x-hub-signature-256': 'sha256=deadbeef' } } }, 'webhook');
     expect(output()).not.toContain('deadbeef');
   });
+
+  it('hides Telegram chat ids, contact numbers, the bot token and the webhook secret', () => {
+    const { logger, output } = capture();
+    logger.info(
+      {
+        updateId: 42,
+        chatId: '7700112233',
+        contact: { phone_number: '51999888777' },
+        config: { botToken: '123456:telegram-token-value' },
+        req: { headers: { 'x-telegram-bot-api-secret-token': 'hook-secret-value' } },
+      },
+      'telegram',
+    );
+    const out = output();
+    for (const leaked of [
+      '7700112233',
+      '51999888777',
+      'telegram-token-value',
+      'hook-secret-value',
+    ]) {
+      expect(out).not.toContain(leaked);
+    }
+    expect(out).toContain('42');
+  });
 });
 
 describe('serializeError', () => {

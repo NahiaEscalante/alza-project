@@ -107,7 +107,7 @@ export function MovementsScreen() {
         <Loading rows={5} />
       ) : list.every((day) => !day.hasActivity) ? (
         <EmptyState icon={<ListIcon />} title="No hay movimientos en esta semana">
-          Lo que mandes por WhatsApp aparecerá aquí, día por día.
+          Lo que mandes por el chat de ALZA aparecerá aquí, día por día.
         </EmptyState>
       ) : (
         <ul className="flex flex-col gap-2">

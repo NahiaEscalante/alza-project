@@ -132,6 +132,86 @@ describe('loadConfig', () => {
   });
 });
 
+describe('loadConfig · channel selection (D71)', () => {
+  const TOKEN = `123456789:${'a'.repeat(35)}`;
+  const SECRET = 's'.repeat(48);
+
+  it('without the new variables nothing changes', () => {
+    const config = loadConfig(BASE);
+    expect(config).toMatchObject({
+      channelProvider: null,
+      telegram: null,
+      aiVisionFallback: true,
+      simulatorEnabled: true,
+      whatsappProvider: 'meta',
+    });
+    // Stray Telegram values are ignored (and never validated) until Telegram is chosen.
+    expect(loadConfig({ ...BASE, TELEGRAM_BOT_TOKEN: 'not-a-token' }).telegram).toBeNull();
+  });
+
+  it('CHANNEL_PROVIDER=telegram needs a valid token and webhook secret', () => {
+    expect(configError({ ...BASE, CHANNEL_PROVIDER: 'telegram' }).variables).toEqual([
+      'TELEGRAM_BOT_TOKEN',
+      'TELEGRAM_WEBHOOK_SECRET',
+    ]);
+    expect(
+      configError({
+        ...BASE,
+        CHANNEL_PROVIDER: 'telegram',
+        TELEGRAM_BOT_TOKEN: TOKEN,
+        TELEGRAM_WEBHOOK_SECRET: 'short',
+      }).variables,
+    ).toEqual(['TELEGRAM_WEBHOOK_SECRET']);
+    const config = loadConfig({
+      ...BASE,
+      CHANNEL_PROVIDER: 'telegram',
+      TELEGRAM_BOT_TOKEN: TOKEN,
+      TELEGRAM_WEBHOOK_SECRET: SECRET,
+      WHATSAPP_PROVIDER: 'dialog360',
+    });
+    expect(config).toMatchObject({
+      channelProvider: 'telegram',
+      simulatorEnabled: false,
+      aiVisionFallback: false,
+      telegram: { botToken: TOKEN, webhookSecret: SECRET, polling: false, dailyInboundCap: 150 },
+    });
+  });
+
+  it('polling needs no webhook secret and is refused in production', () => {
+    const env = {
+      ...BASE,
+      CHANNEL_PROVIDER: 'telegram',
+      TELEGRAM_BOT_TOKEN: TOKEN,
+      TELEGRAM_POLLING: 'true',
+      TELEGRAM_DAILY_INBOUND_CAP: '20',
+      AI_VISION_FALLBACK: 'true',
+    };
+    expect(loadConfig(env)).toMatchObject({
+      aiVisionFallback: true,
+      telegram: { webhookSecret: null, polling: true, dailyInboundCap: 20 },
+    });
+    expect(configError({ ...env, NODE_ENV: 'production' }).variables).toEqual(['TELEGRAM_POLLING']);
+  });
+
+  it('CHANNEL_PROVIDER also picks the WhatsApp transports and the simulator', () => {
+    expect(loadConfig({ ...BASE, CHANNEL_PROVIDER: 'meta' })).toMatchObject({
+      simulatorEnabled: false,
+      whatsappProvider: 'meta',
+    });
+    expect(
+      loadConfig({ ...BASE, NODE_ENV: 'production', CHANNEL_PROVIDER: 'simulator' })
+        .simulatorEnabled,
+    ).toBe(true);
+    expect(configError({ ...BASE, CHANNEL_PROVIDER: 'dialog360' }).variables).toEqual([
+      'DIALOG360_API_KEY',
+      'DIALOG360_WEBHOOK_TOKEN',
+    ]);
+    expect(configError({ ...BASE, CHANNEL_PROVIDER: 'pigeon' }).variables).toEqual([
+      'CHANNEL_PROVIDER',
+    ]);
+  });
+});
+
 describe('collectGeminiKeys', () => {
   it('collects GEMINI_API_KEY and GEMINI_API_KEY_1..N in numeric order, deduplicated', () => {
     const keys = collectGeminiKeys({

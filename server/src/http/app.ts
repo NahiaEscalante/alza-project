@@ -11,6 +11,7 @@ import type { Logger } from '../lib/logger.js';
 import { type ApiDeps, createApiRouter } from './api.js';
 import { createSimulatorRouter, type SimulatorRouterDeps } from './routes/dev/simulator.js';
 import { createDialog360WebhookRouter, type Dialog360WebhookDeps } from './routes/dialog360.js';
+import { createTelegramWebhookRouter, type TelegramWebhookDeps } from './routes/telegram.js';
 import { createWebhookRouter, type WebhookRouterDeps } from './routes/webhook.js';
 
 export interface AppDeps {
@@ -25,6 +26,8 @@ export interface AppDeps {
   /** `/webhook/whatsapp` (Fase 3). Omitted → not mounted. */
   webhook?: WebhookRouterDeps | null;
   dialog360Webhook?: Dialog360WebhookDeps | null;
+  /** `POST /webhook/telegram` (D71), only with `CHANNEL_PROVIDER=telegram` and no polling. */
+  telegramWebhook?: TelegramWebhookDeps | null;
   /** `/dev/simulador` (D46), only when SIMULATOR_ENABLED. Posts through the webhook above. */
   simulator?: Omit<SimulatorRouterDeps, 'postWebhook' | 'appSecret'> | null;
 }
@@ -69,6 +72,9 @@ export function createApp(deps: AppDeps): Hono {
 
   if (deps.dialog360Webhook)
     app.route('/webhook', createDialog360WebhookRouter(deps.dialog360Webhook));
+  if (deps.telegramWebhook) {
+    app.route('/webhook', createTelegramWebhookRouter(deps.telegramWebhook));
+  }
 
   if (deps.webDistDir) mountWeb(app, deps.webDistDir);
 

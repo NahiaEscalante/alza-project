@@ -37,6 +37,11 @@ export interface ReadScreenshotDeps {
   ai: Pick<AiLayer, 'extractScreenshot'>;
   now?: () => Date;
   logger?: Logger;
+  /**
+   * D74: `false` never calls the vision model (public Telegram demo, `AI_VISION_FALLBACK`). What
+   * the OCR cannot read is unreadable («ilegible»), never retried. Default true (D33).
+   */
+  visionFallback?: boolean;
 }
 
 const OCR_META = { provider: 'local', model: OCR_MODEL_ID, promptVersion: OCR_PARSERS_VERSION };
@@ -83,6 +88,39 @@ export async function readScreenshot(
     };
   }
   if (ocr?.amountIssue) issues.push(`ocr_${ocr.amountIssue}`);
+
+  if (deps.visionFallback === false) {
+    issues.push('vision_disabled');
+    if (ocr?.operation && ocr.amountVerified) {
+      // Only the date (or another optional field) was missing: the OCR read stands.
+      const checked = checkScreenshotExtraction(
+        { content_type: 'individual_receipt', legible: true, operations: [ocr.operation] },
+        checkOptions,
+      );
+      return {
+        extraction: checked.extraction,
+        source: 'ocr',
+        layout,
+        meta: OCR_META,
+        aiFailure: null,
+        issues: [...issues, ...checked.issues],
+        timings: { ocrMs, visionMs: 0 },
+      };
+    }
+    return {
+      extraction: {
+        content_type: ocr?.imageClass ?? 'individual_receipt',
+        legible: false,
+        operations: ocr?.operation ? [{ ...ocr.operation, amount: null }] : [],
+      },
+      source: 'none',
+      layout,
+      meta: OCR_META,
+      aiFailure: null,
+      issues,
+      timings: { ocrMs, visionMs: 0 },
+    };
+  }
 
   const t1 = performance.now();
   const vision = await deps.ai.extractScreenshot(image, now);

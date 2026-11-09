@@ -72,9 +72,12 @@ export interface DownloadedMedia {
 }
 
 export interface Channel {
-  /** Selected transport; dialog360 is a limited sandbox, not the production channel. */
-  readonly kind: 'simulator' | 'meta' | 'dialog360';
-  /** RF-IN-03: blue ticks on one of her messages. */
+  /**
+   * Selected transport; dialog360 is a limited sandbox, not the production channel. Telegram is
+   * the public demo channel (D71): same catalog and Meta limits, a 👍 reaction instead of ticks.
+   */
+  readonly kind: 'simulator' | 'meta' | 'dialog360' | 'telegram';
+  /** RF-IN-03: blue ticks on one of her messages (Telegram: a 👍 reaction, D71). */
   markAsRead(waMessageId: string): Promise<void>;
   sendText(ctx: OutboundContext, message: TextMessage): Promise<SentMessage>;
   sendButtons(ctx: OutboundContext, message: ButtonsMessage): Promise<SentMessage>;

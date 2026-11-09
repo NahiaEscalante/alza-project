@@ -121,7 +121,7 @@ describe.skipIf(!hasTestDb)('web access (14.3)', () => {
       expect(res.status).toBe(410);
       const body = await res.json();
       expect(body.error).toBe('link_expired');
-      expect(body.message).toContain('Escribe «web» en WhatsApp');
+      expect(body.message).toContain('Escribe «web» en el chat de ALZA');
     });
 
     it('rejects an activation link already used (17.4)', async () => {

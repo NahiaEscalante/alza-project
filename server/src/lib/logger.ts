@@ -35,6 +35,11 @@ export const SENSITIVE_KEYS = [
   'from',
   'wa_id',
   'waId',
+  // Telegram (D71): a private chat id is her Telegram user id; a contact carries her number.
+  'chatId',
+  'chat_id',
+  'telegramChatId',
+  'phone_number',
   // Credentials
   'pin',
   'pinHash',
@@ -47,6 +52,8 @@ export const SENSITIVE_KEYS = [
   'secret',
   'apiKey',
   'accessToken',
+  'botToken',
+  'secret_token',
   'authorization',
   'encryptionKey',
 ] as const;
@@ -54,6 +61,8 @@ export const SENSITIVE_KEYS = [
 const HEADER_PATHS = [
   'req.headers["x-hub-signature-256"]',
   'headers["x-hub-signature-256"]',
+  'req.headers["x-telegram-bot-api-secret-token"]',
+  'headers["x-telegram-bot-api-secret-token"]',
   'res.headers["set-cookie"]',
   'headers["set-cookie"]',
 ];

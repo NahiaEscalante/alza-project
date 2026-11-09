@@ -1,6 +1,6 @@
 # ALZA · Especificación de producto
 
-**Versión:** 1.8 (borrador de trabajo), 9 de noviembre de 2026
+**Versión:** 1.9 (borrador de trabajo), 9 de noviembre de 2026
 **Estado:** fuente de verdad para diseño, implementación y pruebas. Solo cambia con una decisión registrada en la sección 2.
 **Documentos relacionados:**
 - Flujos del sistema (artifact): https://claude.ai/artifact/HUR61TjkAHxgbHYRYpTxj1
@@ -170,6 +170,10 @@ Bodeguera peruana con un negocio que ya funciona:
 | D68 | WA-05: cuando la hora de cierre está fuera del rango permitido, se mantienen los botones y se usa la variante «Puedo mandarte el cierre hasta las 2 a. m. ¿A qué hora cierras normalmente?». No cambia el horario permitido. | Confirmación de la dueña del proyecto |
 | D69 | Se incorpora 360dialog Sandbox como canal opcional de pruebas, por elección de la dueña tras el bloqueo de la cuenta de prueba de Meta (131031). Mantiene las reglas y el catálogo del MVP. No sustituye la validación completa: su cuota es limitada, no permite archivos por ID y los botones requieren una prueba real. El webhook del sandbox se autentica con un secreto independiente en su URL, ya que este entorno no documenta la firma de Meta. | Prueba de integración, 9 nov 2026 |
 | D70 | Se retira de la pantalla «Descargar mi historial» la frase «Ejemplo para la demo. Los enlaces llevan a sus sitios oficiales.», por solicitud de la dueña del proyecto. | Ajuste de textos, 9 nov 2026 |
+| D71 | El canal de la demo es Telegram (bot @alzaagentbot), porque la cuenta de prueba de Meta está bloqueada (131031) y el sandbox de 360dialog admite un solo destinatario y no maneja archivos. WhatsApp sigue siendo la visión del producto. Se elige con la variable `CHANNEL_PROVIDER=telegram`; sin ella no cambia nada. Mismos flujos, catálogo y límites de Meta (3 botones, 20 caracteres, pie de 1.024); los botones van como teclado en línea con el id del catálogo. «Marcar como leído» es una reacción 👍 en cada mensaje. El webhook se autentica con el secreto de `setWebhook` en la cabecera `X-Telegram-Bot-Api-Secret-Token`; en desarrollo se puede usar long polling. La landing muestra un bloque público «Pruébalo hoy en Telegram» con QR a `https://t.me/alzaagentbot?start=landing`. | Canal de la demo, 9 nov 2026 |
+| D72 | Identidad en Telegram: la cuenta sigue siendo el número (D31). Un chat desconocido recibe WA-23 con el botón nativo «Compartir mi número»; solo se acepta su propio contacto (`contact.user_id = from.id`). El número se normaliza a E.164, se busca o crea la cuenta por número y se guarda `usuarias.telegram_chat_id`; WA-24 retira el teclado y sigue el alta normal (WA-01). Antes de vincular no se procesa ni se guarda nada de ese chat; WA-23 se repite como máximo cada 30 s tras `/start` o un contacto ajeno, y cada 2 minutos ante otros mensajes. En un chat vinculado, contactos, stickers y videos reciben 👍 y no se guardan. Borrar la cuenta desvincula el chat. | Canal de la demo, 9 nov 2026 |
+| D73 | Textos según el canal: WA-01 y WA-06 tienen variante para Telegram (12.1; WA-06 dice «verás un 👍 en cada mensaje»). En la web y en los textos del sistema, «en WhatsApp» pasa a «en el chat de ALZA», y dentro de la web se dice «el chat donde mandas tus capturas» para no confundirlo con la pestaña Chat. La ayuda de la galería (D27) sigue describiendo WhatsApp. | Canal de la demo, 9 nov 2026 |
+| D74 | Mitigaciones de privacidad y cuota para la demo pública: en Telegram, WA-01 agrega «Es una demo: usa capturas y datos de prueba, no los reales de tu negocio» y se guarda como versión `wa-01-v2-demo`, con la regla de 14.1 para volver a pedir el consentimiento; las capturas se leen solo con OCR local, salvo `AI_VISION_FALLBACK=true` (lo que no se lee es duda «ilegible», sin reintentos); se aceptan como máximo 150 mensajes entrantes por usuaria y día del negocio, y los que pasan se ignoran en silencio y solo dejan ids en los registros. Los límites de los modelos de IA siguen con los reintentos de la cola. | Canal de la demo, 9 nov 2026 |
 
 ### 2.3 Defaults aceptados sin objeción [DEF]
 
@@ -778,6 +782,7 @@ usuarias (
   resumen_imagen    boolean not null default true,  -- D27
   estado_alta       text not null,     -- nuevo | esperando_consentimiento | negocio | titular | hora | completa | rechazada
   ultimo_mensaje_at timestamptz,       -- para la ventana de 24 h
+  telegram_chat_id  text unique,       -- D72: chat de Telegram vinculado; nulo en cuentas solo de WhatsApp
   creada_at         timestamptz not null,
   borrada_at        timestamptz
 );
@@ -1443,6 +1448,12 @@ Los textos son borradores. Deben revisarse con el tono de la línea gráfica y p
 > Para eso guardo y analizo lo que me mandas, con ayuda de servicios de inteligencia artificial que pueden estar fuera del Perú. Puedes pedir que borre tus datos cuando quieras.
 > Detalles: {enlace_privacidad}. ¿Aceptas?
 
+Variante para Telegram [D73, D74], con los mismos botones; se guarda con la versión `wa-01-v2-demo`:
+> Hola, soy ALZA 👋 Te ayudo a llevar las cuentas de tu negocio con tus capturas de Yape y Plin y tus mensajes.
+> Para eso guardo y analizo lo que me mandas, con ayuda de servicios de inteligencia artificial que pueden estar fuera del Perú. Puedes pedir que borre tus datos cuando quieras.
+> Es una demo: usa capturas y datos de prueba, no los reales de tu negocio.
+> Detalles: {enlace_privacidad}. ¿Aceptas?
+
 **WA-02 · Rechazo**
 > Entendido, no guardaré nada. Si cambias de opinión, escríbeme.
 
@@ -1463,6 +1474,14 @@ Variante para una hora fuera de rango [D68], con los mismos botones:
 > 1️⃣ Cada vez que te paguen con Yape o Plin, mándame la captura.
 > 2️⃣ Si vendes en efectivo, escríbeme o mándame un audio, por ejemplo «vendí 5 soles de pan».
 > Durante el día no te voy a responder para no interrumpirte; verás el doble check azul ✔✔. Si quieres ver cómo vas, entra a la web.
+> A las {hora} te mando tu resumen del día. Llega como imagen; si prefieres solo texto, escribe «sin imagen».
+> Crea tu PIN para ver tu negocio en la web (este enlace dura 1 hora): {enlace_activacion}
+
+Variante para Telegram [D73]: en lugar del doble check, ALZA reacciona con 👍 a cada mensaje.
+> ¡Listo, {nombre}! Así funciona:
+> 1️⃣ Cada vez que te paguen con Yape o Plin, mándame la captura.
+> 2️⃣ Si vendes en efectivo, escríbeme o mándame un audio, por ejemplo «vendí 5 soles de pan».
+> Durante el día no te voy a responder para no interrumpirte; verás un 👍 en cada mensaje. Si quieres ver cómo vas, entra a la web.
 > A las {hora} te mando tu resumen del día. Llega como imagen; si prefieres solo texto, escribe «sin imagen».
 > Crea tu PIN para ver tu negocio en la web (este enlace dura 1 hora): {enlace_activacion}
 
@@ -1530,6 +1549,16 @@ Las dudas que no quepan (1.024 caracteres con imagen, 4.096 con «solo texto») 
 
 **WA-22 · Cierre ya enviado** (D49; caso límite 18)
 > Tu cierre de hoy está más arriba 👆
+
+**WA-23 · Pedir el número** (solo Telegram, D72; botón del teclado de Telegram «Compartir mi número», que comparte su propio contacto)
+> Hola 👋 Para empezar necesito tu número de celular. Toca el botón «Compartir mi número» aquí abajo.
+
+Va a un chat de Telegram que todavía no está vinculado a una cuenta: después de `/start` o de un contacto que no es el suyo (como máximo cada 30 segundos) y ante cualquier otro mensaje (como máximo cada 2 minutos). De ese chat no se procesa ni se guarda nada.
+
+**WA-24 · Número vinculado** (solo Telegram, D72; retira el teclado de WA-23)
+> ¡Gracias! Ya tengo tu número.
+
+Después sigue el alta normal desde WA-01. Si la cuenta ya existía y aceptó el aviso vigente, ALZA sigue en silencio.
 
 ### 12.2 Pantallas web
 
@@ -1739,6 +1768,7 @@ Marco: Ley 29733 de Protección de Datos Personales y su reglamento (D.S. 016-20
   - cómo pedir acceso, corrección o borrado;
   - contacto.
 - El consentimiento se guarda con la **versión del texto**. Si el texto cambia de forma relevante, se vuelve a pedir.
+- En la demo por Telegram, WA-01 lleva un aviso de demo y su propia versión (`wa-01-v2-demo`, D74). Cuenta como cambio relevante: quien aceptó otra versión la acepta de nuevo y conserva su configuración.
 - Compartir el reporte es una decisión de ella en cada descarga; la pantalla lo explica.
 - **Lista de espera de la landing** [D52]: la línea de consentimiento va junto al formulario y se guarda su versión.
 
@@ -1818,6 +1848,7 @@ Marco: Ley 29733 de Protección de Datos Personales y su reglamento (D.S. 016-20
 | Integración | Estado | Uso | Restricciones conocidas |
 |---|---|---|---|
 | WhatsApp Cloud API, número de prueba (D24) | Confirmada para la demo; se conecta al final del desarrollo, con canal simulado hasta entonces (D46) | Recibir y enviar mensajes, marcar como leído, descargar medios. | Máximo 5 destinatarios verificados. Token temporal de 24 h; hay que crear uno permanente. Ventana de 24 h para responder. Medios con enlaces que caducan. Términos de enero de 2026 sobre proveedores de IA. El mensaje con botón y enlace solo acepta una imagen por URL pública y 1.024 caracteres de texto; el pie de una imagen también admite 1.024 (D37). Un mensaje de texto admite 4.096 (D50). |
+| Telegram Bot API, bot @alzaagentbot (D71) | Canal de la demo pública | Recibir y enviar mensajes, botones en línea, reacción 👍 como recibido, descarga de capturas y audios, imagen de resumen. | Un mensaje por segundo por chat. Botones con `callback_data` de hasta 64 bytes. Descargas de hasta 20 MB. Fotos comprimidas por Telegram; también se aceptan capturas como archivo. La cuenta se identifica por el número que ella comparte (D72). |
 | Precios de WhatsApp (Meta, desde octubre de 2026) | Verificado | Costeo. | 1.000 mensajes de servicio gratis por número al mes; luego tarifa de Perú. Mensajes de la usuaria gratis. |
 | OCR local con tesseract.js (D33) | Confirmada | Primer paso para leer capturas, junto con los lectores por diseño. | Corre en el servidor, con los datos del idioma español incluidos; no envía nada a terceros. |
 | Groq (D34, D35) | Confirmada para la demo | Whisper para transcribir audio; modelos de texto para interpretar y para el chat. | 1 llave. Límites de la capa gratuita; cambio automático a Gemini. Cada modelo entra a la rotación solo si pasa 17.2. |
@@ -2047,3 +2078,4 @@ Palabras que ella ve en WhatsApp y en la web. La palabra «ganancia» no se usa.
 | 8 nov 2026 | 1.7 | D68: variante aprobada de WA-05 para una hora de cierre fuera de rango; conserva los botones y el horario permitido. |
 | 9 nov 2026 | 1.8 | D69: canal opcional 360dialog Sandbox para pruebas; registro de sus limitaciones y autenticación del webhook. |
 | 9 nov 2026 | 1.8 | D70: retiro de la frase de ejemplo y enlaces oficiales en la pantalla de descarga del historial, por solicitud de la dueña. |
+| 9 nov 2026 | 1.9 | D71 a D74: Telegram como canal de la demo pública, elegido por variable (D71); identidad por número compartido con `usuarias.telegram_chat_id`, WA-23 y WA-24 en 12.1 (D72); variantes de WA-01 y WA-06 para Telegram y textos «en el chat de ALZA» (D73); aviso de demo con versión de consentimiento `wa-01-v2-demo`, OCR local sin visión por defecto y tope de 150 mensajes por día (D74). Fila de Telegram en la sección 15 y nota en 14.1. |

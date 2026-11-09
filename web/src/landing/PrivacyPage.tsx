@@ -61,7 +61,7 @@ export function PrivacyPage() {
         <Block title="Cuando usas ALZA">
           <ul className="list-disc space-y-2 pl-6">
             <li>
-              Antes de guardar o leer cualquier cosa, ALZA te pide permiso por WhatsApp. Si no
+              Antes de guardar o leer cualquier cosa, ALZA te pide permiso en su chat. Si no
               aceptas, no se guarda nada.
             </li>
             <li>
@@ -74,6 +74,11 @@ export function PrivacyPage() {
               ellos.
             </li>
             <li>Tus registros, cierres y puntos se guardan mientras tu cuenta exista.</li>
+            <li>
+              En la demo pública, el chat de ALZA funciona en Telegram: tus mensajes pasan por
+              Telegram y tu cuenta se crea con el número que compartes ahí. Es una demo: usa
+              capturas y datos de prueba, no los reales de tu negocio.
+            </li>
             <li>De tus clientes guardamos lo mínimo; en tu reporte solo aparecen sus iniciales.</li>
           </ul>
         </Block>
@@ -83,8 +88,8 @@ export function PrivacyPage() {
             <li>Ver tus datos: en la web y descargando tu historial.</li>
             <li>Corregirlos: desde la web o el chat.</li>
             <li>
-              Borrarlos: escribe «borra mis datos» por WhatsApp o hazlo desde la web. Borramos todo
-              en 48 horas o menos.
+              Borrarlos: escribe «borra mis datos» en el chat de ALZA o hazlo desde la web. Borramos
+              todo en 48 horas o menos.
             </li>
           </ul>
         </Block>

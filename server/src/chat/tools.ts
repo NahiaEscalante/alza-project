@@ -604,7 +604,7 @@ class ToolSession implements ChatToolSession<ChatToolsResult> {
     if (!a.day || a.day >= this.today) {
       return this.refuse(
         'invalid_day',
-        'Solo días anteriores a hoy; lo de hoy se manda por WhatsApp.',
+        'Solo días anteriores a hoy; lo de hoy se manda por el chat de capturas.',
       );
     }
     if (daysBetween(a.day, this.today) > MAX_DAYS_RANGE) return this.refuse('invalid_day');

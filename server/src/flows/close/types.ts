@@ -3,6 +3,7 @@ import type { Channel } from '../../channel/types.js';
 import type { Db } from '../../db/client.js';
 import type { CloseLevel, IsoDate } from '../../domain/index.js';
 import type { Logger } from '../../lib/logger.js';
+import type { MessagingApp } from '../../messages/catalog.js';
 import type { SummaryImageData } from '../../render/index.js';
 
 /** What the close flow needs (dependencies by parameter, the clock included). */
@@ -16,6 +17,8 @@ export interface CloseFlowDeps {
   baseUrl: string;
   /** Default `renderSummaryImage` (8.6). Injected by tests to simulate a failure (RF-CI-10). */
   renderImage?: (data: SummaryImageData) => Promise<Buffer>;
+  /** D74: which consent version lets a close go out. Default `whatsapp`. */
+  messagingApp?: MessagingApp;
 }
 
 /** Informative lines a close carried (RF-CI-11, D27): kinds only, never amounts. */

@@ -18,7 +18,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 7 | Web de la usuaria | ✅ |
 | 8 | Chat, reporte y panel interno | 🟨 |
 | 9 | Landing | ✅ |
-| 10 | WhatsApp real (Meta) | 🟨 |
+| 10 | Canal real (Meta, 360dialog, Telegram) | 🟨 |
 | 11 | Demo | ⬜ |
 
 ## En curso ahora
@@ -28,7 +28,9 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 - **Integración:** terminada. Alta y cierre conectados al worker; cinco tareas registradas en `America/Lima`; panel, reintentos y WA-17 conectados a sus dependencias. Alta completa verificada contra el servidor real y pg-boss.
 - **Ajuste de IA:** bajar el consumo del chat, «vendí 5 de pan» y certificar cada modelo (D35).
 
-**Siguiente:** reintentar la certificación de IA cuando se restablezcan las cuotas; Fase 10 (Meta y Railway) y Fase 11 (demo). Ver `docs/ALZA_VALIDACION_INTEGRACION.md`.
+- **Canal de la demo:** Telegram (D71–D74) implementado y probado localmente; falta desplegarlo y probarlo desde un celular (`docs/ALZA_TELEGRAM_SETUP.md`).
+
+**Siguiente:** desplegar Telegram en Railway y hacer el recorrido real; reintentar la certificación de IA cuando se restablezcan las cuotas; Fase 11 (demo). Ver `docs/ALZA_VALIDACION_INTEGRACION.md`.
 
 ## Orden
 
@@ -46,7 +48,7 @@ F0 ─┬─ F1 ─┬─ F3 ─ F4 ─ F5 ─ F6 ─┬─ F10 ─ F11
 
 ## Decisiones tomadas para poder desarrollar
 
-D33–D52, D68 y D69 ya están en la spec v1.8. D53–D67 se registran en la spec al cerrar la ronda en curso.
+D33–D52 y D68–D74 ya están en la spec v1.9. D53–D67 se registran en la spec al cerrar la ronda en curso. D71–D74 (canal Telegram) se resumen al final de esta tabla.
 
 | ID | Decisión |
 |---|---|
@@ -80,6 +82,10 @@ D33–D52, D68 y D69 ya están en la spec v1.8. D53–D67 se registran en la spe
 | D65 | Alta: {nombre} es el primer nombre del titular. Hora de cierre sin «a. m./p. m.»: 1–2 se leen como a. m., 3–11 como p. m., 12 como medianoche; se aceptan de mediodía a 2 a. m. Si la pregunta pendiente tiene más de 1 hora, el siguiente mensaje recibe la pregunta otra vez. Un saludo nunca cuenta como respuesta. Las capturas enviadas a mitad del alta (con consentimiento) se registran. WA-07 no confirma registros cuya dirección aún es duda. «web» sin PIN recibe el texto de WA-14 con enlace de activación. WA-16 se envía antes de borrar la cuenta. |
 | D66 | Cierre: un monto ilegible resuelto en la respuesta queda como «Lo contaste tú» (11.3, D57; el ejemplo de 10.3 decía «con captura»). WA-11 pregunta varios puntos en un solo mensaje. «No sé» en una duda o «es de otro día» no se vuelven a preguntar: la duda pasa a la web. «Solo Yape» sobre un total se descarta (manda la evidencia). Las respuestas fuera de plazo no reciben WA-11. La línea de PR03 no cuenta lo agregado desde la web, el chat o la respuesta al cierre. El ejemplo de respuesta del mensaje usa las dudas realmente enviadas. «Sin cierre» en el bloque del domingo cuenta desde su día de alta. |
 | D67 | Panel interno: sesiones en memoria del servidor (un reinicio cierra la sesión del equipo); `admin_users.email` guarda el nombre de usuario; rechazar un premio grande devuelve los puntos como movimiento `adjustment`; resolver una alerta solo cambia su estado (los puntos vuelven en la siguiente corrida de las 12:00, D62); «Finalizar cierres» antes del plazo corre como si fueran las 12:00 del día siguiente. «Uso semanal de la web» es aproximado y «Tasa de captura» queda para el piloto. |
+| D71 | Canal de la demo: Telegram (@alzaagentbot), elegido con `CHANNEL_PROVIDER=telegram`; sin la variable no cambia nada. Mismos flujos, catálogo y límites de Meta; botones en línea con el id del catálogo; 👍 como recibido; webhook con secreto en cabecera y long polling solo en desarrollo. QR público de la landing a `t.me/alzaagentbot?start=landing`. WhatsApp sigue siendo la visión. |
+| D72 | Identidad en Telegram por número: WA-23 pide «Compartir mi número»; solo vale su propio contacto; se busca o crea la cuenta por número y se guarda `users.telegram_chat_id`; WA-24 retira el teclado y sigue el alta. Antes de vincular no se guarda nada. Borrar la cuenta desvincula el chat. |
+| D73 | Textos por canal: variantes de WA-01 y WA-06 para Telegram; la web dice «en el chat de ALZA» (o «el chat donde mandas tus capturas» dentro de la web). |
+| D74 | Demo pública: aviso de demo en WA-01 con versión `wa-01-v2-demo` (se vuelve a pedir el consentimiento); en Telegram, capturas solo con OCR salvo `AI_VISION_FALLBACK=true`; tope de 150 mensajes entrantes por usuaria y día, ignorados en silencio. |
 
 ---
 
@@ -262,7 +268,7 @@ D33–D52, D68 y D69 ya están en la spec v1.8. D53–D67 se registran en la spe
 
 - [ ] Logo oficial de CIX: no hay uno público; hoy se muestra el nombre en tipografía grande. Pedirlo a los organizadores.
 
-## Fase 10 · WhatsApp real (Meta) 🟨
+## Fase 10 · Canal real (Meta, 360dialog, Telegram) 🟨
 
 **Objetivo:** el mismo flujo, desde un celular real.
 
@@ -271,11 +277,14 @@ D33–D52, D68 y D69 ya están en la spec v1.8. D53–D67 se registran en la spe
 - [ ] Número de prueba y destinatarios verificados; confirmar el envío/recepción desde el celular.
 - [ ] Token permanente con usuario del sistema.
 - [x] Webhook de Meta en Railway con verificación y firma comprobadas. El simulador se desactivó en producción; el envío real quedó bloqueado por la cuenta de Meta (`131031`).
-- [ ] `VITE_ALZA_WHATSAPP_NUMBER` en el build de la web para el QR del jurado en la landing.
+- [x] ~~`VITE_ALZA_WHATSAPP_NUMBER` para el QR del jurado~~ → el QR de la landing es público y abre Telegram (`VITE_ALZA_TELEGRAM_BOT`, por defecto `alzaagentbot`, D71).
 - [x] Adaptador de Meta: texto, botones, imagen por ID, marcar como leído y descarga de archivos con SHA-256. API v25.0 configurable; selección del canal y secretos del webhook probada. No se considera validación desde un celular real.
 - [x] Adaptador opcional de 360dialog Sandbox y webhook autenticado con secreto independiente (D69). 943 pruebas pasan; no se consumieron solicitudes del sandbox.
 - [ ] Desplegar el adaptador 360dialog, registrar la URL, comprobar texto y botones con el celular; límite de 25 solicitudes y sin archivos por ID.
 - [ ] Prueba real: imagen, audio, texto, alta y cierre completo.
+- [x] Telegram (D71–D74): adaptador de la Bot API (texto, botones en línea, `sendPhoto`, 👍, descargas con SHA-256, un mensaje por segundo por chat), `POST /webhook/telegram` con secreto, long polling local, vinculación por número (WA-23, WA-24, migración `0004_telegram_chat`), textos por canal, aviso de demo `wa-01-v2-demo`, OCR sin visión y tope diario. Scripts `telegram:setup` y `telegram:status`. 995 pruebas pasan; `getMe` del bot respondió 200 (@alzaagentbot) sin enviar mensajes.
+- [ ] Desplegar Telegram: migrar, configurar `CHANNEL_PROVIDER=telegram`, `TELEGRAM_BOT_TOKEN` y `TELEGRAM_WEBHOOK_SECRET`, y ejecutar `npm run telegram:setup -w server -- --base-url=…`. Ver `docs/ALZA_TELEGRAM_SETUP.md`.
+- [ ] Prueba real por Telegram desde un celular: QR, número, alta, captura (foto y archivo), audio, cierre con imagen, respuesta al cierre y web.
 
 **Listo cuando:** el día completo de la demo funciona desde un celular real.
 

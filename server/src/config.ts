@@ -26,6 +26,18 @@ const booleanFlag = z
   .enum(['true', 'false', '1', '0'])
   .transform((value) => value === 'true' || value === '1');
 
+/** BotFather token: `<bot id>:<secret>`. Never logged; errors name the variable only. */
+export const TELEGRAM_BOT_TOKEN_PATTERN = /^\d{5,16}:[A-Za-z0-9_-]{30,}$/;
+
+/** Telegram's `secret_token` charset (1–256 characters), with at least 32 here. */
+export const TELEGRAM_WEBHOOK_SECRET_PATTERN = /^[A-Za-z0-9_-]{32,256}$/;
+
+export const CHANNEL_PROVIDERS = ['simulator', 'meta', 'dialog360', 'telegram'] as const;
+export type ChannelProvider = (typeof CHANNEL_PROVIDERS)[number];
+
+/** D74: inbound messages per user and business day on Telegram; beyond it they are ignored. */
+export const DEFAULT_TELEGRAM_DAILY_INBOUND_CAP = 150;
+
 const encryptionKey = z.string().transform((value, ctx) => {
   const key = Buffer.from(value, 'base64');
   if (key.length !== ENCRYPTION_KEY_BYTES || key.toString('base64') !== value) {
@@ -59,6 +71,21 @@ const envSchema = z.object({
   WHATSAPP_PROVIDER: z.enum(['meta', 'dialog360']).default('meta'),
   DIALOG360_API_KEY: z.string().optional(),
   DIALOG360_WEBHOOK_TOKEN: z.string().min(32).optional(),
+  /** D71: generic selector. Unset → the legacy SIMULATOR_ENABLED / WHATSAPP_PROVIDER rules. */
+  CHANNEL_PROVIDER: z.enum(CHANNEL_PROVIDERS).optional(),
+  // Checked only when Telegram is selected (`telegramConfig`): stray values never block a boot.
+  TELEGRAM_BOT_TOKEN: z.string().optional(),
+  TELEGRAM_WEBHOOK_SECRET: z.string().optional(),
+  /** Local long polling instead of the webhook (development only). */
+  TELEGRAM_POLLING: booleanFlag.optional(),
+  TELEGRAM_DAILY_INBOUND_CAP: z.coerce
+    .number()
+    .int()
+    .min(1)
+    .max(10_000)
+    .default(DEFAULT_TELEGRAM_DAILY_INBOUND_CAP),
+  /** D74: vision model for unrecognized screenshots. Default: on, except with Telegram. */
+  AI_VISION_FALLBACK: booleanFlag.optional(),
 });
 
 export interface WhatsAppConfig {
@@ -67,6 +94,15 @@ export interface WhatsAppConfig {
   phoneNumberId: string;
   appSecret: string;
   verifyToken: string;
+}
+
+export interface TelegramConfig {
+  botToken: string;
+  /** `X-Telegram-Bot-Api-Secret-Token` expected by `POST /webhook/telegram`; null with polling. */
+  webhookSecret: string | null;
+  /** Long polling (`getUpdates`) instead of the webhook. Never in production. */
+  polling: boolean;
+  dailyInboundCap: number;
 }
 
 export interface Config {
@@ -87,6 +123,12 @@ export interface Config {
   dialog360: { apiKey: string; webhookToken: string } | null;
   /** Simulated WhatsApp channel (`/dev/simulador`). Defaults to on outside production. */
   simulatorEnabled: boolean;
+  /** `CHANNEL_PROVIDER` when set (D71); null keeps the legacy selection. */
+  channelProvider: ChannelProvider | null;
+  /** Telegram Bot API (D71); null unless `CHANNEL_PROVIDER=telegram`. */
+  telegram: TelegramConfig | null;
+  /** D33 vision fallback for screenshots the OCR cannot read (D74: off by default on Telegram). */
+  aiVisionFallback: boolean;
 }
 
 export type Env = Record<string, string | undefined>;
@@ -137,16 +179,26 @@ export function loadConfig(rawEnv: Env): Config {
   }
   const e = parsed.data;
 
+  const channelProvider = e.CHANNEL_PROVIDER ?? null;
+  // CHANNEL_PROVIDER=meta|dialog360 picks the WhatsApp transport like WHATSAPP_PROVIDER does.
+  const whatsappProvider =
+    channelProvider === 'meta' || channelProvider === 'dialog360'
+      ? channelProvider
+      : e.WHATSAPP_PROVIDER;
+
   const whatsappSet = WHATSAPP_VARS.filter((name) => e[name] !== undefined);
   if (
-    e.WHATSAPP_PROVIDER === 'meta' &&
+    whatsappProvider === 'meta' &&
     whatsappSet.length > 0 &&
     whatsappSet.length < WHATSAPP_VARS.length
   ) {
     throw new ConfigError(WHATSAPP_VARS.filter((name) => e[name] === undefined));
   }
 
-  if (e.WHATSAPP_PROVIDER === 'dialog360') {
+  const telegram = channelProvider === 'telegram' ? telegramConfig(e) : null;
+
+  // A leftover WHATSAPP_PROVIDER=dialog360 does not matter once another channel is chosen.
+  if (whatsappProvider === 'dialog360' && (channelProvider ?? 'dialog360') === 'dialog360') {
     const missing = (['DIALOG360_API_KEY', 'DIALOG360_WEBHOOK_TOKEN'] as const).filter(
       (name) => !e[name],
     );
@@ -154,7 +206,7 @@ export function loadConfig(rawEnv: Env): Config {
   }
 
   return {
-    whatsappProvider: e.WHATSAPP_PROVIDER,
+    whatsappProvider,
     dialog360:
       e.DIALOG360_API_KEY && e.DIALOG360_WEBHOOK_TOKEN
         ? { apiKey: e.DIALOG360_API_KEY, webhookToken: e.DIALOG360_WEBHOOK_TOKEN }
@@ -178,7 +230,32 @@ export function loadConfig(rawEnv: Env): Config {
             verifyToken: e.WHATSAPP_VERIFY_TOKEN as string,
           }
         : null,
-    simulatorEnabled: e.SIMULATOR_ENABLED ?? e.NODE_ENV !== 'production',
+    simulatorEnabled:
+      channelProvider !== null
+        ? channelProvider === 'simulator'
+        : (e.SIMULATOR_ENABLED ?? e.NODE_ENV !== 'production'),
+    channelProvider,
+    telegram,
+    aiVisionFallback: e.AI_VISION_FALLBACK ?? channelProvider !== 'telegram',
+  };
+}
+
+function telegramConfig(e: z.infer<typeof envSchema>): TelegramConfig {
+  const polling = e.TELEGRAM_POLLING ?? false;
+  const invalid = [
+    ...(TELEGRAM_BOT_TOKEN_PATTERN.test(e.TELEGRAM_BOT_TOKEN ?? '') ? [] : ['TELEGRAM_BOT_TOKEN']),
+    ...(polling || TELEGRAM_WEBHOOK_SECRET_PATTERN.test(e.TELEGRAM_WEBHOOK_SECRET ?? '')
+      ? []
+      : ['TELEGRAM_WEBHOOK_SECRET']),
+  ];
+  if (invalid.length) throw new ConfigError(invalid);
+  // Polling and a webhook cannot coexist on one bot: polling is for development only.
+  if (polling && e.NODE_ENV === 'production') throw new ConfigError(['TELEGRAM_POLLING']);
+  return {
+    botToken: e.TELEGRAM_BOT_TOKEN as string,
+    webhookSecret: polling ? null : (e.TELEGRAM_WEBHOOK_SECRET as string),
+    polling,
+    dailyInboundCap: e.TELEGRAM_DAILY_INBOUND_CAP,
   };
 }
 

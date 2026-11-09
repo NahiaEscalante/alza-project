@@ -119,7 +119,7 @@ export function AddEntryScreen({ date }: { date: string }) {
       <p className="mx-1 mt-1 mb-4 text-lg font-semibold">{capitalize(longDayLabel(date))}</p>
       {!isPast ? (
         <Notice>
-          Solo puedes agregar registros en días pasados. Lo de hoy mándalo por WhatsApp.
+          Solo puedes agregar registros en días pasados. Lo de hoy mándalo por el chat de ALZA.
         </Notice>
       ) : (
         <form

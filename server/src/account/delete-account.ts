@@ -2,7 +2,7 @@
  * Account deletion (RF-PV-01, 14.2, 14.6, HU-15): her personal data and files go; only an
  * anonymous record stays that the account existed and was deleted: the `users` row keeps its
  * random id, `created_at` and `deleted_at`, with the phone replaced by `deleted:<id>` and every
- * other personal field emptied. Everything that hangs from her is deleted, including a waitlist
+ * other personal field emptied (the Telegram chat too, D72). Everything that hangs from her is deleted, including a waitlist
  * signup with the same phone (D52).
  *
  * Idempotent and synchronous (well inside the 48 h). Files first: if the database step fails, a
@@ -115,6 +115,8 @@ export async function deleteAccount(
         closeTime: null,
         summaryImage: true,
         lastMessageAt: null,
+        // D72: the Telegram chat is unlinked; writing again starts a new account.
+        telegramChatId: null,
         deletedAt: now,
       })
       .where(eq(users.id, userId));

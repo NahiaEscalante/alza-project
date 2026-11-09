@@ -376,7 +376,7 @@ function HowPointsWork({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-base text-muted">
-        Ganas puntos por cerrar tu día en WhatsApp, no por cuánto vendes.
+        Ganas puntos por cerrar tu día en el chat de ALZA, no por cuánto vendes.
       </p>
       <dl className="rounded-[14px] border border-border px-4">
         {POINT_RULES.map(([what, points]) => (

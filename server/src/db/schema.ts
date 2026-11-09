@@ -327,6 +327,11 @@ export const users = pgTable(
     onboardingStatus: text('onboarding_status').$type<OnboardingStatus>().notNull().default('new'),
     /** For WhatsApp's 24 h service window. */
     lastMessageAt: timestamp('last_message_at', { withTimezone: true }),
+    /**
+     * [D72] Telegram private chat linked to this account, after she shared her own number with
+     * «Compartir mi número». Null on WhatsApp-only accounts; cleared when the account is deleted.
+     */
+    telegramChatId: text('telegram_chat_id').unique(),
     createdAt: createdAt(),
     deletedAt: timestamp('deleted_at', { withTimezone: true }),
   },

@@ -6,8 +6,11 @@
  *   parameters. The catalog test compares them with the spec itself.
  * - The typed builders (`welcomeMessage`, `firstScreenshotMessage`…) add the buttons and format
  *   the values; `sendCatalogMessage` is the single way to hand one to the channel.
- * - This file owns the non-close messages (WA-01…07, WA-13…17, WA-19, WA-20). The close messages
- *   (WA-10…12, WA-18, WA-21, WA-22) live in `messages/close.ts` (Fase 5) and use the same types.
+ * - This file owns the non-close messages (WA-01…07, WA-13…17, WA-19, WA-20, WA-23, WA-24). The
+ *   close messages (WA-10…12, WA-18, WA-21, WA-22) live in `messages/close.ts` (Fase 5) and use
+ *   the same types.
+ * - Channel-aware texts (D73): WA-01 and WA-06 have a Telegram variant (`TELEGRAM_TEXTS`), chosen
+ *   by `MessagingApp`. WA-23 and WA-24 exist only on Telegram (identity, D72).
  */
 import type { Channel, ReplyButton, SentMessage } from '../channel/types.js';
 import type { Direction, LedgerEntry, PaymentMethod, User } from '../db/schema.js';
@@ -35,8 +38,21 @@ export const CATALOG_IDS = [
   'WA-20',
   'WA-21',
   'WA-22',
+  'WA-23',
+  'WA-24',
 ] as const;
 export type CatalogId = (typeof CATALOG_IDS)[number];
+
+/**
+ * Where she talks to ALZA (D71, D73): WhatsApp is the product; Telegram is the public demo
+ * channel. Only a few texts change with it (WA-01, WA-06) and so does the consent version (D74).
+ */
+export type MessagingApp = 'whatsapp' | 'telegram';
+
+/** The app of a channel kind: every WhatsApp transport (and the simulator) is `whatsapp`. */
+export function messagingAppOf(channelKind: string): MessagingApp {
+  return channelKind === 'telegram' ? 'telegram' : 'whatsapp';
+}
 
 /** One catalog message, ready for the channel. */
 export type CatalogMessage =
@@ -98,7 +114,37 @@ export const TEXTS = {
     'Tus últimas capturas no se leen bien. Tómalas completas desde tu app de Yape o Plin, sin recortar el monto.',
   'WA-20': () =>
     'No puedo ayudarte con esto en tiempo real. Si estás en peligro, llama al 105. Si sufres violencia, la Línea 100 te orienta gratis.',
+  'WA-23': () =>
+    'Hola 👋 Para empezar necesito tu número de celular. Toca el botón «Compartir mi número» aquí abajo.',
+  'WA-24': () => '¡Gracias! Ya tengo tu número.',
 } as const satisfies Partial<Record<CatalogId, (params: never) => string>>;
+
+/** D74: the demo notice of WA-01 on Telegram. */
+export const DEMO_NOTICE =
+  'Es una demo: usa capturas y datos de prueba, no los reales de tu negocio.';
+
+/** Telegram variants (D73, D74), verbatim from 12.1 («Variante para Telegram»). */
+export const TELEGRAM_TEXTS = {
+  'WA-01': (p: { privacyUrl: string }) =>
+    [
+      'Hola, soy ALZA 👋 Te ayudo a llevar las cuentas de tu negocio con tus capturas de Yape y Plin y tus mensajes.',
+      'Para eso guardo y analizo lo que me mandas, con ayuda de servicios de inteligencia artificial que pueden estar fuera del Perú. Puedes pedir que borre tus datos cuando quieras.',
+      DEMO_NOTICE,
+      `Detalles: ${p.privacyUrl}. ¿Aceptas?`,
+    ].join('\n'),
+  'WA-06': (p: { name: string; time: string; activationUrl: string }) =>
+    [
+      `¡Listo, ${p.name}! Así funciona:`,
+      '1️⃣ Cada vez que te paguen con Yape o Plin, mándame la captura.',
+      '2️⃣ Si vendes en efectivo, escríbeme o mándame un audio, por ejemplo «vendí 5 soles de pan».',
+      'Durante el día no te voy a responder para no interrumpirte; verás un 👍 en cada mensaje. Si quieres ver cómo vas, entra a la web.',
+      `A las ${p.time} te mando tu resumen del día. Llega como imagen; si prefieres solo texto, escribe «sin imagen».`,
+      `Crea tu PIN para ver tu negocio en la web (este enlace dura 1 hora): ${p.activationUrl}`,
+    ].join('\n'),
+} as const satisfies Partial<Record<CatalogId, (params: never) => string>>;
+
+/** The keyboard button of WA-23 (Telegram `request_contact`), ≤ 20 characters. */
+export const SHARE_CONTACT_BUTTON = 'Compartir mi número';
 
 const text = (catalogId: CatalogId, body: string): CatalogMessage => ({
   catalogId,
@@ -116,9 +162,10 @@ const buttons = (
 // Typed builders
 // ---------------------------------------------------------------------------
 
-/** WA-01, with «Acepto» / «No, gracias» (RF-ON-01). */
-export function welcomeMessage(privacyUrl: string): CatalogMessage {
-  return buttons('WA-01', TEXTS['WA-01']({ privacyUrl }), [
+/** WA-01, with «Acepto» / «No, gracias» (RF-ON-01); on Telegram with the demo notice (D74). */
+export function welcomeMessage(privacyUrl: string, app: MessagingApp = 'whatsapp'): CatalogMessage {
+  const texts = app === 'telegram' ? TELEGRAM_TEXTS : TEXTS;
+  return buttons('WA-01', texts['WA-01']({ privacyUrl }), [
     BUTTONS.consentAccept,
     BUTTONS.consentDecline,
   ]);
@@ -140,15 +187,17 @@ export function closeTimeQuestion(outOfRange = false): CatalogMessage {
   ]);
 }
 
-/** WA-06 (RF-ON-07). `closeTime` is «21:00» (Lima). */
+/** WA-06 (RF-ON-07). `closeTime` is «21:00» (Lima). Telegram: 👍 instead of ticks (D73). */
 export function habitMessage(input: {
   name: string;
   closeTime: string;
   activationUrl: string;
+  app?: MessagingApp;
 }): CatalogMessage {
+  const texts = input.app === 'telegram' ? TELEGRAM_TEXTS : TEXTS;
   return text(
     'WA-06',
-    TEXTS['WA-06']({
+    texts['WA-06']({
       name: input.name,
       time: formatCloseTimeForHer(input.closeTime),
       activationUrl: input.activationUrl,
@@ -205,6 +254,16 @@ export const dataDeletedMessage = (): CatalogMessage => text('WA-16', TEXTS['WA-
 export const technicalIssueMessage = (): CatalogMessage => text('WA-17', TEXTS['WA-17']());
 export const screenshotTipMessage = (): CatalogMessage => text('WA-19', TEXTS['WA-19']());
 export const dangerMessage = (): CatalogMessage => text('WA-20', TEXTS['WA-20']());
+
+/** WA-23 (D72): Telegram asks an unknown chat for her own number with its native button. */
+export const contactRequestMessage = () => ({
+  catalogId: 'WA-23' as const,
+  body: TEXTS['WA-23'](),
+  buttonTitle: SHARE_CONTACT_BUTTON,
+});
+
+/** WA-24 (D72): her number is linked; sent with the contact keyboard removed. */
+export const contactLinkedMessage = (): CatalogMessage => text('WA-24', TEXTS['WA-24']());
 
 /** «21:00» → «9 p. m.», «21:30» → «9:30 p. m.», «00:00» → «12 a. m.» (as `formatTime12`). */
 export function formatCloseTimeForHer(closeTime: string): string {

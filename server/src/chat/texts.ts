@@ -59,10 +59,10 @@ export const EXPLAIN_TOPICS = {
   complete_close: '«Cierre completo»: respondiste todo y tu caja cuadra.',
   partial_close: '«Cierre a medias»: respondiste una parte.',
   daily_close:
-    'El cierre del día: a tu hora de cierre te mando un solo mensaje por WhatsApp con lo que ' +
-    'entró y salió, tus dudas numeradas y la pregunta de la caja. Me respondes todo en un solo ' +
-    'mensaje o audio. Si ese día no me escribiste, no te mando nada. También puedes escribir ' +
-    '«cierre» cuando quieras.',
+    'El cierre del día: a tu hora de cierre te mando un solo mensaje, en el chat donde me ' +
+    'mandas tus capturas, con lo que entró y salió, tus dudas numeradas y la pregunta de la ' +
+    'caja. Me respondes todo en un solo mensaje o audio. Si ese día no me escribiste, no te ' +
+    'mando nada. También puedes escribir «cierre» cuando quieras.',
   business_day:
     'Tu día del negocio va de 4:00 a. m. a 3:59 a. m.: lo que vendes de madrugada cuenta en el ' +
     'día anterior. Las semanas van de lunes a domingo.',
@@ -95,11 +95,11 @@ export const EXPLAIN_TOPICS = {
   pin:
     'Tu PIN tiene 6 números y lo pides para cambiar datos, descargar y canjear premios. Después ' +
     'de escribirlo no te lo pido por 10 minutos. Con 5 intentos fallidos se bloquea 15 minutos. ' +
-    'Si lo olvidaste, escribe «olvidé mi PIN» en WhatsApp.',
+    'Si lo olvidaste, escribe «olvidé mi PIN» en el chat donde me mandas tus capturas.',
   how_to_record:
-    'Cómo registrar: durante el día mándame por WhatsApp una captura por cada cobro de Yape o ' +
-    'Plin, y cuéntame tus ventas en efectivo por texto o audio («vendí 5 soles de pan»). Yo anoto ' +
-    'en silencio y al cierre te mando tu resumen.',
+    'Cómo registrar: durante el día mándame una captura por cada cobro de Yape o Plin, en el ' +
+    'chat de ALZA de tu celular, y cuéntame tus ventas en efectivo por texto o audio («vendí 5 ' +
+    'soles de pan»). Yo anoto en silencio y al cierre te mando tu resumen.',
   duplicates:
     'Si me mandas la misma captura dos veces, no la cuento dos veces. Si dos pagos se parecen ' +
     'mucho, te pregunto en el cierre.',
@@ -109,7 +109,8 @@ export const EXPLAIN_TOPICS = {
     'Te pido tu PIN y tú decides con quién compartirlo.',
   privacy:
     'Tus capturas y audios originales se borran a los 30 días; quedan solo los datos que anoté. ' +
-    'Si escribes «borra mis datos» en WhatsApp, borro todo en 48 horas o menos.',
+    'Si escribes «borra mis datos» en el chat donde me mandas tus capturas, borro todo en 48 ' +
+    'horas o menos.',
 } as const;
 
 export type ExplainTopic = keyof typeof EXPLAIN_TOPICS;

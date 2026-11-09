@@ -9,7 +9,7 @@ import { and, eq, gte, inArray, isNotNull, isNull, sql } from 'drizzle-orm';
 import type { PgBoss } from 'pg-boss';
 import { consents, users } from '../../db/schema.js';
 import { businessDayOf, closeDueAt, DAY_MS, isValidCloseTime } from '../../domain/index.js';
-import { CONSENT_TEXT_VERSION } from '../../messages/consent.js';
+import { consentTextVersion } from '../../messages/consent.js';
 import { scheduleInLima } from '../../queue/boss.js';
 import { sendDailyClose } from './send.js';
 import type { CloseFlowDeps } from './types.js';
@@ -33,7 +33,7 @@ export async function sendDueCloses(
 ): Promise<CloseSenderSummary> {
   const day = businessDayOf(now);
   const latestConsentAccepted = sql`(
-    select (${consents.accepted} and ${consents.textVersion} = ${CONSENT_TEXT_VERSION}) from ${consents}
+    select (${consents.accepted} and ${consents.textVersion} = ${consentTextVersion(deps.messagingApp)}) from ${consents}
     where ${consents.userId} = ${users.id}
     order by ${consents.createdAt} desc
     limit 1
