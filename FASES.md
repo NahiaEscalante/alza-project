@@ -10,8 +10,8 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 |---|---|---|
 | 0 | Cimientos | ✅ |
 | 1 | Reglas del negocio | ✅ |
-| 2 | Lectura de capturas y audios | 🟨 |
-| 3 | Recepción y libro de registros | ⬜ |
+| 2 | Lectura de capturas y audios | ✅ |
+| 3 | Recepción y libro de registros | 🟨 |
 | 4 | Alta y mensajes de excepción | ⬜ |
 | 5 | Cierre del día | ⬜ |
 | 6 | Puntos y tareas programadas | ⬜ |
@@ -61,6 +61,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D55 | Una salida sin tipo claro se confirma como «por clasificar» con una duda de baja prioridad (PR15 manda sobre HU-03). |
 | D56 | Acceso web: el PIN se guarda con scrypt (algoritmo lento equivalente a Argon2id/bcrypt; no hay librería de Argon2 instalada). El enlace de activación se gasta al crear el PIN; uno nuevo anula los anteriores. Una sesión existe solo tras un PIN correcto en ese celular, y cada PIN correcto renueva los 30 días. Un PIN incorrecto responde 422 para no confundirlo con una sesión perdida. |
 | D57 | Libro y cuenta: una corrección desde la web siempre queda como «Lo contaste tú»; resolver una duda sin cambiar el monto conserva la etiqueta. Las dudas guardan su contexto en `clarifications.detail`. El borrado de cuenta es inmediato y deja solo una fila anónima; también borra su registro de la lista de espera. |
+| D58 | Lectura: un monto de OCR exige tres lecturas que coinciden y los controles fijos; uno de visión se acepta con confianza ≥ 0,9 (≥ 0,7 si coincide con lo que vio el OCR); si OCR y visión no coinciden, la captura es ilegible. `holder_role` describe a la dueña de la pantalla. Una venta por texto sin medio es efectivo; un total sin medio queda «desconocido». «Le fié» no se registra (D09). |
 
 ---
 
@@ -103,26 +104,28 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** pasan las pruebas de reglas de la sección 17.1. (Resultado: 322 pruebas en `server/src/domain`.)
 
-## Fase 2 · Lectura de capturas y audios 🟨
+## Fase 2 · Lectura de capturas y audios ✅
 
 **Objetivo:** convertir capturas, audios y textos en operaciones, sin inventar montos.
 
-- [ ] Hoja de respuestas correctas (`datasets/answers.csv`) para las 8 capturas y los 3 audios.
-- [ ] 30 textos y 20 respuestas al cierre de prueba, con sus respuestas correctas.
-- [ ] Casos difíciles generados desde las capturas: recorte, desenfoque, modo oscuro, foto de pantalla, reenvío.
-- [ ] OCR local con tesseract.js (español, datos incluidos en el servidor).
-- [ ] Lectores por diseño: Yape recibido y enviado, BBVA (transferencia y Plin), Bancom, Luqea.
-- [ ] Clasificación de imágenes: constancia, lista, comprobante, otra financiera, no financiera (RF-EX-01).
-- [ ] Capa de IA intercambiable (8.3) con Groq y Gemini, cambio automático y salidas validadas con Zod.
-- [ ] Transcripción: Whisper en Groq y Gemini de respaldo (D34).
-- [ ] Interpretación de textos: intención y operaciones (RF-EX-04, RF-EX-05).
-- [ ] Interpretación de la respuesta al cierre (10.3).
-- [ ] Controles fijos después de leer: máximo 2 decimales, fecha no futura, número de operación con formato válido.
-- [ ] Script de evaluación que produce la tabla de 17.2 y guarda cada corrida.
+- [x] Hoja de respuestas correctas (`datasets/answers.csv`) para las 8 capturas y los 3 audios.
+- [x] 30 textos y 20 respuestas al cierre de prueba, con sus respuestas correctas.
+- [x] Casos difíciles generados desde las capturas: recorte, desenfoque, modo oscuro, foto de pantalla, reenvío.
+- [x] OCR local con tesseract.js (español, datos incluidos en el servidor).
+- [x] Lectores por diseño: Yape recibido y enviado, BBVA (transferencia y Plin), Bancom, Luqea.
+- [x] Clasificación de imágenes: constancia, lista, comprobante, otra financiera, no financiera (RF-EX-01).
+- [x] Capa de IA intercambiable (8.3) con Groq y Gemini, cambio automático y salidas validadas con Zod.
+- [x] Transcripción: Whisper en Groq y Gemini de respaldo (D34).
+- [x] Interpretación de textos: intención y operaciones (RF-EX-04, RF-EX-05).
+- [x] Interpretación de la respuesta al cierre (10.3).
+- [x] Controles fijos después de leer: máximo 2 decimales, fecha no futura, número de operación con formato válido.
+- [x] Script de evaluación que produce la tabla de 17.2 y guarda cada corrida.
 
-**Listo cuando:** la evaluación corre sobre todo el dataset con 0 montos inventados.
+**Listo cuando:** la evaluación corre sobre todo el dataset con 0 montos inventados. (Resultado: 0/124 montos inventados; monto, dirección y fecha 100 %; ilegibles 100 %; textos y audios 95,5 %; respuestas al cierre 100 %. Corrida en `datasets/eval-runs/`.)
 
-## Fase 3 · Recepción y libro de registros ⬜
+- [ ] Certificar cada modelo por separado con `--route` antes de dejarlo en la rotación (D35).
+
+## Fase 3 · Recepción y libro de registros 🟨
 
 > Pendientes que vienen de la Fase 7a: crear dudas con `createClarification` (y su `detail`); llamar `ensureRewardsCatalog` al arrancar.
 
