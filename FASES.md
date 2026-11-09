@@ -27,7 +27,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 - **Fase 4:** alta por WhatsApp y mensajes de excepción («web», «olvidé mi PIN», «borra mis datos», peligro, «sin imagen»).
 - **Fase 5:** cierre del día completo (mensaje único, respuesta, aclaraciones, nivel y confirmación).
-- **Fase 6 (ajustes):** «Sin movimientos», antifraude en titulares de la web y reinicio a las 12:00.
 - **Fase 8 (chat):** chat de la web que responde y propone cambios.
 
 **Siguiente:** conectar todo en el arranque del servidor, panel interno (Fase 8), Fase 10 (Meta y Railway) y Fase 11 (demo).
@@ -207,7 +206,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-08 pasa con la semana simulada. (Resultado: 47 pruebas; semana simulada con bono del lunes y primera racha. Horarios: 03:00 limpieza, 04:00 vencimiento, 05:00 antifraude, 12:00 cierres finales y puntos.)
 
-- [ ] 🔄 Ajustes chicos: días sin actividad se muestran como «Sin movimientos»; chequeo antifraude al agregar titulares en la web; no saltarse el día si el servidor se reinicia a las 12:00.
+- [x] Ajustes: días sin actividad se muestran como «Sin movimientos»; chequeo antifraude al agregar titulares en la web; no se salta el día si el servidor se reinicia a las 12:00; los reportes vencidos se borran a las 03:00.
 
 ## Fase 7 · Web de la usuaria ✅
 
