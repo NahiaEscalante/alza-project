@@ -2,6 +2,7 @@
  * «Lo que entró cada día» (RF-WP-01, 12.2 ▂▅▃▇▆▄░): one series, Monday to Sunday, plain HTML bars
  * (no chart library). Each day is a button; the chosen one shows its numbers below. Future days are
  * dashed placeholders. Bars keep their height when amounts are hidden; the numbers do not show.
+ * Bars are a share of the bar area, which is taller on a computer (D79).
  */
 import { useState } from 'react';
 import { Link } from 'wouter';
@@ -10,8 +11,6 @@ import type { WeekDay } from '../lib/types';
 import { ChevronRightIcon } from './icons';
 import { Money, useMoneyText } from './money';
 import { LevelBadge } from './tags';
-
-const BAR_AREA = 120;
 
 export function WeekChart({ days }: { days: WeekDay[] }) {
   const moneyText = useMoneyText();
@@ -31,8 +30,7 @@ export function WeekChart({ days }: { days: WeekDay[] }) {
       >
         {days.map((day) => {
           const on = day.businessDay === selected;
-          const height =
-            day.inCents > 0 ? Math.max(6, Math.round((day.inCents / max) * BAR_AREA)) : 0;
+          const height = day.inCents > 0 ? `max(6px, ${(day.inCents / max) * 100}%)` : 0;
           const name = day.isToday ? 'Hoy' : capitalize(dayLabel(day.businessDay));
           return (
             <button
@@ -46,14 +44,13 @@ export function WeekChart({ days }: { days: WeekDay[] }) {
                   : `${name}: entró ${moneyText(day.inCents)}`
               }
               onClick={() => setSelected(day.businessDay)}
-              className="group flex flex-col items-center justify-end px-1 pt-2 disabled:cursor-default"
-              style={{ height: BAR_AREA + 8 }}
+              className="group flex h-32 flex-col items-center justify-end px-1 pt-2 disabled:cursor-default lg:h-56"
             >
               {day.isFuture ? (
-                <span className="block h-5 w-full max-w-6 rounded-t border-2 border-b-0 border-dashed border-[#c5cbe0]" />
+                <span className="block h-5 w-full max-w-6 rounded-t border-2 border-b-0 border-dashed border-[#c5cbe0] lg:max-w-10" />
               ) : (
                 <span
-                  className={`block w-full max-w-6 rounded-t transition-colors ${
+                  className={`block w-full max-w-6 rounded-t transition-colors lg:max-w-10 ${
                     on ? 'bg-purple' : 'bg-[#9b6be0] group-hover:bg-[#8653d6]'
                   }`}
                   style={{ height }}

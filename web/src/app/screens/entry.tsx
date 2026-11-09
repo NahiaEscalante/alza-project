@@ -111,7 +111,7 @@ export function EntryScreen({ date, entryId }: { date: string; entryId: string }
             </Link>
           )}
           {live && (
-            <div className="mt-4 flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-2 lg:grid lg:grid-cols-3 lg:gap-3">
               <Button variant="secondary" onClick={() => setAction('amount')}>
                 Corregir monto
               </Button>
@@ -121,7 +121,9 @@ export function EntryScreen({ date, entryId }: { date: string; entryId: string }
               <Button variant="danger-quiet" onClick={() => setAction('void')}>
                 Quitar
               </Button>
-              <p className="mx-1 text-sm text-muted">Para cambiar algo te pediremos tu PIN.</p>
+              <p className="mx-1 text-sm text-muted lg:col-span-3 lg:mx-0">
+                Para cambiar algo te pediremos tu PIN.
+              </p>
             </div>
           )}
 

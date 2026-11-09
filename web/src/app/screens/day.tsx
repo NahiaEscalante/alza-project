@@ -1,6 +1,9 @@
 /**
  * One day (12.2 «Dentro de un día»): totals, level, and each record with its tag. «+ Agregar algo
  * que faltó» only on past days (D16).
+ *
+ * On a computer (D79): the records on the left; the day's totals and its pending notice on a
+ * sticky column on the right.
  */
 import { Link } from 'wouter';
 import { EntryRow } from '../components/entry-row';
@@ -21,95 +24,103 @@ export function DayScreen({ date }: { date: string }) {
   const data = result.data;
 
   return (
-    <Page title={capitalize(dayLabel(date))} back={movementsHref(date)}>
+    <Page title={capitalize(dayLabel(date))} back={movementsHref(date)} wide>
       {result.error ? (
         <ErrorState message={errorMessage(result.error)} onRetry={result.reload} />
       ) : !data ? (
         <Loading rows={4} tall />
       ) : (
-        <>
-          <Card>
-            <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
-              <p className="text-base font-semibold">
-                {data.day.isToday ? 'Hoy' : capitalize(longDayLabel(date))}
-              </p>
-              <LevelBadge
-                level={data.day.level}
-                text={data.day.levelText}
-                isToday={data.day.isToday}
-              />
-            </div>
-            <div className="mt-2">
-              <Totals
-                inCents={data.day.inCents}
-                outCents={data.day.outCents}
-                leftCents={data.day.leftCents}
-              />
-            </div>
-            {(data.day.pendingCents > 0 || data.day.cashUnreviewed) && (
-              <div className="mt-3 flex flex-col gap-1 border-t border-border pt-3">
-                {data.day.pendingCents > 0 && (
-                  <p className="text-sm text-muted">
-                    Por confirmar: <Money cents={data.day.pendingCents} /> (todavía no suma)
-                  </p>
-                )}
-                {data.day.cashUnreviewed && (
-                  <p className="flex flex-col gap-0.5">
-                    <Tag tone="warn">Caja sin revisar</Tag>
-                    <span className="text-sm text-muted">
-                      No confirmaste si tu efectivo cuadra ese día.
-                    </span>
-                  </p>
-                )}
+        <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+          <div className="lg:sticky lg:top-24 lg:col-start-2 lg:row-start-1">
+            <Card className="lg:p-5">
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1">
+                <p className="text-base font-semibold">
+                  {data.day.isToday ? 'Hoy' : capitalize(longDayLabel(date))}
+                </p>
+                <LevelBadge
+                  level={data.day.level}
+                  text={data.day.levelText}
+                  isToday={data.day.isToday}
+                />
               </div>
+              <div className="mt-2">
+                <Totals
+                  inCents={data.day.inCents}
+                  outCents={data.day.outCents}
+                  leftCents={data.day.leftCents}
+                />
+              </div>
+              {(data.day.pendingCents > 0 || data.day.cashUnreviewed) && (
+                <div className="mt-3 flex flex-col gap-1 border-t border-border pt-3">
+                  {data.day.pendingCents > 0 && (
+                    <p className="text-sm text-muted">
+                      Por confirmar: <Money cents={data.day.pendingCents} /> (todavía no suma)
+                    </p>
+                  )}
+                  {data.day.cashUnreviewed && (
+                    <p className="flex flex-col gap-0.5">
+                      <Tag tone="warn">Caja sin revisar</Tag>
+                      <span className="text-sm text-muted">
+                        No confirmaste si tu efectivo cuadra ese día.
+                      </span>
+                    </p>
+                  )}
+                </div>
+              )}
+            </Card>
+
+            {data.day.pendingCount > 0 && (
+              <Link
+                href="/pendientes"
+                className="mt-3 flex min-h-13 items-center gap-2.5 rounded-[14px] border border-[#f2c894] bg-[#fdf3e7] px-4 text-base font-semibold text-[#8a3f06]"
+              >
+                <AlertIcon className="size-5 shrink-0" />
+                <span className="flex-1">
+                  Este día tiene {data.day.pendingCount}{' '}
+                  {plural(data.day.pendingCount, 'cosa por revisar', 'cosas por revisar')}
+                </span>
+                <ChevronRightIcon className="size-5 shrink-0" />
+              </Link>
             )}
-          </Card>
+          </div>
 
-          {data.day.pendingCount > 0 && (
-            <Link
-              href="/pendientes"
-              className="mt-3 flex min-h-13 items-center gap-2.5 rounded-[14px] border border-[#f2c894] bg-[#fdf3e7] px-4 text-base font-semibold text-[#8a3f06]"
-            >
-              <AlertIcon className="size-5 shrink-0" />
-              <span className="flex-1">
-                Este día tiene {data.day.pendingCount}{' '}
-                {plural(data.day.pendingCount, 'cosa por revisar', 'cosas por revisar')}
-              </span>
-              <ChevronRightIcon className="size-5 shrink-0" />
-            </Link>
-          )}
+          <div className="lg:col-start-1 lg:row-start-1">
+            <SectionTitle className="lg:mt-0">
+              {data.entries.length > 0
+                ? `${data.entries.length} ${plural(data.entries.length, 'registro', 'registros')}`
+                : 'Registros'}
+            </SectionTitle>
+            {data.entries.length === 0 ? (
+              <EmptyState icon={<ListIcon />} title="No hay registros este día">
+                {data.canAddEntries
+                  ? 'Si te faltó anotar algo, agrégalo aquí.'
+                  : 'Manda tus capturas y ventas por el chat de ALZA y aparecerán aquí.'}
+              </EmptyState>
+            ) : (
+              <ul className="flex flex-col gap-2">
+                {data.entries.map((entry) => (
+                  <EntryRow
+                    key={entry.id}
+                    entry={entry}
+                    href={`/movimientos/${date}/${entry.id}`}
+                  />
+                ))}
+              </ul>
+            )}
 
-          <SectionTitle>
-            {data.entries.length > 0
-              ? `${data.entries.length} ${plural(data.entries.length, 'registro', 'registros')}`
-              : 'Registros'}
-          </SectionTitle>
-          {data.entries.length === 0 ? (
-            <EmptyState icon={<ListIcon />} title="No hay registros este día">
-              {data.canAddEntries
-                ? 'Si te faltó anotar algo, agrégalo aquí.'
-                : 'Manda tus capturas y ventas por el chat de ALZA y aparecerán aquí.'}
-            </EmptyState>
-          ) : (
-            <ul className="flex flex-col gap-2">
-              {data.entries.map((entry) => (
-                <EntryRow key={entry.id} entry={entry} href={`/movimientos/${date}/${entry.id}`} />
-              ))}
-            </ul>
-          )}
+            {data.canAddEntries && (
+              <Link
+                href={`/movimientos/${date}/agregar`}
+                className={`${buttonClass('secondary')} mt-4`}
+              >
+                <PlusIcon className="size-5" />
+                Agregar algo que faltó
+              </Link>
+            )}
 
-          {data.canAddEntries && (
-            <Link
-              href={`/movimientos/${date}/agregar`}
-              className={`${buttonClass('secondary')} mt-4`}
-            >
-              <PlusIcon className="size-5" />
-              Agregar algo que faltó
-            </Link>
-          )}
-
-          <TagLegend />
-        </>
+            <TagLegend />
+          </div>
+        </div>
       )}
     </Page>
   );

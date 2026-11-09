@@ -237,6 +237,7 @@ D33–D52 y D68–D74 ya están en la spec v1.9. D53–D67 se registran en la sp
 - [x] Ajustes: solo texto, titulares adicionales, ocultar montos, borrar cuenta.
 - [x] Diseño basado en `docs/alza_mvp.html`.
 - [x] Primera carga de menos de 300 KB (RNF-06) y accesibilidad (RNF-07).
+- [x] Responsive (D79, 9 nov 2026): en computadora, barra lateral y columnas; el celular queda igual (capturas comparadas píxel por píxel).
 
 **Listo cuando:** HU-09 a HU-12 pasan. (Resultado: recorrido completo con `node web/e2e/app-smoke.mjs`; primera carga de `/app` ~127 KB comprimidos. Chat y Descargar dicen «Muy pronto» hasta la Fase 8.)
 

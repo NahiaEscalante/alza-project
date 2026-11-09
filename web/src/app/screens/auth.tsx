@@ -24,11 +24,12 @@ function AuthLayout({ children, title }: { children: ReactNode; title: string })
     document.title = `${title} · ALZA`;
   }, [title]);
   return (
-    <div className="mx-auto flex min-h-dvh max-w-110 flex-col px-4 pb-10">
-      <header className="flex min-h-15 items-center px-1 pt-1.5">
+    // On a computer the form sits in the middle of the screen (D79).
+    <div className="mx-auto flex min-h-dvh max-w-110 flex-col px-4 pb-10 lg:justify-center lg:py-12">
+      <header className="flex min-h-15 items-center px-1 pt-1.5 lg:pt-0">
         <AlzaLogo />
       </header>
-      <main className="flex flex-1 flex-col pt-4">{children}</main>
+      <main className="flex flex-1 flex-col pt-4 lg:min-h-80 lg:flex-none">{children}</main>
     </div>
   );
 }

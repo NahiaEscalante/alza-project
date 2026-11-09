@@ -32,7 +32,7 @@ export function RewardsScreen() {
   const [howOpen, setHowOpen] = useState(false);
 
   return (
-    <Page docTitle="Premios">
+    <Page docTitle="Premios" wide>
       <PageTitle>Premios</PageTitle>
       {view.error ? (
         <ErrorState message={errorMessage(view.error)} onRetry={view.reload} />
@@ -87,141 +87,151 @@ function RewardsContent({
   const bigPct = Math.min(100, (view.balance / big.costPoints) * 100);
 
   return (
-    <div className="flex flex-col">
-      <Card className="border-[#d5f0eb] bg-[#f3fbf9]">
-        <div className="flex items-start justify-between gap-3">
+    <div className="flex flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start lg:gap-x-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+      <Card className="border-[#d5f0eb] bg-[#f3fbf9] lg:col-span-2 lg:p-6">
+        <div className="lg:grid lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:items-center lg:gap-12">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[15px] text-muted">Tus puntos</p>
+              <p className="flex items-center gap-2 text-[40px] leading-tight font-bold text-navy tabular-nums">
+                {formatPoints(view.balance)}
+                <StarBadge className="size-10" />
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onHow}
+              className="inline-flex min-h-11 items-center rounded-xl px-2 text-[15px] font-semibold text-purple hover:bg-white"
+            >
+              Cómo funcionan
+            </button>
+          </div>
           <div>
-            <p className="text-[15px] text-muted">Tus puntos</p>
-            <p className="flex items-center gap-2 text-[40px] leading-tight font-bold text-navy tabular-nums">
-              {formatPoints(view.balance)}
-              <StarBadge className="size-10" />
+            <div className="mt-3 lg:mt-0">
+              <MilestoneBar balance={view.balance} milestones={MILESTONES} />
+            </div>
+            <p className="mt-2 text-[15px] text-text">
+              {next
+                ? `Te faltan ${formatPoints(next - view.balance)} para el hito de ${next}.`
+                : 'Llegaste a todos los hitos.'}{' '}
+              <span className="text-muted">Al canjear, tus puntos bajan.</span>
             </p>
           </div>
-          <button
-            type="button"
-            onClick={onHow}
-            className="inline-flex min-h-11 items-center rounded-xl px-2 text-[15px] font-semibold text-purple hover:bg-white"
-          >
-            Cómo funcionan
-          </button>
         </div>
-        <div className="mt-3">
-          <MilestoneBar balance={view.balance} milestones={MILESTONES} />
-        </div>
-        <p className="mt-2 text-[15px] text-text">
-          {next
-            ? `Te faltan ${formatPoints(next - view.balance)} para el hito de ${next}.`
-            : 'Llegaste a todos los hitos.'}{' '}
-          <span className="text-muted">Al canjear, tus puntos bajan.</span>
-        </p>
       </Card>
 
-      {view.milestones.map((group) => (
-        <section key={group.points} aria-labelledby={`hito-${group.points}`}>
-          <SectionTitle
-            action={
-              group.reached ? (
-                <span className="inline-flex items-center gap-1 text-sm font-semibold text-ok">
-                  <CheckIcon className="size-4" />
-                  Ya puedes canjear
-                </span>
-              ) : (
-                <span className="text-sm font-semibold text-muted">
-                  Te faltan {formatPoints(group.points - view.balance)}
-                </span>
-              )
-            }
-          >
-            <span id={`hito-${group.points}`}>Hito {formatPoints(group.points)}</span>
-          </SectionTitle>
-          <ul className="flex flex-col gap-2.5">
-            {group.rewards.map((reward) => (
-              <RewardCard
-                key={reward.id}
-                reward={reward}
-                milestone={group.points}
-                balance={view.balance}
-                onRedeem={() => onRedeem(reward, false)}
-              />
-            ))}
-          </ul>
-        </section>
-      ))}
-
-      <section aria-labelledby="big-goal">
-        <SectionTitle>
-          <span id="big-goal">Meta grande</span>
-        </SectionTitle>
-        <Card>
-          <div className="flex items-start gap-3.5">
-            <RewardArt kind={big.costPoints} className="size-14 shrink-0" />
-            <div className="min-w-0 flex-1">
-              <p className="text-sm text-muted">{formatPoints(big.costPoints)} puntos</p>
-              <p className="text-base font-semibold">{bigReward?.name ?? 'Premio grande'}</p>
-              <p className="text-sm text-muted">Requiere 8 semanas activas y pasa por revisión.</p>
-            </div>
-          </div>
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#d9deea]" aria-hidden="true">
-            <div className="h-full rounded-full bg-navy" style={{ width: `${bigPct}%` }} />
-          </div>
-          <dl className="mt-3 grid grid-cols-[1fr_auto] gap-y-1 text-[15px]">
-            <dt className="text-muted">Puntos</dt>
-            <dd className="font-semibold">
-              {big.missingPoints > 0
-                ? `te faltan ${formatPoints(big.missingPoints)}`
-                : '¡Ya los tienes!'}
-            </dd>
-            <dt className="text-muted">Semanas activas</dt>
-            <dd className="font-semibold">
-              {big.activeWeeks} de {big.requiredActiveWeeks}
-              {big.missingWeeks > 0 &&
-                ` · te ${plural(big.missingWeeks, 'falta', 'faltan')} ${big.missingWeeks}`}
-            </dd>
-          </dl>
-          <p className="mt-2 text-sm text-muted">
-            Una semana activa tiene al menos 3 cierres completos o a medias.
-          </p>
-          {bigReward?.canRedeem && (
-            <Button className="mt-3" onClick={() => onRedeem(bigReward, true)}>
-              Pedir canje · {formatPoints(bigReward.costPoints)} puntos
-            </Button>
-          )}
-        </Card>
-      </section>
-
-      <section aria-labelledby="redemptions">
-        <SectionTitle>
-          <span id="redemptions">Tus canjes</span>
-        </SectionTitle>
-        {view.redemptions.length === 0 ? (
-          <EmptyState icon={<GiftIcon />} title="Todavía no canjeas premios">
-            Cuando llegues a un hito, canjea tu premio aquí.
-          </EmptyState>
-        ) : (
-          <ul className="rounded-[14px] border border-border bg-card px-4">
-            {view.redemptions.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-center justify-between gap-3 border-b border-border py-3 last:border-b-0"
-              >
-                <span className="min-w-0">
-                  <span className="block font-semibold">{item.rewardName}</span>
-                  <span className="block text-sm text-muted">
-                    {formatShortDate(item.createdAt)} · {formatPoints(item.points)} puntos
+      <div>
+        {view.milestones.map((group) => (
+          <section key={group.points} aria-labelledby={`hito-${group.points}`}>
+            <SectionTitle
+              action={
+                group.reached ? (
+                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-ok">
+                    <CheckIcon className="size-4" />
+                    Ya puedes canjear
                   </span>
-                </span>
-                {item.code ? (
-                  <span className="shrink-0 font-bold text-navy">{item.code}</span>
                 ) : (
-                  <span className="shrink-0 text-sm font-semibold text-warn">
-                    {item.statusText}
+                  <span className="text-sm font-semibold text-muted">
+                    Te faltan {formatPoints(group.points - view.balance)}
                   </span>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+                )
+              }
+            >
+              <span id={`hito-${group.points}`}>Hito {formatPoints(group.points)}</span>
+            </SectionTitle>
+            <ul className="flex flex-col gap-2.5 xl:grid xl:grid-cols-2 xl:gap-3">
+              {group.rewards.map((reward) => (
+                <RewardCard
+                  key={reward.id}
+                  reward={reward}
+                  milestone={group.points}
+                  balance={view.balance}
+                  onRedeem={() => onRedeem(reward, false)}
+                />
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <div>
+        <section aria-labelledby="big-goal">
+          <SectionTitle>
+            <span id="big-goal">Meta grande</span>
+          </SectionTitle>
+          <Card>
+            <div className="flex items-start gap-3.5">
+              <RewardArt kind={big.costPoints} className="size-14 shrink-0" />
+              <div className="min-w-0 flex-1">
+                <p className="text-sm text-muted">{formatPoints(big.costPoints)} puntos</p>
+                <p className="text-base font-semibold">{bigReward?.name ?? 'Premio grande'}</p>
+                <p className="text-sm text-muted">
+                  Requiere 8 semanas activas y pasa por revisión.
+                </p>
+              </div>
+            </div>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#d9deea]" aria-hidden="true">
+              <div className="h-full rounded-full bg-navy" style={{ width: `${bigPct}%` }} />
+            </div>
+            <dl className="mt-3 grid grid-cols-[1fr_auto] gap-y-1 text-[15px]">
+              <dt className="text-muted">Puntos</dt>
+              <dd className="font-semibold">
+                {big.missingPoints > 0
+                  ? `te faltan ${formatPoints(big.missingPoints)}`
+                  : '¡Ya los tienes!'}
+              </dd>
+              <dt className="text-muted">Semanas activas</dt>
+              <dd className="font-semibold">
+                {big.activeWeeks} de {big.requiredActiveWeeks}
+                {big.missingWeeks > 0 &&
+                  ` · te ${plural(big.missingWeeks, 'falta', 'faltan')} ${big.missingWeeks}`}
+              </dd>
+            </dl>
+            <p className="mt-2 text-sm text-muted">
+              Una semana activa tiene al menos 3 cierres completos o a medias.
+            </p>
+            {bigReward?.canRedeem && (
+              <Button className="mt-3" onClick={() => onRedeem(bigReward, true)}>
+                Pedir canje · {formatPoints(bigReward.costPoints)} puntos
+              </Button>
+            )}
+          </Card>
+        </section>
+
+        <section aria-labelledby="redemptions">
+          <SectionTitle>
+            <span id="redemptions">Tus canjes</span>
+          </SectionTitle>
+          {view.redemptions.length === 0 ? (
+            <EmptyState icon={<GiftIcon />} title="Todavía no canjeas premios">
+              Cuando llegues a un hito, canjea tu premio aquí.
+            </EmptyState>
+          ) : (
+            <ul className="rounded-[14px] border border-border bg-card px-4">
+              {view.redemptions.map((item) => (
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between gap-3 border-b border-border py-3 last:border-b-0"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-semibold">{item.rewardName}</span>
+                    <span className="block text-sm text-muted">
+                      {formatShortDate(item.createdAt)} · {formatPoints(item.points)} puntos
+                    </span>
+                  </span>
+                  {item.code ? (
+                    <span className="shrink-0 font-bold text-navy">{item.code}</span>
+                  ) : (
+                    <span className="shrink-0 text-sm font-semibold text-warn">
+                      {item.statusText}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
@@ -240,9 +250,10 @@ function RewardCard({
   const pct = Math.min(100, Math.round((balance / reward.costPoints) * 100));
   return (
     <li
-      className={`rounded-[18px] border border-border p-4 ${reward.canRedeem ? 'bg-card' : 'bg-[#fafbfd]'}`}
+      className={`rounded-[18px] border border-border p-4 xl:flex xl:flex-col ${reward.canRedeem ? 'bg-card' : 'bg-[#fafbfd]'}`}
     >
-      <div className="flex items-start gap-3.5">
+      {/* On a computer cards share a row: the action stays at the bottom of each. */}
+      <div className="flex items-start gap-3.5 xl:mb-auto">
         <RewardArt
           kind={milestone}
           className={`size-14 shrink-0 ${reward.canRedeem ? '' : 'opacity-50'}`}

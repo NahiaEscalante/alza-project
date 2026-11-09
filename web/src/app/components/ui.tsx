@@ -89,12 +89,26 @@ export function Card({
 }
 
 export function PageTitle({ children }: { children: ReactNode }) {
-  return <h1 className="mx-1 mt-1 mb-3 text-2xl leading-tight font-bold text-text">{children}</h1>;
+  return (
+    <h1 className="mx-1 mt-1 mb-3 text-2xl leading-tight font-bold text-text lg:mx-0 lg:mb-5 lg:text-[28px]">
+      {children}
+    </h1>
+  );
 }
 
-export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
+export function SectionTitle({
+  children,
+  action,
+  className = '',
+}: {
+  children: ReactNode;
+  action?: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="mx-1 mt-6 mb-2.5 flex items-center justify-between gap-3">
+    <div
+      className={`mx-1 mt-6 mb-2.5 flex items-center justify-between gap-3 lg:mx-0 ${className}`}
+    >
       <h2 className="text-base font-semibold text-text">{children}</h2>
       {action}
     </div>

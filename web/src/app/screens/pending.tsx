@@ -205,23 +205,26 @@ function PendingCard({
         </form>
       ) : (
         <div className="mt-3 flex flex-col gap-2">
-          {item.options.map((option, index) => (
-            <Button
-              key={option.label}
-              variant="outline"
-              loading={busy === index}
-              disabled={busy !== null}
-              onClick={() => {
-                if (option.input) {
-                  setOpen(index);
-                  setValue('');
-                  setError(null);
-                } else void resolve(index, option);
-              }}
-            >
-              {option.label}
-            </Button>
-          ))}
+          {/* On a computer the answers sit side by side (D79). */}
+          <div className="contents lg:grid lg:grid-cols-[repeat(auto-fit,minmax(11rem,1fr))] lg:gap-3">
+            {item.options.map((option, index) => (
+              <Button
+                key={option.label}
+                variant="outline"
+                loading={busy === index}
+                disabled={busy !== null}
+                onClick={() => {
+                  if (option.input) {
+                    setOpen(index);
+                    setValue('');
+                    setError(null);
+                  } else void resolve(index, option);
+                }}
+              >
+                {option.label}
+              </Button>
+            ))}
+          </div>
           <FieldError>{error}</FieldError>
         </div>
       )}

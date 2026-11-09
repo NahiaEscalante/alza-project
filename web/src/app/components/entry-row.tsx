@@ -46,22 +46,32 @@ export function EntryAmount({ entry, className = '' }: { entry: EntryView; class
   );
 }
 
-/** A record in a day (12.2 «Dentro de un día»). */
+/**
+ * A record in a day (12.2 «Dentro de un día»). On a wide computer (`xl`, D79) the tags and the
+ * amount move to their own columns on the right.
+ */
 export function EntryRow({ entry, href }: { entry: EntryView; href: string }) {
   return (
     <li>
       <Link
         href={href}
-        className="flex min-h-16 items-center gap-3 rounded-[14px] border border-border bg-card p-3 text-left hover:border-[#cfd6e6]"
+        className="flex min-h-16 items-center gap-3 rounded-[14px] border border-border bg-card p-3 text-left hover:border-[#cfd6e6] xl:gap-4 xl:px-4"
       >
         <MethodIcon entry={entry} />
-        <span className="min-w-0 flex-1">
-          <span className="flex items-baseline justify-between gap-2">
-            <b className="truncate text-base font-semibold">{entryTitle(entry)}</b>
-            <EntryAmount entry={entry} className="text-base" />
+        <span className="min-w-0 flex-1 xl:flex xl:items-center xl:gap-6">
+          <span className="block min-w-0 xl:flex-1">
+            <span className="flex items-baseline justify-between gap-2">
+              <b className="truncate text-base font-semibold">{entryTitle(entry)}</b>
+              <EntryAmount entry={entry} className="text-base xl:hidden" />
+            </span>
+            <span className="block text-sm text-muted">{entryMeta(entry)}</span>
+            <EntryTags entry={entry} className="mt-0.5 xl:hidden" />
           </span>
-          <span className="block text-sm text-muted">{entryMeta(entry)}</span>
-          <EntryTags entry={entry} className="mt-0.5" />
+          <EntryTags entry={entry} className="hidden xl:flex xl:justify-end" />
+          <EntryAmount
+            entry={entry}
+            className="hidden text-base xl:block xl:min-w-28 xl:text-right"
+          />
         </span>
         <ChevronRightIcon className="size-4 shrink-0 text-muted" />
       </Link>

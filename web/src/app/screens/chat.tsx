@@ -138,8 +138,10 @@ export function ChatScreen() {
 
   return (
     <Page docTitle="Chat">
-      <h1 className="mx-1 mt-1 mb-1 text-2xl leading-tight font-bold text-text">Chat</h1>
-      <p className="mx-1 mb-3 text-[15px] text-muted">
+      <h1 className="mx-1 mt-1 mb-1 text-2xl leading-tight font-bold text-text lg:mx-0 lg:text-[28px]">
+        Chat
+      </h1>
+      <p className="mx-1 mb-3 text-[15px] text-muted lg:mx-0 lg:mb-5">
         Pregúntame por tus números. No cambio nada sin que lo confirmes con tu PIN.
       </p>
 
@@ -225,46 +227,51 @@ export function ChatScreen() {
       )}
 
       {messages !== null && (
-        <div className="fixed inset-x-0 bottom-[calc(71px+env(safe-area-inset-bottom))] z-20 mx-auto max-w-110 border-t border-border bg-bg/95 px-3 pt-2 pb-2 backdrop-blur supports-backdrop-filter:bg-bg/85">
-          {limit?.reached ? (
-            <Notice tone="info">{LIMIT_TEXT}</Notice>
-          ) : (
-            <form onSubmit={onSubmit} className="flex items-end gap-2">
-              <label htmlFor={inputId} className="sr-only">
-                Escribe tu pregunta
-              </label>
-              <textarea
-                id={inputId}
-                value={draft}
-                rows={1}
-                maxLength={MAX_CHARS}
-                enterKeyHint="send"
-                placeholder="Escribe tu pregunta…"
-                onChange={(event) => setDraft(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault();
-                    void send(draft);
-                  }
-                }}
-                className="max-h-28 min-h-12 flex-1 resize-none rounded-3xl border border-border bg-white px-4 py-3 text-base text-text placeholder:text-muted"
-              />
-              <button
-                type="submit"
-                disabled={!draft.trim() || sending !== null}
-                aria-label="Enviar"
-                className="grid size-12 shrink-0 place-items-center rounded-full bg-purple text-white disabled:opacity-50"
-              >
-                {sending ? <Spinner className="size-5" /> : <SendIcon />}
-              </button>
-            </form>
-          )}
-          {limit && !limit.reached && limit.remaining <= 5 && (
-            <p className="mx-2 mt-1.5 text-sm text-muted">
-              Te {plural(limit.remaining, 'queda', 'quedan')} {limit.remaining}{' '}
-              {plural(limit.remaining, 'mensaje', 'mensajes')} hoy.
-            </p>
-          )}
+        <div className="fixed inset-x-0 bottom-[calc(71px+env(safe-area-inset-bottom))] z-20 mx-auto max-w-110 border-t border-border bg-bg/95 px-3 pt-2 pb-2 backdrop-blur supports-backdrop-filter:bg-bg/85 lg:bottom-0 lg:left-64 lg:max-w-none lg:px-8 lg:py-4">
+          {/* On a computer the box lines up with the conversation, right of the sidebar. */}
+          <div className="lg:mx-auto lg:max-w-6xl">
+            <div className="lg:max-w-3xl">
+              {limit?.reached ? (
+                <Notice tone="info">{LIMIT_TEXT}</Notice>
+              ) : (
+                <form onSubmit={onSubmit} className="flex items-end gap-2">
+                  <label htmlFor={inputId} className="sr-only">
+                    Escribe tu pregunta
+                  </label>
+                  <textarea
+                    id={inputId}
+                    value={draft}
+                    rows={1}
+                    maxLength={MAX_CHARS}
+                    enterKeyHint="send"
+                    placeholder="Escribe tu pregunta…"
+                    onChange={(event) => setDraft(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' && !event.shiftKey) {
+                        event.preventDefault();
+                        void send(draft);
+                      }
+                    }}
+                    className="max-h-28 min-h-12 flex-1 resize-none rounded-3xl border border-border bg-white px-4 py-3 text-base text-text placeholder:text-muted"
+                  />
+                  <button
+                    type="submit"
+                    disabled={!draft.trim() || sending !== null}
+                    aria-label="Enviar"
+                    className="grid size-12 shrink-0 place-items-center rounded-full bg-purple text-white disabled:opacity-50"
+                  >
+                    {sending ? <Spinner className="size-5" /> : <SendIcon />}
+                  </button>
+                </form>
+              )}
+              {limit && !limit.reached && limit.remaining <= 5 && (
+                <p className="mx-2 mt-1.5 text-sm text-muted">
+                  Te {plural(limit.remaining, 'queda', 'quedan')} {limit.remaining}{' '}
+                  {plural(limit.remaining, 'mensaje', 'mensajes')} hoy.
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       )}
 
