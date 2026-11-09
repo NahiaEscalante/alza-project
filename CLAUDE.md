@@ -85,7 +85,8 @@ Primero: `cp .env.example .env` y completar `ENCRYPTION_KEY` (`openssl rand -bas
 | Lint / formato | `npm run lint` / `npm run format` |
 | Build | `npm run build` (`web/dist` y `server/dist`) |
 | Producción | `npm start` (sirve web, `/api` y `/health` en `PORT`); migrar con `npm run db:migrate:dist -w server` |
-| Evaluar la IA / desplegar | _por definir_ (Fase 2 / Railway) |
+| Evaluar la IA | `npm run eval -w server`: todo el dataset por el pipeline real, tabla de 17.2 y corrida en `datasets/eval-runs/` (opciones: `--only=images,generated,audios,texts,close`, `--route=<función>=<ruta>` para probar un modelo, `--delay-ms`). Casos difíciles: `npm run eval:generate -w server`. Modelos disponibles: `npx tsx src/scripts/eval-list-models.ts` (en `server/`) |
+| Desplegar | _por definir_ (Railway) |
 
 ### Estructura del repositorio
 

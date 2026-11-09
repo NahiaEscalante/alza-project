@@ -1,0 +1,2855 @@
+{
+  "C-001": {
+    "file": "yape-imgs/WhatsApp Image 2026-11-08 at 12.39.44 PM.jpeg",
+    "page": {
+      "width": 1400,
+      "height": 1971,
+      "confidence": 76,
+      "lines": [
+        {
+          "text": "NE",
+          "confidence": 35,
+          "bbox": { "x0": 839, "y0": 92, "x1": 907, "y1": 250 },
+          "words": [
+            {
+              "text": "NE",
+              "confidence": 35,
+              "bbox": { "x0": 839, "y0": 92, "x1": 913, "y1": 250 }
+            }
+          ]
+        },
+        {
+          "text": "N",
+          "confidence": 52,
+          "bbox": { "x0": 1038, "y0": 97, "x1": 1143, "y1": 146 },
+          "words": [
+            {
+              "text": "N",
+              "confidence": 52,
+              "bbox": { "x0": 1038, "y0": 97, "x1": 1143, "y1": 146 }
+            }
+          ]
+        },
+        {
+          "text": ")",
+          "confidence": 90,
+          "bbox": { "x0": 778, "y0": 153, "x1": 801, "y1": 157 },
+          "words": [
+            {
+              "text": ")",
+              "confidence": 90,
+              "bbox": { "x0": 778, "y0": 153, "x1": 801, "y1": 157 }
+            }
+          ]
+        },
+        {
+          "text": "y By",
+          "confidence": 61,
+          "bbox": { "x0": 813, "y0": 154, "x1": 842, "y1": 238 },
+          "words": [
+            {
+              "text": "y",
+              "confidence": 69,
+              "bbox": { "x0": 813, "y0": 228, "x1": 824, "y1": 238 }
+            },
+            {
+              "text": "By",
+              "confidence": 53,
+              "bbox": { "x0": 817, "y0": 154, "x1": 842, "y1": 179 }
+            }
+          ]
+        },
+        {
+          "text": "as",
+          "confidence": 20,
+          "bbox": { "x0": 933, "y0": 163, "x1": 988, "y1": 371 },
+          "words": [
+            {
+              "text": "as",
+              "confidence": 20,
+              "bbox": { "x0": 924, "y0": 163, "x1": 988, "y1": 371 }
+            }
+          ]
+        },
+        {
+          "text": "E",
+          "confidence": 53,
+          "bbox": { "x0": 799, "y0": 216, "x1": 836, "y1": 250 },
+          "words": [
+            {
+              "text": "E",
+              "confidence": 53,
+              "bbox": { "x0": 799, "y0": 216, "x1": 836, "y1": 250 }
+            }
+          ]
+        },
+        {
+          "text": "MN",
+          "confidence": 22,
+          "bbox": { "x0": 841, "y0": 218, "x1": 947, "y1": 333 },
+          "words": [
+            {
+              "text": "MN",
+              "confidence": 22,
+              "bbox": { "x0": 841, "y0": 218, "x1": 947, "y1": 333 }
+            }
+          ]
+        },
+        {
+          "text": "QU",
+          "confidence": 51,
+          "bbox": { "x0": 838, "y0": 291, "x1": 944, "y1": 429 },
+          "words": [
+            {
+              "text": "QU",
+              "confidence": 51,
+              "bbox": { "x0": 838, "y0": 291, "x1": 944, "y1": 429 }
+            }
+          ]
+        },
+        {
+          "text": "“e",
+          "confidence": 43,
+          "bbox": { "x0": 993, "y0": 305, "x1": 1086, "y1": 412 },
+          "words": [
+            {
+              "text": "“e",
+              "confidence": 43,
+              "bbox": { "x0": 993, "y0": 305, "x1": 1086, "y1": 412 }
+            }
+          ]
+        },
+        {
+          "text": "S",
+          "confidence": 85,
+          "bbox": { "x0": 1152, "y0": 305, "x1": 1205, "y1": 353 },
+          "words": [
+            {
+              "text": "S",
+              "confidence": 85,
+              "bbox": { "x0": 1152, "y0": 305, "x1": 1205, "y1": 353 }
+            }
+          ]
+        },
+        {
+          "text": "Z",
+          "confidence": 74,
+          "bbox": { "x0": 1208, "y0": 305, "x1": 1254, "y1": 352 },
+          "words": [
+            {
+              "text": "Z",
+              "confidence": 74,
+              "bbox": { "x0": 1208, "y0": 305, "x1": 1254, "y1": 352 }
+            }
+          ]
+        },
+        {
+          "text": "7",
+          "confidence": 62,
+          "bbox": { "x0": 1257, "y0": 305, "x1": 1311, "y1": 353 },
+          "words": [
+            {
+              "text": "7",
+              "confidence": 62,
+              "bbox": { "x0": 1257, "y0": 305, "x1": 1311, "y1": 353 }
+            }
+          ]
+        },
+        {
+          "text": "q",
+          "confidence": 32,
+          "bbox": { "x0": 759, "y0": 321, "x1": 816, "y1": 413 },
+          "words": [
+            {
+              "text": "q",
+              "confidence": 32,
+              "bbox": { "x0": 759, "y0": 321, "x1": 816, "y1": 413 }
+            }
+          ]
+        },
+        {
+          "text": "Nz",
+          "confidence": 68,
+          "bbox": { "x0": 835, "y0": 422, "x1": 903, "y1": 539 },
+          "words": [
+            {
+              "text": "Nz",
+              "confidence": 68,
+              "bbox": { "x0": 835, "y0": 422, "x1": 903, "y1": 539 }
+            }
+          ]
+        },
+        {
+          "text": "ES",
+          "confidence": 60,
+          "bbox": { "x0": 730, "y0": 431, "x1": 810, "y1": 571 },
+          "words": [
+            {
+              "text": "ES",
+              "confidence": 60,
+              "bbox": { "x0": 730, "y0": 431, "x1": 810, "y1": 571 }
+            }
+          ]
+        },
+        {
+          "text": "/",
+          "confidence": 92,
+          "bbox": { "x0": 1050, "y0": 459, "x1": 1222, "y1": 539 },
+          "words": [
+            {
+              "text": "/",
+              "confidence": 92,
+              "bbox": { "x0": 1050, "y0": 459, "x1": 1222, "y1": 539 }
+            }
+          ]
+        },
+        {
+          "text": "¡Te Yapearon!",
+          "confidence": 82,
+          "bbox": { "x0": 113, "y0": 693, "x1": 527, "y1": 752 },
+          "words": [
+            {
+              "text": "¡Te",
+              "confidence": 73,
+              "bbox": { "x0": 113, "y0": 693, "x1": 199, "y1": 752 }
+            },
+            {
+              "text": "Yapearon!",
+              "confidence": 92,
+              "bbox": { "x0": 217, "y0": 693, "x1": 527, "y1": 752 }
+            }
+          ]
+        },
+        {
+          "text": "5/2",
+          "confidence": 55,
+          "bbox": { "x0": 110, "y0": 832, "x1": 306, "y1": 950 },
+          "words": [
+            {
+              "text": "5/2",
+              "confidence": 55,
+              "bbox": { "x0": 110, "y0": 832, "x1": 306, "y1": 950 }
+            }
+          ]
+        },
+        {
+          "text": "Fernando Sar*",
+          "confidence": 92,
+          "bbox": { "x0": 113, "y0": 1016, "x1": 535, "y1": 1066 },
+          "words": [
+            {
+              "text": "Fernando",
+              "confidence": 93,
+              "bbox": { "x0": 113, "y0": 1016, "x1": 390, "y1": 1066 }
+            },
+            {
+              "text": "Sar*",
+              "confidence": 91,
+              "bbox": { "x0": 410, "y0": 1017, "x1": 535, "y1": 1066 }
+            }
+          ]
+        },
+        {
+          "text": "8 04 nov. 2026 | O 8:44 p.m.",
+          "confidence": 94,
+          "bbox": { "x0": 114, "y0": 1114, "x1": 831, "y1": 1165 },
+          "words": [
+            {
+              "text": "8",
+              "confidence": 87,
+              "bbox": { "x0": 114, "y0": 1117, "x1": 154, "y1": 1157 }
+            },
+            {
+              "text": "04",
+              "confidence": 96,
+              "bbox": { "x0": 177, "y0": 1121, "x1": 235, "y1": 1157 }
+            },
+            {
+              "text": "nov.",
+              "confidence": 96,
+              "bbox": { "x0": 254, "y0": 1129, "x1": 342, "y1": 1157 }
+            },
+            {
+              "text": "2026",
+              "confidence": 96,
+              "bbox": { "x0": 363, "y0": 1120, "x1": 480, "y1": 1157 }
+            },
+            {
+              "text": "|",
+              "confidence": 95,
+              "bbox": { "x0": 510, "y0": 1119, "x1": 514, "y1": 1159 }
+            },
+            {
+              "text": "O",
+              "confidence": 95,
+              "bbox": { "x0": 545, "y0": 1114, "x1": 589, "y1": 1159 }
+            },
+            {
+              "text": "8:44",
+              "confidence": 95,
+              "bbox": { "x0": 610, "y0": 1121, "x1": 716, "y1": 1157 }
+            },
+            {
+              "text": "p.m.",
+              "confidence": 95,
+              "bbox": { "x0": 734, "y0": 1129, "x1": 831, "y1": 1165 }
+            }
+          ]
+        },
+        {
+          "text": "CÓDIGO DE SEGURIDAD 4 4 4",
+          "confidence": 94,
+          "bbox": { "x0": 110, "y0": 1283, "x1": 1270, "y1": 1325 },
+          "words": [
+            {
+              "text": "CÓDIGO",
+              "confidence": 96,
+              "bbox": { "x0": 110, "y0": 1283, "x1": 258, "y1": 1318 }
+            },
+            {
+              "text": "DE",
+              "confidence": 96,
+              "bbox": { "x0": 273, "y0": 1292, "x1": 318, "y1": 1317 }
+            },
+            {
+              "text": "SEGURIDAD",
+              "confidence": 95,
+              "bbox": { "x0": 333, "y0": 1291, "x1": 550, "y1": 1318 }
+            },
+            {
+              "text": "4",
+              "confidence": 91,
+              "bbox": { "x0": 1052, "y0": 1286, "x1": 1083, "y1": 1325 }
+            },
+            {
+              "text": "4",
+              "confidence": 91,
+              "bbox": { "x0": 1145, "y0": 1286, "x1": 1177, "y1": 1325 }
+            },
+            {
+              "text": "4",
+              "confidence": 95,
+              "bbox": { "x0": 1238, "y0": 1286, "x1": 1270, "y1": 1325 }
+            }
+          ]
+        },
+        {
+          "text": "DATOS DE LA TRANSACCIÓN",
+          "confidence": 74,
+          "bbox": { "x0": 111, "y0": 1453, "x1": 641, "y1": 1488 },
+          "words": [
+            {
+              "text": "DATOS",
+              "confidence": 96,
+              "bbox": { "x0": 111, "y0": 1461, "x1": 233, "y1": 1488 }
+            },
+            {
+              "text": "DE",
+              "confidence": 52,
+              "bbox": { "x0": 248, "y0": 1462, "x1": 293, "y1": 1487 }
+            },
+            {
+              "text": "LA",
+              "confidence": 52,
+              "bbox": { "x0": 308, "y0": 1462, "x1": 352, "y1": 1487 }
+            },
+            {
+              "text": "TRANSACCIÓN",
+              "confidence": 96,
+              "bbox": { "x0": 366, "y0": 1453, "x1": 641, "y1": 1488 }
+            }
+          ]
+        },
+        {
+          "text": "Nro. de celular iii e 2",
+          "confidence": 59,
+          "bbox": { "x0": 112, "y0": 1562, "x1": 1291, "y1": 1603 },
+          "words": [
+            {
+              "text": "Nro.",
+              "confidence": 96,
+              "bbox": { "x0": 112, "y0": 1564, "x1": 205, "y1": 1602 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 225, "y0": 1562, "x1": 282, "y1": 1602 }
+            },
+            {
+              "text": "celular",
+              "confidence": 96,
+              "bbox": { "x0": 300, "y0": 1562, "x1": 459, "y1": 1602 }
+            },
+            {
+              "text": "iii",
+              "confidence": 23,
+              "bbox": { "x0": 1035, "y0": 1564, "x1": 1188, "y1": 1584 }
+            },
+            {
+              "text": "e",
+              "confidence": 23,
+              "bbox": { "x0": 1221, "y0": 1563, "x1": 1226, "y1": 1603 }
+            },
+            {
+              "text": "2",
+              "confidence": 21,
+              "bbox": { "x0": 1240, "y0": 1559, "x1": 1245, "y1": 1616 }
+            }
+          ]
+        },
+        {
+          "text": "|",
+          "confidence": 52,
+          "bbox": { "x0": 54, "y0": 1619, "x1": 56, "y1": 1643 },
+          "words": [
+            {
+              "text": "|",
+              "confidence": 52,
+              "bbox": { "x0": 54, "y0": 1619, "x1": 56, "y1": 1643 }
+            }
+          ]
+        },
+        {
+          "text": "Destino Yape",
+          "confidence": 94,
+          "bbox": { "x0": 112, "y0": 1655, "x1": 1291, "y1": 1712 },
+          "words": [
+            {
+              "text": "Destino",
+              "confidence": 96,
+              "bbox": { "x0": 112, "y0": 1655, "x1": 290, "y1": 1712 }
+            },
+            {
+              "text": "Yape",
+              "confidence": 92,
+              "bbox": { "x0": 1174, "y0": 1661, "x1": 1291, "y1": 1708 }
+            }
+          ]
+        },
+        {
+          "text": "|",
+          "confidence": 68,
+          "bbox": { "x0": 54, "y0": 1718, "x1": 55, "y1": 1737 },
+          "words": [
+            {
+              "text": "|",
+              "confidence": 68,
+              "bbox": { "x0": 54, "y0": 1718, "x1": 55, "y1": 1737 }
+            }
+          ]
+        },
+        {
+          "text": "Nro. de operación 32811444",
+          "confidence": 96,
+          "bbox": { "x0": 112, "y0": 1754, "x1": 1292, "y1": 1805 },
+          "words": [
+            {
+              "text": "Nro.",
+              "confidence": 96,
+              "bbox": { "x0": 112, "y0": 1757, "x1": 205, "y1": 1796 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 225, "y0": 1756, "x1": 282, "y1": 1796 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 300, "y0": 1754, "x1": 536, "y1": 1805 }
+            },
+            {
+              "text": "32811444",
+              "confidence": 96,
+              "bbox": { "x0": 1046, "y0": 1756, "x1": 1292, "y1": 1796 }
+            }
+          ]
+        },
+        {
+          "text": "a yl",
+          "confidence": 39,
+          "bbox": { "x0": 54, "y0": 1833, "x1": 1347, "y1": 1905 },
+          "words": [
+            {
+              "text": "a",
+              "confidence": 17,
+              "bbox": { "x0": 54, "y0": 1833, "x1": 117, "y1": 1905 }
+            },
+            {
+              "text": "yl",
+              "confidence": 61,
+              "bbox": { "x0": 1287, "y0": 1837, "x1": 1347, "y1": 1905 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "2",
+        "confidence": 97,
+        "symbols": [
+          { "text": "2", "confidence": 99, "bbox": { "x0": 28, "y0": 28, "x1": 44, "y1": 52 } }
+        ]
+      },
+      {
+        "text": "2",
+        "confidence": 96,
+        "symbols": [
+          { "text": "2", "confidence": 99, "bbox": { "x0": 36, "y0": 36, "x1": 63, "y1": 76 } }
+        ]
+      },
+      {
+        "text": "2",
+        "confidence": 96,
+        "symbols": [
+          { "text": "2", "confidence": 99, "bbox": { "x0": 48, "y0": 48, "x1": 92, "y1": 112 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 1,
+    "signRemoved": true
+  },
+  "C-002": {
+    "file": "yape-imgs/WhatsApp Image 2026-11-08 at 12.40.24 PM.jpeg",
+    "page": {
+      "width": 1400,
+      "height": 2128,
+      "confidence": 77,
+      "lines": [
+        {
+          "text": "A",
+          "confidence": 17,
+          "bbox": { "x0": 1013, "y0": 150, "x1": 1027, "y1": 157 },
+          "words": [
+            {
+              "text": "A",
+              "confidence": 17,
+              "bbox": { "x0": 1013, "y0": 150, "x1": 1027, "y1": 157 }
+            }
+          ]
+        },
+        {
+          "text": ") JOSÉ",
+          "confidence": 55,
+          "bbox": { "x0": 950, "y0": 198, "x1": 1203, "y1": 352 },
+          "words": [
+            {
+              "text": ")",
+              "confidence": 15,
+              "bbox": { "x0": 950, "y0": 198, "x1": 972, "y1": 352 }
+            },
+            {
+              "text": "JOSÉ",
+              "confidence": 96,
+              "bbox": { "x0": 1021, "y0": 213, "x1": 1203, "y1": 302 }
+            }
+          ]
+        },
+        {
+          "text": "Á",
+          "confidence": 45,
+          "bbox": { "x0": 1009, "y0": 395, "x1": 1021, "y1": 420 },
+          "words": [
+            {
+              "text": "Á",
+              "confidence": 45,
+              "bbox": { "x0": 1009, "y0": 395, "x1": 1021, "y1": 420 }
+            }
+          ]
+        },
+        {
+          "text": "78 o",
+          "confidence": 27,
+          "bbox": { "x0": 1003, "y0": 504, "x1": 1232, "y1": 545 },
+          "words": [
+            {
+              "text": "78",
+              "confidence": 44,
+              "bbox": { "x0": 1003, "y0": 504, "x1": 1033, "y1": 538 }
+            },
+            {
+              "text": "o",
+              "confidence": 11,
+              "bbox": { "x0": 1149, "y0": 504, "x1": 1232, "y1": 545 }
+            }
+          ]
+        },
+        {
+          "text": "¡Yapeaste!",
+          "confidence": 92,
+          "bbox": { "x0": 113, "y0": 692, "x1": 431, "y1": 752 },
+          "words": [
+            {
+              "text": "¡Yapeaste!",
+              "confidence": 92,
+              "bbox": { "x0": 113, "y0": 692, "x1": 431, "y1": 752 }
+            }
+          ]
+        },
+        {
+          "text": "17.50",
+          "confidence": 54,
+          "bbox": { "x0": 167, "y0": 833, "x1": 527, "y1": 951 },
+          "words": [
+            {
+              "text": "17.50",
+              "confidence": 54,
+              "bbox": { "x0": 167, "y0": 833, "x1": 527, "y1": 951 }
+            }
+          ]
+        },
+        {
+          "text": "Sofia Rey*",
+          "confidence": 93,
+          "bbox": { "x0": 110, "y0": 1014, "x1": 414, "y1": 1077 },
+          "words": [
+            {
+              "text": "Sofia",
+              "confidence": 93,
+              "bbox": { "x0": 110, "y0": 1014, "x1": 257, "y1": 1065 }
+            },
+            {
+              "text": "Rey*",
+              "confidence": 92,
+              "bbox": { "x0": 280, "y0": 1017, "x1": 414, "y1": 1077 }
+            }
+          ]
+        },
+        {
+          "text": "8 05 nov. 2026 | O) 6:34 p.m.",
+          "confidence": 93,
+          "bbox": { "x0": 114, "y0": 1113, "x1": 828, "y1": 1165 },
+          "words": [
+            {
+              "text": "8",
+              "confidence": 90,
+              "bbox": { "x0": 114, "y0": 1116, "x1": 154, "y1": 1156 }
+            },
+            {
+              "text": "05",
+              "confidence": 95,
+              "bbox": { "x0": 177, "y0": 1119, "x1": 234, "y1": 1157 }
+            },
+            {
+              "text": "nov.",
+              "confidence": 95,
+              "bbox": { "x0": 252, "y0": 1128, "x1": 341, "y1": 1156 }
+            },
+            {
+              "text": "2026",
+              "confidence": 96,
+              "bbox": { "x0": 361, "y0": 1119, "x1": 479, "y1": 1157 }
+            },
+            {
+              "text": "|",
+              "confidence": 96,
+              "bbox": { "x0": 509, "y0": 1118, "x1": 513, "y1": 1158 }
+            },
+            {
+              "text": "O)",
+              "confidence": 80,
+              "bbox": { "x0": 544, "y0": 1113, "x1": 588, "y1": 1158 }
+            },
+            {
+              "text": "6:34",
+              "confidence": 94,
+              "bbox": { "x0": 609, "y0": 1119, "x1": 714, "y1": 1157 }
+            },
+            {
+              "text": "p.m.",
+              "confidence": 96,
+              "bbox": { "x0": 732, "y0": 1128, "x1": 828, "y1": 1165 }
+            }
+          ]
+        },
+        {
+          "text": "Y Paramount",
+          "confidence": 64,
+          "bbox": { "x0": 153, "y0": 1256, "x1": 448, "y1": 1301 },
+          "words": [
+            {
+              "text": "Y",
+              "confidence": 32,
+              "bbox": { "x0": 153, "y0": 1256, "x1": 209, "y1": 1301 }
+            },
+            {
+              "text": "Paramount",
+              "confidence": 96,
+              "bbox": { "x0": 244, "y0": 1257, "x1": 448, "y1": 1286 }
+            }
+          ]
+        },
+        {
+          "text": "CÓDIGO DE SEGURIDAD g8 3 6",
+          "confidence": 90,
+          "bbox": { "x0": 110, "y0": 1440, "x1": 1269, "y1": 1482 },
+          "words": [
+            {
+              "text": "CÓDIGO",
+              "confidence": 96,
+              "bbox": { "x0": 110, "y0": 1440, "x1": 258, "y1": 1475 }
+            },
+            {
+              "text": "DE",
+              "confidence": 96,
+              "bbox": { "x0": 273, "y0": 1449, "x1": 318, "y1": 1475 }
+            },
+            {
+              "text": "SEGURIDAD",
+              "confidence": 96,
+              "bbox": { "x0": 333, "y0": 1448, "x1": 551, "y1": 1475 }
+            },
+            {
+              "text": "g8",
+              "confidence": 72,
+              "bbox": { "x0": 1052, "y0": 1442, "x1": 1083, "y1": 1482 }
+            },
+            {
+              "text": "3",
+              "confidence": 81,
+              "bbox": { "x0": 1146, "y0": 1442, "x1": 1175, "y1": 1482 }
+            },
+            {
+              "text": "6",
+              "confidence": 96,
+              "bbox": { "x0": 1239, "y0": 1442, "x1": 1269, "y1": 1482 }
+            }
+          ]
+        },
+        {
+          "text": "DATOS DE LA TRANSACCIÓN",
+          "confidence": 96,
+          "bbox": { "x0": 111, "y0": 1610, "x1": 641, "y1": 1645 },
+          "words": [
+            {
+              "text": "DATOS",
+              "confidence": 96,
+              "bbox": { "x0": 111, "y0": 1618, "x1": 233, "y1": 1645 }
+            },
+            {
+              "text": "DE",
+              "confidence": 95,
+              "bbox": { "x0": 248, "y0": 1619, "x1": 293, "y1": 1645 }
+            },
+            {
+              "text": "LA",
+              "confidence": 95,
+              "bbox": { "x0": 308, "y0": 1618, "x1": 352, "y1": 1645 }
+            },
+            {
+              "text": "TRANSACCIÓN",
+              "confidence": 96,
+              "bbox": { "x0": 366, "y0": 1610, "x1": 641, "y1": 1645 }
+            }
+          ]
+        },
+        {
+          "text": "Nro. de celular $ES FEE BA",
+          "confidence": 67,
+          "bbox": { "x0": 112, "y0": 1719, "x1": 1290, "y1": 1760 },
+          "words": [
+            {
+              "text": "Nro.",
+              "confidence": 96,
+              "bbox": { "x0": 112, "y0": 1721, "x1": 205, "y1": 1759 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 225, "y0": 1719, "x1": 282, "y1": 1759 }
+            },
+            {
+              "text": "celular",
+              "confidence": 96,
+              "bbox": { "x0": 300, "y0": 1719, "x1": 459, "y1": 1760 }
+            },
+            {
+              "text": "$ES",
+              "confidence": 25,
+              "bbox": { "x0": 1025, "y0": 1721, "x1": 1091, "y1": 1741 }
+            },
+            {
+              "text": "FEE",
+              "confidence": 72,
+              "bbox": { "x0": 1111, "y0": 1721, "x1": 1178, "y1": 1741 }
+            },
+            {
+              "text": "BA",
+              "confidence": 15,
+              "bbox": { "x0": 1197, "y0": 1720, "x1": 1290, "y1": 1760 }
+            }
+          ]
+        },
+        {
+          "text": "|",
+          "confidence": 63,
+          "bbox": { "x0": 54, "y0": 1779, "x1": 55, "y1": 1798 },
+          "words": [
+            {
+              "text": "|",
+              "confidence": 63,
+              "bbox": { "x0": 54, "y0": 1779, "x1": 55, "y1": 1798 }
+            }
+          ]
+        },
+        {
+          "text": "Destino Yape",
+          "confidence": 94,
+          "bbox": { "x0": 112, "y0": 1812, "x1": 1291, "y1": 1869 },
+          "words": [
+            {
+              "text": "Destino",
+              "confidence": 96,
+              "bbox": { "x0": 112, "y0": 1812, "x1": 290, "y1": 1869 }
+            },
+            {
+              "text": "Yape",
+              "confidence": 92,
+              "bbox": { "x0": 1174, "y0": 1817, "x1": 1291, "y1": 1865 }
+            }
+          ]
+        },
+        {
+          "text": "|",
+          "confidence": 64,
+          "bbox": { "x0": 54, "y0": 1874, "x1": 55, "y1": 1895 },
+          "words": [
+            {
+              "text": "|",
+              "confidence": 64,
+              "bbox": { "x0": 54, "y0": 1874, "x1": 55, "y1": 1895 }
+            }
+          ]
+        },
+        {
+          "text": "Nro. de operación 26290836",
+          "confidence": 96,
+          "bbox": { "x0": 112, "y0": 1911, "x1": 1291, "y1": 1962 },
+          "words": [
+            {
+              "text": "Nro.",
+              "confidence": 96,
+              "bbox": { "x0": 112, "y0": 1914, "x1": 205, "y1": 1953 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 225, "y0": 1912, "x1": 282, "y1": 1953 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 300, "y0": 1911, "x1": 536, "y1": 1962 }
+            },
+            {
+              "text": "26290836",
+              "confidence": 96,
+              "bbox": { "x0": 1031, "y0": 1913, "x1": 1291, "y1": 1953 }
+            }
+          ]
+        },
+        {
+          "text": "Ú",
+          "confidence": 0,
+          "bbox": { "x0": 54, "y0": 1990, "x1": 121, "y1": 2062 },
+          "words": [
+            {
+              "text": "Ú",
+              "confidence": 0,
+              "bbox": { "x0": 54, "y0": 1990, "x1": 121, "y1": 2062 }
+            }
+          ]
+        },
+        {
+          "text": "yl",
+          "confidence": 34,
+          "bbox": { "x0": 1285, "y0": 1992, "x1": 1347, "y1": 2062 },
+          "words": [
+            {
+              "text": "yl",
+              "confidence": 34,
+              "bbox": { "x0": 1285, "y0": 1992, "x1": 1347, "y1": 2062 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "7.50",
+        "confidence": 95,
+        "symbols": [
+          { "text": "7", "confidence": 99, "bbox": { "x0": 28, "y0": 28, "x1": 44, "y1": 52 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 44, "y0": 48, "x1": 48, "y1": 52 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 52, "y0": 28, "x1": 69, "y1": 52 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 71, "y0": 28, "x1": 89, "y1": 52 } }
+        ]
+      },
+      {
+        "text": "7.50",
+        "confidence": 96,
+        "symbols": [
+          { "text": "7", "confidence": 99, "bbox": { "x0": 36, "y0": 37, "x1": 62, "y1": 75 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 63, "y0": 69, "x1": 70, "y1": 76 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 76, "y0": 37, "x1": 104, "y1": 76 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 109, "y0": 36, "x1": 138, "y1": 76 } }
+        ]
+      },
+      {
+        "text": "7.50",
+        "confidence": 96,
+        "symbols": [
+          { "text": "7", "confidence": 99, "bbox": { "x0": 48, "y0": 49, "x1": 90, "y1": 111 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 91, "y0": 101, "x1": 102, "y1": 112 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 113, "y0": 49, "x1": 157, "y1": 112 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 165, "y0": 48, "x1": 212, "y1": 112 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 4,
+    "signRemoved": true
+  },
+  "C-003": {
+    "file": "plin-imgs/PHOTO-2024-01-27-17-02-37.jpg",
+    "page": {
+      "width": 1400,
+      "height": 3150,
+      "confidence": 84,
+      "lines": [
+        {
+          "text": "Transferencia",
+          "confidence": 96,
+          "bbox": { "x0": 489, "y0": 120, "x1": 908, "y1": 173 },
+          "words": [
+            {
+              "text": "Transferencia",
+              "confidence": 96,
+              "bbox": { "x0": 489, "y0": 120, "x1": 908, "y1": 173 }
+            }
+          ]
+        },
+        {
+          "text": "Operación exitosa",
+          "confidence": 96,
+          "bbox": { "x0": 348, "y0": 365, "x1": 1049, "y1": 448 },
+          "words": [
+            {
+              "text": "Operación",
+              "confidence": 96,
+              "bbox": { "x0": 348, "y0": 365, "x1": 743, "y1": 448 }
+            },
+            {
+              "text": "exitosa",
+              "confidence": 95,
+              "bbox": { "x0": 777, "y0": 367, "x1": 1049, "y1": 432 }
+            }
+          ]
+        },
+        {
+          "text": "27 enero 2024, 17:02 h",
+          "confidence": 55,
+          "bbox": { "x0": 356, "y0": 528, "x1": 1041, "y1": 585 },
+          "words": [
+            {
+              "text": "27",
+              "confidence": 0,
+              "bbox": { "x0": 356, "y0": 529, "x1": 435, "y1": 576 }
+            },
+            {
+              "text": "enero",
+              "confidence": 0,
+              "bbox": { "x0": 446, "y0": 540, "x1": 613, "y1": 577 }
+            },
+            {
+              "text": "2024,",
+              "confidence": 96,
+              "bbox": { "x0": 632, "y0": 529, "x1": 790, "y1": 585 }
+            },
+            {
+              "text": "17:02",
+              "confidence": 91,
+              "bbox": { "x0": 837, "y0": 529, "x1": 993, "y1": 577 }
+            },
+            {
+              "text": "h",
+              "confidence": 90,
+              "bbox": { "x0": 1007, "y0": 528, "x1": 1041, "y1": 576 }
+            }
+          ]
+        },
+        {
+          "text": "Importe transferido",
+          "confidence": 89,
+          "bbox": { "x0": 426, "y0": 682, "x1": 976, "y1": 744 },
+          "words": [
+            {
+              "text": "Importe",
+              "confidence": 96,
+              "bbox": { "x0": 426, "y0": 682, "x1": 644, "y1": 744 }
+            },
+            {
+              "text": "transferido",
+              "confidence": 82,
+              "bbox": { "x0": 666, "y0": 682, "x1": 976, "y1": 731 }
+            }
+          ]
+        },
+        {
+          "text": "51,285.00",
+          "confidence": 70,
+          "bbox": { "x0": 388, "y0": 784, "x1": 1007, "y1": 912 },
+          "words": [
+            {
+              "text": "51,285.00",
+              "confidence": 70,
+              "bbox": { "x0": 388, "y0": 784, "x1": 1007, "y1": 912 }
+            }
+          ]
+        },
+        {
+          "text": "Comisión S/0.00",
+          "confidence": 92,
+          "bbox": { "x0": 449, "y0": 987, "x1": 957, "y1": 1042 },
+          "words": [
+            {
+              "text": "Comisión",
+              "confidence": 92,
+              "bbox": { "x0": 449, "y0": 988, "x1": 716, "y1": 1038 }
+            },
+            {
+              "text": "S/0.00",
+              "confidence": 92,
+              "bbox": { "x0": 756, "y0": 987, "x1": 957, "y1": 1042 }
+            }
+          ]
+        },
+        {
+          "text": "ITF S/0.05",
+          "confidence": 80,
+          "bbox": { "x0": 540, "y0": 1092, "x1": 865, "y1": 1147 },
+          "words": [
+            {
+              "text": "ITF",
+              "confidence": 80,
+              "bbox": { "x0": 540, "y0": 1093, "x1": 634, "y1": 1141 }
+            },
+            {
+              "text": "S/0.05",
+              "confidence": 80,
+              "bbox": { "x0": 666, "y0": 1092, "x1": 865, "y1": 1147 }
+            }
+          ]
+        },
+        {
+          "text": "Importe abonado S/ 1,285.00",
+          "confidence": 95,
+          "bbox": { "x0": 75, "y0": 1267, "x1": 1325, "y1": 1330 },
+          "words": [
+            {
+              "text": "Importe",
+              "confidence": 96,
+              "bbox": { "x0": 75, "y0": 1269, "x1": 292, "y1": 1330 }
+            },
+            {
+              "text": "abonado",
+              "confidence": 96,
+              "bbox": { "x0": 317, "y0": 1268, "x1": 574, "y1": 1318 }
+            },
+            {
+              "text": "S/",
+              "confidence": 92,
+              "bbox": { "x0": 1000, "y0": 1267, "x1": 1055, "y1": 1322 }
+            },
+            {
+              "text": "1,285.00",
+              "confidence": 96,
+              "bbox": { "x0": 1080, "y0": 1270, "x1": 1325, "y1": 1324 }
+            }
+          ]
+        },
+        {
+          "text": "Importe cargado S/1,285:05",
+          "confidence": 82,
+          "bbox": { "x0": 75, "y0": 1372, "x1": 1324, "y1": 1435 },
+          "words": [
+            {
+              "text": "Importe",
+              "confidence": 96,
+              "bbox": { "x0": 75, "y0": 1374, "x1": 292, "y1": 1434 }
+            },
+            {
+              "text": "cargado",
+              "confidence": 96,
+              "bbox": { "x0": 317, "y0": 1374, "x1": 560, "y1": 1435 }
+            },
+            {
+              "text": "S/1,285:05",
+              "confidence": 55,
+              "bbox": { "x0": 1000, "y0": 1372, "x1": 1324, "y1": 1430 }
+            }
+          ]
+        },
+        {
+          "text": "y de 2N",
+          "confidence": 46,
+          "bbox": { "x0": 389, "y0": 1601, "x1": 1003, "y1": 1697 },
+          "words": [
+            {
+              "text": "y",
+              "confidence": 71,
+              "bbox": { "x0": 385, "y0": 1597, "x1": 421, "y1": 1703 }
+            },
+            {
+              "text": "de",
+              "confidence": 68,
+              "bbox": { "x0": 486, "y0": 1601, "x1": 504, "y1": 1605 }
+            },
+            {
+              "text": "2N",
+              "confidence": 0,
+              "bbox": { "x0": 897, "y0": 1601, "x1": 1003, "y1": 1680 }
+            }
+          ]
+        },
+        {
+          "text": "Cuenta sueldo Andres Alejanar...",
+          "confidence": 93,
+          "bbox": { "x0": 260, "y0": 1942, "x1": 1226, "y1": 2004 },
+          "words": [
+            {
+              "text": "Cuenta",
+              "confidence": 96,
+              "bbox": { "x0": 260, "y0": 1942, "x1": 468, "y1": 1991 }
+            },
+            {
+              "text": "sueldo",
+              "confidence": 95,
+              "bbox": { "x0": 487, "y0": 1942, "x1": 675, "y1": 1991 }
+            },
+            {
+              "text": "Andres",
+              "confidence": 93,
+              "bbox": { "x0": 718, "y0": 1942, "x1": 923, "y1": 1991 }
+            },
+            {
+              "text": "Alejanar...",
+              "confidence": 88,
+              "bbox": { "x0": 942, "y0": 1942, "x1": 1226, "y1": 2004 }
+            }
+          ]
+        },
+        {
+          "text": "e8103 *e6271",
+          "confidence": 56,
+          "bbox": { "x0": 512, "y0": 2048, "x1": 893, "y1": 2096 },
+          "words": [
+            {
+              "text": "e8103",
+              "confidence": 85,
+              "bbox": { "x0": 512, "y0": 2048, "x1": 684, "y1": 2096 }
+            },
+            {
+              "text": "*e6271",
+              "confidence": 28,
+              "bbox": { "x0": 726, "y0": 2048, "x1": 893, "y1": 2096 }
+            }
+          ]
+        },
+        {
+          "text": "BBVA",
+          "confidence": 95,
+          "bbox": { "x0": 722, "y0": 2152, "x1": 883, "y1": 2200 },
+          "words": [
+            {
+              "text": "BBVA",
+              "confidence": 95,
+              "bbox": { "x0": 722, "y0": 2152, "x1": 883, "y1": 2200 }
+            }
+          ]
+        },
+        {
+          "text": "Concepto",
+          "confidence": 96,
+          "bbox": { "x0": 558, "y0": 2362, "x1": 839, "y1": 2423 },
+          "words": [
+            {
+              "text": "Concepto",
+              "confidence": 96,
+              "bbox": { "x0": 558, "y0": 2362, "x1": 839, "y1": 2423 }
+            }
+          ]
+        },
+        {
+          "text": "Sin concepto",
+          "confidence": 96,
+          "bbox": { "x0": 512, "y0": 2467, "x1": 888, "y1": 2529 },
+          "words": [
+            {
+              "text": "Sin",
+              "confidence": 96,
+              "bbox": { "x0": 512, "y0": 2467, "x1": 603, "y1": 2517 }
+            },
+            {
+              "text": "concepto",
+              "confidence": 96,
+              "bbox": { "x0": 625, "y0": 2471, "x1": 888, "y1": 2529 }
+            }
+          ]
+        },
+        {
+          "text": "Tipo de operación",
+          "confidence": 96,
+          "bbox": { "x0": 429, "y0": 2608, "x1": 959, "y1": 2668 },
+          "words": [
+            {
+              "text": "Tipo",
+              "confidence": 96,
+              "bbox": { "x0": 429, "y0": 2608, "x1": 552, "y1": 2668 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 581, "y0": 2608, "x1": 649, "y1": 2655 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 672, "y0": 2608, "x1": 959, "y1": 2668 }
+            }
+          ]
+        },
+        {
+          "text": "Transferencia a Terceros BBVA",
+          "confidence": 95,
+          "bbox": { "x0": 240, "y0": 2712, "x1": 1153, "y1": 2761 },
+          "words": [
+            {
+              "text": "Transferencia",
+              "confidence": 96,
+              "bbox": { "x0": 240, "y0": 2712, "x1": 637, "y1": 2761 }
+            },
+            {
+              "text": "a",
+              "confidence": 96,
+              "bbox": { "x0": 662, "y0": 2725, "x1": 696, "y1": 2761 }
+            },
+            {
+              "text": "Terceros",
+              "confidence": 94,
+              "bbox": { "x0": 713, "y0": 2713, "x1": 962, "y1": 2761 }
+            },
+            {
+              "text": "BBVA",
+              "confidence": 94,
+              "bbox": { "x0": 989, "y0": 2712, "x1": 1153, "y1": 2760 }
+            }
+          ]
+        },
+        {
+          "text": "Número de operación",
+          "confidence": 96,
+          "bbox": { "x0": 381, "y0": 2853, "x1": 1011, "y1": 2913 },
+          "words": [
+            {
+              "text": "Número",
+              "confidence": 96,
+              "bbox": { "x0": 381, "y0": 2853, "x1": 605, "y1": 2900 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 634, "y0": 2853, "x1": 702, "y1": 2900 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 725, "y0": 2853, "x1": 1011, "y1": 2913 }
+            }
+          ]
+        },
+        {
+          "text": "000001356",
+          "confidence": 96,
+          "bbox": { "x0": 536, "y0": 2959, "x1": 861, "y1": 3007 },
+          "words": [
+            {
+              "text": "000001356",
+              "confidence": 96,
+              "bbox": { "x0": 536, "y0": 2959, "x1": 861, "y1": 3007 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "1,285.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "1", "confidence": 99, "bbox": { "x0": 28, "y0": 27, "x1": 37, "y1": 50 } },
+          { "text": ",", "confidence": 99, "bbox": { "x0": 46, "y0": 47, "x1": 49, "y1": 55 } },
+          { "text": "2", "confidence": 99, "bbox": { "x0": 54, "y0": 27, "x1": 70, "y1": 50 } },
+          { "text": "8", "confidence": 99, "bbox": { "x0": 72, "y0": 27, "x1": 88, "y1": 51 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 91, "y0": 28, "x1": 107, "y1": 51 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 111, "y0": 47, "x1": 114, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 118, "y0": 27, "x1": 134, "y1": 51 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 137, "y0": 27, "x1": 153, "y1": 51 } }
+        ]
+      },
+      {
+        "text": "1,285.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "1", "confidence": 99, "bbox": { "x0": 36, "y0": 35, "x1": 50, "y1": 74 } },
+          { "text": ",", "confidence": 99, "bbox": { "x0": 66, "y0": 68, "x1": 72, "y1": 82 } },
+          { "text": "2", "confidence": 99, "bbox": { "x0": 79, "y0": 35, "x1": 106, "y1": 74 } },
+          { "text": "8", "confidence": 99, "bbox": { "x0": 110, "y0": 35, "x1": 136, "y1": 75 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 141, "y0": 36, "x1": 167, "y1": 75 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 175, "y0": 68, "x1": 180, "y1": 74 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 187, "y0": 35, "x1": 214, "y1": 75 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 218, "y0": 35, "x1": 245, "y1": 75 } }
+        ]
+      },
+      {
+        "text": "1,285.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "1", "confidence": 99, "bbox": { "x0": 48, "y0": 47, "x1": 71, "y1": 109 } },
+          { "text": ",", "confidence": 99, "bbox": { "x0": 96, "y0": 99, "x1": 105, "y1": 121 } },
+          { "text": "2", "confidence": 99, "bbox": { "x0": 117, "y0": 47, "x1": 159, "y1": 109 } },
+          { "text": "8", "confidence": 99, "bbox": { "x0": 166, "y0": 47, "x1": 208, "y1": 110 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 216, "y0": 48, "x1": 258, "y1": 110 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 270, "y0": 99, "x1": 278, "y1": 109 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 289, "y0": 47, "x1": 332, "y1": 110 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 339, "y0": 47, "x1": 381, "y1": 110 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 8,
+    "signRemoved": true
+  },
+  "C-004": {
+    "file": "plin-imgs/PHOTO-2025-08-01-19-55-35.jpg",
+    "page": {
+      "width": 1400,
+      "height": 2914,
+      "confidence": 89,
+      "lines": [
+        {
+          "text": "Transferencia",
+          "confidence": 96,
+          "bbox": { "x0": 490, "y0": 120, "x1": 909, "y1": 173 },
+          "words": [
+            {
+              "text": "Transferencia",
+              "confidence": 96,
+              "bbox": { "x0": 490, "y0": 120, "x1": 909, "y1": 173 }
+            }
+          ]
+        },
+        {
+          "text": "Operación exitosa",
+          "confidence": 96,
+          "bbox": { "x0": 349, "y0": 366, "x1": 1049, "y1": 449 },
+          "words": [
+            {
+              "text": "Operación",
+              "confidence": 96,
+              "bbox": { "x0": 349, "y0": 366, "x1": 744, "y1": 449 }
+            },
+            {
+              "text": "exitosa",
+              "confidence": 96,
+              "bbox": { "x0": 777, "y0": 367, "x1": 1049, "y1": 432 }
+            }
+          ]
+        },
+        {
+          "text": "01 agosto 2025, 19:55h",
+          "confidence": 93,
+          "bbox": { "x0": 346, "y0": 529, "x1": 1056, "y1": 591 },
+          "words": [
+            {
+              "text": "01",
+              "confidence": 94,
+              "bbox": { "x0": 346, "y0": 530, "x1": 410, "y1": 578 }
+            },
+            {
+              "text": "agosto",
+              "confidence": 95,
+              "bbox": { "x0": 432, "y0": 532, "x1": 628, "y1": 591 }
+            },
+            {
+              "text": "2025,",
+              "confidence": 96,
+              "bbox": { "x0": 649, "y0": 530, "x1": 808, "y1": 586 }
+            },
+            {
+              "text": "19:55h",
+              "confidence": 87,
+              "bbox": { "x0": 852, "y0": 529, "x1": 1056, "y1": 578 }
+            }
+          ]
+        },
+        {
+          "text": "Importe transferido",
+          "confidence": 95,
+          "bbox": { "x0": 427, "y0": 683, "x1": 977, "y1": 745 },
+          "words": [
+            {
+              "text": "Importe",
+              "confidence": 96,
+              "bbox": { "x0": 427, "y0": 683, "x1": 645, "y1": 745 }
+            },
+            {
+              "text": "transferido",
+              "confidence": 94,
+              "bbox": { "x0": 667, "y0": 683, "x1": 977, "y1": 732 }
+            }
+          ]
+        },
+        {
+          "text": "5750.00",
+          "confidence": 73,
+          "bbox": { "x0": 448, "y0": 785, "x1": 949, "y1": 896 },
+          "words": [
+            {
+              "text": "5750.00",
+              "confidence": 73,
+              "bbox": { "x0": 448, "y0": 785, "x1": 949, "y1": 896 }
+            }
+          ]
+        },
+        {
+          "text": "Comisión S/0.00",
+          "confidence": 92,
+          "bbox": { "x0": 451, "y0": 989, "x1": 958, "y1": 1044 },
+          "words": [
+            {
+              "text": "Comisión",
+              "confidence": 93,
+              "bbox": { "x0": 451, "y0": 989, "x1": 717, "y1": 1039 }
+            },
+            {
+              "text": "S/0.00",
+              "confidence": 91,
+              "bbox": { "x0": 756, "y0": 989, "x1": 958, "y1": 1044 }
+            }
+          ]
+        },
+        {
+          "text": "ITF S/0.00",
+          "confidence": 81,
+          "bbox": { "x0": 542, "y0": 1094, "x1": 866, "y1": 1149 },
+          "words": [
+            {
+              "text": "ITF",
+              "confidence": 81,
+              "bbox": { "x0": 542, "y0": 1095, "x1": 635, "y1": 1144 }
+            },
+            {
+              "text": "S/0.00",
+              "confidence": 81,
+              "bbox": { "x0": 666, "y0": 1094, "x1": 866, "y1": 1149 }
+            }
+          ]
+        },
+        {
+          "text": "Cuenta independ... Jenny Patricia ...",
+          "confidence": 89,
+          "bbox": { "x0": 130, "y0": 1703, "x1": 1128, "y1": 1767 },
+          "words": [
+            {
+              "text": "Cuenta",
+              "confidence": 93,
+              "bbox": { "x0": 130, "y0": 1703, "x1": 338, "y1": 1754 }
+            },
+            {
+              "text": "independ...",
+              "confidence": 74,
+              "bbox": { "x0": 359, "y0": 1704, "x1": 674, "y1": 1766 }
+            },
+            {
+              "text": "Jenny",
+              "confidence": 96,
+              "bbox": { "x0": 719, "y0": 1705, "x1": 891, "y1": 1767 }
+            },
+            {
+              "text": "Patricia",
+              "confidence": 93,
+              "bbox": { "x0": 916, "y0": 1705, "x1": 1128, "y1": 1754 }
+            },
+            {
+              "text": "...",
+              "confidence": 91,
+              "bbox": { "x0": 1152, "y0": 1745, "x1": 1196, "y1": 1752 }
+            }
+          ]
+        },
+        {
+          "text": "e6271 8103",
+          "confidence": 39,
+          "bbox": { "x0": 513, "y0": 1810, "x1": 899, "y1": 1858 },
+          "words": [
+            {
+              "text": "e6271",
+              "confidence": 76,
+              "bbox": { "x0": 513, "y0": 1810, "x1": 679, "y1": 1858 }
+            },
+            {
+              "text": "8103",
+              "confidence": 2,
+              "bbox": { "x0": 727, "y0": 1811, "x1": 899, "y1": 1858 }
+            }
+          ]
+        },
+        {
+          "text": "BBVA",
+          "confidence": 95,
+          "bbox": { "x0": 724, "y0": 1915, "x1": 883, "y1": 1963 },
+          "words": [
+            {
+              "text": "BBVA",
+              "confidence": 95,
+              "bbox": { "x0": 724, "y0": 1915, "x1": 883, "y1": 1963 }
+            }
+          ]
+        },
+        {
+          "text": "Concepto",
+          "confidence": 95,
+          "bbox": { "x0": 560, "y0": 2125, "x1": 840, "y1": 2186 },
+          "words": [
+            {
+              "text": "Concepto",
+              "confidence": 95,
+              "bbox": { "x0": 560, "y0": 2125, "x1": 840, "y1": 2186 }
+            }
+          ]
+        },
+        {
+          "text": "Sin concepto",
+          "confidence": 96,
+          "bbox": { "x0": 514, "y0": 2230, "x1": 889, "y1": 2292 },
+          "words": [
+            {
+              "text": "Sin",
+              "confidence": 96,
+              "bbox": { "x0": 514, "y0": 2230, "x1": 604, "y1": 2280 }
+            },
+            {
+              "text": "concepto",
+              "confidence": 96,
+              "bbox": { "x0": 626, "y0": 2234, "x1": 889, "y1": 2292 }
+            }
+          ]
+        },
+        {
+          "text": "Tipo de operación",
+          "confidence": 96,
+          "bbox": { "x0": 431, "y0": 2371, "x1": 959, "y1": 2431 },
+          "words": [
+            {
+              "text": "Tipo",
+              "confidence": 96,
+              "bbox": { "x0": 431, "y0": 2371, "x1": 553, "y1": 2431 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 582, "y0": 2372, "x1": 651, "y1": 2419 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 673, "y0": 2372, "x1": 959, "y1": 2431 }
+            }
+          ]
+        },
+        {
+          "text": "Transferencia a Terceros BBVA",
+          "confidence": 96,
+          "bbox": { "x0": 242, "y0": 2475, "x1": 1153, "y1": 2525 },
+          "words": [
+            {
+              "text": "Transferencia",
+              "confidence": 95,
+              "bbox": { "x0": 242, "y0": 2475, "x1": 638, "y1": 2525 }
+            },
+            {
+              "text": "a",
+              "confidence": 96,
+              "bbox": { "x0": 663, "y0": 2488, "x1": 697, "y1": 2525 }
+            },
+            {
+              "text": "Terceros",
+              "confidence": 96,
+              "bbox": { "x0": 715, "y0": 2476, "x1": 963, "y1": 2525 }
+            },
+            {
+              "text": "BBVA",
+              "confidence": 96,
+              "bbox": { "x0": 989, "y0": 2476, "x1": 1153, "y1": 2523 }
+            }
+          ]
+        },
+        {
+          "text": "Número de operación",
+          "confidence": 96,
+          "bbox": { "x0": 382, "y0": 2616, "x1": 1012, "y1": 2676 },
+          "words": [
+            {
+              "text": "Número",
+              "confidence": 96,
+              "bbox": { "x0": 382, "y0": 2616, "x1": 606, "y1": 2664 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 635, "y0": 2616, "x1": 703, "y1": 2664 }
+            },
+            {
+              "text": "operación",
+              "confidence": 95,
+              "bbox": { "x0": 725, "y0": 2616, "x1": 1012, "y1": 2676 }
+            }
+          ]
+        },
+        {
+          "text": "000004283",
+          "confidence": 96,
+          "bbox": { "x0": 538, "y0": 2722, "x1": 861, "y1": 2769 },
+          "words": [
+            {
+              "text": "000004283",
+              "confidence": 96,
+              "bbox": { "x0": 538, "y0": 2722, "x1": 861, "y1": 2769 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "750.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "7", "confidence": 99, "bbox": { "x0": 28, "y0": 28, "x1": 44, "y1": 50 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 46, "y0": 28, "x1": 62, "y1": 51 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 65, "y0": 27, "x1": 81, "y1": 51 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 85, "y0": 47, "x1": 88, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 93, "y0": 27, "x1": 108, "y1": 51 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 111, "y0": 27, "x1": 127, "y1": 51 } }
+        ]
+      },
+      {
+        "text": "750.00",
+        "confidence": 91,
+        "symbols": [
+          { "text": "7", "confidence": 98, "bbox": { "x0": 36, "y0": 36, "x1": 63, "y1": 74 } },
+          { "text": "5", "confidence": 99, "bbox": { "x0": 67, "y0": 36, "x1": 93, "y1": 75 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 98, "y0": 35, "x1": 125, "y1": 75 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 132, "y0": 68, "x1": 137, "y1": 74 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 144, "y0": 35, "x1": 171, "y1": 75 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 175, "y0": 35, "x1": 202, "y1": 75 } }
+        ]
+      },
+      {
+        "text": "750.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "7", "confidence": 82, "bbox": { "x0": 49, "y0": 48, "x1": 91, "y1": 109 } },
+          { "text": "5", "confidence": 92, "bbox": { "x0": 97, "y0": 48, "x1": 139, "y1": 110 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 147, "y0": 47, "x1": 189, "y1": 110 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 201, "y0": 100, "x1": 209, "y1": 109 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 221, "y0": 47, "x1": 263, "y1": 110 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 270, "y0": 47, "x1": 312, "y1": 110 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 6,
+    "signRemoved": true
+  },
+  "C-005": {
+    "file": "plin-imgs/PHOTO-2025-11-28-11-41-17.jpg",
+    "page": {
+      "width": 1400,
+      "height": 2284,
+      "confidence": 87,
+      "lines": [
+        {
+          "text": "Envío a contactos",
+          "confidence": 96,
+          "bbox": { "x0": 426, "y0": 120, "x1": 973, "y1": 172 },
+          "words": [
+            {
+              "text": "Envío",
+              "confidence": 96,
+              "bbox": { "x0": 426, "y0": 120, "x1": 588, "y1": 172 }
+            },
+            {
+              "text": "a",
+              "confidence": 96,
+              "bbox": { "x0": 612, "y0": 134, "x1": 646, "y1": 172 }
+            },
+            {
+              "text": "contactos",
+              "confidence": 96,
+              "bbox": { "x0": 673, "y0": 124, "x1": 973, "y1": 172 }
+            }
+          ]
+        },
+        {
+          "text": "Operación exitosa",
+          "confidence": 96,
+          "bbox": { "x0": 349, "y0": 365, "x1": 1049, "y1": 448 },
+          "words": [
+            {
+              "text": "Operación",
+              "confidence": 95,
+              "bbox": { "x0": 349, "y0": 365, "x1": 744, "y1": 448 }
+            },
+            {
+              "text": "exitosa",
+              "confidence": 96,
+              "bbox": { "x0": 778, "y0": 366, "x1": 1049, "y1": 431 }
+            }
+          ]
+        },
+        {
+          "text": "28 noviembre 2025, 12:41 h",
+          "confidence": 90,
+          "bbox": { "x0": 289, "y0": 528, "x1": 1112, "y1": 584 },
+          "words": [
+            {
+              "text": "28",
+              "confidence": 96,
+              "bbox": { "x0": 289, "y0": 529, "x1": 362, "y1": 577 }
+            },
+            {
+              "text": "noviembre",
+              "confidence": 95,
+              "bbox": { "x0": 378, "y0": 528, "x1": 682, "y1": 577 }
+            },
+            {
+              "text": "2025,",
+              "confidence": 95,
+              "bbox": { "x0": 704, "y0": 529, "x1": 861, "y1": 584 }
+            },
+            {
+              "text": "12:41",
+              "confidence": 83,
+              "bbox": { "x0": 908, "y0": 529, "x1": 1054, "y1": 575 }
+            },
+            {
+              "text": "h",
+              "confidence": 83,
+              "bbox": { "x0": 1078, "y0": 528, "x1": 1112, "y1": 575 }
+            }
+          ]
+        },
+        {
+          "text": "Importe enviado",
+          "confidence": 96,
+          "bbox": { "x0": 467, "y0": 682, "x1": 936, "y1": 743 },
+          "words": [
+            {
+              "text": "Importe",
+              "confidence": 96,
+              "bbox": { "x0": 467, "y0": 682, "x1": 685, "y1": 743 }
+            },
+            {
+              "text": "enviado",
+              "confidence": 96,
+              "bbox": { "x0": 708, "y0": 682, "x1": 936, "y1": 731 }
+            }
+          ]
+        },
+        {
+          "text": "520.00",
+          "confidence": 34,
+          "bbox": { "x0": 487, "y0": 783, "x1": 911, "y1": 894 },
+          "words": [
+            {
+              "text": "520.00",
+              "confidence": 34,
+              "bbox": { "x0": 487, "y0": 783, "x1": 911, "y1": 894 }
+            }
+          ]
+        },
+        {
+          "text": "db BBVA | di | la",
+          "confidence": 60,
+          "bbox": { "x0": 334, "y0": 1105, "x1": 1068, "y1": 1203 },
+          "words": [
+            {
+              "text": "db",
+              "confidence": 17,
+              "bbox": { "x0": 334, "y0": 1109, "x1": 390, "y1": 1174 }
+            },
+            {
+              "text": "BBVA",
+              "confidence": 96,
+              "bbox": { "x0": 527, "y0": 1110, "x1": 595, "y1": 1131 }
+            },
+            {
+              "text": "|",
+              "confidence": 96,
+              "bbox": { "x0": 665, "y0": 1199, "x1": 669, "y1": 1203 }
+            },
+            {
+              "text": "di",
+              "confidence": 9,
+              "bbox": { "x0": 749, "y0": 1105, "x1": 801, "y1": 1187 }
+            },
+            {
+              "text": "|",
+              "confidence": 72,
+              "bbox": { "x0": 821, "y0": 1183, "x1": 824, "y1": 1184 }
+            },
+            {
+              "text": "la",
+              "confidence": 69,
+              "bbox": { "x0": 1011, "y0": 1105, "x1": 1068, "y1": 1174 }
+            }
+          ]
+        },
+        {
+          "text": "Cuenta sueldo Andres alejanar...",
+          "confidence": 90,
+          "bbox": { "x0": 275, "y0": 1338, "x1": 1232, "y1": 1400 },
+          "words": [
+            {
+              "text": "Cuenta",
+              "confidence": 96,
+              "bbox": { "x0": 275, "y0": 1338, "x1": 482, "y1": 1387 }
+            },
+            {
+              "text": "sueldo",
+              "confidence": 95,
+              "bbox": { "x0": 502, "y0": 1339, "x1": 689, "y1": 1387 }
+            },
+            {
+              "text": "Andres",
+              "confidence": 93,
+              "bbox": { "x0": 732, "y0": 1338, "x1": 937, "y1": 1387 }
+            },
+            {
+              "text": "alejanar...",
+              "confidence": 76,
+              "bbox": { "x0": 957, "y0": 1338, "x1": 1232, "y1": 1400 }
+            }
+          ]
+        },
+        {
+          "text": "e8103 *e7084",
+          "confidence": 77,
+          "bbox": { "x0": 526, "y0": 1444, "x1": 910, "y1": 1492 },
+          "words": [
+            {
+              "text": "e8103",
+              "confidence": 86,
+              "bbox": { "x0": 526, "y0": 1444, "x1": 698, "y1": 1492 }
+            },
+            {
+              "text": "*e7084",
+              "confidence": 68,
+              "bbox": { "x0": 741, "y0": 1444, "x1": 910, "y1": 1492 }
+            }
+          ]
+        },
+        {
+          "text": "Entidad destino Plin",
+          "confidence": 94,
+          "bbox": { "x0": 63, "y0": 1663, "x1": 1338, "y1": 1710 },
+          "words": [
+            {
+              "text": "Entidad",
+              "confidence": 96,
+              "bbox": { "x0": 63, "y0": 1663, "x1": 277, "y1": 1710 }
+            },
+            {
+              "text": "destino",
+              "confidence": 96,
+              "bbox": { "x0": 302, "y0": 1663, "x1": 509, "y1": 1710 }
+            },
+            {
+              "text": "Plin",
+              "confidence": 91,
+              "bbox": { "x0": 1238, "y0": 1663, "x1": 1338, "y1": 1710 }
+            }
+          ]
+        },
+        {
+          "text": "Comisión S/ 0.00",
+          "confidence": 95,
+          "bbox": { "x0": 61, "y0": 1815, "x1": 1338, "y1": 1885 },
+          "words": [
+            {
+              "text": "Comisión",
+              "confidence": 96,
+              "bbox": { "x0": 61, "y0": 1815, "x1": 325, "y1": 1885 }
+            },
+            {
+              "text": "S/",
+              "confidence": 92,
+              "bbox": { "x0": 1138, "y0": 1819, "x1": 1198, "y1": 1869 }
+            },
+            {
+              "text": "0.00",
+              "confidence": 95,
+              "bbox": { "x0": 1216, "y0": 1821, "x1": 1338, "y1": 1869 }
+            }
+          ]
+        },
+        {
+          "text": "Número de operación 000001636",
+          "confidence": 96,
+          "bbox": { "x0": 63, "y0": 1978, "x1": 1340, "y1": 2038 },
+          "words": [
+            {
+              "text": "Número",
+              "confidence": 96,
+              "bbox": { "x0": 63, "y0": 1978, "x1": 286, "y1": 2025 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 311, "y0": 1978, "x1": 379, "y1": 2025 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 402, "y0": 1978, "x1": 688, "y1": 2038 }
+            },
+            {
+              "text": "000001636",
+              "confidence": 96,
+              "bbox": { "x0": 1016, "y0": 1978, "x1": 1340, "y1": 2026 }
+            }
+          ]
+        },
+        {
+          "text": "Tipo de operación Envío a contactos",
+          "confidence": 96,
+          "bbox": { "x0": 59, "y0": 2134, "x1": 1341, "y1": 2195 },
+          "words": [
+            {
+              "text": "Tipo",
+              "confidence": 96,
+              "bbox": { "x0": 59, "y0": 2135, "x1": 181, "y1": 2195 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 206, "y0": 2135, "x1": 274, "y1": 2183 }
+            },
+            {
+              "text": "operación",
+              "confidence": 96,
+              "bbox": { "x0": 301, "y0": 2135, "x1": 588, "y1": 2195 }
+            },
+            {
+              "text": "Envío",
+              "confidence": 96,
+              "bbox": { "x0": 827, "y0": 2134, "x1": 987, "y1": 2184 }
+            },
+            {
+              "text": "a",
+              "confidence": 96,
+              "bbox": { "x0": 1008, "y0": 2147, "x1": 1040, "y1": 2183 }
+            },
+            {
+              "text": "contactos",
+              "confidence": 96,
+              "bbox": { "x0": 1064, "y0": 2138, "x1": 1341, "y1": 2184 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "20.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "2", "confidence": 99, "bbox": { "x0": 28, "y0": 28, "x1": 44, "y1": 51 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 47, "y0": 28, "x1": 63, "y1": 52 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 67, "y0": 48, "x1": 71, "y1": 51 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 75, "y0": 28, "x1": 91, "y1": 52 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 94, "y0": 28, "x1": 110, "y1": 52 } }
+        ]
+      },
+      {
+        "text": "20.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "2", "confidence": 99, "bbox": { "x0": 36, "y0": 36, "x1": 63, "y1": 75 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 67, "y0": 36, "x1": 94, "y1": 76 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 101, "y0": 69, "x1": 107, "y1": 75 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 114, "y0": 36, "x1": 140, "y1": 76 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 145, "y0": 36, "x1": 172, "y1": 76 } }
+        ]
+      },
+      {
+        "text": "20.00",
+        "confidence": 96,
+        "symbols": [
+          { "text": "2", "confidence": 99, "bbox": { "x0": 48, "y0": 47, "x1": 91, "y1": 110 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 97, "y0": 48, "x1": 140, "y1": 112 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 153, "y0": 101, "x1": 162, "y1": 110 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 172, "y0": 48, "x1": 215, "y1": 112 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 223, "y0": 48, "x1": 266, "y1": 112 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 5,
+    "signRemoved": true
+  },
+  "C-006": {
+    "file": "bancon-imgs/PHOTO-2025-11-28-10-32-15.jpg",
+    "page": {
+      "width": 1400,
+      "height": 2835,
+      "confidence": 88,
+      "lines": [
+        {
+          "text": "Bancom *",
+          "confidence": 79,
+          "bbox": { "x0": 385, "y0": 345, "x1": 922, "y1": 441 },
+          "words": [
+            {
+              "text": "Bancom",
+              "confidence": 87,
+              "bbox": { "x0": 385, "y0": 345, "x1": 862, "y1": 441 }
+            },
+            {
+              "text": "*",
+              "confidence": 72,
+              "bbox": { "x0": 918, "y0": 358, "x1": 922, "y1": 359 }
+            }
+          ]
+        },
+        {
+          "text": "Transferencia a contactos",
+          "confidence": 96,
+          "bbox": { "x0": 365, "y0": 789, "x1": 1035, "y1": 831 },
+          "words": [
+            {
+              "text": "Transferencia",
+              "confidence": 96,
+              "bbox": { "x0": 365, "y0": 789, "x1": 718, "y1": 831 }
+            },
+            {
+              "text": "a",
+              "confidence": 96,
+              "bbox": { "x0": 740, "y0": 801, "x1": 765, "y1": 831 }
+            },
+            {
+              "text": "contactos",
+              "confidence": 96,
+              "bbox": { "x0": 786, "y0": 793, "x1": 1035, "y1": 831 }
+            }
+          ]
+        },
+        {
+          "text": "S/ 20.00",
+          "confidence": 93,
+          "bbox": { "x0": 496, "y0": 941, "x1": 905, "y1": 1029 },
+          "words": [
+            {
+              "text": "S/",
+              "confidence": 90,
+              "bbox": { "x0": 496, "y0": 941, "x1": 594, "y1": 1029 }
+            },
+            {
+              "text": "20.00",
+              "confidence": 96,
+              "bbox": { "x0": 629, "y0": 945, "x1": 905, "y1": 1023 }
+            }
+          ]
+        },
+        {
+          "text": "N* Op: 72f2caccal9ac89ded8fa67b0",
+          "confidence": 70,
+          "bbox": { "x0": 375, "y0": 1207, "x1": 1247, "y1": 1254 },
+          "words": [
+            {
+              "text": "N*",
+              "confidence": 83,
+              "bbox": { "x0": 375, "y0": 1207, "x1": 426, "y1": 1244 }
+            },
+            {
+              "text": "Op:",
+              "confidence": 92,
+              "bbox": { "x0": 445, "y0": 1207, "x1": 520, "y1": 1254 }
+            },
+            {
+              "text": "72f2caccal9ac89ded8fa67b0",
+              "confidence": 35,
+              "bbox": { "x0": 554, "y0": 1207, "x1": 1247, "y1": 1245 }
+            }
+          ]
+        },
+        {
+          "text": "Fecha y hora: 28 nov 2025 - 10:31",
+          "confidence": 95,
+          "bbox": { "x0": 223, "y0": 1339, "x1": 1029, "y1": 1386 },
+          "words": [
+            {
+              "text": "Fecha",
+              "confidence": 96,
+              "bbox": { "x0": 223, "y0": 1339, "x1": 351, "y1": 1377 }
+            },
+            {
+              "text": "y",
+              "confidence": 95,
+              "bbox": { "x0": 369, "y0": 1351, "x1": 393, "y1": 1386 }
+            },
+            {
+              "text": "hora:",
+              "confidence": 96,
+              "bbox": { "x0": 412, "y0": 1339, "x1": 520, "y1": 1377 }
+            },
+            {
+              "text": "28",
+              "confidence": 96,
+              "bbox": { "x0": 554, "y0": 1339, "x1": 610, "y1": 1377 }
+            },
+            {
+              "text": "nov",
+              "confidence": 96,
+              "bbox": { "x0": 630, "y0": 1351, "x1": 709, "y1": 1377 }
+            },
+            {
+              "text": "2025",
+              "confidence": 92,
+              "bbox": { "x0": 728, "y0": 1339, "x1": 846, "y1": 1377 }
+            },
+            {
+              "text": "-",
+              "confidence": 92,
+              "bbox": { "x0": 865, "y0": 1361, "x1": 880, "y1": 1364 }
+            },
+            {
+              "text": "10:31",
+              "confidence": 96,
+              "bbox": { "x0": 903, "y0": 1339, "x1": 1029, "y1": 1377 }
+            }
+          ]
+        },
+        {
+          "text": "Cta. de origen: 421001631558",
+          "confidence": 96,
+          "bbox": { "x0": 196, "y0": 1471, "x1": 921, "y1": 1519 },
+          "words": [
+            {
+              "text": "Cta.",
+              "confidence": 96,
+              "bbox": { "x0": 196, "y0": 1471, "x1": 280, "y1": 1509 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 298, "y0": 1472, "x1": 351, "y1": 1509 }
+            },
+            {
+              "text": "origen:",
+              "confidence": 96,
+              "bbox": { "x0": 369, "y0": 1472, "x1": 520, "y1": 1519 }
+            },
+            {
+              "text": "421001631558",
+              "confidence": 96,
+              "bbox": { "x0": 553, "y0": 1471, "x1": 921, "y1": 1509 }
+            }
+          ]
+        },
+        {
+          "text": "Titular: Andres Alejandro Rojas",
+          "confidence": 96,
+          "bbox": { "x0": 360, "y0": 1604, "x1": 1093, "y1": 1652 },
+          "words": [
+            {
+              "text": "Titular:",
+              "confidence": 96,
+              "bbox": { "x0": 360, "y0": 1604, "x1": 521, "y1": 1642 }
+            },
+            {
+              "text": "Andres",
+              "confidence": 96,
+              "bbox": { "x0": 552, "y0": 1604, "x1": 716, "y1": 1642 }
+            },
+            {
+              "text": "Alejandro",
+              "confidence": 96,
+              "bbox": { "x0": 732, "y0": 1604, "x1": 953, "y1": 1651 }
+            },
+            {
+              "text": "Rojas",
+              "confidence": 96,
+              "bbox": { "x0": 972, "y0": 1604, "x1": 1093, "y1": 1652 }
+            }
+          ]
+        },
+        {
+          "text": "Urquizo",
+          "confidence": 91,
+          "bbox": { "x0": 555, "y0": 1673, "x1": 726, "y1": 1720 },
+          "words": [
+            {
+              "text": "Urquizo",
+              "confidence": 91,
+              "bbox": { "x0": 555, "y0": 1673, "x1": 726, "y1": 1720 }
+            }
+          ]
+        },
+        {
+          "text": "Destino: e.e....fM34",
+          "confidence": 55,
+          "bbox": { "x0": 337, "y0": 1805, "x1": 805, "y1": 1843 },
+          "words": [
+            {
+              "text": "Destino:",
+              "confidence": 93,
+              "bbox": { "x0": 337, "y0": 1805, "x1": 520, "y1": 1843 }
+            },
+            {
+              "text": "e.e....fM34",
+              "confidence": 17,
+              "bbox": { "x0": 555, "y0": 1805, "x1": 805, "y1": 1843 }
+            }
+          ]
+        },
+        {
+          "text": "Entidad: Plin",
+          "confidence": 91,
+          "bbox": { "x0": 340, "y0": 1938, "x1": 636, "y1": 1975 },
+          "words": [
+            {
+              "text": "Entidad:",
+              "confidence": 91,
+              "bbox": { "x0": 340, "y0": 1938, "x1": 520, "y1": 1975 }
+            },
+            {
+              "text": "Plin",
+              "confidence": 91,
+              "bbox": { "x0": 555, "y0": 1938, "x1": 636, "y1": 1975 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "S/20.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 98, "bbox": { "x0": 28, "y0": 29, "x1": 44, "y1": 50 } },
+          { "text": "/", "confidence": 99, "bbox": { "x0": 45, "y0": 28, "x1": 55, "y1": 52 } },
+          { "text": "2", "confidence": 64, "bbox": { "x0": 65, "y0": 29, "x1": 79, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 82, "y0": 29, "x1": 97, "y1": 50 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 100, "y0": 46, "x1": 104, "y1": 50 } },
+          { "text": "0", "confidence": 98, "bbox": { "x0": 107, "y0": 29, "x1": 122, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 125, "y0": 29, "x1": 140, "y1": 50 } }
+        ]
+      },
+      {
+        "text": "S/20.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 99, "bbox": { "x0": 36, "y0": 38, "x1": 63, "y1": 73 } },
+          { "text": "/", "confidence": 98, "bbox": { "x0": 65, "y0": 36, "x1": 81, "y1": 76 } },
+          { "text": "2", "confidence": 47, "bbox": { "x0": 97, "y0": 38, "x1": 121, "y1": 73 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 125, "y0": 38, "x1": 151, "y1": 73 } },
+          { "text": ".", "confidence": 98, "bbox": { "x0": 155, "y0": 66, "x1": 162, "y1": 73 } },
+          { "text": "0", "confidence": 98, "bbox": { "x0": 167, "y0": 38, "x1": 192, "y1": 73 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 197, "y0": 38, "x1": 222, "y1": 73 } }
+        ]
+      },
+      {
+        "text": "S/20.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 98, "bbox": { "x0": 48, "y0": 51, "x1": 91, "y1": 108 } },
+          { "text": "/", "confidence": 98, "bbox": { "x0": 94, "y0": 48, "x1": 119, "y1": 112 } },
+          { "text": "2", "confidence": 68, "bbox": { "x0": 145, "y0": 51, "x1": 184, "y1": 107 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 191, "y0": 51, "x1": 231, "y1": 108 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 238, "y0": 96, "x1": 250, "y1": 107 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 258, "y0": 51, "x1": 298, "y1": 108 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 305, "y0": 51, "x1": 345, "y1": 108 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 7,
+    "signRemoved": false
+  },
+  "C-007": {
+    "file": "bancon-imgs/PHOTO-2026-05-30-11-15-38.jpg",
+    "page": {
+      "width": 1400,
+      "height": 2825,
+      "confidence": 88,
+      "lines": [
+        {
+          "text": "Bancom",
+          "confidence": 92,
+          "bbox": { "x0": 358, "y0": 205, "x1": 876, "y1": 313 },
+          "words": [
+            {
+              "text": "Bancom",
+              "confidence": 92,
+              "bbox": { "x0": 358, "y0": 205, "x1": 876, "y1": 313 }
+            }
+          ]
+        },
+        {
+          "text": "Transferencia a contactos",
+          "confidence": 96,
+          "bbox": { "x0": 283, "y0": 673, "x1": 1115, "y1": 725 },
+          "words": [
+            {
+              "text": "Transferencia",
+              "confidence": 96,
+              "bbox": { "x0": 283, "y0": 673, "x1": 719, "y1": 725 }
+            },
+            {
+              "text": "a",
+              "confidence": 96,
+              "bbox": { "x0": 747, "y0": 688, "x1": 778, "y1": 725 }
+            },
+            {
+              "text": "contactos",
+              "confidence": 96,
+              "bbox": { "x0": 805, "y0": 677, "x1": 1115, "y1": 725 }
+            }
+          ]
+        },
+        {
+          "text": "S/ 30.00",
+          "confidence": 94,
+          "bbox": { "x0": 481, "y0": 847, "x1": 920, "y1": 942 },
+          "words": [
+            {
+              "text": "S/",
+              "confidence": 91,
+              "bbox": { "x0": 481, "y0": 847, "x1": 586, "y1": 942 }
+            },
+            {
+              "text": "30.00",
+              "confidence": 96,
+              "bbox": { "x0": 622, "y0": 851, "x1": 920, "y1": 936 }
+            }
+          ]
+        },
+        {
+          "text": "N* Op: be449e2ba19e771e31dd",
+          "confidence": 66,
+          "bbox": { "x0": 316, "y0": 1135, "x1": 1314, "y1": 1196 },
+          "words": [
+            {
+              "text": "N*",
+              "confidence": 57,
+              "bbox": { "x0": 316, "y0": 1135, "x1": 382, "y1": 1184 }
+            },
+            {
+              "text": "Op:",
+              "confidence": 92,
+              "bbox": { "x0": 405, "y0": 1135, "x1": 503, "y1": 1196 }
+            },
+            {
+              "text": "be449e2ba19e771e31dd",
+              "confidence": 50,
+              "bbox": { "x0": 543, "y0": 1135, "x1": 1314, "y1": 1184 }
+            }
+          ]
+        },
+        {
+          "text": "a/bc6",
+          "confidence": 82,
+          "bbox": { "x0": 541, "y0": 1223, "x1": 721, "y1": 1273 },
+          "words": [
+            {
+              "text": "a/bc6",
+              "confidence": 82,
+              "bbox": { "x0": 541, "y0": 1223, "x1": 721, "y1": 1273 }
+            }
+          ]
+        },
+        {
+          "text": "Fecha y hora: 30 may 2026 - 11:15",
+          "confidence": 95,
+          "bbox": { "x0": 114, "y0": 1383, "x1": 1178, "y1": 1444 },
+          "words": [
+            {
+              "text": "Fecha",
+              "confidence": 96,
+              "bbox": { "x0": 114, "y0": 1383, "x1": 271, "y1": 1432 }
+            },
+            {
+              "text": "y",
+              "confidence": 96,
+              "bbox": { "x0": 306, "y0": 1398, "x1": 329, "y1": 1444 }
+            },
+            {
+              "text": "hora:",
+              "confidence": 96,
+              "bbox": { "x0": 363, "y0": 1383, "x1": 504, "y1": 1432 }
+            },
+            {
+              "text": "30",
+              "confidence": 96,
+              "bbox": { "x0": 552, "y0": 1383, "x1": 615, "y1": 1432 }
+            },
+            {
+              "text": "may",
+              "confidence": 96,
+              "bbox": { "x0": 650, "y0": 1398, "x1": 754, "y1": 1444 }
+            },
+            {
+              "text": "2026",
+              "confidence": 90,
+              "bbox": { "x0": 788, "y0": 1379, "x1": 921, "y1": 1448 }
+            },
+            {
+              "text": "-",
+              "confidence": 91,
+              "bbox": { "x0": 949, "y0": 1383, "x1": 979, "y1": 1432 }
+            },
+            {
+              "text": "11:15",
+              "confidence": 96,
+              "bbox": { "x0": 1012, "y0": 1379, "x1": 1178, "y1": 1448 }
+            }
+          ]
+        },
+        {
+          "text": "Cta. de 421001631558",
+          "confidence": 96,
+          "bbox": { "x0": 301, "y0": 1542, "x1": 1017, "y1": 1592 },
+          "words": [
+            {
+              "text": "Cta.",
+              "confidence": 96,
+              "bbox": { "x0": 301, "y0": 1538, "x1": 428, "y1": 1609 }
+            },
+            {
+              "text": "de",
+              "confidence": 96,
+              "bbox": { "x0": 450, "y0": 1543, "x1": 504, "y1": 1592 }
+            },
+            {
+              "text": "421001631558",
+              "confidence": 96,
+              "bbox": { "x0": 541, "y0": 1542, "x1": 1017, "y1": 1592 }
+            }
+          ]
+        },
+        {
+          "text": "origen:",
+          "confidence": 96,
+          "bbox": { "x0": 303, "y0": 1632, "x1": 503, "y1": 1692 },
+          "words": [
+            {
+              "text": "origen:",
+              "confidence": 96,
+              "bbox": { "x0": 303, "y0": 1632, "x1": 503, "y1": 1692 }
+            }
+          ]
+        },
+        {
+          "text": "Titular: Andres Alejandro Rojas",
+          "confidence": 96,
+          "bbox": { "x0": 294, "y0": 1791, "x1": 1251, "y1": 1852 },
+          "words": [
+            {
+              "text": "Titular:",
+              "confidence": 95,
+              "bbox": { "x0": 294, "y0": 1791, "x1": 504, "y1": 1840 }
+            },
+            {
+              "text": "Andres",
+              "confidence": 96,
+              "bbox": { "x0": 540, "y0": 1791, "x1": 754, "y1": 1840 }
+            },
+            {
+              "text": "Alejandro",
+              "confidence": 95,
+              "bbox": { "x0": 777, "y0": 1791, "x1": 1067, "y1": 1852 }
+            },
+            {
+              "text": "Rojas",
+              "confidence": 96,
+              "bbox": { "x0": 1093, "y0": 1791, "x1": 1251, "y1": 1852 }
+            }
+          ]
+        },
+        {
+          "text": "Urquizo",
+          "confidence": 92,
+          "bbox": { "x0": 543, "y0": 1879, "x1": 768, "y1": 1940 },
+          "words": [
+            {
+              "text": "Urquizo",
+              "confidence": 92,
+              "bbox": { "x0": 543, "y0": 1879, "x1": 768, "y1": 1940 }
+            }
+          ]
+        },
+        {
+          "text": "Destino: e.e...eM34",
+          "confidence": 41,
+          "bbox": { "x0": 263, "y0": 2038, "x1": 866, "y1": 2087 },
+          "words": [
+            {
+              "text": "Destino:",
+              "confidence": 93,
+              "bbox": { "x0": 263, "y0": 2034, "x1": 503, "y1": 2099 }
+            },
+            {
+              "text": "e.e...eM34",
+              "confidence": 0,
+              "bbox": { "x0": 546, "y0": 2034, "x1": 866, "y1": 2099 }
+            }
+          ]
+        },
+        {
+          "text": "Entidad: Plin",
+          "confidence": 92,
+          "bbox": { "x0": 267, "y0": 2198, "x1": 648, "y1": 2247 },
+          "words": [
+            {
+              "text": "Entidad:",
+              "confidence": 93,
+              "bbox": { "x0": 267, "y0": 2194, "x1": 503, "y1": 2258 }
+            },
+            {
+              "text": "Plin",
+              "confidence": 92,
+              "bbox": { "x0": 543, "y0": 2194, "x1": 648, "y1": 2258 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "S/30.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 99, "bbox": { "x0": 28, "y0": 29, "x1": 44, "y1": 50 } },
+          { "text": "/", "confidence": 99, "bbox": { "x0": 45, "y0": 28, "x1": 55, "y1": 52 } },
+          { "text": "3", "confidence": 67, "bbox": { "x0": 64, "y0": 29, "x1": 78, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 81, "y0": 29, "x1": 96, "y1": 50 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 99, "y0": 46, "x1": 103, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 106, "y0": 29, "x1": 121, "y1": 50 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 124, "y0": 29, "x1": 139, "y1": 50 } }
+        ]
+      },
+      {
+        "text": "S/30.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 99, "bbox": { "x0": 36, "y0": 38, "x1": 63, "y1": 73 } },
+          { "text": "/", "confidence": 98, "bbox": { "x0": 64, "y0": 36, "x1": 80, "y1": 76 } },
+          { "text": "3", "confidence": 39, "bbox": { "x0": 95, "y0": 38, "x1": 119, "y1": 73 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 125, "y0": 38, "x1": 150, "y1": 73 } },
+          { "text": ".", "confidence": 98, "bbox": { "x0": 155, "y0": 66, "x1": 161, "y1": 73 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 166, "y0": 38, "x1": 191, "y1": 73 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 196, "y0": 38, "x1": 221, "y1": 73 } }
+        ]
+      },
+      {
+        "text": "S/30.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 99, "bbox": { "x0": 48, "y0": 52, "x1": 91, "y1": 108 } },
+          { "text": "/", "confidence": 98, "bbox": { "x0": 94, "y0": 49, "x1": 119, "y1": 112 } },
+          { "text": "3", "confidence": 55, "bbox": { "x0": 143, "y0": 51, "x1": 181, "y1": 108 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 190, "y0": 52, "x1": 230, "y1": 108 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 238, "y0": 97, "x1": 249, "y1": 108 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 256, "y0": 52, "x1": 296, "y1": 108 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 304, "y0": 52, "x1": 343, "y1": 108 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 7,
+    "signRemoved": false
+  },
+  "C-008": {
+    "file": "luqea-imgs/PHOTO-2025-09-15-07-33-46.jpg",
+    "page": {
+      "width": 1400,
+      "height": 2388,
+      "confidence": 68,
+      "lines": [
+        {
+          "text": "Lugeo exitoso",
+          "confidence": 93,
+          "bbox": { "x0": 399, "y0": 913, "x1": 1007, "y1": 1000 },
+          "words": [
+            {
+              "text": "Lugeo",
+              "confidence": 90,
+              "bbox": { "x0": 399, "y0": 921, "x1": 660, "y1": 1000 }
+            },
+            {
+              "text": "exitoso",
+              "confidence": 96,
+              "bbox": { "x0": 687, "y0": 913, "x1": 1007, "y1": 983 }
+            }
+          ]
+        },
+        {
+          "text": "S/ 20.00",
+          "confidence": 93,
+          "bbox": { "x0": 515, "y0": 1089, "x1": 888, "y1": 1175 },
+          "words": [
+            {
+              "text": "S/",
+              "confidence": 89,
+              "bbox": { "x0": 515, "y0": 1089, "x1": 603, "y1": 1175 }
+            },
+            {
+              "text": "20.00",
+              "confidence": 96,
+              "bbox": { "x0": 629, "y0": 1098, "x1": 888, "y1": 1165 }
+            }
+          ]
+        },
+        {
+          "text": "ANDRES ALEJANDRO",
+          "confidence": 96,
+          "bbox": { "x0": 292, "y0": 1260, "x1": 1108, "y1": 1336 },
+          "words": [
+            {
+              "text": "ANDRES",
+              "confidence": 96,
+              "bbox": { "x0": 292, "y0": 1260, "x1": 613, "y1": 1335 }
+            },
+            {
+              "text": "ALEJANDRO",
+              "confidence": 96,
+              "bbox": { "x0": 636, "y0": 1260, "x1": 1108, "y1": 1336 }
+            }
+          ]
+        },
+        {
+          "text": "ROJAS URQUIZO",
+          "confidence": 92,
+          "bbox": { "x0": 384, "y0": 1331, "x1": 1021, "y1": 1404 },
+          "words": [
+            {
+              "text": "ROJAS",
+              "confidence": 92,
+              "bbox": { "x0": 384, "y0": 1334, "x1": 630, "y1": 1392 }
+            },
+            {
+              "text": "URQUIZO",
+              "confidence": 92,
+              "bbox": { "x0": 657, "y0": 1331, "x1": 1021, "y1": 1404 }
+            }
+          ]
+        },
+        {
+          "text": "937 807 084",
+          "confidence": 89,
+          "bbox": { "x0": 536, "y0": 1474, "x1": 866, "y1": 1514 },
+          "words": [
+            {
+              "text": "937",
+              "confidence": 85,
+              "bbox": { "x0": 536, "y0": 1474, "x1": 631, "y1": 1514 }
+            },
+            {
+              "text": "807",
+              "confidence": 85,
+              "bbox": { "x0": 653, "y0": 1474, "x1": 748, "y1": 1514 }
+            },
+            {
+              "text": "084",
+              "confidence": 96,
+              "bbox": { "x0": 769, "y0": 1474, "x1": 866, "y1": 1514 }
+            }
+          ]
+        },
+        {
+          "text": "15/09/25, 07:33",
+          "confidence": 94,
+          "bbox": { "x0": 500, "y0": 1583, "x1": 904, "y1": 1631 },
+          "words": [
+            {
+              "text": "15/09/25,",
+              "confidence": 94,
+              "bbox": { "x0": 500, "y0": 1583, "x1": 742, "y1": 1631 }
+            },
+            {
+              "text": "07:33",
+              "confidence": 94,
+              "bbox": { "x0": 762, "y0": 1584, "x1": 904, "y1": 1626 }
+            }
+          ]
+        },
+        {
+          "text": "Destino: Plin",
+          "confidence": 92,
+          "bbox": { "x0": 545, "y0": 1696, "x1": 859, "y1": 1737 },
+          "words": [
+            {
+              "text": "Destino:",
+              "confidence": 93,
+              "bbox": { "x0": 545, "y0": 1696, "x1": 746, "y1": 1737 }
+            },
+            {
+              "text": "Plin",
+              "confidence": 92,
+              "bbox": { "x0": 770, "y0": 1696, "x1": 859, "y1": 1737 }
+            }
+          ]
+        },
+        {
+          "text": "N* Operación:",
+          "confidence": 89,
+          "bbox": { "x0": 522, "y0": 1872, "x1": 867, "y1": 1926 },
+          "words": [
+            {
+              "text": "N*",
+              "confidence": 82,
+              "bbox": { "x0": 522, "y0": 1875, "x1": 578, "y1": 1916 }
+            },
+            {
+              "text": "Operación:",
+              "confidence": 96,
+              "bbox": { "x0": 599, "y0": 1872, "x1": 867, "y1": 1926 }
+            }
+          ]
+        },
+        {
+          "text": "56576c55ba1994c4ffc8ca-3424",
+          "confidence": 45,
+          "bbox": { "x0": 300, "y0": 1956, "x1": 1104, "y1": 1997 },
+          "words": [
+            {
+              "text": "56576c55ba1994c4ffc8ca-3424",
+              "confidence": 45,
+              "bbox": { "x0": 300, "y0": 1956, "x1": 1104, "y1": 1997 }
+            }
+          ]
+        },
+        {
+          "text": "O",
+          "confidence": 8,
+          "bbox": { "x0": 164, "y0": 2178, "x1": 1233, "y1": 2192 },
+          "words": [
+            {
+              "text": "O",
+              "confidence": 8,
+              "bbox": { "x0": 164, "y0": 2179, "x1": 323, "y1": 2192 }
+            }
+          ]
+        },
+        {
+          "text": "We — W WWW Y YY Y Y Y  W",
+          "confidence": 30,
+          "bbox": { "x0": 218, "y0": 2193, "x1": 1175, "y1": 2212 },
+          "words": [
+            {
+              "text": "We",
+              "confidence": 32,
+              "bbox": { "x0": 218, "y0": 2189, "x1": 265, "y1": 2221 }
+            },
+            {
+              "text": "—",
+              "confidence": 3,
+              "bbox": { "x0": 299, "y0": 2189, "x1": 305, "y1": 2221 }
+            },
+            {
+              "text": "W",
+              "confidence": 51,
+              "bbox": { "x0": 336, "y0": 2195, "x1": 377, "y1": 2212 }
+            },
+            {
+              "text": "WWW",
+              "confidence": 7,
+              "bbox": { "x0": 446, "y0": 2189, "x1": 494, "y1": 2221 }
+            },
+            {
+              "text": "Y",
+              "confidence": 76,
+              "bbox": { "x0": 560, "y0": 2194, "x1": 605, "y1": 2212 }
+            },
+            {
+              "text": "YY",
+              "confidence": 1,
+              "bbox": { "x0": 672, "y0": 2189, "x1": 713, "y1": 2221 }
+            },
+            {
+              "text": "Y",
+              "confidence": 49,
+              "bbox": { "x0": 787, "y0": 2194, "x1": 830, "y1": 2212 }
+            },
+            {
+              "text": "Y",
+              "confidence": 14,
+              "bbox": { "x0": 902, "y0": 2196, "x1": 942, "y1": 2212 }
+            },
+            {
+              "text": "Y",
+              "confidence": 51,
+              "bbox": { "x0": 1016, "y0": 2193, "x1": 1054, "y1": 2212 }
+            },
+            {
+              "text": " W",
+              "confidence": 17,
+              "bbox": { "x0": 1094, "y0": 2189, "x1": 1175, "y1": 2221 }
+            }
+          ]
+        }
+      ]
+    },
+    "amountLines": [
+      {
+        "text": "S/20.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 68, "bbox": { "x0": 28, "y0": 30, "x1": 42, "y1": 49 } },
+          { "text": "/", "confidence": 86, "bbox": { "x0": 43, "y0": 28, "x1": 52, "y1": 52 } },
+          { "text": "2", "confidence": 79, "bbox": { "x0": 60, "y0": 31, "x1": 73, "y1": 49 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 75, "y0": 31, "x1": 91, "y1": 49 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 92, "y0": 44, "x1": 97, "y1": 49 } },
+          { "text": "0", "confidence": 98, "bbox": { "x0": 99, "y0": 31, "x1": 114, "y1": 49 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 117, "y0": 31, "x1": 132, "y1": 49 } }
+        ]
+      },
+      {
+        "text": "S/20.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 98, "bbox": { "x0": 36, "y0": 40, "x1": 59, "y1": 71 } },
+          { "text": "/", "confidence": 98, "bbox": { "x0": 61, "y0": 36, "x1": 76, "y1": 76 } },
+          { "text": "2", "confidence": 52, "bbox": { "x0": 89, "y0": 40, "x1": 110, "y1": 70 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 115, "y0": 40, "x1": 140, "y1": 71 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 143, "y0": 63, "x1": 151, "y1": 71 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 154, "y0": 40, "x1": 179, "y1": 71 } },
+          { "text": "0", "confidence": 98, "bbox": { "x0": 184, "y0": 40, "x1": 209, "y1": 71 } }
+        ]
+      },
+      {
+        "text": "S/20.00",
+        "confidence": 0,
+        "symbols": [
+          { "text": "S", "confidence": 98, "bbox": { "x0": 48, "y0": 55, "x1": 84, "y1": 105 } },
+          { "text": "/", "confidence": 98, "bbox": { "x0": 89, "y0": 48, "x1": 113, "y1": 112 } },
+          { "text": "2", "confidence": 63, "bbox": { "x0": 133, "y0": 55, "x1": 168, "y1": 103 } },
+          { "text": "0", "confidence": 98, "bbox": { "x0": 175, "y0": 55, "x1": 216, "y1": 104 } },
+          { "text": ".", "confidence": 99, "bbox": { "x0": 220, "y0": 91, "x1": 233, "y1": 104 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 238, "y0": 55, "x1": 278, "y1": 104 } },
+          { "text": "0", "confidence": 99, "bbox": { "x0": 285, "y0": 55, "x1": 326, "y1": 104 } }
+        ]
+      }
+    ],
+    "amountGlyphCount": 7,
+    "signRemoved": false
+  }
+}

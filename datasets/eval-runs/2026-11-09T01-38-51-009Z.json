@@ -1,0 +1,6273 @@
+{
+  "date": "2026-11-09T01:38:51.014Z",
+  "durationMs": 1474269,
+  "commit": "e368f3f",
+  "options": {
+    "only": [
+      "images",
+      "generated",
+      "audios",
+      "texts",
+      "close"
+    ],
+    "routeFilters": {},
+    "delayMs": 1500,
+    "limit": null
+  },
+  "models": {
+    "groqWhisper": "whisper-large-v3",
+    "groqText": "openai/gpt-oss-120b",
+    "groqVision": "qwen/qwen3.8-27b",
+    "geminiFlash": "gemini-3.5-flash",
+    "checkedAt": "2026-11-08",
+    "ocr": "tesseract.js@7/spa-tessdata_fast"
+  },
+  "routes": {
+    "classify_image": [
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash",
+      "groq:qwen/qwen3.8-27b"
+    ],
+    "extract_screenshot": [
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash",
+      "groq:qwen/qwen3.8-27b"
+    ],
+    "transcribe_audio": [
+      "groq:whisper-large-v3",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ],
+    "interpret_text": [
+      "groq:openai/gpt-oss-120b",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ],
+    "interpret_close_reply": [
+      "groq:openai/gpt-oss-120b",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ],
+    "chat": [
+      "groq:openai/gpt-oss-120b",
+      "gemini#1:gemini-3.5-flash",
+      "gemini#2:gemini-3.5-flash",
+      "gemini#3:gemini-3.5-flash"
+    ]
+  },
+  "promptVersions": {
+    "extract_screenshot": "extract_screenshot/2026-11-08.2",
+    "transcribe_audio": "transcribe_audio/2026-11-08.1",
+    "interpret_text": "interpret_text/2026-11-08.4",
+    "interpret_close_reply": "interpret_close_reply/2026-11-08.3",
+    "ocr_layouts": "ocr_layouts/2026-11-08.1"
+  },
+  "metrics": [
+    {
+      "measure": "Monto exacto en capturas legibles",
+      "threshold": "≥ 95 %",
+      "value": {
+        "ok": 18,
+        "total": 18
+      },
+      "limit": 0.95,
+      "pass": true
+    },
+    {
+      "measure": "Dirección correcta (entra o sale)",
+      "threshold": "≥ 95 %",
+      "value": {
+        "ok": 42,
+        "total": 42
+      },
+      "limit": 0.95,
+      "pass": true
+    },
+    {
+      "measure": "Fecha correcta cuando es visible",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 18,
+        "total": 18
+      },
+      "limit": 0.9,
+      "pass": true
+    },
+    {
+      "measure": "**Montos inventados** (incorrecto y sin duda)",
+      "threshold": "≤ 2 %",
+      "value": {
+        "ok": 0,
+        "total": 124
+      },
+      "lowerIsBetter": true,
+      "limit": 0.02,
+      "pass": true
+    },
+    {
+      "measure": "Ilegibles detectados como ilegibles",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 15,
+        "total": 15
+      },
+      "limit": 0.9,
+      "pass": true
+    },
+    {
+      "measure": "Operaciones correctas en audios y textos",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 42,
+        "total": 44
+      },
+      "limit": 0.9,
+      "pass": true
+    },
+    {
+      "measure": "Respuestas al cierre interpretadas correctamente",
+      "threshold": "≥ 90 %",
+      "value": {
+        "ok": 23,
+        "total": 23
+      },
+      "limit": 0.9,
+      "pass": true
+    }
+  ],
+  "extra": {
+    "degradedReadCorrectly": {
+      "ok": 24,
+      "total": 24
+    },
+    "readByOcrOnly": {
+      "ok": 33,
+      "total": 57
+    },
+    "textsCorrect": {
+      "ok": 39,
+      "total": 41
+    },
+    "audiosCorrect": {
+      "ok": 3,
+      "total": 3
+    }
+  },
+  "ocrTiming": {
+    "meanMs": 411,
+    "medianMs": 398,
+    "maxMs": 1233
+  },
+  "routeStats": [
+    {
+      "routeId": "gemini#1:gemini-3.5-flash",
+      "fn": "extract_screenshot",
+      "calls": 6,
+      "ok": 5,
+      "failures": {
+        "rate_limit": 1
+      },
+      "latencyMsTotal": 32833,
+      "latencyMsMax": 7164,
+      "meanLatencyMs": 5472
+    },
+    {
+      "routeId": "gemini#2:gemini-3.5-flash",
+      "fn": "extract_screenshot",
+      "calls": 2,
+      "ok": 1,
+      "failures": {
+        "rate_limit": 1
+      },
+      "latencyMsTotal": 5959,
+      "latencyMsMax": 4901,
+      "meanLatencyMs": 2980
+    },
+    {
+      "routeId": "gemini#3:gemini-3.5-flash",
+      "fn": "extract_screenshot",
+      "calls": 1,
+      "ok": 0,
+      "failures": {
+        "rate_limit": 1
+      },
+      "latencyMsTotal": 1215,
+      "latencyMsMax": 1215,
+      "meanLatencyMs": 1215
+    },
+    {
+      "routeId": "groq:qwen/qwen3.8-27b",
+      "fn": "extract_screenshot",
+      "calls": 34,
+      "ok": 18,
+      "failures": {
+        "rate_limit": 16
+      },
+      "latencyMsTotal": 36012,
+      "latencyMsMax": 2421,
+      "meanLatencyMs": 1059
+    },
+    {
+      "routeId": "groq:whisper-large-v3",
+      "fn": "transcribe_audio",
+      "calls": 3,
+      "ok": 3,
+      "failures": {},
+      "latencyMsTotal": 1370,
+      "latencyMsMax": 525,
+      "meanLatencyMs": 457
+    },
+    {
+      "routeId": "groq:openai/gpt-oss-120b",
+      "fn": "interpret_text",
+      "calls": 59,
+      "ok": 44,
+      "failures": {
+        "rate_limit": 15
+      },
+      "latencyMsTotal": 41468,
+      "latencyMsMax": 2428,
+      "meanLatencyMs": 703
+    },
+    {
+      "routeId": "groq:openai/gpt-oss-120b",
+      "fn": "interpret_close_reply",
+      "calls": 29,
+      "ok": 23,
+      "failures": {
+        "rate_limit": 6
+      },
+      "latencyMsTotal": 22341,
+      "latencyMsMax": 1250,
+      "meanLatencyMs": 770
+    }
+  ],
+  "items": [
+    {
+      "kind": "image",
+      "id": "C-001",
+      "file": "yape-imgs/WhatsApp Image 2026-11-08 at 12.39.44 PM.jpeg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "2.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 494,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "confidence": {
+              "receipt_header": 0.82,
+              "holder_role": 0.82,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.94,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "2.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "2.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-002",
+      "file": "yape-imgs/WhatsApp Image 2026-11-08 at 12.40.24 PM.jpeg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "7.50",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 390,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_sent",
+            "receipt_header_text": "¡Yapeaste!",
+            "holder_role": "payer",
+            "counterparty_name": "Sofia Rey*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-05T18:34:00-05:00",
+            "operation_number": "26290836",
+            "confidence": {
+              "receipt_header": 0.92,
+              "holder_role": 0.92,
+              "counterparty_name": 0.93,
+              "occurred_at": 0.93,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "7.50",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "7.50",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-003",
+      "file": "plin-imgs/PHOTO-2024-01-27-17-02-37.jpg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "1285.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 544,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Andres Alejanar...",
+            "visible_holder_name": null,
+            "occurred_at": "2024-01-27T17:02:00-05:00",
+            "operation_number": "000001356",
+            "confidence": {
+              "receipt_header": 0.89,
+              "holder_role": 0.89,
+              "counterparty_name": 0.93,
+              "occurred_at": 0.55,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "1285.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "1285.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-004",
+      "file": "plin-imgs/PHOTO-2025-08-01-19-55-35.jpg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "750.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 451,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-08-01T19:55:00-05:00",
+            "operation_number": "000004283",
+            "confidence": {
+              "receipt_header": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.89,
+              "occurred_at": 0.93,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "750.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "750.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-005",
+      "file": "plin-imgs/PHOTO-2025-11-28-11-41-17.jpg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 395,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "Andres alejanar...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "counterparty_name": 0.9,
+              "occurred_at": 0.9,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-006",
+      "file": "bancon-imgs/PHOTO-2025-11-28-10-32-15.jpg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 376,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": "72f2cacca19ac89ded8fa67b0",
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "visible_holder_name": 0.94,
+              "occurred_at": 0.95,
+              "operation_number": 0.7,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-007",
+      "file": "bancon-imgs/PHOTO-2026-05-30-11-15-38.jpg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "30.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [
+        "operation_number_implausible"
+      ],
+      "timings": {
+        "ocrMs": 512,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2026-05-30T11:15:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "visible_holder_name": 0.94,
+              "occurred_at": 0.95,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "30.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "30.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "C-008",
+      "file": "luqea-imgs/PHOTO-2025-09-15-07-33-46.jpg",
+      "transform": "original",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 401,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Luqeo exitoso",
+            "holder_role": "payer",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO",
+            "visible_holder_name": null,
+            "occurred_at": "2025-09-15T07:33:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.93,
+              "holder_role": 0.93,
+              "counterparty_name": 0.94,
+              "occurred_at": 0.94,
+              "operation_number": 0.45,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-blur",
+      "file": "generated/C-001-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "2.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 344,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "confidence": {
+              "receipt_header": 0.92,
+              "holder_role": 0.92,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.92,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "2.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "2.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-dark_inverted",
+      "file": "generated/C-001-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "2.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 309,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.82,
+              "holder_role": 0.82,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.95,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "2.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "2.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-jpeg_low_quality",
+      "file": "generated/C-001-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "2.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 442,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "confidence": {
+              "receipt_header": 0.92,
+              "holder_role": 0.92,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.88,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "2.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "2.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-photo_of_screen",
+      "file": "generated/C-001-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "2.00",
+      "source": "ocr+vision",
+      "meta": {
+        "provider": "local+gemini",
+        "model": "tesseract.js@7/spa-tessdata_fast+gemini-3.5-flash",
+        "promptVersion": "ocr_layouts/2026-11-08.1+extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_glyphs",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 397,
+        "visionMs": 5993
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 1,
+              "holder_role": 0.78,
+              "counterparty_name": 0.94,
+              "operation_number": 1,
+              "receipt_header": 0.78
+            },
+            "amount": "2.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "2.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-amount_covered",
+      "file": "generated/C-001-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "2.00",
+      "source": "ocr+vision",
+      "meta": {
+        "provider": "local+gemini",
+        "model": "tesseract.js@7/spa-tessdata_fast+gemini-3.5-flash",
+        "promptVersion": "ocr_layouts/2026-11-08.1+extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_glyphs"
+      ],
+      "timings": {
+        "ocrMs": 379,
+        "visionMs": 5461
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "WY Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.94,
+              "holder_role": 0.77,
+              "counterparty_name": 0.85,
+              "operation_number": 0.96,
+              "receipt_header": 0.77
+            },
+            "amount": null,
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-cropped_without_amount",
+      "file": "generated/C-001-cropped_without_amount.png",
+      "transform": "cropped_without_amount",
+      "expect": "unreadable",
+      "expectedAmount": "2.00",
+      "source": "vision",
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 232,
+        "visionMs": 7164
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "yape",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "receipt_header": "unknown",
+            "receipt_header_text": null,
+            "holder_role": "unknown",
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.98,
+              "holder_role": 0,
+              "counterparty_name": 0.98,
+              "operation_number": 0.98
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-001-duplicate",
+      "file": "generated/C-001-duplicate.jpeg",
+      "transform": "exact_duplicate",
+      "expect": "same",
+      "expectedAmount": "2.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 393,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_received",
+            "receipt_header_text": "¡Te Yapearon!",
+            "holder_role": "payee",
+            "counterparty_name": "Fernando Sar*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-04T20:44:00-05:00",
+            "operation_number": "32811444",
+            "confidence": {
+              "receipt_header": 0.82,
+              "holder_role": 0.82,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.94,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "2.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "2.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      },
+      "duplicateDetected": true
+    },
+    {
+      "kind": "image",
+      "id": "G-002-blur",
+      "file": "generated/C-002-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "7.50",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 528,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_sent",
+            "receipt_header_text": "¡Yapeaste!",
+            "holder_role": "payer",
+            "counterparty_name": "Sofia Rey*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-05T18:34:00-05:00",
+            "operation_number": "26290836",
+            "confidence": {
+              "receipt_header": 0.91,
+              "holder_role": 0.91,
+              "counterparty_name": 0.89,
+              "occurred_at": 0.9,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "7.50",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "7.50",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-002-heavy_blur",
+      "file": "generated/C-002-heavy_blur.png",
+      "transform": "heavy_blur",
+      "expect": "unreadable",
+      "expectedAmount": "7.50",
+      "source": "vision",
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 154,
+        "visionMs": 6576
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "yape",
+            "counterparty_name": null,
+            "visible_holder_name": null,
+            "receipt_header": "yape_sent",
+            "receipt_header_text": null,
+            "holder_role": "payer",
+            "occurred_at": null,
+            "operation_number": null,
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0,
+              "holder_role": 0.7,
+              "counterparty_name": 0,
+              "operation_number": 0
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-002-dark_inverted",
+      "file": "generated/C-002-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "7.50",
+      "source": "vision",
+      "meta": {
+        "provider": "gemini",
+        "model": "gemini-3.5-flash",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 377,
+        "visionMs": 6454
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "7.50",
+            "payment_method": "yape",
+            "counterparty_name": "Sofia Rey*",
+            "visible_holder_name": null,
+            "receipt_header": "yape_sent",
+            "receipt_header_text": "¡Yapeaste!",
+            "holder_role": "payer",
+            "occurred_at": "2026-11-05T18:34:00-05:00",
+            "operation_number": "26290836",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 1,
+              "holder_role": 1,
+              "counterparty_name": 1,
+              "operation_number": 1
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "7.50",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-002-jpeg_low_quality",
+      "file": "generated/C-002-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "7.50",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 453,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_sent",
+            "receipt_header_text": "¡Yapeaste!",
+            "holder_role": "payer",
+            "counterparty_name": "Sofia Rey*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-05T18:34:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.91,
+              "holder_role": 0.91,
+              "counterparty_name": 0.89,
+              "occurred_at": 0.91,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "7.50",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "7.50",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-002-photo_of_screen",
+      "file": "generated/C-002-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "7.50",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 349,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_sent",
+            "receipt_header_text": "¡Yapeaste!",
+            "holder_role": "payer",
+            "counterparty_name": "Sofia Rey*",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-05T18:34:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.76,
+              "holder_role": 0.76,
+              "counterparty_name": 0.94,
+              "occurred_at": 0.89,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "7.50",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "7.50",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-002-amount_covered",
+      "file": "generated/C-002-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "7.50",
+      "source": "ocr+vision",
+      "meta": {
+        "provider": "local+gemini",
+        "model": "tesseract.js@7/spa-tessdata_fast+gemini-3.5-flash",
+        "promptVersion": "ocr_layouts/2026-11-08.1+extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_glyphs"
+      ],
+      "timings": {
+        "ocrMs": 311,
+        "visionMs": 6086
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "payment_method": "yape",
+            "receipt_header": "yape_sent",
+            "receipt_header_text": "¡Yapeaste!",
+            "holder_role": "payer",
+            "counterparty_name": "Y Sofia Rey* y",
+            "visible_holder_name": null,
+            "occurred_at": "2026-11-05T18:34:00-05:00",
+            "operation_number": "26290836",
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.92,
+              "holder_role": 0.79,
+              "counterparty_name": 0.81,
+              "operation_number": 0.96,
+              "receipt_header": 0.79
+            },
+            "amount": null,
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-003-blur",
+      "file": "generated/C-003-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "1285.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 481,
+        "visionMs": 3670
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "1285.00",
+            "payment_method": "bank_transfer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandr...",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Operación exitosa",
+            "holder_role": "payer",
+            "occurred_at": "2024-01-27T17:02:00-05:00",
+            "operation_number": "000001356",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 1
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "1285.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-003-dark_inverted",
+      "file": "generated/C-003-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "1285.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 530,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Andres Alejandr...",
+            "visible_holder_name": null,
+            "occurred_at": "2024-01-27T17:02:00-05:00",
+            "operation_number": "000001356",
+            "confidence": {
+              "receipt_header": 0.89,
+              "holder_role": 0.89,
+              "counterparty_name": 0.9,
+              "occurred_at": 0.53,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "1285.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "1285.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-003-jpeg_low_quality",
+      "file": "generated/C-003-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "1285.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 549,
+        "visionMs": 1070
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "1285.00",
+            "payment_method": "bank_transfer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandr...",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Operación exitosa",
+            "holder_role": "payer",
+            "occurred_at": "2024-01-27T17:02:00-05:00",
+            "operation_number": "000001356",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 0.98,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 1
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "1285.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-003-photo_of_screen",
+      "file": "generated/C-003-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "1285.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 609,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Andres Alejandr...",
+            "visible_holder_name": null,
+            "occurred_at": "2024-01-27T17:02:00-05:00",
+            "operation_number": "000001356",
+            "confidence": {
+              "receipt_header": 0.92,
+              "holder_role": 0.92,
+              "counterparty_name": 0.86,
+              "occurred_at": 0.93,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "1285.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "1285.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-blur",
+      "file": "generated/C-004-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "750.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 262,
+        "visionMs": 1433
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "750.00",
+            "payment_method": "bank_transfer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "occurred_at": "2025-08-01T19:55:00-05:00",
+            "operation_number": "000004283",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 1,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 1
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "750.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-heavy_blur",
+      "file": "generated/C-004-heavy_blur.png",
+      "transform": "heavy_blur",
+      "expect": "unreadable",
+      "expectedAmount": "750.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 338,
+        "visionMs": 1665
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "unknown",
+            "counterparty_name": null,
+            "visible_holder_name": null,
+            "receipt_header": "unknown",
+            "receipt_header_text": null,
+            "holder_role": "unknown",
+            "occurred_at": null,
+            "operation_number": null,
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0,
+              "holder_role": 0,
+              "counterparty_name": 0,
+              "operation_number": 0
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-dark_inverted",
+      "file": "generated/C-004-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "750.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 647,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-08-01T19:55:00-05:00",
+            "operation_number": "000004283",
+            "confidence": {
+              "receipt_header": 0.93,
+              "holder_role": 0.93,
+              "counterparty_name": 0.9,
+              "occurred_at": 0.91,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "750.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "750.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-jpeg_low_quality",
+      "file": "generated/C-004-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "750.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 487,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transterencia",
+            "holder_role": "payer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-08-01T19:55:00-05:00",
+            "operation_number": "000004283",
+            "confidence": {
+              "receipt_header": 0.82,
+              "holder_role": 0.82,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.91,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "750.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "750.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-photo_of_screen",
+      "file": "generated/C-004-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "750.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 556,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-08-01T19:55:00-05:00",
+            "operation_number": "000004283",
+            "confidence": {
+              "receipt_header": 0.92,
+              "holder_role": 0.92,
+              "counterparty_name": 0.79,
+              "occurred_at": 0.94,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "750.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "750.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-amount_covered",
+      "file": "generated/C-004-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "750.00",
+      "source": "ocr+vision",
+      "meta": {
+        "provider": "local+groq",
+        "model": "tesseract.js@7/spa-tessdata_fast+qwen/qwen3.8-27b",
+        "promptVersion": "ocr_layouts/2026-11-08.1+extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_raised_glyphs"
+      ],
+      "timings": {
+        "ocrMs": 464,
+        "visionMs": 1652
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia",
+            "holder_role": "payer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-08-01T19:55:00-05:00",
+            "operation_number": "000004283",
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.93,
+              "holder_role": 0.78,
+              "counterparty_name": 0.91,
+              "operation_number": 0.96,
+              "receipt_header": 0.78
+            },
+            "amount": null,
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-004-cropped_without_amount",
+      "file": "generated/C-004-cropped_without_amount.png",
+      "transform": "cropped_without_amount",
+      "expect": "unreadable",
+      "expectedAmount": "750.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 334,
+        "visionMs": 1404
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "bank_transfer",
+            "counterparty_name": "Jenny Patricia ...",
+            "visible_holder_name": null,
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia a Terceros BBVA",
+            "holder_role": "payer",
+            "occurred_at": null,
+            "operation_number": "000004283",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0,
+              "holder_role": 0.9,
+              "counterparty_name": 0.9,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-blur",
+      "file": "generated/C-005-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 386,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "Andres alejandr...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "confidence": {
+              "receipt_header": 0.79,
+              "holder_role": 0.79,
+              "counterparty_name": 0.94,
+              "occurred_at": 0.95,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-heavy_blur",
+      "file": "generated/C-005-heavy_blur.png",
+      "transform": "heavy_blur",
+      "expect": "unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 183,
+        "visionMs": 1693
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "unknown",
+            "counterparty_name": null,
+            "visible_holder_name": null,
+            "receipt_header": "unknown",
+            "receipt_header_text": null,
+            "holder_role": "unknown",
+            "occurred_at": null,
+            "operation_number": null,
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0,
+              "holder_role": 0,
+              "counterparty_name": 0,
+              "operation_number": 0
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-dark_inverted",
+      "file": "generated/C-005-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 432,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "Andres alejanar...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "counterparty_name": 0.9,
+              "occurred_at": 0.93,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-jpeg_low_quality",
+      "file": "generated/C-005-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 405,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "Andres alejandr...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "confidence": {
+              "receipt_header": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.92,
+              "occurred_at": 0.87,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-photo_of_screen",
+      "file": "generated/C-005-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 409,
+        "visionMs": 1478
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "20.00",
+            "payment_method": "plin",
+            "counterparty_name": "Andres alejandr...",
+            "visible_holder_name": null,
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0.95,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-amount_covered",
+      "file": "generated/C-005-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr+vision",
+      "meta": {
+        "provider": "local+groq",
+        "model": "tesseract.js@7/spa-tessdata_fast+qwen/qwen3.8-27b",
+        "promptVersion": "ocr_layouts/2026-11-08.1+extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_glyphs"
+      ],
+      "timings": {
+        "ocrMs": 402,
+        "visionMs": 2032
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "Andres alejanar...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.95,
+              "holder_role": 0.76,
+              "counterparty_name": 0.9,
+              "operation_number": 0.96,
+              "receipt_header": 0.76
+            },
+            "amount": null,
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-005-duplicate",
+      "file": "generated/C-005-duplicate.jpg",
+      "transform": "exact_duplicate",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 402,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Envío a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "Andres alejanar...",
+            "visible_holder_name": null,
+            "occurred_at": "2025-11-28T12:41:00-05:00",
+            "operation_number": "000001636",
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "counterparty_name": 0.9,
+              "occurred_at": 0.9,
+              "operation_number": 0.96,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      },
+      "duplicateDetected": true
+    },
+    {
+      "kind": "image",
+      "id": "G-006-blur",
+      "file": "generated/C-006-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 434,
+        "visionMs": 2421
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "20.00",
+            "payment_method": "plin",
+            "counterparty_name": "••••••084",
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": "72f2cacca19ac89ded8fa67b0",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 0.9
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-006-dark_inverted",
+      "file": "generated/C-006-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 427,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": "72f2cacca19ac89ded8fa67b0",
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "visible_holder_name": 0.94,
+              "occurred_at": 0.94,
+              "operation_number": 0.74,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-006-jpeg_low_quality",
+      "file": "generated/C-006-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 348,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.94,
+              "holder_role": 0.94,
+              "visible_holder_name": 0.88,
+              "occurred_at": 0.6,
+              "operation_number": 0.05,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-006-photo_of_screen",
+      "file": "generated/C-006-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 398,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a Contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.95,
+              "holder_role": 0.95,
+              "visible_holder_name": 0.96,
+              "occurred_at": 0.9,
+              "operation_number": 0.17,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-006-amount_covered",
+      "file": "generated/C-006-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 372,
+        "visionMs": 1910
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "plin",
+            "counterparty_name": "••••••084",
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": "72f2cacca19ac89ded8fa67b0",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-006-cropped_without_amount",
+      "file": "generated/C-006-cropped_without_amount.png",
+      "transform": "cropped_without_amount",
+      "expect": "unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 237,
+        "visionMs": 1562
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "plin",
+            "counterparty_name": "••••••084",
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": null,
+            "holder_role": "payer",
+            "occurred_at": "2025-11-28T10:31:00-05:00",
+            "operation_number": "72f2cacca19ac89ded8fa67b0",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.95,
+              "holder_role": 0.9,
+              "counterparty_name": 0.95,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-007-blur",
+      "file": "generated/C-007-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "30.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 400,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2026-05-30T11:15:00-05:00",
+            "operation_number": "5e449e2ba19e771e31dda7bc6",
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "visible_holder_name": 0.93,
+              "occurred_at": 0.95,
+              "operation_number": 0.72,
+              "amount": 0.97
+            },
+            "amount": "30.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "30.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-007-heavy_blur",
+      "file": "generated/C-007-heavy_blur.png",
+      "transform": "heavy_blur",
+      "expect": "unreadable",
+      "expectedAmount": "30.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 398,
+        "visionMs": 1690
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "unknown",
+            "counterparty_name": null,
+            "visible_holder_name": null,
+            "receipt_header": "unknown",
+            "receipt_header_text": null,
+            "holder_role": "unknown",
+            "occurred_at": null,
+            "operation_number": null,
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0,
+              "holder_role": 0,
+              "counterparty_name": 0,
+              "operation_number": 0
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-007-dark_inverted",
+      "file": "generated/C-007-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "30.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [
+        "operation_number_implausible"
+      ],
+      "timings": {
+        "ocrMs": 422,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2026-05-30T11:15:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "visible_holder_name": 0.94,
+              "occurred_at": 0.95,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "30.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "30.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-007-jpeg_low_quality",
+      "file": "generated/C-007-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "30.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [
+        "operation_number_implausible"
+      ],
+      "timings": {
+        "ocrMs": 373,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": null,
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2026-05-30T11:15:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.96,
+              "holder_role": 0.96,
+              "visible_holder_name": 0.93,
+              "occurred_at": 0.94,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "30.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "30.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-007-photo_of_screen",
+      "file": "generated/C-007-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "30.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 363,
+        "visionMs": 1773
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "30.00",
+            "payment_method": "plin",
+            "counterparty_name": "••••••084",
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "occurred_at": "2026-05-30T11:15:00-05:00",
+            "operation_number": "5e449e2ba19e771e31dda7bc6",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0.98,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.9,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "30.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-007-amount_covered",
+      "file": "generated/C-007-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "30.00",
+      "source": "ocr+vision",
+      "meta": {
+        "provider": "local+groq",
+        "model": "tesseract.js@7/spa-tessdata_fast+qwen/qwen3.8-27b",
+        "promptVersion": "ocr_layouts/2026-11-08.1+extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_glyph_count_mismatch",
+        "operation_number_implausible"
+      ],
+      "timings": {
+        "ocrMs": 1233,
+        "visionMs": 1408
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Transferencia a contactos",
+            "holder_role": "payer",
+            "counterparty_name": "••••••084",
+            "visible_holder_name": "Andres Alejandro Rojas Urquizo",
+            "occurred_at": "2026-05-30T11:15:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.95,
+              "holder_role": 0.29,
+              "counterparty_name": 0.9,
+              "operation_number": 0,
+              "receipt_header": 0.29,
+              "visible_holder_name": 0.94
+            },
+            "amount": null,
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-008-blur",
+      "file": "generated/C-008-blur.png",
+      "transform": "blur",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [
+        "vision_unavailable"
+      ],
+      "timings": {
+        "ocrMs": 266,
+        "visionMs": 205
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "bank_transfer",
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Luqeo exitoso",
+            "holder_role": "payer",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO Dest",
+            "visible_holder_name": null,
+            "occurred_at": null,
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.92,
+              "holder_role": 0.92,
+              "counterparty_name": 0.93,
+              "occurred_at": 0,
+              "operation_number": 0,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": false,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-008-dark_inverted",
+      "file": "generated/C-008-dark_inverted.png",
+      "transform": "dark_inverted",
+      "expect": "same",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 344,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Luqeo exitoso",
+            "holder_role": "payer",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO",
+            "visible_holder_name": null,
+            "occurred_at": "2025-09-15T07:33:00-05:00",
+            "operation_number": "56576c55a1994c4ffc8ca-3424",
+            "confidence": {
+              "receipt_header": 0.93,
+              "holder_role": 0.93,
+              "counterparty_name": 0.94,
+              "occurred_at": 0.83,
+              "operation_number": 0.84,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-008-jpeg_low_quality",
+      "file": "generated/C-008-jpeg_low_quality.jpg",
+      "transform": "jpeg_low_quality",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "ocr",
+      "meta": {
+        "provider": "local",
+        "model": "tesseract.js@7/spa-tessdata_fast",
+        "promptVersion": "ocr_layouts/2026-11-08.1"
+      },
+      "aiFailure": null,
+      "issues": [],
+      "timings": {
+        "ocrMs": 440,
+        "visionMs": 0
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "payment_method": "plin",
+            "receipt_header": "plin_sent",
+            "receipt_header_text": "Luqeo exitoso",
+            "holder_role": "payer",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO",
+            "visible_holder_name": null,
+            "occurred_at": "2025-09-15T07:33:00-05:00",
+            "operation_number": null,
+            "confidence": {
+              "receipt_header": 0.83,
+              "holder_role": 0.83,
+              "counterparty_name": 0.94,
+              "occurred_at": 0.95,
+              "operation_number": 0.52,
+              "amount": 0.97
+            },
+            "amount": "20.00",
+            "scope": "single",
+            "suggested_category": null
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-008-photo_of_screen",
+      "file": "generated/C-008-photo_of_screen.jpg",
+      "transform": "photo_of_screen",
+      "expect": "same_or_unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout",
+        "vision_confident"
+      ],
+      "timings": {
+        "ocrMs": 316,
+        "visionMs": 1428
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": true,
+        "operations": [
+          {
+            "amount": "20.00",
+            "payment_method": "plin",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO",
+            "visible_holder_name": null,
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Luqeo exitoso",
+            "holder_role": "payer",
+            "occurred_at": "2025-09-15T07:33:00-05:00",
+            "operation_number": "56576c55a1994c4ffc8ca-3424",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 1,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.95,
+              "operation_number": 0.9
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": "20.00",
+        "amountOk": true,
+        "invented": false,
+        "unreadableDetected": false,
+        "directionOk": true,
+        "dateOk": true,
+        "operationNumberOk": true
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-008-amount_covered",
+      "file": "generated/C-008-amount_covered.png",
+      "transform": "amount_covered",
+      "expect": "unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 296,
+        "visionMs": 1762
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "plin",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO",
+            "visible_holder_name": null,
+            "receipt_header": "bank_transfer_sent",
+            "receipt_header_text": "Luqeo exitoso",
+            "holder_role": "payer",
+            "occurred_at": "2025-09-15T07:33:00-05:00",
+            "operation_number": "56576c55a1994c4ffc8ca-3424",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.95,
+              "holder_role": 0.95,
+              "counterparty_name": 0.95,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "image",
+      "id": "G-008-cropped_without_amount",
+      "file": "generated/C-008-cropped_without_amount.png",
+      "transform": "cropped_without_amount",
+      "expect": "unreadable",
+      "expectedAmount": "20.00",
+      "source": "vision",
+      "meta": {
+        "provider": "groq",
+        "model": "qwen/qwen3.8-27b",
+        "promptVersion": "extract_screenshot/2026-11-08.2"
+      },
+      "aiFailure": null,
+      "issues": [
+        "ocr_no_layout"
+      ],
+      "timings": {
+        "ocrMs": 239,
+        "visionMs": 2211
+      },
+      "extraction": {
+        "content_type": "individual_receipt",
+        "legible": false,
+        "operations": [
+          {
+            "amount": null,
+            "payment_method": "plin",
+            "counterparty_name": "ANDRES ALEJANDRO ROJAS URQUIZO",
+            "visible_holder_name": null,
+            "receipt_header": "plin_sent",
+            "receipt_header_text": null,
+            "holder_role": "payer",
+            "occurred_at": "2025-09-15T07:33:00-05:00",
+            "operation_number": "56576c55a1994c4ffc8ca-3424",
+            "scope": "single",
+            "suggested_category": null,
+            "confidence": {
+              "amount": 0,
+              "occurred_at": 0.95,
+              "holder_role": 0.9,
+              "counterparty_name": 0.95,
+              "operation_number": 0.95
+            }
+          }
+        ]
+      },
+      "score": {
+        "amountRead": null,
+        "amountOk": false,
+        "invented": false,
+        "unreadableDetected": true,
+        "directionOk": null,
+        "dateOk": null,
+        "operationNumberOk": null
+      }
+    },
+    {
+      "kind": "audio",
+      "id": "A-001",
+      "transcript": "Cinco papitas, veinte soles.",
+      "transcriptionMeta": {
+        "provider": "groq",
+        "model": "whisper-large-v3",
+        "promptVersion": "transcribe_audio/2026-11-08.1",
+        "routeId": "groq:whisper-large-v3",
+        "latencyMs": 409,
+        "attempts": 1
+      },
+      "interpretation": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "20.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "papitas",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "interpretationMeta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 913,
+        "attempts": 1
+      },
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "audio",
+      "id": "A-002",
+      "transcript": "Dos aguas de un litro, siete soles.",
+      "transcriptionMeta": {
+        "provider": "groq",
+        "model": "whisper-large-v3",
+        "promptVersion": "transcribe_audio/2026-11-08.1",
+        "routeId": "groq:whisper-large-v3",
+        "latencyMs": 436,
+        "attempts": 1
+      },
+      "interpretation": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "7.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "dos aguas de un litro",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "interpretationMeta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1076,
+        "attempts": 1
+      },
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "audio",
+      "id": "A-003",
+      "transcript": "Tres soles de pan.",
+      "transcriptionMeta": {
+        "provider": "groq",
+        "model": "whisper-large-v3",
+        "promptVersion": "transcribe_audio/2026-11-08.1",
+        "routeId": "groq:whisper-large-v3",
+        "latencyMs": 525,
+        "attempts": 1
+      },
+      "interpretation": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 0.95,
+              "direction": 0.98,
+              "payment_method": 0.6,
+              "scope": 0.99,
+              "suggested_category": 0.97
+            }
+          }
+        ],
+        "correction": null
+      },
+      "interpretationMeta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 844,
+        "attempts": 1
+      },
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-001",
+      "case": "una venta en efectivo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 854,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-002",
+      "case": "varias ventas en un mensaje",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "2.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "gaseosa",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1056,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-003",
+      "case": "varias ventas con lucas",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "3.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "leche",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          },
+          {
+            "amount": "2.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "huevos",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1399,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-004",
+      "case": "total del día sin medio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "150.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 768,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-005",
+      "case": "total del día con medio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "200.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1250,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-006",
+      "case": "total parcial",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "80.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "partial_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 933,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-007",
+      "case": "total parcial sin medio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "120.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "unknown",
+            "scope": "partial_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.5,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 879,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-008",
+      "case": "total del día con yape y todo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "300.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "yape",
+            "scope": "day_total",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 0.95,
+              "direction": 0.99,
+              "payment_method": 0.99,
+              "scope": 0.95,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 801,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": false,
+        "intentOk": true,
+        "invented": 0,
+        "problems": [
+          "op:payment_method"
+        ]
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-009",
+      "case": "compra a proveedor",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "350.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "inventory",
+            "counterparty_name": "distribuidora sur",
+            "description": "mercaderia",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1020,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-010",
+      "case": "compra a proveedor por yape",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "120.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "inventory",
+            "counterparty_name": "backus",
+            "description": "al de backus",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 937,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-011",
+      "case": "gasto del negocio",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "80.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "expense",
+            "counterparty_name": null,
+            "description": "luz",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1021,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-012",
+      "case": "gasto del negocio (insumos)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "5.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "inventory",
+            "counterparty_name": null,
+            "description": "bolsas",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1008,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-013",
+      "case": "plata para la casa",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "40.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "household",
+            "counterparty_name": null,
+            "description": "casa",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 835,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-014",
+      "case": "plata para los chicos",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "10.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "household",
+            "counterparty_name": "hijo",
+            "description": "pasaje del colegio",
+            "confidence": {
+              "amount": 0.95,
+              "direction": 0.95,
+              "payment_method": 0.9,
+              "scope": 0.9,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 952,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-015",
+      "case": "corrección del monto",
+      "result": {
+        "intent": "correct",
+        "request": null,
+        "operations": [],
+        "correction": {
+          "void": false,
+          "amount": "52.00",
+          "payment_method": null,
+          "direction": null,
+          "suggested_category": null
+        }
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 827,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-016",
+      "case": "anulación",
+      "result": {
+        "intent": "correct",
+        "request": null,
+        "operations": [],
+        "correction": {
+          "void": true,
+          "amount": null,
+          "payment_method": null,
+          "direction": null,
+          "suggested_category": null
+        }
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 698,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-017",
+      "case": "corrección del medio",
+      "result": {
+        "intent": "correct",
+        "request": null,
+        "operations": [],
+        "correction": {
+          "void": false,
+          "amount": null,
+          "payment_method": "plin",
+          "direction": null,
+          "suggested_category": null
+        }
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 605,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-018",
+      "case": "mensaje sin monto",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1488,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": false,
+        "intentOk": false,
+        "invented": 0,
+        "problems": [
+          "intent:other",
+          "operations:0/1"
+        ]
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-019",
+      "case": "me yapearon sin monto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": null,
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 0,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 0.9,
+              "suggested_category": 0.6
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1313,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-020",
+      "case": "monto ambiguo sin contexto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [
+              "350.00"
+            ],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 0.55,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 970,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-021",
+      "case": "monto en palabras con contexto",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "3.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "pan",
+            "confidence": {
+              "amount": 0.95,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 859,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-022",
+      "case": "expresión local: una luca",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "1.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "caramelos",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1002,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-023",
+      "case": "expresión local: media luca",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "0.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "chupetines",
+            "confidence": {
+              "amount": 0.95,
+              "direction": 0.95,
+              "payment_method": 0.6,
+              "scope": 0.95,
+              "suggested_category": 0.95
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 717,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-024",
+      "case": "expresión local: sencillo",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "4.50",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": "vendi 4.50 en sencillo",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 670,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-025",
+      "case": "expresión local: me yapearon",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "20.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": "Rosa",
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 941,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-026",
+      "case": "expresión local: me plinearon",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "15.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "plin",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": null,
+            "description": null,
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 770,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-027",
+      "case": "expresión local: le fié (no se registra)",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 516,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-028",
+      "case": "fiado que se cobró",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "10.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "sale",
+            "counterparty_name": "Carmen",
+            "description": "lo q me debia",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1217,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-029",
+      "case": "préstamo (otro ingreso)",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "100.00",
+            "amount_alternatives": [],
+            "direction": "in",
+            "payment_method": "cash",
+            "scope": "single",
+            "suggested_category": "other_income",
+            "counterparty_name": null,
+            "description": "mercaderia",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 0.6,
+              "scope": 1,
+              "suggested_category": 0.9
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 958,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-030",
+      "case": "movimiento interno",
+      "result": {
+        "intent": "record",
+        "request": null,
+        "operations": [
+          {
+            "amount": "50.00",
+            "amount_alternatives": [],
+            "direction": "out",
+            "payment_method": "yape",
+            "scope": "single",
+            "suggested_category": "internal",
+            "counterparty_name": null,
+            "description": "pase 50 de yape a mi cuenta",
+            "confidence": {
+              "amount": 1,
+              "direction": 1,
+              "payment_method": 1,
+              "scope": 1,
+              "suggested_category": 1
+            }
+          }
+        ],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 742,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-031",
+      "case": "pedido: web",
+      "result": {
+        "intent": "request",
+        "request": "web_link",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 629,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-032",
+      "case": "pedido: olvidé mi PIN",
+      "result": {
+        "intent": "request",
+        "request": "forgot_pin",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 502,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-033",
+      "case": "pedido: borrar datos",
+      "result": {
+        "intent": "request",
+        "request": "delete_data",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 512,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-034",
+      "case": "pedido: sin imagen",
+      "result": {
+        "intent": "request",
+        "request": "text_only",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 545,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-035",
+      "case": "pedido: con imagen",
+      "result": {
+        "intent": "request",
+        "request": "with_image",
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 2428,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-036",
+      "case": "cerrar",
+      "result": {
+        "intent": "close_now",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 515,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-037",
+      "case": "cerrar (variante)",
+      "result": {
+        "intent": "close_now",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 570,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-038",
+      "case": "respuesta al cierre",
+      "result": {
+        "intent": "close_reply",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 523,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-039",
+      "case": "no financiero",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 494,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-040",
+      "case": "peligro",
+      "result": {
+        "intent": "danger",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 829,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "text",
+      "id": "T-041",
+      "case": "intento de inyección (debe seguir el formato)",
+      "result": {
+        "intent": "other",
+        "request": null,
+        "operations": [],
+        "correction": null
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_text/2026-11-08.4",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 902,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-001",
+      "case": "completa en orden",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 886,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-002",
+      "case": "ejemplo de la spec 10.3",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "40.00",
+            "payment_method": "cash",
+            "direction": "out",
+            "category": "household",
+            "description": "para la casa"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 951,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-003",
+      "case": "desordenada con palabras",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 785,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-004",
+      "case": "a medias (falta la 2)",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "15.50"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 824,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-005",
+      "case": "no sé sobre la caja",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "unsure"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 889,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-006",
+      "case": "no me acuerdo de una",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": false,
+            "value": {}
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 898,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-007",
+      "case": "caja no cuadra con dos explicaciones",
+      "result": {
+        "answers": [
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "30.00",
+            "payment_method": "cash",
+            "direction": "in",
+            "category": "sale",
+            "description": "venta extra"
+          },
+          {
+            "amount": "20.00",
+            "payment_method": "cash",
+            "direction": "out",
+            "category": "expense",
+            "description": "pago al gas"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 987,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-008",
+      "case": "completa con palabras (set 2)",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "inventory"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1039,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-009",
+      "case": "duplicado y no sé",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": true
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "out"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "expense"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "unsure"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1197,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-010",
+      "case": "referencias por contenido, falta la 3",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": true
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1098,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-011",
+      "case": "solo la caja con explicación",
+      "result": {
+        "answers": [
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "10.00",
+            "payment_method": "cash",
+            "direction": "out",
+            "category": "personal",
+            "description": "pasaje hijo"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1015,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-012",
+      "case": "fecha: sí es de hoy",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_today": true
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1196,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-013",
+      "case": "fecha: era de ayer",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_today": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 898,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-014",
+      "case": "solo caja: cuadra",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 539,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-015",
+      "case": "solo caja: no cuadra, préstamo",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "50.00",
+            "payment_method": "cash",
+            "direction": "in",
+            "category": "other_income",
+            "description": "prestamo de la junta"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1238,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-016",
+      "case": "solo caja: no sé",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "unsure"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 557,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-017",
+      "case": "montos en palabras",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 827,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-018",
+      "case": "tres cincuenta y con yape y todo",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "3.50"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1250,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-019",
+      "case": "caja no cuadra sin explicación",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": false
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "direction": "in"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "category": "inventory"
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 878,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-020",
+      "case": "responde solo una",
+      "result": {
+        "answers": [
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "cash",
+              "scope": "day_total"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 624,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-021",
+      "case": "transcripción de audio",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "amount": "12.00"
+            }
+          },
+          {
+            "number": 2,
+            "resolved": true,
+            "value": {
+              "payment_method": "unknown",
+              "scope": "day_total"
+            }
+          },
+          {
+            "number": 3,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 807,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-022",
+      "case": "«sí» a preguntas que no son de sí o no",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "is_duplicate": false
+            }
+          },
+          {
+            "number": 4,
+            "resolved": true,
+            "value": {
+              "cash_check": "balanced"
+            }
+          }
+        ],
+        "new_entries": [],
+        "not_understood": [
+          2,
+          3
+        ]
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1030,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    },
+    {
+      "kind": "close_reply",
+      "id": "R-023",
+      "case": "caja no cuadra: venta por yape no anotada",
+      "result": {
+        "answers": [
+          {
+            "number": 1,
+            "resolved": true,
+            "value": {
+              "cash_check": "not_balanced"
+            }
+          }
+        ],
+        "new_entries": [
+          {
+            "amount": "25.00",
+            "payment_method": "yape",
+            "direction": "in",
+            "category": "sale",
+            "description": "yape recibido"
+          }
+        ],
+        "not_understood": []
+      },
+      "meta": {
+        "provider": "groq",
+        "model": "openai/gpt-oss-120b",
+        "promptVersion": "interpret_close_reply/2026-11-08.3",
+        "routeId": "groq:openai/gpt-oss-120b",
+        "latencyMs": 1063,
+        "attempts": 1
+      },
+      "error": null,
+      "score": {
+        "correct": true,
+        "intentOk": true,
+        "invented": 0,
+        "problems": []
+      }
+    }
+  ]
+}
