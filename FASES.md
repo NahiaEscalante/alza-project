@@ -11,8 +11,8 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 0 | Cimientos | ✅ |
 | 1 | Reglas del negocio | ✅ |
 | 2 | Lectura de capturas y audios | ✅ |
-| 3 | Recepción y libro de registros | 🟨 |
-| 4 | Alta y mensajes de excepción | ⬜ |
+| 3 | Recepción y libro de registros | ✅ |
+| 4 | Alta y mensajes de excepción | 🟨 |
 | 5 | Cierre del día | 🟨 |
 | 6 | Puntos y tareas programadas | 🟨 |
 | 7 | Web de la usuaria | ✅ |
@@ -25,12 +25,13 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 🔄 marca las tareas que un agente está haciendo en este momento.
 
-- **Fase 3:** webhook, cola, procesamiento de mensajes hacia el libro y simulador de WhatsApp (`/dev/simulador`).
+- **Fase 4:** alta por WhatsApp y mensajes de excepción («web», «olvidé mi PIN», «borra mis datos», peligro, «sin imagen»).
+- **Fase 5:** cierre del día completo (mensaje único, respuesta, aclaraciones, nivel y confirmación).
 - **Fase 6:** cierre de las 12:00, puntos, racha, comodines, bonos, limpieza y antifraude.
 - **Fase 8 (chat):** chat de la web que responde y propone cambios.
 - **Fase 8 (descarga):** API y pantalla «Descargar mi historial».
 
-**Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; luego el panel interno (Fase 8), Fase 10 y Fase 11.
+**Siguiente:** conectar todo en el arranque del servidor, panel interno (Fase 8), Fase 10 (Meta y Railway) y Fase 11 (demo).
 
 ## Orden
 
@@ -75,6 +76,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D58 | Lectura: un monto de OCR exige tres lecturas que coinciden y los controles fijos; uno de visión se acepta con confianza ≥ 0,9 (≥ 0,7 si coincide con lo que vio el OCR); si OCR y visión no coinciden, la captura es ilegible. `holder_role` describe a la dueña de la pantalla. Una venta por texto sin medio es efectivo; un total sin medio queda «desconocido». «Le fié» no se registra (D09). |
 | D59 | Regla «personal» por contraparte (PR14): rechazarla o apagarla deja la regla inactiva; la oferta vuelve solo tras 3 marcas nuevas. Aceptarla solo afecta los pagos que llegan después; el pasado no cambia. |
 | D60 | Imagen y reporte: Yape y Plin y Efectivo siempre se muestran (en gris si son S/ 0); «sin detalle» y «por clasificar» solo si hay monto. El bloque del domingo puede decir «Te quedó S/X más/menos que la semana pasada» (solo si aplica PR02). «4 semanas» y «12 semanas» son semanas completas de lunes a domingo hasta hoy. En el reporte, clientes y proveedores van con hasta dos iniciales. La hoja «Ajustes» lista correcciones, anulaciones, agregados después del cierre (PR03), agregados en días pasados y diferencias de PR09. |
+| D61 | Recepción: un mensaje se procesa de a uno por usuaria; todo lo que escribe en el libro va en una sola transacción con su estado final. Una duda de fecha (D53) deja el registro pendiente; una de categoría (D55) lo confirma. Una contraparte con nombre de distribuidora, mayorista o proveedor se toma como mercadería (HU-03). Los comprobantes de proveedor no se registran (la spec no tiene regla). Una captura anula una mención por texto que coincide. Para botones, se guarda el id del botón. |
 
 ---
 
@@ -138,37 +140,39 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 - [ ] Certificar cada modelo por separado con `--route` antes de dejarlo en la rotación (D35).
 
-## Fase 3 · Recepción y libro de registros 🟨
+## Fase 3 · Recepción y libro de registros ✅
 
 > Pendientes que vienen de la Fase 7a: crear dudas con `createClarification` (y su `detail`); llamar `ensureRewardsCatalog` al arrancar.
 
 **Objetivo:** un mensaje entra, se procesa una sola vez y queda en el libro con su etiqueta o su duda.
 
-- [ ] Interfaz de canal con el adaptador simulado (el de Meta llega en la Fase 10).
-- [ ] Webhook con el formato de Meta (10.1): guardar, responder 200 en menos de 2 segundos y encolar (RF-IN-01).
-- [ ] Idempotencia por `wa_message_id` (RF-IN-02).
-- [ ] Marcar como leído (simulado) (RF-IN-03).
-- [ ] Archivos cifrados con su SHA-256 (RF-IN-04).
-- [ ] Nada se procesa sin consentimiento (RF-ON-02).
-- [ ] Worker: clasificar, leer, interpretar, aplicar reglas, crear dudas.
-- [ ] Reintentos (3, con espera creciente) y estado de error (RF-IN-05).
-- [ ] Correcciones («eso no, eran 52») y anulaciones con trazabilidad (RF-LB-01, RF-LB-02).
-- [ ] Simulador de WhatsApp en `/dev/simulador`: mandar textos, capturas del dataset y audios, y ver los mensajes salientes.
+- [x] Interfaz de canal con el adaptador simulado (el de Meta llega en la Fase 10).
+- [x] Webhook con el formato de Meta (10.1): guardar, responder 200 en menos de 2 segundos y encolar (RF-IN-01).
+- [x] Idempotencia por `wa_message_id` (RF-IN-02).
+- [x] Marcar como leído (simulado) (RF-IN-03).
+- [x] Archivos cifrados con su SHA-256 (RF-IN-04).
+- [x] Nada se procesa sin consentimiento (RF-ON-02).
+- [x] Worker: clasificar, leer, interpretar, aplicar reglas, crear dudas.
+- [x] Reintentos (3, con espera creciente) y estado de error (RF-IN-05).
+- [x] Correcciones («eso no, eran 52») y anulaciones con trazabilidad (RF-LB-01, RF-LB-02).
+- [x] Simulador de WhatsApp en `/dev/simulador`: mandar textos, capturas del dataset y audios, y ver los mensajes salientes.
 
-**Listo cuando:** 100 mensajes repetidos no crean duplicados y un día de mensajes deja el libro correcto.
+**Listo cuando:** 100 mensajes repetidos no crean duplicados y un día de mensajes deja el libro correcto. (Resultado: 128 pruebas en recepción, canal, libro y webhook; prueba real en el simulador con una captura de Yape del dataset.)
 
-## Fase 4 · Alta y mensajes de excepción ⬜
+- [ ] Ajustar el prompt para «vendí 5 de pan» (hoy lo lee como 5 panes y crea una duda) y sumarlo al dataset.
+
+## Fase 4 · Alta y mensajes de excepción 🟨
 
 > De la Fase 7a: «web» de alguien sin PIN debe recibir un enlace de activación, no el de 7 días.
 
 **Objetivo:** una usuaria nueva se registra y ALZA solo habla cuando debe.
 
-- [ ] Catálogo de mensajes de 12.1 como plantillas (incluido WA-21): única forma de enviar.
-- [ ] Alta: consentimiento con versión, negocio, titular (o captura), hora de cierre y retomar a medias (5.1).
-- [ ] Enlace de activación de 1 hora (D13).
-- [ ] Confirmación de la primera captura (PR01, D41).
-- [ ] Excepciones: «web», «olvidé mi PIN», «borra mis datos» (con botones), peligro (WA-20), consejo por ilegibles (WA-19), «sin imagen» y «con imagen».
-- [ ] Borrado de cuenta (RF-PV-01).
+- [ ] 🔄 Catálogo de mensajes de 12.1 como plantillas (incluido WA-21): única forma de enviar.
+- [ ] 🔄 Alta: consentimiento con versión, negocio, titular (o captura), hora de cierre y retomar a medias (5.1).
+- [ ] 🔄 Enlace de activación de 1 hora (D13).
+- [ ] 🔄 Confirmación de la primera captura (PR01, D41).
+- [ ] 🔄 Excepciones: «web», «olvidé mi PIN», «borra mis datos» (con botones), peligro (WA-20), consejo por ilegibles (WA-19), «sin imagen» y «con imagen».
+- [ ] 🔄 Borrado de cuenta (RF-PV-01).
 
 **Listo cuando:** HU-01 y HU-15 pasan en el simulador.
 
@@ -178,13 +182,13 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Objetivo:** el mensaje único de cierre sale, se responde en un solo mensaje y el día queda con su nivel.
 
-- [ ] Composición del cierre: resumen, hasta 5 dudas que quepan, cuadre al final, líneas informativas, bloque del domingo y enlace de 7 días (WA-10, D37).
+- [ ] 🔄 Composición del cierre: resumen, hasta 5 dudas que quepan, cuadre al final, líneas informativas, bloque del domingo y enlace de 7 días (WA-10, D37).
 - [x] Imagen de resumen con plantilla y código (Satori y resvg): 4 variantes, menos de 150 KB, comparación visual automática (8.6). (36–72 KB, ~200 ms; `npm run render:preview -w server`.)
-- [ ] Envío a la hora de cada usuaria (cada 5 minutos) o al escribir «cierre».
-- [ ] Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
-- [ ] Nivel del cierre y confirmación con puntos (WA-12).
-- [ ] Respuestas fuera de plazo (WA-18) y ajustes después del cierre (PR03).
-- [ ] Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta.
+- [ ] 🔄 Envío a la hora de cada usuaria (cada 5 minutos) o al escribir «cierre».
+- [ ] 🔄 Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
+- [ ] 🔄 Nivel del cierre y confirmación con puntos (WA-12).
+- [ ] 🔄 Respuestas fuera de plazo (WA-18) y ajustes después del cierre (PR03).
+- [ ] 🔄 Los 7 días tipo de los insumos (sección 4) como pruebas de punta a punta.
 
 **Listo cuando:** los días tipo pasan en el simulador (HU-06, HU-07).
 
