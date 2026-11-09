@@ -15,7 +15,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 4 | Alta y mensajes de excepción | ⬜ |
 | 5 | Cierre del día | ⬜ |
 | 6 | Puntos y tareas programadas | ⬜ |
-| 7 | Web de la usuaria | ⬜ |
+| 7 | Web de la usuaria | 🟨 |
 | 8 | Chat, reporte y panel interno | ⬜ |
 | 9 | Landing | ✅ |
 | 10 | WhatsApp real (Meta) | ⬜ |
@@ -59,6 +59,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D53 | Duda de fecha: una captura sin fecha legible, o con fecha futura, va al día de llegada y crea una duda «fecha» («¿Es de hoy?»). Textos y audios nunca crean esa duda. |
 | D54 | Detalles de reglas: tope de S/ 99 999,99 por registro; las 12:00:00 ya están fuera de plazo; un total en efectivo menor a lo anotado crea una duda de total ambiguo; «cierre» sobre un cierre ya respondido también recibe WA-22; el PIN rechaza secuencias que dan la vuelta (890123). |
 | D55 | Una salida sin tipo claro se confirma como «por clasificar» con una duda de baja prioridad (PR15 manda sobre HU-03). |
+| D56 | Acceso web: el PIN se guarda con scrypt (algoritmo lento equivalente a Argon2id/bcrypt; no hay librería de Argon2 instalada). El enlace de activación se gasta al crear el PIN; uno nuevo anula los anteriores. Una sesión existe solo tras un PIN correcto en ese celular, y cada PIN correcto renueva los 30 días. Un PIN incorrecto responde 422 para no confundirlo con una sesión perdida. |
+| D57 | Libro y cuenta: una corrección desde la web siempre queda como «Lo contaste tú»; resolver una duda sin cambiar el monto conserva la etiqueta. Las dudas guardan su contexto en `clarifications.detail`. El borrado de cuenta es inmediato y deja solo una fila anónima; también borra su registro de la lista de espera. |
 
 ---
 
@@ -122,6 +124,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 ## Fase 3 · Recepción y libro de registros ⬜
 
+> Pendientes que vienen de la Fase 7a: crear dudas con `createClarification` (y su `detail`); llamar `ensureRewardsCatalog` al arrancar.
+
 **Objetivo:** un mensaje entra, se procesa una sola vez y queda en el libro con su etiqueta o su duda.
 
 - [ ] Interfaz de canal con el adaptador simulado (el de Meta llega en la Fase 10).
@@ -139,6 +143,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 ## Fase 4 · Alta y mensajes de excepción ⬜
 
+> De la Fase 7a: «web» de alguien sin PIN debe recibir un enlace de activación, no el de 7 días.
+
 **Objetivo:** una usuaria nueva se registra y ALZA solo habla cuando debe.
 
 - [ ] Catálogo de mensajes de 12.1 como plantillas (incluido WA-21): única forma de enviar.
@@ -151,6 +157,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 **Listo cuando:** HU-01 y HU-15 pasan en el simulador.
 
 ## Fase 5 · Cierre del día ⬜
+
+> De la Fase 7a: la línea de PR03 no cuenta lo agregado desde la web (`source: web`); el aviso de PIN (D28) se lee con `hasPendingSecurityNotice` y se marca con `markSecurityNoticesShown`.
 
 **Objetivo:** el mensaje único de cierre sale, se responde en un solo mensaje y el día queda con su nivel.
 
@@ -178,10 +186,11 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-08 pasa con la semana simulada.
 
-## Fase 7 · Web de la usuaria ⬜
+## Fase 7 · Web de la usuaria 🟨
 
 **Objetivo:** ella entra con su enlace y su PIN, ve sus números, corrige y canjea.
 
+- [x] (servidor) API de la web, servicio del libro, borrado de cuenta y datos de demo (`npm run seed:demo -w server`).
 - [ ] Acceso: activación, crear PIN, enlace de 7 días, celular recordado, PIN válido por 10 minutos, bloqueos y salir de todos (14.3).
 - [ ] Inicio: barra de puntos con hitos, semana (entró, salió, te quedó), gráfico por día y aviso de pendientes.
 - [ ] Movimientos: días con nivel, registros con etiqueta, corregir, quitar y agregar en días pasados (D16).
