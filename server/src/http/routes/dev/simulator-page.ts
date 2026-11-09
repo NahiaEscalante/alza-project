@@ -83,9 +83,11 @@ export const SIMULATOR_PAGE = String.raw`<!doctype html>
     <select id="phoneSelect"></select>
     <label for="phoneInput">u otro número</label>
     <div class="row"><input id="phoneInput" type="text" placeholder="987 654 321"><button id="usePhone" class="secondary">Usar</button></div>
+    <div style="margin-top:8px"><button id="newPhone" class="secondary">Número nuevo (alta)</button></div>
+    <p class="hint">Un número que ALZA no conoce: escribe «Hola ALZA» para empezar el alta completa.</p>
 
     <h2>Usuaria de prueba</h2>
-    <p class="hint">Crea (o completa) una usuaria con alta completa y consentimiento, mientras llega la Fase 4.</p>
+    <p class="hint">Atajo: crea (o completa) una usuaria con alta completa y consentimiento, sin pasar por el alta.</p>
     <label for="bizName">Negocio</label><input id="bizName" type="text" value="Bodega de prueba">
     <label for="holderName">Titular de Yape o Plin</label><input id="holderName" type="text" value="Marta Quispe">
     <div style="margin-top:8px"><button id="createUser">Crear con este número</button></div>
@@ -337,6 +339,18 @@ export const SIMULATOR_PAGE = String.raw`<!doctype html>
 
   $('phoneSelect').addEventListener('change', function (e) { choosePhone(e.target.value || null); });
   $('usePhone').addEventListener('click', function () { var p = $('phoneInput').value.trim(); if (p) choosePhone(p); });
+  $('newPhone').addEventListener('click', function () {
+    // A random 9xx xxx xxx number that is not in the list: the webhook creates her as «new».
+    var taken = {};
+    Array.prototype.forEach.call($('phoneSelect').options, function (o) { taken[o.value] = true; });
+    var phone;
+    do { phone = '+519' + String(Math.floor(Math.random() * 1e8)).padStart(8, '0'); } while (taken[phone]);
+    $('phoneInput').value = phone;
+    choosePhone(phone);
+    $('textInput').value = 'Hola ALZA';
+    $('textInput').focus();
+    setStatus('Número nuevo: ' + phone + '. Envía «Hola ALZA» para empezar.');
+  });
   $('createUser').addEventListener('click', function () {
     var phone = normalizePhone($('phoneInput').value.trim() || state.phone || '');
     if (!phone) { setStatus('Escribe un número primero.'); return; }

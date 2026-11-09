@@ -12,13 +12,15 @@
  * 2. Images and audios are downloaded and stored encrypted with their SHA-256.
  * 3. Reading (OCR/vision), transcription and interpretation, each saved in `extractions`.
  * 4. Domain rules and ledger writes, in one transaction with the final state (`commitMessage`).
+ * 5. After the commit, `afterProcessed` (PR01: the first screenshot is confirmed, Fase 4).
  * Every recording branch is silent (D04); hand-offs go to `FlowHooks` (Fases 4–5).
  */
-import { and, eq, inArray, sql } from 'drizzle-orm';
+import { and, asc, eq, inArray, sql } from 'drizzle-orm';
 import {
   type InboundMessage,
   type InboundMessageStatus,
   inboundMessages,
+  ledgerEntries,
   users,
 } from '../db/schema.js';
 import { businessDayOf } from '../domain/index.js';
@@ -88,13 +90,13 @@ export async function processInboundJob(
     .returning();
   if (!started) return { status: message.status, skipped: true };
 
+  let status: TerminalStatus;
   try {
-    const status = await processMessage({ deps, message: started, user });
+    status = await processMessage({ deps, message: started, user });
     logger.info(
       { ...ids, userId: user.id, status, attempt: started.attempts },
       'inbound processed',
     );
-    return { status };
   } catch (err) {
     const { code, retryable } = errorCodeOf(err);
     if (code === NOT_PROCESSING) return { status: message.status, skipped: true };
@@ -111,6 +113,33 @@ export async function processInboundJob(
     logger.warn(entry, 'inbound error, will retry');
     // A sanitized error: pg-boss stores it in the job row.
     throw new PipelineError(code, { retryable });
+  }
+  await notifyAfterProcessed({ deps, message: started, user }, status);
+  return { status };
+}
+
+/**
+ * PR01 (Fase 4): the committed message and the entries it created go to `afterProcessed`. Runs
+ * once per message (a finished job is skipped); a failing hook is logged, never retried.
+ */
+async function notifyAfterProcessed(work: MessageWork, status: TerminalStatus): Promise<void> {
+  const { deps, message, user } = work;
+  if (status === 'discarded_no_consent') return;
+  try {
+    const entries =
+      status === 'recorded' || status === 'pending'
+        ? await deps.db
+            .select()
+            .from(ledgerEntries)
+            .where(eq(ledgerEntries.inboundMessageId, message.id))
+            .orderBy(asc(ledgerEntries.createdAt))
+        : [];
+    await deps.hooks.afterProcessed({ user, message: toFlowMessage(message), status, entries });
+  } catch (err) {
+    deps.logger.warn(
+      { err, inboundMessageId: message.id, userId: user.id },
+      'after processed hook failed',
+    );
   }
 }
 

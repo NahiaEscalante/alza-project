@@ -275,7 +275,11 @@ export function createHarness(
     channel,
     ai,
     readScreenshot: reader.read,
-    hooks: withFlowHooks(recorded),
+    // `afterProcessed` runs for every message: passed through, not recorded in `hookCalls`.
+    hooks: withFlowHooks({
+      ...recorded,
+      ...(options.hooks?.afterProcessed ? { afterProcessed: options.hooks.afterProcessed } : {}),
+    }),
     now,
   };
   const app = createApp({

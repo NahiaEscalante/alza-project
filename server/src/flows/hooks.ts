@@ -6,13 +6,14 @@
  * Contract for implementers:
  * - Hooks run inside the message job. A hook that throws makes the job retry (RF-IN-05, up to 3
  *   times), so hooks must be idempotent per `message.inboundMessageId`.
- *   Exception: `unreadableTip` runs after the message is committed; its errors are only logged.
+ *   Exceptions: `unreadableTip` and `afterProcessed` run after the message is committed; their
+ *   errors are only logged (a finished message is never retried).
  * - `message.text` is her content (text body, audio transcription, or the button reply id for
  *   `interactive`). Never log it (RNF-09).
  * - Registration branches never call a hook: ALZA stays silent while she records (D04).
  */
 import type { RequestKind } from '../ai/schemas.js';
-import type { InboundMessageType, User } from '../db/schema.js';
+import type { InboundMessageStatus, InboundMessageType, LedgerEntry, User } from '../db/schema.js';
 import type { IsoDate } from '../domain/index.js';
 
 /** The message being handled, as the hooks see it. */
@@ -88,6 +89,19 @@ export interface UnreadableTipEvent extends BaseEvent {
   businessDay: IsoDate;
 }
 
+/**
+ * PR01, D41, RF-ON-08: a message reached its final state (any but `discarded_no_consent`) and its
+ * ledger writes are committed. Fase 4 uses it to confirm the first screenshot (WA-07).
+ */
+export interface AfterProcessedEvent extends BaseEvent {
+  status: Exclude<
+    InboundMessageStatus,
+    'received' | 'processing' | 'error' | 'failed' | 'discarded_no_consent'
+  >;
+  /** Ledger entries this message created, oldest first (empty unless recorded or pending). */
+  entries: LedgerEntry[];
+}
+
 export interface FlowHooks {
   onboarding(event: OnboardingEvent): Promise<OnboardingOutcome | undefined>;
   request(event: RequestEvent): Promise<void>;
@@ -96,6 +110,8 @@ export interface FlowHooks {
   closeReply(event: CloseReplyEvent): Promise<void>;
   /** Send WA-19. Called at most once per business day (the pipeline checks the outbound log). */
   unreadableTip(event: UnreadableTipEvent): Promise<void>;
+  /** After the message is committed; at most once per message (a finished job is skipped). */
+  afterProcessed(event: AfterProcessedEvent): Promise<void>;
 }
 
 /** Until Fases 4–5: every hand-off is a silent no-op. */
@@ -106,6 +122,7 @@ export const NO_OP_FLOW_HOOKS: FlowHooks = {
   closeNow: async () => undefined,
   closeReply: async () => undefined,
   unreadableTip: async () => undefined,
+  afterProcessed: async () => undefined,
 };
 
 /** Fills missing hooks with the no-ops. */
