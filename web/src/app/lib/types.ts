@@ -195,7 +195,6 @@ export interface RedemptionItem {
 
 export interface RewardsView {
   balance: number;
-  exampleNotice: string;
   milestones: { points: number; reached: boolean; rewards: RewardItem[] }[];
   bigGoal: {
     rewards: RewardItem[];

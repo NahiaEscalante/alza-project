@@ -116,11 +116,6 @@ function RewardsContent({
         </p>
       </Card>
 
-      <p className="mt-3 inline-flex w-fit items-center gap-1.5 self-start rounded-full bg-[#eef2f8] px-3 py-1 text-sm font-semibold text-muted">
-        <span className="size-1.5 rounded-full bg-gray" aria-hidden="true" />
-        {view.exampleNotice}
-      </p>
-
       {view.milestones.map((group) => (
         <section key={group.points} aria-labelledby={`hito-${group.points}`}>
           <SectionTitle

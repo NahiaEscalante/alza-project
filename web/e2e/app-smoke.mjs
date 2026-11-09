@@ -226,8 +226,11 @@ try {
 
   // ---- Premios (RF-WP-05, HU-12) -----------------------------------------------------------
   console.log('Premios');
-  await page.getByRole('link', { name: 'Premios' }).click();
-  await page.getByText('Premios de ejemplo para la demo.').waitFor();
+  await page
+    .getByRole('navigation', { name: 'Secciones' })
+    .getByRole('link', { name: 'Premios' })
+    .click();
+  await page.getByText('Cómo funcionan').waitFor();
   await shot(page, 'rewards');
   await shot(page, 'rewards-full', { full: true });
   const balanceBefore = Number(

@@ -49,8 +49,6 @@ export const EXAMPLE_REWARDS: readonly Pick<
   { name: 'Electrodoméstico', category: 'appliance', costPoints: BIG_GOAL, isBig: true },
 ];
 
-export const EXAMPLE_NOTICE = 'Premios de ejemplo para la demo.';
-
 /** Inserts the example rewards that are missing (by name). Returns how many were added. */
 export async function ensureRewardsCatalog(db: Db): Promise<number> {
   return inTransaction(db, async (tx) => {
@@ -93,7 +91,6 @@ export interface RedemptionItem {
 
 export interface RewardsView {
   balance: number;
-  exampleNotice: string;
   /** Regular rewards grouped by cost (the bar's milestones, 13.2). */
   milestones: { points: number; reached: boolean; rewards: RewardItem[] }[];
   bigGoal: {
@@ -137,7 +134,6 @@ export async function getRewardsView(db: Db, userId: string): Promise<RewardsVie
 
   return {
     balance,
-    exampleNotice: EXAMPLE_NOTICE,
     milestones: costs.map((points) => ({
       points,
       reached: balance >= points,

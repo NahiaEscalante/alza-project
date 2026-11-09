@@ -75,7 +75,7 @@ describe.skipIf(!hasTestDb)('web account API', () => {
       const reward = await testReward(100);
 
       const view = await (await phone.get('/api/rewards')).json();
-      expect(view.exampleNotice).toBe('Premios de ejemplo para la demo.');
+      expect(view).not.toHaveProperty('exampleNotice');
       const group = view.milestones.find((m: { points: number }) => m.points === 100);
       expect(group.rewards).toContainEqual(
         expect.objectContaining({ id: reward.id, canRedeem: true, missingPoints: 0 }),
