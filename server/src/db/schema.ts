@@ -274,6 +274,8 @@ export const ALERT_TYPES = [
   'shared_screenshot',
   'activity_spike',
   'instant_close_replies',
+  /** [Fase 7] 5 wrong PINs (D28): also read by the close composer for its notice line. */
+  'pin_lockout',
 ] as const;
 export type AlertType = (typeof ALERT_TYPES)[number];
 
@@ -526,6 +528,12 @@ export const clarifications = pgTable(
     status: text('status').$type<ClarificationStatus>().notNull().default('open'),
     /** Number shown in the close message (numero_en_mensaje). */
     messageNumber: integer('message_number'),
+    /**
+     * [Fase 7] What the doubt is about when there is no ledger entry: the list row of a
+     * `missing_from_list`, the declared total of an `ambiguous_total`, the quote of an `unreadable`
+     * audio. Shape: `ClarificationDetail` in `ledger/types.ts`.
+     */
+    detail: jsonb('detail'),
     answer: jsonb('answer'),
     createdAt: createdAt(),
   },

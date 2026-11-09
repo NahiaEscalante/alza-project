@@ -11,7 +11,10 @@
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/scripts/migrate.ts",
-    "db:migrate:dist": "node dist/scripts/migrate.js"
+    "db:migrate:dist": "node dist/scripts/migrate.js",
+    "seed:demo": "tsx src/scripts/seed-demo.ts",
+    "eval": "tsx src/scripts/eval.ts",
+    "eval:generate": "tsx src/scripts/eval-generate.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",

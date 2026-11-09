@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import type { Db } from '../db/client.js';
+import { createWebAppRouter } from './routes/app/index.js';
 import { createWaitlistRouter } from './routes/waitlist.js';
 
 export interface ApiDeps {
@@ -14,6 +15,7 @@ export function createApiRouter(deps: ApiDeps): Hono {
   const api = new Hono();
   api.get('/', (c) => c.json({ service: 'alza', status: 'ok' }));
   api.route('/waitlist', createWaitlistRouter({ db: deps.db }));
+  api.route('/', createWebAppRouter({ db: deps.db }));
   api.all('*', (c) => c.json({ error: 'not_found' }, 404));
   return api;
 }
