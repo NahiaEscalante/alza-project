@@ -1,7 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { Link, Route, Switch } from 'wouter';
 import { AlzaLogo } from './components/AlzaLogo';
-import { Landing } from './routes/Landing';
+import { Landing } from './landing/Landing';
+import { PrivacyPage } from './landing/PrivacyPage';
 
 // The user's web is split out so the public landing stays light (RNF-06).
 const AppHome = lazy(() => import('./routes/AppHome'));
@@ -10,6 +11,7 @@ export function App() {
   return (
     <Switch>
       <Route path="/" component={Landing} />
+      <Route path="/privacidad" component={PrivacyPage} />
       <Route path="/app" nest>
         <Suspense fallback={null}>
           <AppHome />

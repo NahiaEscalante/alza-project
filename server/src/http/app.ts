@@ -33,7 +33,7 @@ export function createApp(deps: AppDeps): Hono {
     return c.json({ status: dbOk ? 'ok' : 'error', db: dbOk ? 'ok' : 'error' }, dbOk ? 200 : 503);
   });
 
-  app.route('/api', createApiRouter());
+  app.route('/api', createApiRouter({ db: deps.db }));
 
   if (deps.webDistDir) mountWeb(app, deps.webDistDir);
 

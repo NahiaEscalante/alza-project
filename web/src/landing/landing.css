@@ -1,0 +1,150 @@
+/*
+ * Landing-only styles: the animated WhatsApp mock and two small effects. Everything else is
+ * Tailwind classes with the tokens of index.css. No animation library (RNF-06).
+ */
+
+/* Smooth anchor jumps, only while the landing is on screen. */
+html:has(.lp-root) {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Phone mock ---------- */
+
+.wa-wallpaper {
+  background-color: #efeae2;
+  background-image: radial-gradient(rgb(16 23 47 / 0.06) 1px, transparent 1.2px);
+  background-size: 16px 16px;
+}
+
+/* New message: the row grows from 0 height (pushing older ones up) while the bubble pops in. */
+.wa-row {
+  display: grid;
+  grid-template-rows: 1fr;
+  animation: wa-grow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.wa-row > div {
+  min-height: 0;
+  overflow: hidden;
+  padding-bottom: 2px;
+}
+
+.wa-pop {
+  animation: wa-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes wa-grow {
+  from {
+    grid-template-rows: 0fr;
+  }
+  to {
+    grid-template-rows: 1fr;
+  }
+}
+
+@keyframes wa-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.wa-bubble {
+  box-shadow: 0 1px 0.5px rgb(11 20 26 / 0.13);
+}
+
+/* Double check: gray when sent, blue once «read» (ALZA reads but stays silent). */
+.wa-ticks {
+  color: #8696a0;
+  animation: wa-read 0.25s ease 0.9s forwards;
+}
+
+@keyframes wa-read {
+  to {
+    color: #34b7f1;
+  }
+}
+
+.wa-typing i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #8696a0;
+  animation: wa-dot 1.1s infinite ease-in-out;
+}
+
+.wa-typing i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.wa-typing i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes wa-dot {
+  0%,
+  70%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(0);
+  }
+  35% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.wa-wave i {
+  display: block;
+  width: 2.5px;
+  border-radius: 2px;
+  background: #8696a0;
+}
+
+/* «+10 ⭐» badge that pops next to the phone when the day is closed. */
+.lp-badge-pop {
+  animation: lp-badge 0.6s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+@keyframes lp-badge {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Points bar: fills when it scrolls into view. */
+.lp-fill {
+  transition: width 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.lp-root) {
+    scroll-behavior: auto;
+  }
+
+  .wa-row,
+  .wa-pop,
+  .wa-typing i,
+  .lp-badge-pop {
+    animation: none;
+  }
+
+  .wa-ticks {
+    animation: none;
+    color: #34b7f1;
+  }
+
+  .lp-fill {
+    transition: none;
+  }
+}
