@@ -14,7 +14,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 3 | Recepción y libro de registros | 🟨 |
 | 4 | Alta y mensajes de excepción | ⬜ |
 | 5 | Cierre del día | 🟨 |
-| 6 | Puntos y tareas programadas | ⬜ |
+| 6 | Puntos y tareas programadas | 🟨 |
 | 7 | Web de la usuaria | ✅ |
 | 8 | Chat, reporte y panel interno | 🟨 |
 | 9 | Landing | ✅ |
@@ -27,8 +27,10 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 - **Fase 3:** webhook, cola, procesamiento de mensajes hacia el libro y simulador de WhatsApp (`/dev/simulador`).
 - **Fase 5 y 8 (parte de dibujo):** imagen de resumen, PDF y Excel (`server/src/render/`).
+- **Fase 6:** cierre de las 12:00, puntos, racha, comodines, bonos, limpieza y antifraude.
+- **Fase 8 (chat):** chat de la web que responde y propone cambios.
 
-**Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; después Fase 6, Fase 8 (chat y panel), Fase 10 y Fase 11.
+**Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; luego la descarga del historial y el panel interno (Fase 8), Fase 10 y Fase 11.
 
 ## Orden
 
@@ -185,17 +187,17 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** los días tipo pasan en el simulador (HU-06, HU-07).
 
-## Fase 6 · Puntos y tareas programadas ⬜
+## Fase 6 · Puntos y tareas programadas 🟨
 
 **Objetivo:** el sistema cierra los días, da los puntos y limpia solo.
 
-- [ ] 12:00: cierres finales, puntos, racha, comodines y bonos; dudas a la web (8.4).
-- [ ] Lunes 12:00: bono semanal y consolidación.
-- [ ] 03:00: borrar originales con más de 30 días (PR07) y enlaces vencidos.
-- [ ] 04:00: vencimiento de puntos tras 6 meses sin cierres (D29).
-- [ ] Antifraude: titular repetido, misma captura en cuentas distintas, alertas (13.4).
-- [ ] Borrar registros de la lista de espera con más de 6 meses (D52).
-- [ ] Simulación de una semana completa con reloj simulado.
+- [ ] 🔄 12:00: cierres finales, puntos, racha, comodines y bonos; dudas a la web (8.4).
+- [ ] 🔄 Lunes 12:00: bono semanal y consolidación.
+- [ ] 🔄 03:00: borrar originales con más de 30 días (PR07) y enlaces vencidos.
+- [ ] 🔄 04:00: vencimiento de puntos tras 6 meses sin cierres (D29).
+- [ ] 🔄 Antifraude: titular repetido, misma captura en cuentas distintas, alertas (13.4).
+- [ ] 🔄 Borrar registros de la lista de espera con más de 6 meses (D52).
+- [ ] 🔄 Simulación de una semana completa con reloj simulado.
 
 **Listo cuando:** HU-08 pasa con la semana simulada.
 
@@ -219,8 +221,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Objetivo:** completar lo que queda de la web y dar herramientas al equipo.
 
-- [ ] Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
-- [ ] Chat que propone cambios con «antes y después» y confirmación con PIN.
+- [ ] 🔄 Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
+- [ ] 🔄 Chat que propone cambios con «antes y después» y confirmación con PIN.
 - [ ] 🔄 Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
 - [ ] Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
