@@ -179,8 +179,8 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-01 y HU-15 pasan en el simulador. (Resultado: 84 pruebas nuevas; alta completa probada en el simulador con «Número nuevo (alta)».)
 
-- [ ] Texto para una hora de cierre después de las 2 a. m. (hoy solo repite WA-05).
-- [ ] Volver a pedir consentimiento si cambia la versión del aviso (14.1).
+- [ ] 🔄 Texto para una hora de cierre después de las 2 a. m. (hoy solo repite WA-05).
+- [ ] 🔄 Volver a pedir consentimiento si cambia la versión del aviso (14.1).
 
 ## Fase 5 · Cierre del día ✅
 
