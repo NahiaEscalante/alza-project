@@ -15,7 +15,7 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 4 | Alta y mensajes de excepción | ⬜ |
 | 5 | Cierre del día | 🟨 |
 | 6 | Puntos y tareas programadas | ⬜ |
-| 7 | Web de la usuaria | 🟨 |
+| 7 | Web de la usuaria | ✅ |
 | 8 | Chat, reporte y panel interno | 🟨 |
 | 9 | Landing | ✅ |
 | 10 | WhatsApp real (Meta) | ⬜ |
@@ -27,7 +27,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 - **Fase 3:** webhook, cola, procesamiento de mensajes hacia el libro y simulador de WhatsApp (`/dev/simulador`).
 - **Fase 5 y 8 (parte de dibujo):** imagen de resumen, PDF y Excel (`server/src/render/`).
-- **Fase 7 (interfaz):** pantallas de la web de la usuaria con el diseño del mockup.
 
 **Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; después Fase 6, Fase 8 (chat y panel), Fase 10 y Fase 11.
 
@@ -72,6 +71,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D56 | Acceso web: el PIN se guarda con scrypt (algoritmo lento equivalente a Argon2id/bcrypt; no hay librería de Argon2 instalada). El enlace de activación se gasta al crear el PIN; uno nuevo anula los anteriores. Una sesión existe solo tras un PIN correcto en ese celular, y cada PIN correcto renueva los 30 días. Un PIN incorrecto responde 422 para no confundirlo con una sesión perdida. |
 | D57 | Libro y cuenta: una corrección desde la web siempre queda como «Lo contaste tú»; resolver una duda sin cambiar el monto conserva la etiqueta. Las dudas guardan su contexto en `clarifications.detail`. El borrado de cuenta es inmediato y deja solo una fila anónima; también borra su registro de la lista de espera. |
 | D58 | Lectura: un monto de OCR exige tres lecturas que coinciden y los controles fijos; uno de visión se acepta con confianza ≥ 0,9 (≥ 0,7 si coincide con lo que vio el OCR); si OCR y visión no coinciden, la captura es ilegible. `holder_role` describe a la dueña de la pantalla. Una venta por texto sin medio es efectivo; un total sin medio queda «desconocido». «Le fié» no se registra (D09). |
+| D59 | Regla «personal» por contraparte (PR14): rechazarla o apagarla deja la regla inactiva; la oferta vuelve solo tras 3 marcas nuevas. Aceptarla solo afecta los pagos que llegan después; el pasado no cambia. |
 
 ---
 
@@ -199,21 +199,21 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-08 pasa con la semana simulada.
 
-## Fase 7 · Web de la usuaria 🟨
+## Fase 7 · Web de la usuaria ✅
 
 **Objetivo:** ella entra con su enlace y su PIN, ve sus números, corrige y canjea.
 
 - [x] (servidor) API de la web, servicio del libro, borrado de cuenta y datos de demo (`npm run seed:demo -w server`).
-- [ ] 🔄 (interfaz) Acceso: activación, crear PIN, enlace de 7 días, celular recordado, PIN válido por 10 minutos, bloqueos y salir de todos (14.3).
-- [ ] Inicio: barra de puntos con hitos, semana (entró, salió, te quedó), gráfico por día y aviso de pendientes.
-- [ ] Movimientos: días con nivel, registros con etiqueta, corregir, quitar y agregar en días pasados (D16).
-- [ ] Pendientes resolubles con toques.
-- [ ] Premios: catálogo de ejemplo por hitos, canje con PIN y código `DEMO-XXXX` (13.3).
-- [ ] Ajustes: solo texto, titulares adicionales, ocultar montos, borrar cuenta.
-- [ ] Diseño basado en `docs/alza_mvp.html`.
-- [ ] Primera carga de menos de 300 KB (RNF-06) y accesibilidad (RNF-07).
+- [x] (interfaz) Acceso: activación, crear PIN, enlace de 7 días, celular recordado, PIN válido por 10 minutos, bloqueos y salir de todos (14.3).
+- [x] Inicio: barra de puntos con hitos, semana (entró, salió, te quedó), gráfico por día y aviso de pendientes.
+- [x] Movimientos: días con nivel, registros con etiqueta, corregir, quitar y agregar en días pasados (D16).
+- [x] Pendientes resolubles con toques.
+- [x] Premios: catálogo de ejemplo por hitos, canje con PIN y código `DEMO-XXXX` (13.3).
+- [x] Ajustes: solo texto, titulares adicionales, ocultar montos, borrar cuenta.
+- [x] Diseño basado en `docs/alza_mvp.html`.
+- [x] Primera carga de menos de 300 KB (RNF-06) y accesibilidad (RNF-07).
 
-**Listo cuando:** HU-09 a HU-12 pasan.
+**Listo cuando:** HU-09 a HU-12 pasan. (Resultado: recorrido completo con `node web/e2e/app-smoke.mjs`; primera carga de `/app` ~127 KB comprimidos. Chat y Descargar dicen «Muy pronto» hasta la Fase 8.)
 
 ## Fase 8 · Chat, reporte y panel interno 🟨
 
