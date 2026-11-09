@@ -17,7 +17,8 @@
     "create-admin:dist": "node dist/scripts/create-admin.js",
     "eval": "tsx src/scripts/eval.ts",
     "eval:generate": "tsx src/scripts/eval-generate.ts",
-    "render:preview": "tsx src/render/preview.ts"
+    "render:preview": "tsx src/render/preview.ts",
+    "dialog360:setup": "tsx src/scripts/dialog360-setup.ts"
   },
   "dependencies": {
     "@google/genai": "^3.0.0",

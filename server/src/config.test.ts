@@ -94,6 +94,23 @@ describe('loadConfig', () => {
     );
   });
 
+  it('requires sandbox credentials only when 360dialog is explicitly selected', () => {
+    expect(loadConfig({ ...BASE, DIALOG360_API_KEY: 'key' }).dialog360).toBeNull();
+    expect(configError({ ...BASE, WHATSAPP_PROVIDER: 'dialog360' }).variables).toEqual([
+      'DIALOG360_API_KEY',
+      'DIALOG360_WEBHOOK_TOKEN',
+    ]);
+    const config = loadConfig({
+      ...BASE,
+      WHATSAPP_PROVIDER: 'dialog360',
+      DIALOG360_API_KEY: 'key',
+      DIALOG360_WEBHOOK_TOKEN: 'x'.repeat(64),
+      WHATSAPP_ACCESS_TOKEN: 'old-partial-meta',
+    });
+    expect(config.dialog360?.apiKey).toBe('key');
+    expect(config.whatsappProvider).toBe('dialog360');
+  });
+
   it('needs all four WhatsApp variables or none', () => {
     const err = configError({ ...BASE, WHATSAPP_ACCESS_TOKEN: 't', WHATSAPP_APP_SECRET: 's' });
     expect(err.variables).toEqual(['WHATSAPP_PHONE_NUMBER_ID', 'WHATSAPP_VERIFY_TOKEN']);

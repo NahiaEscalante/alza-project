@@ -56,6 +56,41 @@ describe('createApp', () => {
     expect(res.headers.get('cache-control')).toContain('no-store');
   });
 
+  it('never logs the secret 360dialog callback URL', async () => {
+    const lines: string[] = [];
+    const destination = new Writable({
+      write(chunk, _encoding, done) {
+        lines.push(chunk.toString());
+        done();
+      },
+    });
+    const token = 'sandbox-callback-private-value-64';
+    const log = createLogger({ level: 'info', destination });
+    const app = createApp({
+      db: deadDb,
+      logger: log,
+      dialog360Webhook: {
+        webhookToken: token,
+        logger: log,
+        receive: {
+          db: deadDb,
+          logger: log,
+          channel: { markAsRead: async () => undefined },
+          queue: { enqueue: async () => undefined },
+          now: () => new Date(),
+        },
+      },
+    });
+    const response = await app.request(`/webhook/dialog360/${token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ entry: [] }),
+    });
+    expect(response.status).toBe(200);
+    expect(lines.join('')).not.toContain(token);
+    expect(lines.join('')).toContain('/webhook/dialog360/:token');
+  });
+
   it('sets security headers', async () => {
     const res = await createApp({ db: deadDb, logger }).request('/api');
     expect(res.headers.get('x-content-type-options')).toBe('nosniff');

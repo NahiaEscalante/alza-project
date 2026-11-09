@@ -194,12 +194,44 @@ docker/postgres/init/   crea alza_test al iniciar el volumen
 
 ## Estado actual
 
-- **Fase de descubrimiento:** cerrada (spec v1.7, decisiones D01–D52 y D68; D53–D67 en `FASES.md`).
+- **Fase de descubrimiento:** cerrada (spec v1.8, decisiones D01–D52 y D68–D69; D53–D67 en `FASES.md`).
 - **Desarrollo:** plan por fases en `FASES.md` (Fase 0 a Fase 11). Marcar ahí cada avance.
 - **Fase 0 · Cimientos:** lista (el despliegue en Railway pasó a la Fase 10).
 - **Fases 1–7 y 9:** implementadas. Integración del arranque terminada: alta, cierre, cinco tareas en Lima y API del panel conectados.
 - **Fase 8:** pruebas de seguridad completas; ajuste de consumo del chat implementado, pendiente medir con cuota de IA disponible.
-- **Verificación:** 927 pruebas pasan con Postgres, más tipos, lint, build y alta completa mediante el servidor real y pg-boss. Detalles en `docs/ALZA_VALIDACION_INTEGRACION.md`.
-- **Fase 10:** app de Meta creada, credenciales guardadas y adaptador implementado y probado. Para usarlo: `SIMULATOR_ENABLED=false`; `WHATSAPP_API_VERSION` por defecto `v25.0`. Pendientes Railway, webhook público, token permanente y recorrido desde el celular.
-- **Siguiente:** despliegue en Railway y prueba real de Meta; certificación individual de IA cuando haya cuota; Fase 11 (demo).
+- **Verificación:** 943 pruebas pasan con Postgres, más tipos, lint, build y alta completa mediante el servidor real y pg-boss. Detalles en `docs/ALZA_VALIDACION_INTEGRACION.md`.
+- **Fase 10:** app de Meta creada, credenciales guardadas y adaptador implementado y probado. Para usarlo: `SIMULATOR_ENABLED=false`; `WHATSAPP_API_VERSION` por defecto `v25.0`. Railway y webhook público ya verificados; pendiente el recorrido desde el celular, bloqueado en Meta por `131031`.
+- **Conexión actual:** Railway y Postgres online con `/health` verificado; firma y verificación del webhook de Meta comprobadas. Meta rechazó el envío con `131031` (cuenta de prueba bloqueada).
+- **360dialog (D69):** adaptador de sandbox y webhook implementados localmente; pruebas sin consumir la API. Requiere desplegar, configurar `WHATSAPP_PROVIDER=dialog360`, `DIALOG360_API_KEY`, `DIALOG360_WEBHOOK_TOKEN` y simulador desactivado. Ver `docs/ALZA_360DIALOG_SETUP.md`.
+- **Siguiente:** desplegar y probar 360dialog con un celular (texto y botones), considerando sus límites; certificación de IA cuando haya cuota; Fase 11 (demo).
 - **Insumos pendientes:** ver `docs/ALZA_INSUMOS_PENDIENTES.md`.
+
+## Registro de trabajo · Codex
+
+**Agente:** Codex (OpenAI). **Fecha:** 8 de noviembre de 2026, hora de Lima.
+
+Trabajo realizado por Codex en esta sesión, publicado en `origin/main` con el commit `b8761e2` (`Integrate application flows and add Meta WhatsApp transport`):
+
+- Conectó el alta, las excepciones y el cierre al worker del servidor; registró las cinco tareas programadas en `America/Lima`.
+- Montó la API del panel con reintentos, tareas y WA-17; conectó el chat a la misma capa de IA del servidor.
+- Implementó la comprobación de versión del consentimiento: bloquea nuevos registros y cierres programados hasta aceptar el aviso vigente, conservando la configuración de una cuenta que ya completó el alta.
+- Redujo el contexto enviado al chat y omitió la herramienta de propuestas cuando no se pide un cambio. Ajustó el prompt para distinguir «vendí 5 de pan» de «vendí 5 panes» y añadió T-042/T-043 al dataset.
+- Añadió filtros por caso y una opción sin reintentos de cuota a la evaluación de IA; una evaluación vacía o que no cumple los umbrales termina con código de error. La certificación real sigue pendiente: Groq y Gemini respondieron `rate_limit`; las corridas fallidas quedaron guardadas como evidencia, no como resultados aprobados.
+- Incorporó la variante de WA-05 aprobada por la dueña del proyecto para una hora fuera de rango; registró D68 en la especificación v1.7 y su historial de cambios.
+- Implementó el adaptador de Meta Cloud API: texto, botones, imágenes por ID, subida de imágenes, marcar como leído y descarga autenticada de imágenes y audios con límites y comprobación de SHA-256. Añadió errores sanitizados y manejo de fallos transitorios, cuotas y credenciales inválidas.
+- Separó la selección del canal y sus secretos de webhook: el simulador usa su secreto de desarrollo; Meta usa el secreto de la app. El simulador sigue disponible para desarrollo.
+- Acompañó la creación de `alza_app` y la configuración local de las cuatro variables de Meta; generó el token de verificación en `.env`. Comprobó el token de acceso y el Phone Number ID mediante una consulta de solo lectura a Meta: HTTP 200. No envió mensajes reales ni publicó secretos en Git.
+- Actualizó `FASES.md` y documentó la integración en `docs/ALZA_VALIDACION_INTEGRACION.md` y la conexión de Meta en `docs/ALZA_META_SETUP.md`.
+
+**Verificación realizada:** 80 archivos de pruebas, 927 pruebas aprobadas con Postgres; `npm run typecheck`, `npm run lint`, `npm run build` y `git diff --check` aprobados. También probó el alta completa contra el servidor real mediante el webhook y pg-boss y comprobó los cinco cron en Lima. Para las pruebas locales usó Postgres en el puerto 55433 porque 5433 estaba ocupado.
+
+**Pendiente al entregar:** crear el proyecto en Railway, desplegar con Postgres y sus variables, configurar el webhook público y la suscripción `messages` en Meta, verificar el destinatario de prueba, preparar el token permanente y probar el recorrido completo desde un celular. Después: certificar los modelos y medir el consumo del chat cuando haya cuota, y preparar y ensayar la demo. Una respuesta HTTP 200 a la consulta de credenciales no valida el envío y recepción de mensajes ni el secreto de firma.
+
+### Continuación por Codex · 9 de noviembre de 2026
+
+- Diagnosticó el despliegue de Railway: conexión local incorrecta, referencia circular de `DATABASE_URL` en Postgres, migraciones sin ejecutar y simulador activo. Tras corregir las variables y comandos desde la cuenta de la dueña, verificó `/health` con HTTP 200, el desafío del webhook y una notificación vacía firmada con HTTP 200; confirmó que el simulador ya no se servía.
+- Identificó el bloqueo `131031` de la cuenta de prueba de Meta mediante los eventos compartidos por la dueña. Ni un token válido ni un webhook operativo acreditan entrega al celular.
+- Tras la elección de 360dialog y el guardado de su clave, implementó `Dialog360SandboxChannel`, selección explícita de proveedor y un receptor separado protegido por un secreto de 64 caracteres generado en `.env`. No registró la API key ni el secreto en Git.
+- El sandbox no usa endpoints de lectura ni archivos por ID; el cierre utiliza el fallback de texto existente si falla la subida de la imagen. El agotamiento de cuota no se reintenta. Los eventos de entrega registran solo identificadores, estado y códigos de error.
+- Añadió `npm run dialog360:setup -w server`: comprueba primero que el receptor esté desplegado y luego registra el callback en el proveedor sin imprimir su URL secreta. No se ejecutó contra el proveedor durante la implementación.
+- Verificación: 82 archivos y 943 pruebas aprobadas con Postgres, tipos y build aprobados. Falta desplegar este cambio y probar el sandbox real; los botones y la entrega aún no están certificados. No se enviaron mensajes ni se consumió la cuota del sandbox.

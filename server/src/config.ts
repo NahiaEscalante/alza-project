@@ -56,6 +56,9 @@ const envSchema = z.object({
   WHATSAPP_APP_SECRET: z.string().optional(),
   WHATSAPP_VERIFY_TOKEN: z.string().optional(),
   SIMULATOR_ENABLED: booleanFlag.optional(),
+  WHATSAPP_PROVIDER: z.enum(['meta', 'dialog360']).default('meta'),
+  DIALOG360_API_KEY: z.string().optional(),
+  DIALOG360_WEBHOOK_TOKEN: z.string().min(32).optional(),
 });
 
 export interface WhatsAppConfig {
@@ -80,6 +83,8 @@ export interface Config {
   groqApiKey: string | undefined;
   /** Meta WhatsApp Cloud API credentials; null until all four are set (Fase 10). */
   whatsapp: WhatsAppConfig | null;
+  whatsappProvider: 'meta' | 'dialog360';
+  dialog360: { apiKey: string; webhookToken: string } | null;
   /** Simulated WhatsApp channel (`/dev/simulador`). Defaults to on outside production. */
   simulatorEnabled: boolean;
 }
@@ -133,11 +138,27 @@ export function loadConfig(rawEnv: Env): Config {
   const e = parsed.data;
 
   const whatsappSet = WHATSAPP_VARS.filter((name) => e[name] !== undefined);
-  if (whatsappSet.length > 0 && whatsappSet.length < WHATSAPP_VARS.length) {
+  if (
+    e.WHATSAPP_PROVIDER === 'meta' &&
+    whatsappSet.length > 0 &&
+    whatsappSet.length < WHATSAPP_VARS.length
+  ) {
     throw new ConfigError(WHATSAPP_VARS.filter((name) => e[name] === undefined));
   }
 
+  if (e.WHATSAPP_PROVIDER === 'dialog360') {
+    const missing = (['DIALOG360_API_KEY', 'DIALOG360_WEBHOOK_TOKEN'] as const).filter(
+      (name) => !e[name],
+    );
+    if (missing.length) throw new ConfigError(missing);
+  }
+
   return {
+    whatsappProvider: e.WHATSAPP_PROVIDER,
+    dialog360:
+      e.DIALOG360_API_KEY && e.DIALOG360_WEBHOOK_TOKEN
+        ? { apiKey: e.DIALOG360_API_KEY, webhookToken: e.DIALOG360_WEBHOOK_TOKEN }
+        : null,
     nodeEnv: e.NODE_ENV,
     port: e.PORT,
     logLevel: e.LOG_LEVEL ?? (e.NODE_ENV === 'test' ? 'silent' : 'info'),

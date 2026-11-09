@@ -95,6 +95,14 @@ const app = createApp({
     appSecret,
     verifyToken,
   },
+  dialog360Webhook:
+    channel.kind === 'dialog360' && config.dialog360
+      ? {
+          receive: { db, logger, channel, queue, now },
+          logger,
+          webhookToken: config.dialog360.webhookToken,
+        }
+      : null,
   simulator: simulatorStore ? { db, store: simulatorStore, now } : null,
 });
 const server = serve({ fetch: app.fetch, port: config.port }, (info) => {

@@ -72,8 +72,8 @@ export interface DownloadedMedia {
 }
 
 export interface Channel {
-  /** `simulator` until Fase 10, then `meta`. */
-  readonly kind: 'simulator' | 'meta';
+  /** Selected transport; dialog360 is a limited sandbox, not the production channel. */
+  readonly kind: 'simulator' | 'meta' | 'dialog360';
   /** RF-IN-03: blue ticks on one of her messages. */
   markAsRead(waMessageId: string): Promise<void>;
   sendText(ctx: OutboundContext, message: TextMessage): Promise<SentMessage>;
@@ -89,6 +89,8 @@ export type ChannelErrorCode =
   /** A Meta limit was broken (length, number of buttons…): a bug in the caller. */
   | 'limit_exceeded'
   /** Invalid credentials or a request Meta permanently rejected. */
+  | 'unsupported'
+  | 'quota_exhausted'
   | 'unauthorized'
   | 'rejected'
   /** The media id does not exist or expired. */

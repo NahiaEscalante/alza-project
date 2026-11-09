@@ -26,6 +26,18 @@ describe('channel runtime', () => {
     expect(runtime.appSecret).toBe('meta-secret');
     expect(runtime.verifyToken).toBe('verify-token');
   });
+  it('selects 360dialog without leaving the Meta webhook active', () => {
+    const runtime = createChannelRuntime(db, {
+      simulatorEnabled: false,
+      whatsapp,
+      whatsappProvider: 'dialog360',
+      dialog360: { apiKey: 'sandbox-key', webhookToken: 'x'.repeat(64) },
+    });
+    expect(runtime.channel.kind).toBe('dialog360');
+    expect(runtime.appSecret).toBeNull();
+    expect(runtime.verifyToken).toBeNull();
+  });
+
   it('disables the webhook and fails without credentials or a simulator', async () => {
     const runtime = createChannelRuntime(db, { simulatorEnabled: false, whatsapp: null });
     expect(runtime.appSecret).toBeNull();

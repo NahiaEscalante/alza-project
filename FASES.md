@@ -46,7 +46,7 @@ F0 ─┬─ F1 ─┬─ F3 ─ F4 ─ F5 ─ F6 ─┬─ F10 ─ F11
 
 ## Decisiones tomadas para poder desarrollar
 
-D33–D52 y D68 ya están en la spec v1.7. D53–D67 se registran en la spec al cerrar la ronda en curso.
+D33–D52, D68 y D69 ya están en la spec v1.8. D53–D67 se registran en la spec al cerrar la ronda en curso.
 
 | ID | Decisión |
 |---|---|
@@ -266,13 +266,15 @@ D33–D52 y D68 ya están en la spec v1.7. D53–D67 se registran en la spec al 
 
 **Objetivo:** el mismo flujo, desde un celular real.
 
-- [ ] Proyecto en Railway con Postgres y despliegue (requiere `railway login` de la dueña de la cuenta).
+- [x] Proyecto en Railway con Postgres, migraciones y despliegue. `/health` público respondió 200 con `db: ok`.
 - [x] App de Meta `alza_app` creada y cuatro credenciales guardadas en el entorno local.
 - [ ] Número de prueba y destinatarios verificados; confirmar el envío/recepción desde el celular.
 - [ ] Token permanente con usuario del sistema.
-- [ ] Webhook en Railway con validación de firma.
+- [x] Webhook de Meta en Railway con verificación y firma comprobadas. El simulador se desactivó en producción; el envío real quedó bloqueado por la cuenta de Meta (`131031`).
 - [ ] `VITE_ALZA_WHATSAPP_NUMBER` en el build de la web para el QR del jurado en la landing.
 - [x] Adaptador de Meta: texto, botones, imagen por ID, marcar como leído y descarga de archivos con SHA-256. API v25.0 configurable; selección del canal y secretos del webhook probada. No se considera validación desde un celular real.
+- [x] Adaptador opcional de 360dialog Sandbox y webhook autenticado con secreto independiente (D69). 943 pruebas pasan; no se consumieron solicitudes del sandbox.
+- [ ] Desplegar el adaptador 360dialog, registrar la URL, comprobar texto y botones con el celular; límite de 25 solicitudes y sin archivos por ID.
 - [ ] Prueba real: imagen, audio, texto, alta y cierre completo.
 
 **Listo cuando:** el día completo de la demo funciona desde un celular real.

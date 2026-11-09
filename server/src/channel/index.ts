@@ -2,6 +2,8 @@
  * WhatsApp channel (8.2, D46): interface, Meta limits and payloads, and the simulated adapter.
  * Both transports implement the same `Channel`; runtime selects their matching webhook secrets.
  */
+
+export * from './dialog360.js';
 export * from './limits.js';
 export * from './meta.js';
 export * from './meta-payload.js';
