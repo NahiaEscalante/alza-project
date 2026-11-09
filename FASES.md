@@ -13,13 +13,23 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 | 2 | Lectura de capturas y audios | ✅ |
 | 3 | Recepción y libro de registros | 🟨 |
 | 4 | Alta y mensajes de excepción | ⬜ |
-| 5 | Cierre del día | ⬜ |
+| 5 | Cierre del día | 🟨 |
 | 6 | Puntos y tareas programadas | ⬜ |
 | 7 | Web de la usuaria | 🟨 |
-| 8 | Chat, reporte y panel interno | ⬜ |
+| 8 | Chat, reporte y panel interno | 🟨 |
 | 9 | Landing | ✅ |
 | 10 | WhatsApp real (Meta) | ⬜ |
 | 11 | Demo | ⬜ |
+
+## En curso ahora
+
+🔄 marca las tareas que un agente está haciendo en este momento.
+
+- **Fase 3:** webhook, cola, procesamiento de mensajes hacia el libro y simulador de WhatsApp (`/dev/simulador`).
+- **Fase 5 y 8 (parte de dibujo):** imagen de resumen, PDF y Excel (`server/src/render/`).
+- **Fase 7 (interfaz):** pantallas de la web de la usuaria con el diseño del mockup.
+
+**Siguiente:** Fase 4 (alta y excepciones) y Fase 5 (cierre) cuando termine la Fase 3; después Fase 6, Fase 8 (chat y panel), Fase 10 y Fase 11.
 
 ## Orden
 
@@ -159,14 +169,14 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-01 y HU-15 pasan en el simulador.
 
-## Fase 5 · Cierre del día ⬜
+## Fase 5 · Cierre del día 🟨
 
 > De la Fase 7a: la línea de PR03 no cuenta lo agregado desde la web (`source: web`); el aviso de PIN (D28) se lee con `hasPendingSecurityNotice` y se marca con `markSecurityNoticesShown`.
 
 **Objetivo:** el mensaje único de cierre sale, se responde en un solo mensaje y el día queda con su nivel.
 
 - [ ] Composición del cierre: resumen, hasta 5 dudas que quepan, cuadre al final, líneas informativas, bloque del domingo y enlace de 7 días (WA-10, D37).
-- [ ] Imagen de resumen con plantilla y código (Satori y resvg): 4 variantes, menos de 150 KB, comparación visual automática (8.6).
+- [ ] 🔄 Imagen de resumen con plantilla y código (Satori y resvg): 4 variantes, menos de 150 KB, comparación visual automática (8.6).
 - [ ] Envío a la hora de cada usuaria (cada 5 minutos) o al escribir «cierre».
 - [ ] Interpretación y aplicación de la respuesta; hasta 2 aclaraciones (WA-11).
 - [ ] Nivel del cierre y confirmación con puntos (WA-12).
@@ -194,7 +204,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 **Objetivo:** ella entra con su enlace y su PIN, ve sus números, corrige y canjea.
 
 - [x] (servidor) API de la web, servicio del libro, borrado de cuenta y datos de demo (`npm run seed:demo -w server`).
-- [ ] Acceso: activación, crear PIN, enlace de 7 días, celular recordado, PIN válido por 10 minutos, bloqueos y salir de todos (14.3).
+- [ ] 🔄 (interfaz) Acceso: activación, crear PIN, enlace de 7 días, celular recordado, PIN válido por 10 minutos, bloqueos y salir de todos (14.3).
 - [ ] Inicio: barra de puntos con hitos, semana (entró, salió, te quedó), gráfico por día y aviso de pendientes.
 - [ ] Movimientos: días con nivel, registros con etiqueta, corregir, quitar y agregar en días pasados (D16).
 - [ ] Pendientes resolubles con toques.
@@ -205,13 +215,13 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Listo cuando:** HU-09 a HU-12 pasan.
 
-## Fase 8 · Chat, reporte y panel interno ⬜
+## Fase 8 · Chat, reporte y panel interno 🟨
 
 **Objetivo:** completar lo que queda de la web y dar herramientas al equipo.
 
 - [ ] Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
 - [ ] Chat que propone cambios con «antes y después» y confirmación con PIN.
-- [ ] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10).
+- [ ] 🔄 Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
 - [ ] Panel interno: mensajes con error y reintento, canjes grandes, alertas, métricas, registro de quién hizo qué.
 - [ ] Pruebas de seguridad de 17.4: PIN, enlaces, aislamiento entre usuarias, firma del webhook, inyección en el chat.
