@@ -1,69 +1,61 @@
-import type { ReactNode } from 'react';
-import { CameraIcon, ChartIcon, DoubleCheck, MicIcon, MoonIcon } from './icons';
 import { Eyebrow, Section } from './ui';
 
-/** «Cómo funciona» in 3 steps (4.1, WA-06, WA-10). */
-const STEPS: Array<{ title: string; text: ReactNode; art: ReactNode }> = [
+/** «Cómo funciona»: 3 steps, each with 3 short sub-steps (4.1, WA-06, WA-10). */
+const STEPS: Array<{
+  title: string;
+  items: Array<{ emoji: string; title: string; text: string }>;
+}> = [
   {
-    title: 'Manda tu captura',
-    text: (
-      <>
-        Cada vez que te paguen con Yape o Plin, mándale la captura a ALZA. Si vendes en efectivo,
-        escríbele o mándale un audio: <i>«vendí 5 soles de pan»</i>.
-      </>
-    ),
-    art: (
-      <div className="flex gap-2">
-        <StepChip icon={<CameraIcon className="size-[18px]" />}>Captura</StepChip>
-        <StepChip icon={<MicIcon className="size-[18px]" />}>Audio</StepChip>
-      </div>
-    ),
+    title: 'Registra tus ventas',
+    items: [
+      { emoji: '💸', title: 'Te pagan', text: 'Con Yape, Plin o efectivo.' },
+      {
+        emoji: '📸',
+        title: 'Envías el registro',
+        text: 'Una captura, audio o mensaje por WhatsApp.',
+      },
+      { emoji: '✅', title: 'ALZA lo guarda', text: 'Sin responderte ni interrumpirte.' },
+    ],
   },
   {
-    title: 'Recibe un solo resumen',
-    text: (
-      <>
-        A la hora en que cierras, te llega un mensaje con lo que entró, lo que salió y lo que te
-        quedó. Si algo no está claro, te pregunta. Respondes una vez, como prefieras.
-      </>
-    ),
-    art: (
-      <div className="flex gap-2">
-        <StepChip icon={<MoonIcon className="size-[18px]" />}>9:00 p. m.</StepChip>
-        <StepChip>1 mensaje</StepChip>
-      </div>
-    ),
+    title: 'Recibe tu resumen',
+    items: [
+      { emoji: '🌙', title: 'Termina tu día', text: 'Llega la hora de tu cierre.' },
+      {
+        emoji: '🧮',
+        title: 'ALZA hace las cuentas',
+        text: 'Calcula lo que entró, salió y quedó.',
+      },
+      {
+        emoji: '📊',
+        title: 'Ves tus resultados',
+        text: 'Y aclaras cualquier dato pendiente.',
+      },
+    ],
   },
   {
-    title: 'Mira tu semana y gana premios',
-    text: (
-      <>
-        En la web, con tu PIN, ves tu historial y tus puntos. Cada día que cierras suma para
-        premios.
-      </>
-    ),
-    art: (
-      <div className="flex gap-2">
-        <StepChip icon={<ChartIcon className="size-[18px]" />}>Tu semana</StepChip>
-        <StepChip>+10 ⭐</StepChip>
-      </div>
-    ),
+    title: 'Mira tu progreso',
+    items: [
+      { emoji: '🔐', title: 'Entras con tu PIN', text: 'Revisa tu historial en la web.' },
+      { emoji: '📅', title: 'Ves tu semana', text: 'Descubre cuánto vendiste y gastaste.' },
+      { emoji: '⭐', title: 'Acumulas puntos', text: 'Cada cierre te acerca a premios.' },
+    ],
   },
 ];
 
 export function HowItWorks() {
   return (
     <Section id="como-funciona" labelledBy="como-funciona-title">
-      <div className="max-w-2xl">
+      <div className="max-w-3xl">
         <Eyebrow>Cómo funciona</Eyebrow>
         <h2
           id="como-funciona-title"
           className="mt-3 text-[30px] font-extrabold leading-[1.15] tracking-tight text-navy sm:text-4xl"
         >
-          Tres pasos. Ninguno te quita tiempo.
+          Tres pasos para tener tus cuentas claras.
         </h2>
         <p className="mt-4 text-lg text-muted">
-          Sigues usando WhatsApp como siempre. ALZA se adapta a ti, no al revés.
+          Envía tus ventas por WhatsApp. ALZA hace las cuentas por ti.
         </p>
       </div>
 
@@ -71,42 +63,55 @@ export function HowItWorks() {
         {STEPS.map((step, i) => (
           <li
             key={step.title}
-            className="relative flex flex-col rounded-[24px] border border-border bg-card p-6 shadow-[0_1px_2px_rgba(16,23,47,0.04)]"
+            className="flex flex-col rounded-[24px] border border-border bg-card p-6 shadow-[0_1px_2px_rgba(16,23,47,0.04)]"
           >
-            <span
-              aria-hidden="true"
-              className="grid size-11 place-items-center rounded-full bg-navy text-lg font-bold text-white"
-            >
-              {i + 1}
-            </span>
-            <h3 className="mt-5 text-xl font-bold text-text">
-              <span className="sr-only">Paso {i + 1}: </span>
-              {step.title}
-            </h3>
-            <p className="mt-2 flex-1 text-muted">{step.text}</p>
-            <div className="mt-5">{step.art}</div>
+            <div className="flex items-center gap-4">
+              <span
+                aria-hidden="true"
+                className="grid size-11 shrink-0 place-items-center rounded-full bg-navy text-lg font-bold text-white"
+              >
+                {i + 1}
+              </span>
+              <h3 className="text-xl font-bold text-text">
+                <span className="sr-only">Paso {i + 1}: </span>
+                {step.title}
+              </h3>
+            </div>
+            <div className="my-5 h-px bg-border" aria-hidden="true" />
+            <ol className="flex flex-col gap-4">
+              {step.items.map((item) => (
+                <li key={item.title} className="flex items-start gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="grid size-10 shrink-0 place-items-center rounded-xl bg-lav-soft text-xl"
+                  >
+                    {item.emoji}
+                  </span>
+                  <span>
+                    <span className="block font-semibold text-text">{item.title}</span>
+                    <span className="block text-[15px] leading-snug text-muted">{item.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
           </li>
         ))}
       </ol>
 
       <p className="mt-6 flex items-start gap-3 rounded-2xl bg-blue-soft px-5 py-4 text-text">
-        <span className="mt-0.5 grid h-6 w-7 shrink-0 place-items-center rounded-md bg-white">
-          <DoubleCheck className="h-[11px] w-4 text-[#34b7f1]" />
+        <span
+          aria-hidden="true"
+          className="grid size-9 shrink-0 place-items-center rounded-xl bg-white text-lg"
+        >
+          💬
         </span>
         <span>
-          <b>Durante el día, ALZA no te escribe.</b> Verás el doble check azul y sigues atendiendo.
-          Solo te habla en tu cierre.
+          <b className="block">Sin mensajes que te interrumpan.</b>
+          <span className="text-muted">
+            Durante el día, ALZA solo recibe tus registros. Te escribe a la hora de tu cierre.
+          </span>
         </span>
       </p>
     </Section>
-  );
-}
-
-function StepChip({ icon, children }: { icon?: ReactNode; children: ReactNode }) {
-  return (
-    <span className="inline-flex min-h-9 items-center gap-1.5 rounded-full bg-lav-soft px-3 text-sm font-semibold text-purple">
-      {icon}
-      {children}
-    </span>
   );
 }
