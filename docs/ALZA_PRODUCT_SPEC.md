@@ -1,10 +1,11 @@
 # ALZA · Especificación de producto
 
-**Versión:** 1.5 (borrador de trabajo), 8 de noviembre de 2026
+**Versión:** 1.6 (borrador de trabajo), 8 de noviembre de 2026
 **Estado:** fuente de verdad para diseño, implementación y pruebas. Solo cambia con una decisión registrada en la sección 2.
 **Documentos relacionados:**
 - Flujos del sistema (artifact): https://claude.ai/artifact/HUR61TjkAHxgbHYRYpTxj1
 - `ALZA_INSUMOS_PENDIENTES.md`: lo que hay que conseguir (datasets, accesos, textos, diseño).
+- `FASES.md` (raíz del repositorio): plan de desarrollo por fases, de la 0 a la 11. Ordena el trabajo; no cambia reglas.
 - Línea gráfica: se trabaja aparte. Este documento define **contenido y comportamiento**, no estilo visual.
 
 ## Convenciones
@@ -32,7 +33,7 @@
 5. Requisitos funcionales
 6. Requisitos no funcionales
 7. Historias de usuario y criterios de aceptación
-8. Arquitectura propuesta
+8. Arquitectura
 9. Modelo de datos y estados
 10. Contratos y ejemplos
 11. Reglas de negocio y fórmulas
@@ -146,6 +147,26 @@ Bodeguera peruana con un negocio que ya funciona:
 | D30 | Solo español en el MVP. En las entrevistas se pregunta si prefieren leer o escuchar el resumen; el resumen hablado sería la primera mejora después del MVP. | Preguntas abiertas |
 | D31 | Un número es una cuenta. Si otra persona atiende, le reenvía las capturas a la dueña y ella las manda a ALZA. Desde la web, la dueña puede agregar hasta 2 titulares más de Yape o Plin (por ejemplo, el de su esposo). Ayudantes con su propio celular quedan fuera del MVP. | Preguntas abiertas |
 | D32 | El código (tablas, campos, variables, funciones, JSON y rutas) va en inglés; todo lo que ve la usuaria, en español. La correspondencia de nombres está en `CLAUDE.md`. | Preparación para Claude Code |
+| D33 | Capturas: primero OCR local (tesseract.js) y lectores por diseño (Yape, BBVA, Bancom, Luqea). Si el diseño no se reconoce, se usa un modelo con visión; si tampoco se lee con seguridad, duda «ilegible». | Inicio del desarrollo |
+| D34 | Audio: transcripción con Whisper en Groq; si falla, Gemini, que acepta audio. | Inicio del desarrollo |
+| D35 | Texto e interpretación: Groq y Gemini, con cambio automático ante límite o error. Cada modelo entra a la rotación solo si pasa la evaluación (17.2). Cerebras queda fuera: no tiene capa gratuita. | Inicio del desarrollo |
+| D36 | Dirección en Yape por el encabezado: «¡Te Yapearon!» entra, «¡Yapeaste!» sale. Yape no muestra el nombre de la dueña de la cuenta (el recibido solo muestra a quien pagó; el enviado, solo a quien recibió), así que el titular se compara solo cuando la pantalla lo muestra (cambia 11.2). | Inicio del desarrollo |
+| D37 | Cierre (WA-10): la imagen se sube a WhatsApp y se envía por su ID, con el texto como pie y el enlace dentro del texto. No lleva botón con enlace: ese mensaje solo acepta una imagen por URL pública, lo que choca con la regla de privacidad de 8.6. El pie admite 1.024 caracteres: entran las dudas que quepan y el resto va a Pendientes en la web. Con «solo texto», va como mensaje de texto. | Inicio del desarrollo |
+| D38 | Resumen del domingo: suma los montos de lunes a domingo y cuenta los cierres de lunes a sábado (los que ya son finales). PR02 compara con esos conteos. | Inicio del desarrollo |
+| D39 | Si escribe «cierre» y el día no tiene registros ni dudas, recibe un mensaje nuevo (WA-21). | Inicio del desarrollo |
+| D40 | El aviso «Faltan S/X en capturas» (11.5) es una línea informativa del cierre, fuera de las 5 dudas. | Inicio del desarrollo |
+| D41 | WA-07 dice el tipo y el medio reales («venta por Plin», «pago por Yape»). Si la primera captura no se lee, se confirma la primera que sí se lea. | Inicio del desarrollo |
+| D42 | El consejo por capturas ilegibles aplica en las primeras 2 semanas (corrige el caso límite 28). | Inicio del desarrollo |
+| D43 | Landing pública en la raíz de la web, con lista de espera (con consentimiento) y QR a WhatsApp para el teléfono de la demo. Logos de CIX (destacado), UTEC Ventures y Credicorp. | Inicio del desarrollo |
+| D44 | Los logos de Yape y Mibanco están autorizados (cierra la condición de PR05). También los de CIX, UTEC Ventures y Credicorp para la landing (D43). | Inicio del desarrollo |
+| D45 | Stack: TypeScript (Node 24), Hono, pg-boss, Postgres con Drizzle, Vite con React y Tailwind, hosting en Railway. Al inicio, los archivos se guardan cifrados (AES-256-GCM) en Postgres, detrás de una interfaz de almacenamiento. | Inicio del desarrollo |
+| D46 | WhatsApp real (Meta) se conecta al final del desarrollo; hasta entonces, un canal simulado con el mismo formato de mensajes y los mismos límites de Meta. | Inicio del desarrollo |
+| D47 | La web usa los textos de la spec («Con captura», «Lo contaste tú») y el diseño de `docs/alza_mvp.html` como guía, incluido el botón para ocultar montos. | Inicio del desarrollo |
+| D48 | En el alta, el titular se escribe. Leerlo de una captura de un Yape recibido (RF-ON-05) queda fuera del MVP: Yape no muestra el nombre de la dueña de la cuenta (D36). | Inicio del desarrollo |
+| D49 | Si escribe «cierre» y ya tiene el cierre de hoy sin responder, recibe WA-22 (caso límite 18). | Inicio del desarrollo |
+| D50 | Largo del cierre: con imagen, el pie admite 1.024 caracteres; con «solo texto» (D27), el mensaje de texto admite 4.096. En ambos casos, las dudas entran por prioridad mientras quepan, y la pregunta del cuadre y el enlace van siempre. Precisa D37. | Inicio del desarrollo |
+| D51 | La web permite ocultar los montos en pantalla con el botón del ojo (RF-WP-11). Se ven por defecto y la preferencia se recuerda solo en ese celular. Es una preferencia de vista, no un control de seguridad. | Inicio del desarrollo |
+| D52 | Lista de espera de la landing (D43): guarda solo nombre, teléfono, nombre del negocio (opcional), versión del consentimiento y fecha. Se conserva hasta 6 meses o hasta que se la invite al piloto, y se borra si lo pide. La línea de consentimiento va junto al formulario. | Inicio del desarrollo |
 
 ### 2.3 Defaults aceptados sin objeción [DEF]
 
@@ -167,7 +188,7 @@ Bodeguera peruana con un negocio que ya funciona:
 | PR02 | El resumen semanal compara con la semana anterior solo si ambas tienen al menos 4 cierres completos. |
 | PR03 | Ajuste silencioso: lo que llega después de un cierre ya respondido se registra en su día (la fecha la pone la captura) con la marca «agregado después del cierre». El nivel y los puntos de ese día no cambian. El siguiente mensaje de cierre lo avisa en una línea. |
 | PR04 | En el reporte, los clientes aparecen solo con iniciales («R. M.»). Los nombres completos solo se ven dentro de la app. A quien evalúa le importa que le pagaron, no quién. |
-| PR05 | Las recomendaciones van solo en la pantalla de descarga, con el texto «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos. No van dentro del reporte ni como documento aparte. Los logos requieren autorización de las marcas. |
+| PR05 | Las recomendaciones van solo en la pantalla de descarga, con el texto «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos. No van dentro del reporte ni como documento aparte. Los logos requieren autorización de las marcas; ya está dada (D44). |
 | PR06 | Chat: máximo 30 mensajes al día por usuaria. |
 | PR07 | Las imágenes y audios originales se borran a los 30 días; se conservan los datos extraídos y el registro de que existieron. |
 | PR08 | La pregunta del cuadre va siempre al final del cierre y no cuenta dentro de las 5 dudas. |
@@ -216,7 +237,7 @@ Bodeguera peruana con un negocio que ya funciona:
 |---|---|---|
 | Alta por WhatsApp con consentimiento | Debe | |
 | Recepción de imagen, audio y texto con idempotencia | Debe | |
-| Extracción de capturas, transcripción e interpretación de textos | Debe | Modelos gratuitos (D25) |
+| Extracción de capturas, transcripción e interpretación de textos | Debe | OCR local y modelos gratuitos (D25, D33 a D35) |
 | Libro de registros con duplicados, dirección y dudas | Debe | |
 | Mensaje único de cierre, interpretación de la respuesta, cuadre y niveles | Debe | |
 | Confirmación con puntos | Debe | |
@@ -231,11 +252,12 @@ Bodeguera peruana con un negocio que ya funciona:
 | Lista de movimientos opcional | Debería | |
 | Resumen semanal dentro del cierre | Debería | |
 | Panel interno mínimo | Debería | Puede ser una vista simple |
+| Landing pública con lista de espera y QR a WhatsApp | Debería | D43. En la raíz de la web; la lista de espera pide consentimiento y guarda lo mínimo (D52). Logos de CIX (destacado), UTEC Ventures y Credicorp (D44) |
 
 ### 3.2 De ejemplo en la demo (se dice en pantalla)
 
 - Catálogo de premios y códigos de canje.
-- Recomendaciones de productos del grupo Credicorp (con logos solo si hay autorización).
+- Recomendaciones de productos del grupo Credicorp, con los logos de Yape y Mibanco (autorizados, D44).
 - Semana de datos precargados para que la web tenga historia.
 
 ### 3.3 Fuera del MVP
@@ -246,6 +268,7 @@ Bodeguera peruana con un negocio que ya funciona:
 - Lectura automática de notificaciones del celular.
 - Ayudantes con su propio celular, o varios negocios en una misma cuenta (D31).
 - Idiomas distintos del español.
+- Leer el titular desde una captura en el alta (RF-ON-05): Yape no muestra el nombre de la dueña de la cuenta (D48).
 - Sorteos.
 - Plantillas pagadas de WhatsApp (recordatorios proactivos).
 
@@ -273,7 +296,7 @@ Los diagramas completos de cada momento están en el artifact de flujos. Aquí v
 
 1. **8:10** Abre la bodega. ALZA no le escribe.
 2. **8:15 a 21:00** Cada vez que le yapean, toma captura y la manda. Cuando vende en efectivo, a veces manda un audio: «vendí 5 soles de pan». Ve el doble check azul y sigue atendiendo.
-3. **14:00** Paga S/150 por Yape al distribuidor y manda la captura. ALZA detecta que el pago **sale** porque el titular de la captura es ella.
+3. **14:00** Paga S/150 por Yape al distribuidor y manda la captura. ALZA detecta que el pago **sale** porque la captura dice «¡Yapeaste!» (D36).
 4. **21:00** (su hora de cierre) Recibe un solo mensaje: imagen con el resumen, lo que entró y salió, 3 dudas numeradas y el enlace a la web.
 5. **21:03** Responde con un audio: «la uno eran 12 soles, la dos solo efectivo, la caja sí cuadra».
 6. **21:04** Recibe: «✅ Martes cerrado completo. +10 ⭐. Tienes 340. Te faltan 60 para tu kit de limpieza».
@@ -290,7 +313,7 @@ flowchart TD
     A3 --> A4{"¿Acepta?"}
     A4 -->|No| A4n["Solo se guarda el número y el rechazo"]
     A4 -->|Sí| A5["Guarda consentimiento con versión"]
-    A5 --> A6["Nombre del negocio"] --> A7["Titular de su Yape o Plin"] --> A8["Hora de cierre"]
+    A5 --> A6["Nombre del negocio"] --> A7["Titular de su Yape o Plin<br/>(lo escribe, D48)"] --> A8["Hora de cierre"]
     A8 --> A9["Mensaje del hábito + enlace de activación de 1 hora"]
     A9 --> A10["Confirma la primera captura (PR01)"] --> A11["Día 1 abierto"]
     A9 -->|enlace| A12{"¿Lo abre en la hora?"}
@@ -315,7 +338,7 @@ flowchart TD
     M6 -->|No| M6a["Duda: ilegible"]
     M6 -->|Sí| LI{"¿Lista de movimientos?"}
     LI -->|Sí| LI1["Conciliar; faltantes a Pendientes"]
-    LI -->|No| M7["Dirección por titular"] --> M9["Controles"] --> M10{"Resultado"}
+    LI -->|No| M7["Dirección por titular<br/>o encabezado de Yape"] --> M9["Controles"] --> M10{"Resultado"}
     M10 -->|Sin dudas| M11["Confirmado"]
     M10 -->|Repetido| M12["Duplicado, no suma"]
     M10 -->|Duda| M13["Pendiente, a la cola del cierre"]
@@ -384,10 +407,10 @@ flowchart TD
 | RF-ON-02 | El sistema NO DEBE procesar ni conservar contenido enviado antes del consentimiento; DEBE borrarlo. | Debe | Privacidad |
 | RF-ON-03 | El sistema DEBE guardar el consentimiento con fecha, hora y versión del texto. | Debe | Privacidad |
 | RF-ON-04 | El sistema DEBE pedir nombre del negocio, nombre del titular de su Yape o Plin y hora de cierre (8, 9 o 10 pm u otra, hasta las 2:00 a. m.). | Debe | D03, D06, D12 |
-| RF-ON-05 | El sistema PUEDE aceptar una captura de un Yape recibido en lugar de escribir el titular, leyendo el nombre de la captura y pidiendo confirmación. | Puede | — |
+| RF-ON-05 | **Fuera del MVP.** Aceptar una captura de un Yape recibido en lugar de escribir el titular. No funciona: Yape no muestra el nombre de la dueña de la cuenta (D36). | Fuera del MVP | D48 |
 | RF-ON-06 | Si el alta queda a medias, al siguiente mensaje el sistema DEBE retomar en el paso pendiente. | Debe | — |
 | RF-ON-07 | El sistema DEBE enviar el mensaje del hábito con el enlace de activación de 1 hora. | Debe | D13 |
-| RF-ON-08 | El sistema DEBE confirmar la primera captura registrada; es el único registro que se confirma. | Debe | PR01 |
+| RF-ON-08 | El sistema DEBE confirmar la primera captura registrada, con su tipo y medio reales; es el único registro que se confirma. Si la primera no se lee, confirma la primera que sí se lea. | Debe | PR01, D41 |
 
 ### 5.2 Recepción e idempotencia (IN)
 
@@ -420,7 +443,7 @@ flowchart TD
 |---|---|---|
 | RF-LB-01 | Los registros NUNCA se borran. Corregir crea un registro nuevo y marca el anterior como reemplazado; quitar lo marca como anulado. | Debe |
 | RF-LB-02 | Cada registro DEBE enlazar al mensaje, extracción o acción web que lo originó. | Debe |
-| RF-LB-03 | La dirección (entra o sale) DEBE determinarse comparando el titular de la captura con el nombre registrado (sección 11.2). | Debe |
+| RF-LB-03 | La dirección (entra o sale) DEBE determinarse comparando el titular de la captura con el nombre registrado; en Yape, por el encabezado de la pantalla (sección 11.2, D36). | Debe |
 | RF-LB-04 | Las reglas de duplicados de la sección 11.4 DEBEN aplicarse antes de confirmar un registro. | Debe |
 | RF-LB-05 | Cada registro DEBE llevar una etiqueta de confianza (sección 11.3). | Debe |
 | RF-LB-06 | Los registros dudosos DEBEN quedar como pendientes, fuera de los totales, con una duda asociada. | Debe |
@@ -431,15 +454,15 @@ flowchart TD
 |---|---|---|
 | RF-CI-01 | A la hora de cierre, si hubo un mensaje de ella en las últimas 24 horas, el sistema DEBE enviar un solo mensaje de cierre (sección 12.1). | Debe |
 | RF-CI-02 | Si no hubo mensaje de ella en las últimas 24 horas, el sistema NO DEBE enviar nada. | Debe |
-| RF-CI-03 | Si ella escribe «cierre», el sistema DEBE enviar el mensaje de cierre en ese momento. | Debe |
-| RF-CI-04 | El mensaje DEBE incluir como máximo 5 dudas, ordenadas por prioridad, y la pregunta del cuadre al final. | Debe |
+| RF-CI-03 | Si ella escribe «cierre», el sistema DEBE enviar el mensaje de cierre en ese momento. Si el día no tiene registros ni dudas, DEBE responder WA-21 (D39). | Debe |
+| RF-CI-04 | El mensaje DEBE incluir como máximo 5 dudas, ordenadas por prioridad, y la pregunta del cuadre al final. Las dudas entran por prioridad mientras quepan: 1.024 caracteres con imagen (pie) y 4.096 con «solo texto». La pregunta del cuadre y el enlace van siempre (D37, D50). | Debe |
 | RF-CI-05 | Las dudas que no entran en el mensaje DEBEN quedar en Pendientes de la web. | Debe |
 | RF-CI-06 | El sistema DEBE interpretar la respuesta en texto o audio y aplicar cada punto (sección 10.3). | Debe |
 | RF-CI-07 | Si algo no se entendió, el sistema DEBE pedir solo lo que faltó, con un máximo de 2 aclaraciones. | Debe |
 | RF-CI-08 | El sistema DEBE calcular el nivel del cierre según la sección 11.9 y enviar la confirmación con puntos. | Debe |
 | RF-CI-09 | El domingo, el mensaje de cierre DEBE incluir el resumen semanal. | Debería |
 | RF-CI-10 | Si el sistema no puede generar la imagen de resumen, DEBE enviar el cierre solo en texto. | Debe |
-| RF-CI-11 | El mensaje de cierre DEBE incluir líneas informativas, fuera de las 5 dudas, cuando haya una diferencia registrada por un total en efectivo (PR09) ajustes agregados después de un cierre anterior (PR03) o un aviso de seguridad por PIN incorrecto (D28). | Debe |
+| RF-CI-11 | El mensaje de cierre DEBE incluir líneas informativas, fuera de las 5 dudas, cuando haya una diferencia registrada por un total en efectivo (PR09), ajustes agregados después de un cierre anterior (PR03), un aviso de seguridad por PIN incorrecto (D28) o un total digital mayor a lo que suman las capturas («Faltan S/X en capturas», 11.5, D40). | Debe |
 | RF-CI-12 | El sistema DEBE generar la imagen de resumen con la plantilla fija y código, sin IA (D26, sección 8.6). | Debe |
 | RF-CI-13 | Si ella eligió «solo texto», el sistema NO DEBE generar ni enviar la imagen. El primer cierre después del cambio lo confirma en una línea (D27). | Debe |
 
@@ -480,6 +503,7 @@ flowchart TD
 | RF-WP-08 | Si ella marca 3 veces como personal a la misma contraparte, la web DEBE ofrecerle que los pagos de esa contraparte dejen de contar como venta. Solo se aplica si acepta, y puede desactivarlo (PR14). | Debería |
 | RF-WP-09 | La web DEBE permitir elegir entre resumen con imagen o solo texto, y mostrar una ayuda para que WhatsApp no guarde en la galería las imágenes de este chat (D27). | Debería |
 | RF-WP-10 | La web DEBE permitir agregar hasta 2 titulares adicionales de Yape o Plin para el negocio. Es opcional y no se pide en el alta (D31). | Debería |
+| RF-WP-11 | La web DEBE permitir ocultar los montos en pantalla con el botón del ojo. Se ven por defecto y la preferencia se recuerda solo en ese celular. Es una preferencia de vista, no un control de seguridad (D47, D51). | Debería |
 
 ### 5.9 Chat (CH)
 
@@ -499,7 +523,7 @@ flowchart TD
 | RF-RP-02 | El reporte DEBE distinguir lo que tiene captura, lo que ella contó y la caja sin revisar. | Debería |
 | RF-RP-03 | El reporte DEBE incluir un anexo de trazabilidad: origen de cada dato y sus cambios. | Debería |
 | RF-RP-04 | El reporte DEBE mostrar a los clientes solo con iniciales (PR04). | Debe |
-| RF-RP-05 | Las recomendaciones DEBEN mostrarse solo en la pantalla de descarga, con el texto «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (con autorización). Nunca dentro del reporte ni con frases como «calificas para» (PR05). | Debe |
+| RF-RP-05 | Las recomendaciones DEBEN mostrarse solo en la pantalla de descarga, con el texto «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (autorizados, D44). Nunca dentro del reporte ni con frases como «calificas para» (PR05). | Debe |
 
 ### 5.11 Privacidad y cuenta (PV)
 
@@ -554,7 +578,7 @@ Como bodeguera, quiero mandar la captura de cada Yape, para no anotar nada.
 - Dadas dos capturas distintas de S/2 del mismo cliente con números de operación distintos, entonces se crean dos registros.
 
 **HU-03 · Registrar un pago a proveedor**
-- Dada una captura de Yape donde el titular que paga coincide con el nombre registrado, entonces se registra como salida, con categoría sugerida «mercadería» si el texto o la contraparte lo indican, o como pendiente si no.
+- Dada una captura de Yape con el encabezado «¡Yapeaste!» (D36), o una de Plin donde el titular que paga coincide con el nombre registrado, entonces se registra como salida, con categoría sugerida «mercadería» si el texto o la contraparte lo indican, o como pendiente si no.
 
 **HU-04 · Registrar ventas en efectivo por audio**
 - Dado el audio «vendí 3.50 de pan y 2 soles de gaseosa», entonces se crean dos ventas en efectivo con etiqueta «lo contaste tú».
@@ -602,16 +626,16 @@ Como bodeguera, quiero mandar la captura de cada Yape, para no anotar nada.
 - Dada la pregunta «¿me darán un préstamo?», entonces el chat no promete nada y explica que puede descargar su historial para mostrarlo.
 
 **HU-14 · Descargar el reporte**
-- Dado el periodo de 4 semanas y el PIN correcto, entonces recibe un PDF y un Excel con etiquetas y anexo de trazabilidad, y los nombres de clientes enmascarados [PROP].
+- Dado el periodo de 4 semanas y el PIN correcto, entonces recibe un PDF y un Excel con etiquetas y anexo de trazabilidad, y los clientes solo con sus iniciales (PR04).
 
 **HU-15 · Borrar mis datos**
 - Dado el mensaje «borra mis datos», entonces ALZA pide confirmación con botones y, si confirma, borra todo en 48 horas o menos y avisa.
 
 ---
 
-## 8. Arquitectura propuesta [PROP, se valida en la Fase 4]
+## 8. Arquitectura
 
-> El stack (lenguaje, base de datos, almacenamiento, cola y hosting) se define al trabajar en Claude Code y figura como insumo pendiente. Lo que sigue son referencias para esa conversación, no decisiones.
+> El stack quedó decidido al iniciar el desarrollo (D45). Hasta la Fase 10 de `FASES.md`, WhatsApp funciona con un canal simulado (D46).
 
 ### 8.1 Componentes
 
@@ -646,16 +670,18 @@ flowchart LR
 
 ### 8.2 Decisiones técnicas y por qué
 
-| Tema | Propuesta | Por qué | Alternativa |
-|---|---|---|---|
-| Lenguaje | TypeScript de punta a punta (web y servicio en el mismo repositorio). | Un solo lenguaje para un equipo pequeño. | Python (FastAPI) para el servicio, si el equipo de IA lo prefiere. |
-| Base de datos | Postgres administrado. | Relacional, con restricciones únicas para idempotencia y transacciones para el libro. | — |
-| Almacenamiento | Servicio de objetos compatible con S3, con cifrado del lado del servidor. | Barato y suficiente. | El que venga con la base de datos administrada. |
-| Cola | Cola sobre la misma base de datos. | Un componente menos que operar. | Redis, si se necesita más volumen. |
-| Tareas programadas | Un proceso que revisa cada 5 minutos qué usuarias llegaron a su hora de cierre, más tareas fijas a las 12:00, lunes y madrugada. | Hora de cierre distinta por usuaria. | — |
-| IA | Interfaz única con implementaciones por proveedor (sección 8.3). | D25: cambiar de gratuito a Sonnet sin reescribir. | — |
-| Imagen de resumen | Plantilla fija generada con código, sin IA (D26). Detalle en 8.6. | Montos exactos, costo cero, fácil de iterar con la línea gráfica. | — |
-| Despliegue | Plataforma con HTTPS automático y despliegue desde el repositorio. | Rapidez en la hackathon. | — |
+| Tema | Decisión (D45) | Por qué |
+|---|---|---|
+| Lenguaje | TypeScript en Node 24, de punta a punta (servidor y web en el mismo repositorio). | Un solo lenguaje para un equipo pequeño. |
+| Servidor | Hono: webhook, API web y autenticación. | Liviano y corre en Node. |
+| Base de datos | Postgres, con Drizzle para el esquema y las migraciones. | Relacional, con restricciones únicas para idempotencia y transacciones para el libro. |
+| Almacenamiento | Al inicio, archivos cifrados con AES-256-GCM dentro de Postgres, detrás de una interfaz de almacenamiento. | Un componente menos. La interfaz permite pasar a un servicio de objetos sin tocar el resto. |
+| Cola y tareas programadas | pg-boss, sobre la misma base de datos, en zona America/Lima. Una tarea cada 5 minutos revisa qué usuarias llegaron a su hora de cierre; las tareas fijas son las de 8.4. | Un componente menos que operar; hora de cierre distinta por usuaria. |
+| Web | Vite con React y Tailwind, con `docs/alza_mvp.html` como guía de diseño (D47). | Rápida de construir; el peso se controla contra RNF-06. |
+| IA | Interfaz única con implementaciones por proveedor (sección 8.3). | D25: cambiar de gratuito a Sonnet sin reescribir. |
+| Imagen de resumen | Plantilla fija generada con código, sin IA (D26). Detalle en 8.6. | Montos exactos, costo cero, fácil de iterar con la línea gráfica. |
+| WhatsApp | Interfaz de canal con un adaptador simulado; el adaptador de Meta se conecta al final (D46). | Avanzar sin depender de Meta. El simulado respeta el formato y los límites de Meta para que el cambio sea mecánico. |
+| Hosting | Railway, con Postgres, HTTPS automático y despliegue desde el repositorio. | Rapidez en la hackathon. |
 
 ### 8.3 Capa de IA
 
@@ -670,8 +696,20 @@ Interfaz que el resto del sistema usa. Cada función recibe datos y devuelve JSO
 | `interpretar_respuesta_cierre` | texto + dudas numeradas del mensaje | respuestas por número (sección 10.3) |
 | `chat` | mensaje + historial + herramientas | texto + acciones propuestas (sección 10.5) |
 
-- **Demo:** modelos gratuitos con visión y un servicio gratuito de transcripción. Solo datos del equipo o ficticios si el servicio puede usar los datos para entrenar.
-- **Producción:** Claude Sonnet (`claude-sonnet-5-5`) para visión, interpretación y chat. Si el modelo de producción no acepta audio directamente, se mantiene un servicio de transcripción aparte (verificar en https://docs.claude.com/en/api/overview).
+**Proveedores en la demo** (D33 a D35)
+
+| Función | Primero | Si no alcanza |
+|---|---|---|
+| `clasificar_imagen` y `extraer_captura` | OCR local (tesseract.js, en el servidor) y lectores por diseño: Yape (recibido y enviado), BBVA (transferencia y Plin), Bancom y Luqea. | Si el diseño no se reconoce, un modelo con visión de la rotación. Si tampoco se lee con seguridad, duda «ilegible». |
+| `transcribir_audio` | Whisper en Groq. | Gemini, que acepta audio (D34). |
+| `interpretar_texto`, `interpretar_respuesta_cierre` y `chat` | Modelos de texto de Groq y Gemini. | Cambio automático al siguiente de la rotación. |
+
+- **Cambio automático:** ante un límite de uso o un error, la llamada pasa al siguiente proveedor o llave de la rotación: Groq (1 llave) y Gemini (3 llaves, en proyectos de Google distintos). Si un proveedor falla varias veces seguidas, se deja de usar por un rato (cortacircuito) y luego se vuelve a probar.
+- **Entrada a la rotación:** cada modelo entra solo si pasa la evaluación de 17.2 con el dataset. Lo que más pesa es la tasa de montos inventados.
+- **Mismo contrato:** el OCR local y los lectores por diseño viven detrás de la misma interfaz y devuelven el mismo JSON validado que los modelos.
+- **Datos:** el dataset inicial lo fabricó el equipo, así que puede ir a modelos gratuitos. Los datos reales de usuarias nunca van a modelos gratuitos.
+- **Fuera:** Cerebras, porque no tiene capa gratuita (D35).
+- **Producción:** Claude Sonnet (`claude-sonnet-5-5`) para visión, interpretación y chat (D25). Claude acepta texto e imagen, pero no audio: en producción se mantiene un servicio de transcripción aparte.
 - Cada extracción guarda el modelo y la versión del prompt usados, para comparar y depurar.
 
 ### 8.4 Tareas programadas
@@ -688,7 +726,7 @@ Interfaz que el resto del sistema usa. Cada función recibe datos y devuelve JSO
 
 - **WhatsApp:** unos 60 mensajes de servicio al mes por usuaria activa. Los primeros 1.000 mensajes de servicio por número al mes son gratis; luego se cobra la tarifa de Perú. Los mensajes de ella nunca se cobran.
 - **IA:** gratis en la demo. En producción, medir costo por captura y por cierre en el piloto antes de proyectar.
-- **Infraestructura:** niveles gratuitos o de bajo costo durante la hackathon.
+- **Infraestructura:** Railway (D45), con niveles gratuitos o de bajo costo durante la hackathon.
 
 ### 8.6 Imagen de resumen [D26]
 
@@ -700,17 +738,18 @@ datos del cierre (JSON de la sección 10.3)
   → SVG
   → PNG (< 150 KB)
   → subir a WhatsApp como archivo (se obtiene un ID)
-  → enviar el mensaje de cierre con ese ID
+  → enviar el mensaje de cierre con ese ID y el texto como pie (D37)
 ```
 
 | Tema | Regla |
 |---|---|
-| Herramienta [PROP, Fase 4] | Plantilla tipo HTML convertida a SVG y luego a PNG con librerías livianas (por ejemplo, Satori y resvg en TypeScript), sin navegador. Si el PDF termina usando un navegador sin interfaz, se puede reutilizar para la imagen. |
+| Herramienta [PROP] | Plantilla tipo HTML convertida a SVG y luego a PNG con librerías livianas (por ejemplo, Satori y resvg en TypeScript), sin navegador. Si el PDF termina usando un navegador sin interfaz, se puede reutilizar para la imagen. |
 | Fuentes | Incluidas en el servidor; nunca se descargan de internet al generar. |
 | Emojis | Evitarlos dentro de la imagen; los íconos son dibujos de la plantilla. |
 | Textos largos | El nombre del negocio se corta con «…» si no entra. |
 | Montos | Mismo formato en toda la app (se define con la línea gráfica). Probado con S/0 a S/99 999 en cada campo. |
 | Privacidad | Se sube a WhatsApp y se envía por su ID; nunca se publica en una URL abierta. No se conserva en el servidor después del envío. |
+| Mensaje [D37, D50] | Mensaje de imagen con el texto del cierre como pie (máximo 1.024 caracteres) y el enlace de 7 días dentro del texto. No se usa el mensaje con botón y enlace: solo acepta una imagen por URL pública, lo que rompe la regla de privacidad. Las dudas que no quepan van a Pendientes en la web; la pregunta del cuadre y el enlace van siempre. |
 | Tiempo | Menos de 1 segundo por imagen. |
 | Si falla | El cierre sale solo en texto (RF-CI-10). |
 | Solo texto | Si ella eligió «sin imagen», no se genera (D27). |
@@ -897,6 +936,14 @@ acciones_propuestas (id uuid primary key, usuaria_id uuid not null, tipo text no
 reportes (id uuid primary key, usuaria_id uuid not null, periodo text not null, clave_pdf text, clave_xlsx text, at timestamptz not null);
 mensajes_salientes (id uuid primary key, usuaria_id uuid not null, tipo text not null, wa_message_id text, categoria_precio text, cobrable boolean, at timestamptz not null);
 alertas (id uuid primary key, usuaria_id uuid, tipo text not null, detalle jsonb, estado text not null, at timestamptz not null);
+
+-- Lista de espera de la landing (D43, D52): solo estos datos
+lista_espera (
+  id uuid primary key, nombre text not null, telefono_e164 text not null,
+  nombre_negocio text,               -- opcional
+  version_consentimiento text not null, at timestamptz not null,
+  borrar_desde timestamptz not null  -- 6 meses después, o antes si se la invita al piloto o lo pide
+);
 ```
 
 ### 9.2 Estados
@@ -978,8 +1025,9 @@ Procesamiento: validar firma, insertar en `mensajes_entrantes` (si `wa_message_i
 | `monto` | texto decimal | «12.50». El servidor lo convierte a céntimos. |
 | `medio` | texto | yape, plin, efectivo, transferencia, desconocido |
 | `nombre_contraparte` | texto o nulo | |
-| `nombre_titular_visible` | texto o nulo | Nombre de la cuenta que aparece como dueña en la captura |
-| `rol_titular` | texto | paga, recibe, desconocido |
+| `nombre_titular_visible` | texto o nulo | Nombre de la cuenta que aparece como dueña en la captura. En Yape es nulo: la pantalla no lo muestra (D36). |
+| `encabezado` | texto o nulo | Título de la pantalla, por ejemplo «¡Te Yapearon!» o «¡Yapeaste!» (D36). |
+| `rol_titular` | texto | paga, recibe, desconocido. En Yape sale del encabezado (D36). |
 | `fecha_hora` | ISO 8601 o nulo | |
 | `numero_operacion` | texto o nulo | |
 | `alcance` | texto | operacion, total_parcial, total_dia |
@@ -997,7 +1045,8 @@ Procesamiento: validar firma, insertar en `mensajes_entrantes` (si `wa_message_i
     "monto": "12.50",
     "medio": "yape",
     "nombre_contraparte": "Ana T.",
-    "nombre_titular_visible": "Marta Quispe",
+    "nombre_titular_visible": null,
+    "encabezado": "¡Te Yapearon!",
     "rol_titular": "recibe",
     "fecha_hora": "2026-11-08T10:42:00-05:00",
     "numero_operacion": "00000001",
@@ -1132,7 +1181,18 @@ Reglas del chat: no ejecuta cambios; no promete crédito; los datos de capturas 
 
 ### 11.2 Dirección del pago (entra o sale)
 
+**Yape** [D36]: la pantalla no muestra el nombre de la dueña de la cuenta. «¡Te Yapearon!» solo muestra a quien pagó; «¡Yapeaste!», solo a quien recibió. Por eso manda el encabezado, y el titular se compara solo cuando la pantalla lo muestra.
+
 ```
+# Yape con encabezado legible (D36)
+nombre_ok = coincide(nombre que muestra la pantalla, alguno de los titulares del negocio)
+
+si encabezado == "¡Yapeaste!" y nombre_ok      → entra   (pantalla del celular de un cliente que le pagó a ella)
+si encabezado == "¡Te Yapearon!" y nombre_ok   → pendiente + duda "direccion"
+si encabezado == "¡Te Yapearon!"               → entra
+si encabezado == "¡Yapeaste!"                  → sale
+
+# Plin, transferencias y Yape sin encabezado legible
 titular_ok = coincide(nombre_titular_visible, alguno de los titulares del negocio)   # principal + hasta 2 adicionales (D31)
 
 si titular_ok y rol_titular == "recibe"  → entra
@@ -1141,6 +1201,8 @@ si no titular_ok y la captura muestra que el destinatario es ella
                                          → entra   (pantalla del celular de un cliente)
 en cualquier otro caso                   → pendiente + duda "direccion"
 ```
+
+Si el encabezado y el nombre se contradicen, ALZA no adivina: crea la duda. Por ejemplo, un «¡Te Yapearon!» cuyo pagador es su propio nombre registrado queda pendiente con duda «direccion».
 
 `coincide(a, b)`: ambos en minúsculas y sin tildes; coinciden si el primer nombre es igual y la inicial del primer apellido también, o si comparten al menos dos palabras. Yape y Plin suelen mostrar nombres abreviados («Marta Q.»).
 
@@ -1201,7 +1263,7 @@ Un total nunca se suma encima de lo registrado (D03).
 | Total del día **sin medio** («hoy vendí 150») | No suma. Duda `total_ambiguo`: «¿Es todo el día o solo efectivo?». |
 | Total en **efectivo** T, con efectivo anotado A, y T > A | [PR09] Se registra la diferencia T − A como venta en efectivo «sin detalle», y el cierre lo avisa en una línea informativa (12.1). |
 | Total en **efectivo** T con T < A | No suma. Duda: «Anotaste S/A en efectivo pero dijiste S/T. ¿Cuál es correcto?». |
-| Total **digital** T con capturas C, T > C | No suma. Se avisa en el cierre: «Faltan S/(T − C) en capturas. Si quieres, manda tu lista de movimientos». |
+| Total **digital** T con capturas C, T > C | No suma. El cierre lo avisa en una línea informativa, fuera de las 5 dudas [D40]: «Faltan S/(T − C) en capturas. Si quieres, manda tu lista de movimientos». |
 | Total **digital** T ≤ C | Manda la evidencia. No se hace nada. |
 | Respuesta «es todo el día» a un total ambiguo T, con «entró» E | Si T > E, la diferencia se registra como venta «sin detalle» en medio desconocido; si T ≤ E, no se hace nada. |
 
@@ -1283,8 +1345,9 @@ ALZA no estima ventas en efectivo (D08). Si ella dice «vendí como 50 más que 
 
 - A igual prioridad, primero el monto mayor.
 - El mensaje lleva como máximo 5 dudas; el cuadre va siempre al final y no cuenta dentro de las 5 [PR08].
+- Largo del mensaje [D37, D50]: con imagen, el texto del cierre es el pie y no puede pasar de 1.024 caracteres; con «solo texto», el mensaje de texto no puede pasar de 4.096. En ambos casos, las dudas se agregan en orden de prioridad mientras quepan, y la pregunta del cuadre y el enlace van siempre.
 - Las dudas que no entran pasan a Pendientes en la web y no impiden un cierre completo [PR10].
-- Las líneas informativas (PR03 y PR09) no son dudas: van antes de la lista y no cuentan dentro de las 5.
+- Las líneas informativas (PR03, PR09, D28 y D40) no son dudas: van antes de la lista y no cuentan dentro de las 5.
 
 ### 11.9 Niveles de cierre
 
@@ -1302,7 +1365,7 @@ a las 12:00 del día siguiente:
 ```
 
 - Si después de las 12:00 ella resuelve lo pendiente en la web, se guarda `nivel_mejorado`, pero los puntos no cambian (D17).
-- [PR16] El cierre solo se envía si ese día hay al menos un registro o una duda. Si ella solo pidió el enlace, no hay cierre.
+- [PR16] El cierre solo se envía si ese día hay al menos un registro o una duda. Si ella solo pidió el enlace, no hay cierre. Si escribe «cierre» en un día así, recibe WA-21 [D39].
 
 ### 11.10 Lista de movimientos
 
@@ -1322,7 +1385,8 @@ para cada fila de la lista:
 
 - Va dentro del mensaje de cierre del domingo; si ese día no hubo cierre, en el primero siguiente. Siempre está en la web.
 - **Contenido:** entró (digital y efectivo), salió (mercadería, gastos, casa), te quedó, días completos, parciales y sin cierre, puntos ganados en la semana, racha y comodines usados.
-- **Comparación** con la semana anterior solo si ambas tienen al menos 4 cierres completos [PR02]. Si no: «Esta semana no comparo porque faltaron cierres completos».
+- **Qué cuenta el domingo** [D38]: los montos suman de lunes a domingo; los cierres se cuentan de lunes a sábado, porque son los que ya son finales (el del domingo recién es final a las 12:00 del lunes).
+- **Comparación** con la semana anterior solo si ambas tienen al menos 4 cierres completos [PR02], con los conteos de D38. Si no: «Esta semana no comparo porque faltaron cierres completos».
 
 ### 11.12 Casos límite
 
@@ -1345,7 +1409,7 @@ para cada fila de la lista:
 | 15 | Escribe «web» | Responde con su enlace de 7 días. |
 | 16 | Escribe «olvidé mi PIN» | Responde con enlace de activación de 1 hora. |
 | 17 | Escribe «borra mis datos» | Pide confirmación con botones (sección 12.1). |
-| 18 | Escribe «cierre» cuando ya tiene el cierre de hoy sin responder | Responde: «Tu cierre de hoy está más arriba 👆». |
+| 18 | Escribe «cierre» cuando ya tiene el cierre de hoy sin responder | Responde WA-22: «Tu cierre de hoy está más arriba 👆» (D49). |
 | 19 | Responde el cierre a las 11:50 del día siguiente | Válido con puntos. |
 | 20 | Responde el cierre a las 12:30 del día siguiente | Se aplica; `nivel_mejorado`; sin puntos; responde «Lo anoté. Como pasó la hora, ya no suma puntos». |
 | 21 | Un audio de las 20:59 llega a las 21:05, después del mensaje de cierre | Se registra en el día; si el cierre no fue respondido, se agrega a su resumen al confirmar; si ya fue respondido, PR03. |
@@ -1355,12 +1419,13 @@ para cada fila de la lista:
 | 25 | Marca por tercera vez como personal un Yape de «Carlos R.» | La web le ofrece la regla para esa contraparte; solo se aplica si acepta (PR14). |
 | 26 | Con S/95 anotados, dice «hoy vendí 200 en efectivo» y luego anota «vendí 5 de pan» | +S/105 sin detalle por el total y +S/5 por la nueva venta (PR09). |
 | 27 | Escribe «sin imagen» | Cambia su preferencia sin responder. El siguiente cierre llega solo en texto y lo confirma en una línea: «Desde hoy tu resumen va solo en texto. Para volver a la imagen, escribe “con imagen”» (D27). |
-| 28 | Tercera captura ilegible seguida en su primera semana | Consejo WA-19, como máximo una vez al día (D28). |
+| 28 | Tercera captura ilegible seguida en sus primeras 2 semanas | Consejo WA-19, como máximo una vez al día (D28, D42). |
 | 29 | «Me están amenazando para que pague un cupo» | Una sola respuesta WA-20; sin seguimiento (D28). |
 | 30 | Alguien falla 5 veces el PIN en la web | Bloqueo de 15 minutos y una línea de aviso en el siguiente cierre (D28). |
 | 31 | Yape recibido a las 00:30 de la noche del sábado | Cuenta para el sábado (D12). |
 | 32 | La dueña reenvía capturas que le mandó su hijo | Se procesan igual que si ella las hubiera tomado (D31). |
 | 33 | Cobro recibido en el Yape de su esposo, declarado como titular adicional | Entra como venta (D31). |
+| 34 | Escribe «cierre» y el día no tiene registros ni dudas | Responde WA-21; no se envía cierre (PR16, D39). |
 
 ---
 
@@ -1382,7 +1447,7 @@ Los textos son borradores. Deben revisarse con el tono de la línea gráfica y p
 > ¡Gracias! ¿Cómo se llama tu negocio?
 
 **WA-04 · Titular**
-> ¿A nombre de quién está tu Yape o Plin? Escríbelo como aparece en la app. También puedes mandarme la captura de un Yape que te hayan hecho.
+> ¿A nombre de quién está tu Yape o Plin? Escríbelo como aparece en la app.
 
 **WA-05 · Hora de cierre** (botones: «8 pm», «9 pm», «10 pm»; puede escribir otra hora, hasta las 2 a. m.)
 > ¿A qué hora cierras normalmente? A esa hora te mando tu resumen.
@@ -1395,16 +1460,19 @@ Los textos son borradores. Deben revisarse con el tono de la línea gráfica y p
 > A las {hora} te mando tu resumen del día. Llega como imagen; si prefieres solo texto, escribe «sin imagen».
 > Crea tu PIN para ver tu negocio en la web (este enlace dura 1 hora): {enlace_activacion}
 
-**WA-07 · Primera captura** [PR01]
-> ✅ Así lo anoté: venta por Yape de S/{monto}. Desde ahora, en silencio hasta tu cierre.
+**WA-07 · Primera captura** [PR01, D41]
+> ✅ Así lo anoté: {tipo} por {medio} de S/{monto}. Desde ahora, en silencio hasta tu cierre.
 
-**WA-10 · Cierre del día** (imagen + texto + botón «Ver mi semana», o enlace dentro del texto)
+{tipo} y {medio} son los reales de esa captura: «venta por Plin», «pago por Yape». Si la primera captura no se lee, se confirma la primera que sí se lea.
+
+**WA-10 · Cierre del día** (imagen subida por su ID, con este texto como pie de hasta 1.024 caracteres y el enlace dentro del texto; sin botón [D37]. Con «solo texto», va como mensaje de texto de hasta 4.096 caracteres [D50])
 > 📒 Tu cierre del {día}
 > Entró: S/{entro} (Yape y Plin S/{digital}, efectivo S/{efectivo})
 > Salió: S/{salio} ({desglose})
 > {si aplica PR09: «Ojo: anotaste S/{anotado} en efectivo pero dijiste que vendiste S/{total}. Registré S/{diferencia} más. Si no es así, dímelo en tu respuesta.»}
 > {si aplica PR03: «Agregaste S/{monto} al {día} después de su cierre.»}
 > {si aplica D28: «Alguien intentó entrar a tu web con un PIN incorrecto. Si no fuiste tú, cambia tu PIN.»}
+> {si aplica D40: «Faltan S/{diferencia} en capturas. Si quieres, manda tu lista de movimientos.»}
 >
 > Tengo {n} dudas:
 > 1️⃣ {duda_1}
@@ -1415,7 +1483,9 @@ Los textos son borradores. Deben revisarse con el tono de la línea gráfica y p
 > {si hay dudas en la web: «Tienes {k} cosas más por revisar en la web.»}
 > Ver todo (vale 7 días): {enlace_7d}
 
-Variante sin dudas: se omite la lista y queda solo la pregunta del cuadre. Variante domingo: se agrega antes del enlace un bloque «📅 Tu semana: entró S/…, salió S/…, te quedó S/…, {k} cierres completos».
+Variante sin dudas: se omite la lista y queda solo la pregunta del cuadre. Variante domingo: se agrega antes del enlace un bloque «📅 Tu semana: entró S/…, salió S/…, te quedó S/…, {k} cierres completos» (conteos según D38).
+
+Las dudas que no quepan (1.024 caracteres con imagen, 4.096 con «solo texto») pasan a la web y se suman a «Tienes {k} cosas más por revisar en la web». La pregunta del cuadre y el enlace van siempre (D37, D50).
 
 **WA-11 · Aclaración** (máximo 2)
 > No entendí el punto {n}: {pregunta}. ¿Me lo dices de nuevo?
@@ -1449,9 +1519,15 @@ Variante sin dudas: se omite la lista y queda solo la pregunta del cuadre. Varia
 **WA-20 · Peligro** (D28)
 > No puedo ayudarte con esto en tiempo real. Si estás en peligro, llama al 105. Si sufres violencia, la Línea 100 te orienta gratis.
 
+**WA-21 · Cierre sin registros** (D39)
+> Hoy todavía no tengo nada anotado. Cuando me mandes tus capturas o ventas, te armo tu cierre.
+
+**WA-22 · Cierre ya enviado** (D49; caso límite 18)
+> Tu cierre de hoy está más arriba 👆
+
 ### 12.2 Pantallas web
 
-Contenido y comportamiento; el estilo lo define la línea gráfica.
+Contenido y comportamiento; el estilo lo define la línea gráfica. Mientras llega, la guía de diseño es `docs/alza_mvp.html`, incluido el botón para ocultar montos (D47).
 
 **Activación y PIN**
 ```
@@ -1658,6 +1734,7 @@ Marco: Ley 29733 de Protección de Datos Personales y su reglamento (D.S. 016-20
   - contacto.
 - El consentimiento se guarda con la **versión del texto**. Si el texto cambia de forma relevante, se vuelve a pedir.
 - Compartir el reporte es una decisión de ella en cada descarga; la pantalla lo explica.
+- **Lista de espera de la landing** [D52]: la línea de consentimiento va junto al formulario y se guarda su versión.
 
 ### 14.2 Minimización y retención
 
@@ -1666,6 +1743,7 @@ Marco: Ley 29733 de Protección de Datos Personales y su reglamento (D.S. 016-20
 | Imágenes y audios originales | 30 días [PR07], luego se borran; quedan los datos extraídos. |
 | Registros, cierres, puntos | Mientras la cuenta exista. |
 | Enlaces de acceso vencidos | Se borran a diario. |
+| Lista de espera de la landing [D52] | Solo nombre, teléfono, nombre del negocio (opcional), versión del consentimiento y fecha. Hasta 6 meses o hasta que se la invite al piloto; se borra antes si lo pide. |
 | Cuenta borrada a pedido | Todo en 48 horas o menos; queda solo un registro anónimo de que la cuenta existió y se borró. |
 
 - **Nombres de clientes:** se guardan para mostrar y comparar; en el reporte solo aparecen sus iniciales [PR04].
@@ -1733,21 +1811,27 @@ Marco: Ley 29733 de Protección de Datos Personales y su reglamento (D.S. 016-20
 
 | Integración | Estado | Uso | Restricciones conocidas |
 |---|---|---|---|
-| WhatsApp Cloud API, número de prueba (D24) | Confirmada para la demo | Recibir y enviar mensajes, marcar como leído, descargar medios. | Máximo 5 destinatarios verificados. Token temporal de 24 h; hay que crear uno permanente. Ventana de 24 h para responder. Medios con enlaces que caducan. Términos de enero de 2026 sobre proveedores de IA. |
+| WhatsApp Cloud API, número de prueba (D24) | Confirmada para la demo; se conecta al final del desarrollo, con canal simulado hasta entonces (D46) | Recibir y enviar mensajes, marcar como leído, descargar medios. | Máximo 5 destinatarios verificados. Token temporal de 24 h; hay que crear uno permanente. Ventana de 24 h para responder. Medios con enlaces que caducan. Términos de enero de 2026 sobre proveedores de IA. El mensaje con botón y enlace solo acepta una imagen por URL pública y 1.024 caracteres de texto; el pie de una imagen también admite 1.024 (D37). Un mensaje de texto admite 4.096 (D50). |
 | Precios de WhatsApp (Meta, desde octubre de 2026) | Verificado | Costeo. | 1.000 mensajes de servicio gratis por número al mes; luego tarifa de Perú. Mensajes de la usuaria gratis. |
-| Modelos de IA gratuitos (D25) | Confirmada para la demo | Visión, transcripción, interpretación, chat. | Calidad menor y posibles condiciones de uso de datos. |
-| Claude Sonnet (`claude-sonnet-5-5`) (D25) | Producción | Visión, interpretación y chat. | Verificar si acepta audio; si no, transcripción aparte. |
-| Base de datos, almacenamiento y hosting | Propuesta (sección 8) | Operación. | Definir en la Fase 4. |
+| OCR local con tesseract.js (D33) | Confirmada | Primer paso para leer capturas, junto con los lectores por diseño. | Corre en el servidor, con los datos del idioma español incluidos; no envía nada a terceros. |
+| Groq (D34, D35) | Confirmada para la demo | Whisper para transcribir audio; modelos de texto para interpretar y para el chat. | 1 llave. Límites de la capa gratuita; cambio automático a Gemini. Cada modelo entra a la rotación solo si pasa 17.2. |
+| Gemini (D33 a D35) | Confirmada para la demo | Visión cuando el diseño de la captura no se reconoce, respaldo de audio, texto y chat. | 3 llaves en proyectos de Google distintos. Límites de la capa gratuita. Cada modelo entra a la rotación solo si pasa 17.2. |
+| Cerebras | Descartada (D35) | — | No tiene capa gratuita. |
+| Claude Sonnet (`claude-sonnet-5-5`) (D25) | Producción | Visión, interpretación y chat. | Acepta texto e imagen, pero no audio: hace falta un servicio de transcripción aparte. |
+| Railway (D45) | Confirmada | Hosting del servidor y la web, con Postgres y HTTPS. | Al inicio, los archivos van cifrados dentro de Postgres (8.2). |
 | APIs de Yape, Plin o BCP | **No disponibles** | — | Integración futura condicionada a acuerdos. |
 | Finanzas abiertas de la SBS | Futuro (operativas hacia 2028 según la investigación) | Lectura de movimientos con consentimiento. | Reglamento en consulta. |
 | Mentores del BCP | Dependencia | Validar textos de recomendaciones. | — |
-| Logos de Yape y Mibanco | Dependencia | Pantalla de descarga (PR05). | Requieren autorización de las marcas, vía los organizadores. Sin ella, solo texto. |
+| Logos de Yape y Mibanco | Autorizados (D44) | Pantalla de descarga (PR05). | — |
+| Logos de CIX, UTEC Ventures y Credicorp | Autorizados (D44) | Landing (D43), con CIX destacado. | — |
 | Aliados para premios | Hipótesis (H07) | Financiar el catálogo real. | — |
 | Línea gráfica | En curso, otro equipo | Imagen de resumen, web, PDF, tono. | Coordinar entregables (insumos, sección 9). |
 
 ---
 
 ## 16. Plan de implementación
+
+> **Plan vigente:** `FASES.md` (fases 0 a 11), con tareas y criterios de «listo cuando». Los hitos de abajo quedan como referencia. A diferencia de H0, WhatsApp real (Meta) se conecta al final, en la Fase 10; hasta entonces se usa un canal simulado (D46).
 
 Sin fechas: la duración de la hackathon se confirma sobre la marcha. Roles genéricos: **Backend**, **IA**, **Web**, **Producto y pitch**, **Diseño**.
 
@@ -1868,17 +1952,18 @@ La métrica más importante es la de montos inventados: un error que ALZA no det
 | La respuesta al cierre en un solo mensaje se interpreta mal. | Medio | Media | Formato sugerido, dataset de respuestas, 2 aclaraciones máximo. |
 | «Sí cuadra» automático para sumar puntos. | Medio | Media | Puntos modestos, alertas, premios grandes con revisión. |
 | Las recomendaciones de productos se leen como promesa de crédito. | Alto | Baja | Textos validados, «Conoce opciones…», solo en la pantalla de descarga. |
-| Uso de logos sin autorización. | Medio | Media | Pedir autorización; sin ella, solo texto. |
+| Uso de logos sin autorización. | Medio | Baja | Autorización obtenida (D44); usar solo los logos autorizados. |
 | Nombres de clientes en reportes compartidos. | Medio | Media | Solo iniciales (PR04). |
 | Datos reales en modelos gratuitos que entrenan con ellos. | Alto | Baja | Solo datos del equipo o ficticios en la demo. |
 | Límites del número de prueba de Meta (5 destinatarios, token). | Medio | Alta | Planificar los números de la demo; token permanente. |
-| El mensaje con imagen y botón con enlace no funciona como se espera. | Bajo | Media | Enlace dentro del texto como alternativa. |
+| Conectar Meta al final revela límites tarde. | Medio | Media | Canal simulado con el formato y los límites de Meta (D46). |
+| El texto del cierre no cabe en los 1.024 caracteres del pie de la imagen. | Bajo | Media | Entran las dudas que quepan; el resto va a Pendientes en la web. El cuadre y el enlace van siempre (D37, D50). |
 | Costo de WhatsApp en producción. | Medio | Alta | Mensaje único, silencio, web para lo demás. |
 | La imagen de resumen queda en la galería familiar. | Bajo | Alta | Opción «solo texto» y ayuda para que no se guarde en la galería (D27). |
 
 ### 18.2 Preguntas abiertas
 
-No quedan preguntas abiertas de producto. Lo pendiente son insumos (`ALZA_INSUMOS_PENDIENTES.md`) y las decisiones técnicas de la Fase 4.
+No quedan preguntas abiertas de producto. Lo pendiente son insumos (`ALZA_INSUMOS_PENDIENTES.md`). El stack ya está decidido (D45) y el orden de trabajo está en `FASES.md`.
 
 ### 18.3 Análisis de vacíos
 
@@ -1905,7 +1990,7 @@ No quedan preguntas abiertas de producto. Lo pendiente son insumos (`ALZA_INSUMO
 
 **Dependencias externas**
 - Meta (número de prueba, límites, cambios de precios o términos).
-- Proveedores de IA (gratuitos para la demo, Anthropic para producción).
+- Proveedores de IA (Groq y Gemini para la demo, Anthropic para producción).
 - Mentores del BCP y equipo de línea gráfica.
 
 ### 18.4 Documentos que conviene separar más adelante
@@ -1952,3 +2037,4 @@ Palabras que ella ve en WhatsApp y en la web. La palabra «ganancia» no se usa.
 | 8 nov 2026 | 1.3 | D26 (imagen con plantilla y código, sin IA) y D27 (opción «solo texto» y ayuda para la galería). Nueva sección 8.6. |
 | 8 nov 2026 | 1.4 | Cierre de preguntas abiertas: D12 actualizada (día del negocio de 4:00 a 3:59), D28 (más excepciones al silencio), D29 (vencimiento de puntos), D30 (solo español) y D31 (titulares adicionales). Fin de la fase de descubrimiento. |
 | 8 nov 2026 | 1.5 | D32 (código en inglés). El stack pasa a insumo pendiente para Claude Code. |
+| 8 nov 2026 | 1.6 | Inicio del desarrollo, D33 a D52: lectura de capturas con OCR local y modelo con visión de respaldo (D33); audio con Whisper en Groq y Gemini de respaldo (D34); Groq y Gemini con cambio automático, Cerebras fuera (D35); dirección en Yape por el encabezado (D36, cambia 11.2 y 10.2); cierre como imagen por ID con el texto como pie de 1.024 caracteres y sin botón (D37, cambia 8.6 y WA-10); conteos del resumen del domingo (D38); WA-21 para «cierre» sin registros (D39); «Faltan S/X en capturas» como línea informativa (D40); WA-07 con tipo y medio reales (D41); caso límite 28 en 2 semanas (D42); landing (D43); logos autorizados (D44, cierra la condición de PR05); stack (D45, sección 8 decidida); WhatsApp real al final (D46); web guiada por `docs/alza_mvp.html` (D47); titular solo escrito en el alta, RF-ON-05 fuera del MVP y WA-04 sin la opción de captura (D48); WA-22 para el caso límite 18 (D49); largo del cierre con 1.024 o 4.096 caracteres, con cuadre y enlace siempre (D50, precisa D37); RF-WP-11 para ocultar montos (D51); datos y retención de la lista de espera, con tabla en 9.1 y fila en 14.2 (D52). HU-14 sin [PROP] (ya es PR04). Plan de trabajo en `FASES.md`. |

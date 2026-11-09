@@ -1,17 +1,17 @@
 # ALZA · Insumos, accesos y dependencias
 
-Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y demostrar el MVP. Marca `[x]` cuando esté listo y anota el responsable de cada sección. Las decisiones de producto viven en `ALZA_PRODUCT_SPEC.md`.
+Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y demostrar el MVP. Marca `[x]` cuando esté listo y anota el responsable de cada sección. Las decisiones de producto viven en `ALZA_PRODUCT_SPEC.md`; el plan de desarrollo, en `FASES.md`.
 
 - **Prioridad:** P0 = bloquea el MVP o la demo · P1 = necesario para la calidad · P2 = deseable o posterior a la hackathon
-- **Última actualización:** 8 de noviembre de 2026 (cierre de la fase de descubrimiento)
+- **Última actualización:** 8 de noviembre de 2026 (inicio del desarrollo, spec v1.6)
 
 ---
 
 ## Bloqueantes (P0) de un vistazo
 
-- [ ] Número de prueba de WhatsApp funcionando con webhook (sección 1)
-- [ ] Stack definido en Claude Code (sección 8)
-- [ ] Modelo gratuito con visión y transcripción de audio funcionando (sección 5)
+- [ ] Número de prueba de WhatsApp funcionando con webhook (sección 1). Se conecta al final del desarrollo (D46).
+- [x] Stack definido en Claude Code (sección 8): D45.
+- [ ] Modelo gratuito con visión y transcripción de audio funcionando (sección 5). Ya elegidos: Gemini y Groq (D33 a D35); falta que funcionen y pasen la evaluación.
 - [ ] Dataset de capturas de Yape y Plin con respuestas correctas (sección 2)
 - [ ] Dataset de audios y textos con respuestas correctas (sección 3)
 - [ ] Texto de consentimiento y aviso de privacidad (sección 6)
@@ -24,6 +24,7 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 ## 1. WhatsApp (Meta)
 
 **Decidido:** número de prueba de la Cloud API, creado con una cuenta personal de Facebook (D24). Gratis, hasta 5 destinatarios verificados.
+**Cuándo:** se conecta al final del desarrollo (D46, Fase 10 de `FASES.md`). Hasta entonces se usa un canal simulado con el mismo formato de mensajes y los mismos límites de Meta.
 **Responsable de la sección:** ___
 
 - [ ] **P0** Cuenta personal de Facebook del responsable técnico, con verificación en dos pasos.
@@ -35,7 +36,7 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 - [ ] **P0** URL pública con HTTPS para el webhook, token de verificación y validación de firma con el secreto de la app.
 - [ ] **P1** Prueba de recepción de imagen, audio y texto.
 - [ ] **P1** Prueba de "marcar como leído" (doble check azul).
-- [ ] **P1** Prueba del mensaje único de cierre: imagen + texto + botón con enlace en un solo mensaje. Si no se puede, imagen con el enlace dentro del texto.
+- [ ] **P1** Prueba del mensaje único de cierre: imagen por su ID, con el texto como pie (hasta 1.024 caracteres) y el enlace dentro del texto (D37). El botón con enlace queda descartado: solo acepta una imagen por URL pública.
 - [ ] **P1** Prueba de subida de una imagen a WhatsApp y envío por su ID, sin URL pública.
 - [ ] **P1** Confirmar que las descargas de medios (imágenes y audios) funcionan apenas llega el mensaje, porque los enlaces de Meta caducan.
 - [ ] **P2** Revisar los términos de WhatsApp Business (actualizados el 15 de enero de 2026) sobre proveedores de IA y dejar por escrito por qué ALZA no es un asistente de propósito general.
@@ -47,7 +48,8 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 
 **Para qué:** construir la extracción y medir su exactitud. Cada captura necesita su respuesta correcta (formato al final).
 **Cómo conseguirlas sin datos de terceros:** el equipo se envía montos pequeños (por ejemplo S/1) entre sus propias cuentas, desde distintos bancos, y captura cada pantalla. El dinero solo circula dentro del equipo y, al ser datos propios, pueden usarse con modelos gratuitos.
-**Carpeta:** se asigna al trabajar en Claude Code (por ejemplo, `dataset/capturas/`).
+**Carpeta:** `datasets/` (`yape-imgs/`, `plin-imgs/`, `bancon-imgs/`, `luqea-imgs/`).
+**Estado:** dataset inicial con 2 Yape (1 recibido, 1 enviado), 6 Plin y transferencias (BBVA 3, Bancom 2, Luqea 1) y 3 audios (sección 3). Son datos fabricados por el equipo, así que pueden usarse con modelos gratuitos. Falta la hoja de respuestas correctas.
 **Responsable de la sección:** ___
 
 - [ ] **P0** Datos para armar la matriz de envíos: quién del equipo tiene Yape, quién tiene Plin y en qué bancos.
@@ -76,7 +78,7 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 ## 3. Dataset de audios y textos
 
 **Para qué:** probar la interpretación de ventas en efectivo, gastos, correcciones y respuestas al cierre.
-**Carpeta:** se asigna al trabajar en Claude Code (por ejemplo, `dataset/audios/` y `dataset/textos/`).
+**Carpeta:** `datasets/audios/` (3 audios por ahora). La carpeta de textos está por crear.
 **Responsable de la sección:** ___
 
 - [ ] **P0** ≥ 30 audios de 3 a 20 segundos, con al menos 4 voces distintas y ruido real de bodega (televisión, calle, clientes).
@@ -126,17 +128,18 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 
 ## 5. Inteligencia artificial
 
-**Decidido:** modelos gratuitos para la demo; Claude Sonnet (`claude-sonnet-5-5`) en producción (D25).
+**Decidido:** modelos gratuitos para la demo; Claude Sonnet (`claude-sonnet-5-5`) en producción (D25). En la demo, OCR local primero (D33), y Groq y Gemini con cambio automático (D34, D35).
+**Descartado:** Cerebras, porque no tiene capa gratuita (D35).
 **Responsable de la sección:** ___
 
-- [ ] **P0** Elegir el modelo gratuito con visión para leer capturas.
-- [ ] **P0** Elegir el servicio gratuito de transcripción de audio.
+- [x] **P0** Elegir el modelo gratuito con visión para leer capturas: Gemini y Groq, como respaldo del OCR local (D33). Cada modelo entra a la rotación solo si pasa la evaluación (3.1).
+- [x] **P0** Elegir el servicio gratuito de transcripción de audio: Whisper en Groq, con Gemini de respaldo (D34).
 - [ ] **P0** Revisar si los servicios gratuitos usan los datos enviados para entrenar. Si es así, **solo datos del equipo o ficticios**, nunca de bodegueras reales.
-- [ ] **P0** Llaves de API guardadas como secretos (no en el código).
+- [x] **P0** Llaves de API guardadas como secretos (no en el código): en `.env`, fuera del repositorio. 3 llaves de Gemini (proyectos de Google distintos) y 1 de Groq.
 - [ ] **P1** Capa de IA intercambiable: cambiar de modelo gratuito a Sonnet debe ser un cambio de configuración.
 - [ ] **P1** Medir con los datasets: exactitud de monto, dirección y fecha; ilegibles bien detectados; tiempo por mensaje.
 - [ ] **P2** Para el piloto con usuarias reales: cuenta en la API de Anthropic, límite de gasto y revisión de las condiciones de datos.
-- [ ] **P2** Verificar si Sonnet acepta audio directamente o si se mantiene un servicio de transcripción aparte (documentación: https://docs.claude.com/en/api/overview).
+- [x] **P2** Verificar si Sonnet acepta audio directamente o si se mantiene un servicio de transcripción aparte: Claude acepta texto e imagen, pero no audio. En producción se mantiene un servicio de transcripción aparte (spec 8.3).
 - [ ] **P2** Comparar Sonnet contra el modelo gratuito con el mismo dataset, para el argumento de producción.
 
 ---
@@ -147,6 +150,7 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 
 - [ ] **P0** Texto de consentimiento para WhatsApp, corto, con enlace a la política completa.
 - [ ] **P0** Política de privacidad: qué datos se tratan, para qué, quién los procesa, transferencia internacional (IA y nube) y por cuánto tiempo.
+- [ ] **P1** Línea de consentimiento para la lista de espera de la landing, junto al formulario (D52).
 - [ ] **P1** Implementar la retención decidida: borrar imágenes y audios originales a los 30 días (PR07).
 - [ ] **P1** Procedimiento para que la usuaria pida acceso, corrección o borrado de sus datos.
 - [x] **P1** Criterio para nombres de clientes en reportes: solo iniciales (PR04).
@@ -176,18 +180,19 @@ Lista de todo lo que hay que **conseguir** (no decidir) para construir, probar y
 
 ---
 
-## 8. Infraestructura (se define en la Fase 4)
+## 8. Infraestructura
 
+**Decidido (D45):** TypeScript (Node 24), Hono, pg-boss, Postgres con Drizzle, Vite con React y Tailwind, hosting en Railway. Detalle en la sección 8.2 de la especificación.
 **Responsable de la sección:** ___
 
-- [ ] **P0** Definir el stack en Claude Code: lenguaje, base de datos, almacenamiento, cola y hosting. La sección 8 de la especificación tiene propuestas de referencia.
+- [x] **P0** Definir el stack en Claude Code: lenguaje, base de datos, almacenamiento, cola y hosting (D45).
 - [ ] **P1** Completar en `CLAUDE.md` la sección «Por completar» (stack, comandos, estructura del repositorio y convenciones) cuando se definan.
 
-- [ ] **P0** Servidor con HTTPS para el webhook, la API y la web.
-- [ ] **P0** Base de datos.
-- [ ] **P0** Almacenamiento cifrado de archivos.
-- [ ] **P0** Cola de trabajos para procesar mensajes.
-- [ ] **P0** Tareas programadas: cierre a la hora de cada usuaria, vencimiento a las 12:00, inicio de semana, limpieza de archivos.
+- [ ] **P0** Servidor con HTTPS para el webhook, la API y la web (Railway).
+- [ ] **P0** Base de datos (Postgres en Railway).
+- [ ] **P0** Almacenamiento cifrado de archivos (al inicio, AES-256-GCM dentro de Postgres).
+- [ ] **P0** Cola de trabajos para procesar mensajes (pg-boss).
+- [ ] **P0** Tareas programadas: cierre a la hora de cada usuaria, vencimiento a las 12:00, inicio de semana, limpieza de archivos (pg-boss).
 - [ ] **P1** Generación de la imagen de resumen con plantilla y código, sin IA (D26): menos de 150 KB, fuentes incluidas y menos de 1 segundo por imagen.
 - [ ] **P1** Generación del reporte PDF y del Excel en el servidor.
 - [ ] **P1** URL de la web y enlaces de acceso.
@@ -270,6 +275,7 @@ Va dentro del mensaje de cierre; es lo primero que ella ve cada noche.
 - [ ] **P1** Enlace a pedido, «olvidé mi PIN», borrado de datos, problema técnico.
 - [ ] **P1** Línea del alta sobre «sin imagen» y aviso en el cierre cuando cambia a solo texto (D27).
 - [ ] **P1** Ayuda en la web: cómo evitar que WhatsApp guarde en la galería las imágenes de este chat, en Android y en iPhone (verificar los pasos en la versión actual).
+- [ ] **P1** Respuesta a «cierre» cuando el día no tiene registros ni dudas (WA-21, D39).
 - [ ] **P1** Consejo para capturas ilegibles y respuesta ante un mensaje de peligro con el 105 y la Línea 100 (D28). Verificar que ambos números sigan vigentes antes de publicar.
 - [ ] **P1** Línea de alerta de seguridad en el cierre cuando alguien falla 5 veces el PIN (D28).
 - [ ] **P1** Textos de la web (botones, etiquetas, mensajes de error y pantallas vacías).
@@ -299,7 +305,7 @@ Va dentro del mensaje de cierre; es lo primero que ella ve cada noche.
 - [ ] **P1** Plantilla del reporte PDF: resumen, gráfico simple, etiquetas y anexo de trazabilidad.
 - [ ] **P1** Estructura del Excel: hojas de movimientos, cierres, ajustes y trazabilidad.
 - [ ] **P1** Texto de recomendación («Conoce opciones para tu negocio en Yape y Mibanco») validado con mentores del BCP.
-- [ ] **P1** Autorización para usar los logos de Yape y Mibanco en la pantalla de descarga, gestionada con los organizadores. Sin autorización, solo texto.
+- [x] **P1** Autorización para usar los logos de Yape y Mibanco en la pantalla de descarga, gestionada con los organizadores: autorizados (D44). También los de CIX, UTEC Ventures y Credicorp para la landing (D43).
 - [ ] **P1** Fuente vigente de las condiciones de cada producto recomendado.
 
 ---
@@ -353,3 +359,4 @@ Una fila por captura, audio o texto. Sirve para medir la extracción de forma au
 - **8 nov 2026:** imagen generada con plantilla y código (D26) y opción «solo texto» (D27).
 - **8 nov 2026:** stack como insumo pendiente para Claude Code y `CLAUDE.md` por completar.
 - **8 nov 2026:** cierre de preguntas abiertas: textos de excepciones (D28), vencimiento de puntos (D29), pregunta sobre resumen hablado (D30) y caso de prueba después de medianoche (D12).
+- **8 nov 2026:** inicio del desarrollo (spec v1.6): stack decidido (D45), modelos gratuitos elegidos (Groq y Gemini; Cerebras descartado), llaves guardadas como secretos, verificado que Claude no acepta audio, logos autorizados (D44), WhatsApp real al final (D46), prueba del cierre según D37, WA-21 en textos, estado del dataset inicial y consentimiento de la lista de espera (D52).

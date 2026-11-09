@@ -66,7 +66,7 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 - [ ] Registrar D33–D47 en la spec (v1.6) y corregir HU-14 (quitar [PROP], ya es PR04).
 - [ ] Completar «Por completar» en `CLAUDE.md`: stack, comandos, estructura y convenciones.
 - [ ] Monorepo con npm workspaces: `server/` (Node + Hono) y `web/` (Vite + React + Tailwind).
-- [ ] `.env.example` y carga de configuración validada (llaves con nombres estándar: `GEMINI_API_KEY`, `GROQ_API_KEY`).
+- [ ] `.env.example` y carga de configuración validada (llaves con nombres estándar: `GEMINI_API_KEY_1` a `GEMINI_API_KEY_3`, `GROQ_API_KEY`).
 - [ ] Postgres local con Docker Compose.
 - [ ] Esquema completo de la sección 9.1 con Drizzle (nombres en inglés, vocabulario de `CLAUDE.md`) y migraciones.
 - [ ] pg-boss instalado (cola y tareas programadas en zona `America/Lima`).
