@@ -58,12 +58,84 @@ Es un MVP para la hackathon del Reto 2 (CIX/BCP). Lo que es de ejemplo (catálog
 
 ## Por completar
 
-Se define al trabajar en el proyecto.
+### Stack (D45)
 
-- **Stack** (lenguaje, base de datos, almacenamiento, cola, hosting): _por definir_
-- **Comandos** (instalar, correr, probar, evaluar la IA, desplegar): _por definir_
-- **Estructura del repositorio:** _por definir_
-- **Convenciones de código:** _por definir_
+- **Lenguaje:** TypeScript (ESM) en Node 24, monorepo con npm workspaces: `server/` y `web/`.
+- **Servidor:** Hono (`@hono/node-server`), zod, pino. En producción también sirve `web/dist`.
+- **Base de datos:** Postgres 16 con Drizzle ORM (`pg`) y migraciones de drizzle-kit. En local, Docker Compose (puerto 5433, bases `alza` y `alza_test`).
+- **Almacenamiento:** interfaz `BlobStorage`; por ahora, archivos cifrados (AES-256-GCM) en la tabla `storage_objects`.
+- **Cola y tareas programadas:** pg-boss sobre el mismo Postgres, siempre en `America/Lima`.
+- **Web:** Vite, React 19, Tailwind v4, wouter, Inter (`@fontsource-variable/inter`).
+- **Herramientas:** Vitest, Biome (lint y formato), `tsc` (TypeScript 7) para tipos.
+- **Hosting:** Railway (por configurar).
+
+### Comandos
+
+Primero: `cp .env.example .env` y completar `ENCRYPTION_KEY` (`openssl rand -base64 32`).
+
+| Para | Comando |
+|---|---|
+| Instalar | `npm install` |
+| Levantar Postgres | `npm run db:up` (`db:down` lo apaga) |
+| Migrar | `npm run db:migrate` |
+| Nueva migración | cambiar `server/src/db/schema.ts` → `npm run db:generate` → revisar el SQL en `server/drizzle/` |
+| Desarrollo | `npm run dev` (server en :3000 y web en :5173, con proxy de `/api`) |
+| Pruebas | `npm test` (borra y migra `alza_test` en cada corrida) |
+| Tipos | `npm run typecheck` |
+| Lint / formato | `npm run lint` / `npm run format` |
+| Build | `npm run build` (`web/dist` y `server/dist`) |
+| Producción | `npm start` (sirve web, `/api` y `/health` en `PORT`); migrar con `npm run db:migrate:dist -w server` |
+| Evaluar la IA / desplegar | _por definir_ (Fase 2 / Railway) |
+
+### Estructura del repositorio
+
+```
+server/
+  drizzle/        migraciones SQL generadas (no se editan a mano)
+  test/           setup de Vitest y ayudas para la base de pruebas
+  src/
+    index.ts      arranque: HTTP + pg-boss, apagado ordenado
+    config.ts     variables de entorno validadas con zod
+    paths.ts      rutas absolutas y carga de .env
+    lib/          utilidades transversales (logger con datos ocultos)
+    db/           schema.ts (modelo 9.1 completo), client.ts, migrate.ts
+    storage/      BlobStorage y su versión cifrada en Postgres
+    queue/        pg-boss: inicio, parada, scheduleInLima
+    http/         app Hono, /health y routers de /api
+    domain/       [Fase 1] reglas de negocio como funciones puras (11, 13.1, 14.3)
+    ai/           [Fase 2] capa de IA intercambiable (8.3): Groq y Gemini
+    ocr/          [Fase 2] tesseract.js y lectores por diseño de captura
+    channel/      [Fase 3] interfaz de canal: simulado; Meta en la Fase 10
+    pipeline/     [Fase 3] worker: clasificar, leer, interpretar, registrar, dudas
+    messages/     [Fase 4–5] catálogo 12.1 como plantillas: única forma de enviar
+    flows/        [Fase 4–5] alta, excepciones, cierre y su respuesta
+    jobs/         [Fase 6] tareas programadas de 8.4
+    render/       [Fase 5/8] imagen de resumen (Satori + resvg), PDF y Excel
+    scripts/      comandos sueltos (migrate; luego datos de demo y evaluación de IA)
+web/
+  public/         favicon
+  src/
+    main.tsx      entrada; App.tsx con las rutas / (landing) y /app/* (carga diferida)
+    components/   piezas reutilizables (AlzaLogo)
+    routes/       pantallas
+    index.css     tokens de docs/alza_mvp.html como tema de Tailwind
+docker/postgres/init/   crea alza_test al iniciar el volumen
+```
+
+### Convenciones de código
+
+- Código en inglés con el vocabulario de abajo; todo texto para la usuaria, en español (sección 12 y Anexo A).
+- Montos: enteros en céntimos (`amountCents`, columnas `*_cents`). Se formatean solo al mostrar.
+- Día del negocio: `date` `YYYY-MM-DD` calculado en `domain/`, nunca en SQL ni con la zona del servidor.
+- Valores cerrados: arrays `as const` y sus tipos en `db/schema.ts`; en la base, `text` con `CHECK`. Cambiar un valor exige migración.
+- `domain/` es puro: sin base de datos, red, archivos ni `Date.now()`; el reloj entra como parámetro.
+- Dependencias por parámetro (`db`, `logger`, `storage`, `boss`). Sin singletons, salvo `getConfig()`.
+- ESM NodeNext: imports relativos con `.js`. `schema.ts` no importa archivos propios (drizzle-kit no los resuelve).
+- Pruebas junto al código (`*.test.ts`). Las que usan la base van con `describe.skipIf(!hasTestDb)` y datos únicos por prueba.
+- Logs: solo identificadores (`userId`, `waMessageId`, `jobId`). Nunca textos, montos, nombres, teléfonos ni tokens; los errores pasan por `serializeError`.
+- Libro de registros: solo se agregan filas; corregir = fila nueva con `replacesEntryId` y la anterior `superseded` o `voided`.
+- Tareas programadas solo con `scheduleInLima`.
+- Formato de Biome (comillas simples, 100 columnas). `npm run lint`, `npm run typecheck` y `npm test` pasan antes de cerrar una tarea.
 
 ## Vocabulario (spec → código)
 
@@ -100,6 +172,9 @@ Se define al trabajar en el proyecto.
 | acción propuesta (chat) | `proposed_action` |
 | reporte | `report` |
 | panel interno / alerta | `admin_panel` / `alert` |
+| usuario del panel / registro de acciones del panel | `admin_user` / `admin_audit_log` |
+| lista de espera (landing, D43, D52) | `waitlist_signup` |
+| archivo cifrado guardado (D45) | `storage_object` |
 
 ### Valores
 
@@ -118,8 +193,8 @@ Se define al trabajar en el proyecto.
 
 ## Estado actual
 
-- **Fase de descubrimiento:** cerrada (spec v1.5).
+- **Fase de descubrimiento:** cerrada (spec v1.6, decisiones hasta D52).
 - **Desarrollo:** plan por fases en `FASES.md` (Fase 0 a Fase 11). Marcar ahí cada avance.
-- **Fase actual:** 0 · Cimientos.
+- **Fase 0 · Cimientos:** lista (el despliegue en Railway pasó a la Fase 10).
+- **Fases en curso:** 1 (reglas), 2 (lectura de capturas y audios) y 9 (landing), en paralelo.
 - **Insumos pendientes:** ver `docs/ALZA_INSUMOS_PENDIENTES.md`.
-- **Siguiente paso:** registrar las decisiones D33–D47 en la spec y crear el proyecto.

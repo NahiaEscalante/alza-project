@@ -1,0 +1,30 @@
+{
+  "name": "alza",
+  "private": true,
+  "type": "module",
+  "description": "ALZA: asistente de registro financiero por WhatsApp para bodegueras",
+  "workspaces": [
+    "server",
+    "web"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "concurrently --names server,web --prefix-colors blue,magenta \"npm run dev -w server\" \"npm run dev -w web\"",
+    "build": "npm run build -w web && npm run build -w server",
+    "start": "npm run start -w server",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:migrate": "npm run db:migrate -w server",
+    "db:generate": "npm run db:generate -w server"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.6.6",
+    "concurrently": "^10.0.7"
+  }
+}

@@ -8,16 +8,16 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 | Fase | Nombre | Estado |
 |---|---|---|
-| 0 | Cimientos | ⬜ |
-| 1 | Reglas del negocio | ⬜ |
-| 2 | Lectura de capturas y audios | ⬜ |
+| 0 | Cimientos | ✅ |
+| 1 | Reglas del negocio | 🟨 |
+| 2 | Lectura de capturas y audios | 🟨 |
 | 3 | Recepción y libro de registros | ⬜ |
 | 4 | Alta y mensajes de excepción | ⬜ |
 | 5 | Cierre del día | ⬜ |
 | 6 | Puntos y tareas programadas | ⬜ |
 | 7 | Web de la usuaria | ⬜ |
 | 8 | Chat, reporte y panel interno | ⬜ |
-| 9 | Landing | ⬜ |
+| 9 | Landing | 🟨 |
 | 10 | WhatsApp real (Meta) | ⬜ |
 | 11 | Demo | ⬜ |
 
@@ -59,24 +59,24 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 
 ---
 
-## Fase 0 · Cimientos ⬜
+## Fase 0 · Cimientos ✅
 
 **Objetivo:** proyecto creado, base de datos lista y una versión vacía funcionando en Railway.
 
-- [ ] Registrar D33–D47 en la spec (v1.6) y corregir HU-14 (quitar [PROP], ya es PR04).
-- [ ] Completar «Por completar» en `CLAUDE.md`: stack, comandos, estructura y convenciones.
-- [ ] Monorepo con npm workspaces: `server/` (Node + Hono) y `web/` (Vite + React + Tailwind).
-- [ ] `.env.example` y carga de configuración validada (llaves con nombres estándar: `GEMINI_API_KEY_1` a `GEMINI_API_KEY_3`, `GROQ_API_KEY`).
-- [ ] Postgres local con Docker Compose.
-- [ ] Esquema completo de la sección 9.1 con Drizzle (nombres en inglés, vocabulario de `CLAUDE.md`) y migraciones.
-- [ ] pg-boss instalado (cola y tareas programadas en zona `America/Lima`).
-- [ ] Vitest, linter y formateador.
-- [ ] Registros del sistema con pino, ocultando datos sensibles (RNF-09).
-- [ ] Proyecto en Railway con Postgres; despliegue del esqueleto con `/health`.
+- [x] Registrar D33–D47 en la spec (v1.6) y corregir HU-14 (quitar [PROP], ya es PR04).
+- [x] Completar «Por completar» en `CLAUDE.md`: stack, comandos, estructura y convenciones.
+- [x] Monorepo con npm workspaces: `server/` (Node + Hono) y `web/` (Vite + React + Tailwind).
+- [x] `.env.example` y carga de configuración validada (llaves con nombres estándar: `GEMINI_API_KEY_1` a `GEMINI_API_KEY_3`, `GROQ_API_KEY`).
+- [x] Postgres local con Docker Compose.
+- [x] Esquema completo de la sección 9.1 con Drizzle (nombres en inglés, vocabulario de `CLAUDE.md`) y migraciones.
+- [x] pg-boss instalado (cola y tareas programadas en zona `America/Lima`).
+- [x] Vitest, linter y formateador.
+- [x] Registros del sistema con pino, ocultando datos sensibles (RNF-09).
+- [x] ~~Proyecto en Railway~~ → pasa a la Fase 10 (necesita iniciar sesión en la cuenta de Railway).
 
-**Listo cuando:** `npm test` pasa, la app corre en local y responde `/health` en Railway.
+**Listo cuando:** `npm test` pasa y la app corre en local y responde `/health`. (Resultado: 48 pruebas, typecheck, lint y build limpios.)
 
-## Fase 1 · Reglas del negocio ⬜
+## Fase 1 · Reglas del negocio 🟨
 
 **Objetivo:** toda la lógica de la sección 11 y 13.1 como funciones puras, probadas sin WhatsApp ni IA.
 
@@ -98,7 +98,7 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 
 **Listo cuando:** pasan las pruebas de reglas de la sección 17.1.
 
-## Fase 2 · Lectura de capturas y audios ⬜
+## Fase 2 · Lectura de capturas y audios 🟨
 
 **Objetivo:** convertir capturas, audios y textos en operaciones, sin inventar montos.
 
@@ -202,7 +202,7 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 
 **Listo cuando:** HU-13 y HU-14 pasan, junto con las pruebas de seguridad.
 
-## Fase 9 · Landing ⬜
+## Fase 9 · Landing 🟨
 
 **Objetivo:** una página pública que explique ALZA y atraiga a nuevas usuarias.
 
@@ -218,6 +218,7 @@ Se registran en la spec (sección 2.2 y registro de cambios) como primera tarea 
 
 **Objetivo:** el mismo flujo, desde un celular real.
 
+- [ ] Proyecto en Railway con Postgres y despliegue (requiere `railway login` de la dueña de la cuenta).
 - [ ] App de Meta para ALZA, número de prueba y destinatarios verificados.
 - [ ] Token permanente con usuario del sistema.
 - [ ] Webhook en Railway con validación de firma.
