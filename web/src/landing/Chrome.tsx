@@ -1,7 +1,6 @@
-import { Link } from 'wouter';
 import { AlzaLogo } from '../components/AlzaLogo';
 
-/** Landing header and footer. */
+/** Landing header and footer (the footer keeps only the logo and the © line, D78). */
 
 const NAV = [
   { href: '#como-funciona', label: 'Cómo funciona' },
@@ -49,43 +48,8 @@ export function SiteHeader() {
 export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-white">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-[1fr_auto]">
-        <div className="max-w-md">
-          <AlzaLogo />
-          <p className="mt-3 text-muted">Tus cuentas claras, sin cambiar tu rutina.</p>
-          <p className="mt-6 text-sm text-muted">
-            ALZA es un proyecto creado para el Reto 2 de la hackathon de CIX. No es un producto
-            oficial de BCP ni de Credicorp. Lo que es de ejemplo se indica en pantalla.
-          </p>
-        </div>
-        <nav aria-label="Enlaces del pie de página">
-          <ul className="grid gap-1 text-[15px] font-semibold">
-            <li>
-              <a
-                href="#como-funciona"
-                className="inline-flex min-h-11 items-center text-text hover:text-purple"
-              >
-                Cómo funciona
-              </a>
-            </li>
-            <li>
-              <a
-                href="#lista-de-espera"
-                className="inline-flex min-h-11 items-center text-text hover:text-purple"
-              >
-                Lista de espera
-              </a>
-            </li>
-            <li>
-              <Link
-                href="/privacidad"
-                className="inline-flex min-h-11 items-center text-text hover:text-purple"
-              >
-                Privacidad
-              </Link>
-            </li>
-          </ul>
-        </nav>
+      <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+        <AlzaLogo />
       </div>
       <div className="border-t border-border">
         <p className="mx-auto max-w-6xl px-4 py-5 text-sm text-muted sm:px-6">

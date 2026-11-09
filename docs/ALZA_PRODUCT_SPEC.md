@@ -1,6 +1,6 @@
 # ALZA · Especificación de producto
 
-**Versión:** 1.12 (borrador de trabajo), 9 de noviembre de 2026
+**Versión:** 1.13 (borrador de trabajo), 9 de noviembre de 2026
 **Estado:** fuente de verdad para diseño, implementación y pruebas. Solo cambia con una decisión registrada en la sección 2.
 **Documentos relacionados:**
 - Flujos del sistema (artifact): https://claude.ai/artifact/HUR61TjkAHxgbHYRYpTxj1
@@ -177,6 +177,7 @@ Bodeguera peruana con un negocio que ya funciona:
 | D75 | En la landing se retiran la etiqueta «Catálogo de ejemplo» y la nota «Estos premios son de ejemplo para la demo: todavía no son premios reales.» de la sección de premios, por solicitud de la dueña del proyecto. También se retira la etiqueta «Premios de ejemplo para la demo.» de la pantalla Premios de la web. Se mantienen «Premio de ejemplo para la demo.» al canjear y «Código de ejemplo para la demo.» junto al código. | Ajuste de textos, 9 nov 2026 |
 | D76 | Los premios de 50 puntos pasan a ser «Descuento en compra de mercadería» y «Descuento en pago de servicios», en lugar de los descuentos en app de comida y de transporte, por solicitud de la dueña del proyecto. Los premios retirados se desactivan, no se borran, y los canjes hechos los conservan. El ícono del hito de 50 pasa a ser una etiqueta de descuento. | Ajuste del catálogo, 9 nov 2026 |
 | D77 | En la landing, el bloque de Telegram queda solo con el título, el texto de cómo entrar, el QR y el botón «Abrir en Telegram»: se retiran la etiqueta «Demo abierta» y la nota «Es una demo…» de debajo del botón. En el formulario de la lista de espera se retira la línea «Texto de consentimiento v1 · 8 nov 2026»; la línea de consentimiento sigue junto al formulario (D52), su versión se sigue guardando con cada registro y la etiqueta se mantiene en la página de privacidad. El aviso de demo sigue en el mensaje de bienvenida del bot (D74). Por solicitud de la dueña del proyecto. | Ajuste de textos, 9 nov 2026 |
+| D78 | El pie de página de la landing queda solo con el logo y la línea «© ALZA · Proyecto del Reto 2, Hackathon CIX»: se retiran el lema, el texto sobre el proyecto y los enlaces. La aclaración «No es un producto oficial de BCP ni de Credicorp» sigue en la sección del Reto 2, y la página de privacidad sigue enlazada desde la sección de confianza y desde el formulario. Por solicitud de la dueña del proyecto. | Ajuste de textos, 9 nov 2026 |
 
 ### 2.3 Defaults aceptados sin objeción [DEF]
 
@@ -2085,3 +2086,4 @@ Palabras que ella ve en WhatsApp y en la web. La palabra «ganancia» no se usa.
 | 9 nov 2026 | 1.10 | D75: retiro de la etiqueta y la nota de catálogo de ejemplo en la sección de premios de la landing y de la etiqueta de la pantalla Premios de la web, por solicitud de la dueña. |
 | 9 nov 2026 | 1.11 | D76: premios de 50 puntos «Descuento en compra de mercadería» y «Descuento en pago de servicios» (13.2), por solicitud de la dueña. |
 | 9 nov 2026 | 1.12 | D77: bloque de Telegram de la landing sin etiqueta ni nota de demo, y formulario de lista de espera sin la línea de versión del consentimiento, por solicitud de la dueña. |
+| 9 nov 2026 | 1.13 | D78: pie de página de la landing reducido al logo y la línea de derechos, por solicitud de la dueña. |
