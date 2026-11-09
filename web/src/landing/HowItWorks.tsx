@@ -1,33 +1,49 @@
+import type { ReactNode } from 'react';
+import {
+  BanknoteIcon,
+  BellOffIcon,
+  CalculatorIcon,
+  CalendarIcon,
+  ChartIcon,
+  CheckCircleIcon,
+  LockIcon,
+  MessageIcon,
+  MoonIcon,
+  StarIcon,
+} from './icons';
 import { Eyebrow, Section } from './ui';
 
-/** «Cómo funciona»: 3 steps, each with 3 short sub-steps (4.1, WA-06, WA-10). */
+/**
+ * «Cómo funciona»: 3 steps, each with 3 short sub-steps (4.1, WA-06, WA-10), with the landing's
+ * line icons (no emoji, so they match the rest of the page).
+ */
 const STEPS: Array<{
   title: string;
-  items: Array<{ emoji: string; title: string; text: string }>;
+  items: Array<{ icon: (p: { className?: string }) => ReactNode; title: string; text: string }>;
 }> = [
   {
     title: 'Registra tus ventas',
     items: [
-      { emoji: '💸', title: 'Te pagan', text: 'Con Yape, Plin o efectivo.' },
+      { icon: BanknoteIcon, title: 'Te pagan', text: 'Con Yape, Plin o efectivo.' },
       {
-        emoji: '📸',
+        icon: MessageIcon,
         title: 'Envías el registro',
         text: 'Una captura, audio o mensaje por WhatsApp.',
       },
-      { emoji: '✅', title: 'ALZA lo guarda', text: 'Sin responderte ni interrumpirte.' },
+      { icon: CheckCircleIcon, title: 'ALZA lo guarda', text: 'Sin responderte ni interrumpirte.' },
     ],
   },
   {
     title: 'Recibe tu resumen',
     items: [
-      { emoji: '🌙', title: 'Termina tu día', text: 'Llega la hora de tu cierre.' },
+      { icon: MoonIcon, title: 'Termina tu día', text: 'Llega la hora de tu cierre.' },
       {
-        emoji: '🧮',
+        icon: CalculatorIcon,
         title: 'ALZA hace las cuentas',
         text: 'Calcula lo que entró, salió y quedó.',
       },
       {
-        emoji: '📊',
+        icon: ChartIcon,
         title: 'Ves tus resultados',
         text: 'Y aclaras cualquier dato pendiente.',
       },
@@ -36,9 +52,9 @@ const STEPS: Array<{
   {
     title: 'Mira tu progreso',
     items: [
-      { emoji: '🔐', title: 'Entras con tu PIN', text: 'Revisa tu historial en la web.' },
-      { emoji: '📅', title: 'Ves tu semana', text: 'Descubre cuánto vendiste y gastaste.' },
-      { emoji: '⭐', title: 'Acumulas puntos', text: 'Cada cierre te acerca a premios.' },
+      { icon: LockIcon, title: 'Entras con tu PIN', text: 'Revisa tu historial en la web.' },
+      { icon: CalendarIcon, title: 'Ves tu semana', text: 'Descubre cuánto vendiste y gastaste.' },
+      { icon: StarIcon, title: 'Acumulas puntos', text: 'Cada cierre te acerca a premios.' },
     ],
   },
 ];
@@ -79,13 +95,10 @@ export function HowItWorks() {
             </div>
             <div className="my-5 h-px bg-border" aria-hidden="true" />
             <ol className="flex flex-col gap-4">
-              {step.items.map((item) => (
+              {step.items.map(({ icon: ItemIcon, ...item }) => (
                 <li key={item.title} className="flex items-start gap-3">
-                  <span
-                    aria-hidden="true"
-                    className="grid size-10 shrink-0 place-items-center rounded-xl bg-lav-soft text-xl"
-                  >
-                    {item.emoji}
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-lav-soft text-purple">
+                    <ItemIcon className="size-5.5" />
                   </span>
                   <span>
                     <span className="block font-semibold text-text">{item.title}</span>
@@ -99,11 +112,8 @@ export function HowItWorks() {
       </ol>
 
       <p className="mt-6 flex items-start gap-3 rounded-2xl bg-blue-soft px-5 py-4 text-text">
-        <span
-          aria-hidden="true"
-          className="grid size-9 shrink-0 place-items-center rounded-xl bg-white text-lg"
-        >
-          💬
+        <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-white text-navy">
+          <BellOffIcon className="size-5" />
         </span>
         <span>
           <b className="block">Sin mensajes que te interrumpan.</b>

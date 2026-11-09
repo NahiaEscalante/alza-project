@@ -82,6 +82,61 @@ export const SearchCheckIcon = (p: IconProps) => (
   </Icon>
 );
 
+export const BanknoteIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="2.5" y="6" width="19" height="12" rx="2" />
+    <circle cx="12" cy="12" r="2.5" />
+    <path d="M6 12h.01M18 12h.01" />
+  </Icon>
+);
+
+export const MessageIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M7.9 20A9 9 0 1 0 4 16.1L2.5 21.5z" />
+  </Icon>
+);
+
+export const CheckCircleIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M8 12.5l2.7 2.7L16 9.8" />
+  </Icon>
+);
+
+export const CalculatorIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="5" y="3" width="14" height="18" rx="2" />
+    <path d="M8.5 7h7M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5V18M8.5 18h.01M12 18h.01" />
+  </Icon>
+);
+
+export const LockIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="5" y="11" width="14" height="10" rx="2" />
+    <path d="M8 11V7.5a4 4 0 0 1 8 0V11" />
+  </Icon>
+);
+
+export const CalendarIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <rect x="3.5" y="5" width="17" height="16" rx="2" />
+    <path d="M16 3v4M8 3v4M3.5 10h17" />
+  </Icon>
+);
+
+export const StarIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.3-4.1 5.9-.9z" />
+  </Icon>
+);
+
+export const BellOffIcon = (p: IconProps) => (
+  <Icon {...p}>
+    <path d="M8.9 3.7A6 6 0 0 1 18 8.5c0 2.8.6 4.8 1.4 6.2M17 18H4s2-1.8 2-7.5c0-.8.1-1.5.4-2.2" />
+    <path d="M10.3 21a2 2 0 0 0 3.4 0M3 3l18 18" />
+  </Icon>
+);
+
 export const CheckIcon = (p: IconProps) => (
   <Icon {...p}>
     <path d="M5 12.5l4.5 4.5L19 7.5" />
