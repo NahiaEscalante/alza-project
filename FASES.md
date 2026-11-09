@@ -27,7 +27,6 @@ Plan para llegar a la demo completa. La spec (`docs/ALZA_PRODUCT_SPEC.md`) sigue
 
 - **Fase 4:** alta por WhatsApp y mensajes de excepción («web», «olvidé mi PIN», «borra mis datos», peligro, «sin imagen»).
 - **Fase 5:** cierre del día completo (mensaje único, respuesta, aclaraciones, nivel y confirmación).
-- **Fase 8 (chat):** chat de la web que responde y propone cambios.
 
 **Siguiente:** conectar todo en el arranque del servidor, panel interno (Fase 8), Fase 10 (Meta y Railway) y Fase 11 (demo).
 
@@ -77,6 +76,7 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 | D61 | Recepción: un mensaje se procesa de a uno por usuaria; todo lo que escribe en el libro va en una sola transacción con su estado final. Una duda de fecha (D53) deja el registro pendiente; una de categoría (D55) lo confirma. Una contraparte con nombre de distribuidora, mayorista o proveedor se toma como mercadería (HU-03). Los comprobantes de proveedor no se registran (la spec no tiene regla). Una captura anula una mención por texto que coincide. Para botones, se guarda el id del botón. |
 | D62 | Tareas programadas: cada día desde su primera actividad (nunca antes del consentimiento) tiene un cierre final, para poder reintentar sin duplicar. Un cierre enviado y no respondido queda con cuadre «sin respuesta». Con una alerta de titular repetido abierta, el día se cierra y la racha avanza, pero no suma puntos ni se pagan después. Un original borrado a los 30 días queda marcado en `storage_key` como `deleted/…`. Antifraude [PROP]: respuestas en menos de 15 s, al menos 5 veces, siempre «sí»; salto de actividad = más del triple del promedio de hasta 4 semanas anteriores. |
 | D63 | Descarga del historial: los archivos duran 7 días (después, «ya no está disponible»; se borran los archivos y queda la fila para métricas); máximo 5 reportes por hora; el periodo por defecto es 12 semanas; los logos de Yape y Mibanco enlazan a sus sitios oficiales y se marcan «Ejemplo para la demo» (3.2). |
+| D64 | Chat: herramienta extra `list_pending` (no está en 10.5). El modelo señala registros con referencias del turno, nunca con ids de la base. Solo propone cambios si ella lo pide. Las preguntas de crédito reciben un texto fijo aprobado, sin llamar al modelo. Respuestas que prometen crédito, dicen que ya cambiaron algo o usan «ganancia» se reemplazan. Una sola propuesta abierta a la vez, que vence a las 24 h. |
 
 ---
 
@@ -228,8 +228,9 @@ D33–D52 ya están en la spec v1.6. D53 en adelante se registran en la spec al 
 
 **Objetivo:** completar lo que queda de la web y dar herramientas al equipo.
 
-- [ ] 🔄 Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
-- [ ] 🔄 Chat que propone cambios con «antes y después» y confirmación con PIN.
+- [x] Chat que responde, con herramientas de solo lectura (10.5) y límite de 30 mensajes al día.
+- [x] Chat que propone cambios con «antes y después» y confirmación con PIN.
+- [ ] Bajar el consumo del chat (hoy ~8.000 tokens por turno: Groq permite ~1 turno por minuto y las 3 llaves de Gemini se agotaron en las pruebas). Riesgo para la demo.
 - [x] Reporte PDF y Excel con anexo de trazabilidad y clientes con iniciales (5.10). (Generación lista; falta conectarla a la pantalla «Descargar mi historial».)
 - [x] API y pantalla de descarga del historial, con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos (PR05).
 - [ ] Pantalla de descarga con «Conoce opciones para tu negocio en Yape y Mibanco» y sus logos.
