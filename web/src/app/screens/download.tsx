@@ -2,7 +2,7 @@
  * «Descargar mi historial» (4.8, 5.10, 12.2, HU-14): she picks the period, confirms with her PIN
  * and gets a PDF and an Excel with where each figure comes from. Sharing them is her decision
  * (14.1). Below a divider, Yape and Mibanco with their logos (PR05, D44): plain links to their
- * official sites, never «calificas para», and marked as an example for the demo (3.2).
+ * official sites, never «calificas para», per the approved download screen copy (D70).
  */
 import { useEffect, useId, useRef, useState } from 'react';
 import { DownloadIcon, LockIcon } from '../components/icons';
@@ -223,9 +223,6 @@ function PartnerLinks() {
           </li>
         ))}
       </ul>
-      <p className="mx-1 mt-3 text-sm text-muted">
-        Ejemplo para la demo. Los enlaces llevan a sus sitios oficiales.
-      </p>
     </section>
   );
 }

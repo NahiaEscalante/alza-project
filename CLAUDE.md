@@ -235,3 +235,5 @@ Trabajo realizado por Codex en esta sesión, publicado en `origin/main` con el c
 - El sandbox no usa endpoints de lectura ni archivos por ID; el cierre utiliza el fallback de texto existente si falla la subida de la imagen. El agotamiento de cuota no se reintenta. Los eventos de entrega registran solo identificadores, estado y códigos de error.
 - Añadió `npm run dialog360:setup -w server`: comprueba primero que el receptor esté desplegado y luego registra el callback en el proveedor sin imprimir su URL secreta. No se ejecutó contra el proveedor durante la implementación.
 - Verificación: 82 archivos y 943 pruebas aprobadas con Postgres, tipos y build aprobados. Falta desplegar este cambio y probar el sandbox real; los botones y la entrega aún no están certificados. No se enviaron mensajes ni se consumió la cuota del sandbox.
+
+- **Ajuste de interfaz por Codex (9 nov 2026, D70):** retiró la frase «Ejemplo para la demo. Los enlaces llevan a sus sitios oficiales.» de la pantalla de descarga del historial.
